@@ -38,17 +38,16 @@ const SearchForm = (props: SearchFormProps) => {
     setError(false);
     setState(FormStates.Submitting);
 
-    let normalizedDomain;
+    let tDoamin;
     try {
-      let tDomain = new URL(domain.trim().toLowerCase()).hostname;
-      normalizedDomain = toASCII(tDomain);
-
-      if (!isValidDomain(normalizedDomain)) {
-        setError(true);
-        setState(FormStates.Initial);
-        return;
-      }
+      tDomain = new URL(domain.trim().toLowerCase()).hostname;
     } catch(err) {
+      tDomain = domain.trim().toLowerCase();
+    }
+
+    const normalizedDomain = toASCII(tDomain);
+
+    if (!isValidDomain(normalizedDomain)) {
       setError(true);
       setState(FormStates.Initial);
       return;
