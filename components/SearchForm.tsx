@@ -38,7 +38,7 @@ const SearchForm = (props: SearchFormProps) => {
     setError(false);
     setState(FormStates.Submitting);
 
-    let tDoamin;
+    let tDomain;
     try {
       tDomain = new URL(domain.trim().toLowerCase()).hostname;
     } catch(err) {
