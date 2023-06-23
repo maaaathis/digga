@@ -1,5 +1,5 @@
 import DnsTable from '@/components/DnsTable';
-import DomainNotRegistered from '@/components/domain-not-registered';
+import DomainNotRegistered from '@/components/DomainNotRegistered';
 import { isAvailable } from '@/lib/whois';
 import DnsLookup from '@/utils/DnsLookup';
 
