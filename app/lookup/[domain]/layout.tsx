@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import type { FC, ReactNode } from 'react';
 
 import RelatedDomains from '@/components/RelatedDomains';
@@ -17,9 +17,7 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   children,
   params: { domain },
 }) => {
-  const searchParams = useSearchParams();
-
-  const url = searchParams.get('standalone') || "";
+  const url = usePathname() || '';
 
   console.log(url);
 
