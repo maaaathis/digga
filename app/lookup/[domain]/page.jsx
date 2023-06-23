@@ -1,11 +1,13 @@
+import { XSquareIcon } from 'lucide-react';
 import ReactCountryFlag from 'react-country-flag';
 import whoiser from 'whoiser';
+
+import { Badge } from '@/components/ui/badge';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
 import whois, { isAvailable } from '@/lib/whois';
 import DnsLookup from '@/utils/DnsLookup';
-import { Badge } from "@/components/ui/badge"
 
 export const fetchCache = 'default-no-store';
 
@@ -200,7 +202,7 @@ const LookupDomain = async ({ params: { domain } }) => {
                   href={whoisResult['Registrar URL']}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-2xl cursor-pointer font-bold text-slate-900 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:text-slate-100 dark:decoration-slate-300"
+                  className="cursor-pointer text-2xl font-bold text-slate-900 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:text-slate-100 dark:decoration-slate-300"
                 >
                   {whoisResult['Registrar']}
                 </a>
@@ -239,10 +241,19 @@ const LookupDomain = async ({ params: { domain } }) => {
           </div>
           <div className="mt-4">
             <p className="text-lg font-medium text-slate-900 dark:text-slate-100">
-              {Object.values(whoisResult['Domain Status']).map(label => {
+              {Object.values(whoisResult['Domain Status']).map((label) => {
                 return (
-                  <a className={`mx-1 my-2 ${label.split(" ")[1] ? 'cursor-pointer' : 'cursor-text'}`} href={label.split(" ")[1]} target="_blank" rel="noreferrer"><Badge variant="outline">{label.split(" ")[0]}</Badge></a>
-                )
+                  <a
+                    className={`mx-1 my-2 ${
+                      label.split(' ')[1] ? 'cursor-pointer' : 'cursor-text'
+                    }`}
+                    href={label.split(' ')[1]}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Badge variant="outline">{label.split(' ')[0]}</Badge>
+                  </a>
+                );
               })}
             </p>
           </div>
@@ -254,11 +265,18 @@ const LookupDomain = async ({ params: { domain } }) => {
             </span>
           </div>
           <div className="mt-4">
-            <ul className="text-lg font-medium text-slate-900 dark:text-slate-100 list-disc list-inside">
-              {Object.values(whoisResult['Name Server']).map(ns => {
+            <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
+              {Object.values(whoisResult['Name Server']).map((ns) => {
                 return (
-                  <li><a className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300" href={`/lookup/${ns}`}>{ns}</a></li>
-                )
+                  <li>
+                    <a
+                      className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                      href={`/lookup/${ns}`}
+                    >
+                      {ns}
+                    </a>
+                  </li>
+                );
               })}
             </ul>
           </div>
@@ -269,14 +287,27 @@ const LookupDomain = async ({ params: { domain } }) => {
               Mailserver
             </span>
           </div>
-          <div className="mt-4">
-            <ul className="text-2xl font-bold text-slate-900 dark:text-slate-100 list-disc list-inside">
-              {Object.values(mxRecords).map(record => {
-                return (
-                  <li><a className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300" href={`/lookup/${record.data.split(" ")[1]}`}>{record.data.split(" ")[1]}</a></li>
-                )
-              })}
-            </ul>
+          <div className="mt-4 flex h-full">
+            {Object.values(mxRecords).length === 0 ? (
+              <div className="m-auto">
+                <XSquareIcon className="h-8 w-8" />
+              </div>
+            ) : (
+              <ul className="list-inside list-disc text-lg font-bold text-slate-900 dark:text-slate-100">
+                {Object.values(mxRecords).map((record) => {
+                  return (
+                    <li>
+                      <a
+                        className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                        href={`/lookup/${record.data.split(' ')[1]}`}
+                      >
+                        {record.data.split(' ')[1]}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         </div>
         <div className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950`}>
