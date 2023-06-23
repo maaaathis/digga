@@ -20,6 +20,8 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   const headersList = headers();
   const url = headersList.get('next-url') || '';
 
+  console.log(url);
+
   const isStandalone = new URLSearchParams(url).has('standalone');
 
   return (

@@ -36,7 +36,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
             }
             aria-current="page"
           >
-            DNS
+            DNS Records
           </Link>
         </li>
         <li className="mr-2">
@@ -49,7 +49,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
             }
             aria-current="page"
           >
-            Whois
+            WHOIS
           </Link>
         </li>
         <li className="mr-2">
@@ -62,7 +62,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
             }
             aria-current="page"
           >
-            Certs
+            SSL Certs
           </Link>
         </li>
       </ul>
