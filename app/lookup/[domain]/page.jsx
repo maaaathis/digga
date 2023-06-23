@@ -287,13 +287,17 @@ const LookupDomain = async ({ params: { domain } }) => {
               Mailserver
             </span>
           </div>
-          <div className="mt-4 flex h-full">
+          <div
+            className={`flex h-full ${
+              Object.values(mxRecords).length === 0 ? null : 'mt-4'
+            }`}
+          >
             {Object.values(mxRecords).length === 0 ? (
               <div className="m-auto">
-                <XSquareIcon className="h-8 w-8" />
+                <XSquareIcon className="h-10 w-10" />
               </div>
             ) : (
-              <ul className="list-inside list-disc text-lg font-bold text-slate-900 dark:text-slate-100">
+              <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
                 {Object.values(mxRecords).map((record) => {
                   return (
                     <li>
