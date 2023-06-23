@@ -13,6 +13,7 @@ export const fetchCache = 'default-no-store';
 
 const LookupDomain = async ({ params: { domain } }) => {
   const mxRecords = await DnsLookup.fetchRecords(domain, 'MX');
+  const aRecords = await DnsLookup.fetchRecords(domain, 'A');
 
   const whoisResult = whoiser.firstResult(
     await whoiser(domain, {
@@ -319,20 +320,32 @@ const LookupDomain = async ({ params: { domain } }) => {
             <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
               A-Records
             </span>
-            <ReactCountryFlag
-              countryCode={whoisResult['Registrant Country']}
-              svg
-              style={{
-                fontSize: '1.75em',
-                lineHeight: '1.75em',
-                borderRadius: '20%',
-              }}
-            />
           </div>
-          <div className="mt-4">
-            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-              {whoisResult['Registrant Organization']}
-            </p>
+          <div
+            className={`flex h-full ${
+              Object.values(aRecords).length === 0 ? null : 'mt-4'
+            }`}
+          >
+            {Object.values(aRecords).length === 0 ? (
+              <div className="m-auto">
+                <XSquareIcon className="h-10 w-10" />
+              </div>
+            ) : (
+              <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
+                {Object.values(aRecords).map((record) => {
+                  return (
+                    <li>
+                      <a
+                        className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                        href={`/lookup/${record.data}`}
+                      >
+                        {record.data}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         </div>
       </div>
