@@ -22,6 +22,8 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   console.log(headersList.get('host')); // to get domain
   console.log(headersList.get('next-url')); // to get url
 
+  console.log(JSON.stringify(headersList.entries()));
+
   let isStandalone = false;
 
   return (
