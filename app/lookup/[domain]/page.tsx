@@ -20,7 +20,7 @@ const LookupDomain = async ({ params: { domain } }: LookupDomainProps) => {
     <>
       <div className="grid gap-4 md:grid-cols-4">
         <div className="md:col-span-3">
-          <div className="h-56 rounded-xl bg-white px-8 py-5">
+          <div className="h-56 rounded-xl bg-slate-100 dark:bg-slate-950 px-8 py-5">
             <div>
               <span className="text-sm font-extrabold uppercase text-slate-950">
                 Domain Owner
@@ -72,7 +72,7 @@ const LookupDomain = async ({ params: { domain } }: LookupDomainProps) => {
           }}
         ></div>
         <div className="md:col-span-3">
-          <div className="h-72 rounded-xl bg-white px-8 py-5">
+          <div className="h-72 rounded-xl bg-slate-100 dark:bg-slate-950 px-8 py-5">
             <div>
               <span className="text-sm font-extrabold uppercase text-slate-950">
                 Preview
