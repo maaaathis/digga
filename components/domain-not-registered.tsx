@@ -6,7 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const DomainNotRegistered = () => (
   <Alert variant="destructive">
-    <XSquareIcon className="h-4 w-4" />
+    <XSquareIcon className="h-6 w-6" />
     <AlertTitle>Not registered</AlertTitle>
     <AlertDescription>
       This Domain is currently not registered.
