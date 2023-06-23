@@ -3,6 +3,7 @@ import whoiser from 'whoiser';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
+import PageScreenshotter from '@/components/PageScreenshotter';
 import { isAvailable } from '@/lib/whois';
 import DnsLookup from '@/utils/DnsLookup';
 
@@ -16,8 +17,6 @@ const LookupDomain = async ({ params: { domain } }) => {
       timeout: 3000,
     })
   );
-
-  console.log(whoisResult);
 
   if ((await isAvailable(domain)) !== 'registered') {
     return <DomainNotRegistered />;
@@ -117,8 +116,12 @@ const LookupDomain = async ({ params: { domain } }) => {
         </div>
         <div className="col-span-1 flex flex-col gap-2">
           {whoisResult['Registrant Organization'] ? (
-            <div className="rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
-              <div class="flex flex-row justify-between">
+            <div
+              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 ${
+                !whoisResult['Registrar'] ? 'h-full' : ''
+              }`}
+            >
+              <div className="flex flex-row justify-between">
                 <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
                   Domain Owner
                 </span>
@@ -139,9 +142,44 @@ const LookupDomain = async ({ params: { domain } }) => {
               </div>
             </div>
           ) : null}
+          {!whoisResult['Registrant Organization'] &&
+          whoisResult['Registrant Country'] ? (
+            <div
+              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 ${
+                !whoisResult['Registrar'] ? 'h-full' : ''
+              }`}
+            >
+              <div className="flex flex-row justify-between">
+                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+                  Domain Owner
+                </span>
+                <ReactCountryFlag
+                  countryCode={whoisResult['Registrant Country']}
+                  svg
+                  style={{
+                    fontSize: '1.75rem',
+                    lineHeight: '1.75rem',
+                    borderRadius: '25%',
+                  }}
+                />
+              </div>
+              <div className="mt-4">
+                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                  {whoisResult['Registrant State/Province']}
+                </p>
+              </div>
+            </div>
+          ) : null}
           {whoisResult['Registrar'] ? (
-            <div className="rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
-              <div class="flex flex-row justify-between">
+            <div
+              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 ${
+                !whoisResult['Registrant Organization'] &&
+                !whoisResult['Registrant Country']
+                  ? 'h-full'
+                  : ''
+              }`}
+            >
+              <div className="flex flex-row justify-between">
                 <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
                   Domain Registry
                 </span>
@@ -158,7 +196,9 @@ const LookupDomain = async ({ params: { domain } }) => {
               <div className="mt-4">
                 <a
                   href={whoisResult['Registrar URL']}
-                  className="text-2xl font-bold text-slate-900 dark:text-slate-100"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-2xl font-bold text-slate-900 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:text-slate-100 dark:decoration-slate-300"
                 >
                   {whoisResult['Registrar']}
                 </a>
@@ -198,6 +238,7 @@ const LookupDomain = async ({ params: { domain } }) => {
               "url('https://helios-i.mashable.com/imagery/articles/06CN9HpdYJ3zWr2vUfYDFBG/hero-image.fill.size_1248x702.v1623387368.png')",
           }}
         ></div>
+        <PageScreenshotter url="https://www.youtube.com" />
         <div className="md:col-span-3">
           <div className="h-72 rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
             <div>
