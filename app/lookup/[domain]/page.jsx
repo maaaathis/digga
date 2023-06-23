@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
+import OverviewRecordList from '@/components/OverviewRecordList';
 import whois, { isAvailable } from '@/lib/whois';
 import DnsLookup from '@/utils/DnsLookup';
 
@@ -341,6 +342,7 @@ const LookupDomain = async ({ params: { domain } }) => {
                       >
                         {record.data}
                       </a>
+                      <OverviewRecordList record={record.data} />
                     </li>
                   );
                 })}

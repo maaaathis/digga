@@ -30,7 +30,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "lib/whois.js",
-    "app/lookup/[domain]/page.jsx"
+    "app/lookup/[domain]/page.jsx",
+    "components/OverviewRecordList.jsx"
   ],
   "exclude": ["node_modules"]
 }
