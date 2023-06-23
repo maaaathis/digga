@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { headers } from 'next/headers';
 import type { FC, ReactNode } from 'react';
 
 import RelatedDomains from '@/components/RelatedDomains';
@@ -17,11 +17,12 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   children,
   params: { domain },
 }) => {
-  const url = usePathname() || '';
+  const headersList = headers();
+  
+  console.log(headersList.get('host')); // to get domain
+  console.log(headersList.get('next-url')); // to get url
 
-  console.log(url);
-
-  const isStandalone = new URLSearchParams(url).has('standalone');
+  let isStandalone = false;
 
   return (
     <>
