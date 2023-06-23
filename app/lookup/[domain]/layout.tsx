@@ -2,9 +2,12 @@ import { ExternalLinkIcon } from 'lucide-react';
 import { headers } from 'next/headers';
 import type { FC, ReactNode } from 'react';
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
 import RelatedDomains from '@/components/RelatedDomains';
 import ResultsTabs from '@/components/ResultsTabs';
 import SearchForm from '@/components/SearchForm';
+import { isAvailable } from '@/lib/whois';
 
 type LookupLayoutProps = {
   children: ReactNode;
@@ -21,6 +24,20 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   const url = headersList.get('next-url') || '';
 
   const isStandalone = new URLSearchParams(url).has('standalone');
+
+  const checkAvailability = async (domain: string) => {
+    if ((await isAvailable(domain)) !== 'registered') {
+      return (
+        <Alert>
+          <AlertTitle>Not registered</AlertTitle>
+          <AlertDescription>
+            This Domain is currently not registered.
+          </AlertDescription>
+        </Alert>
+      );
+    }
+    return null;
+  };
 
   return (
     <>
@@ -48,6 +65,7 @@ const LookupLayout: FC<LookupLayoutProps> = ({
         <RelatedDomains domain={domain} />
         <ResultsTabs domain={domain} />
 
+        {checkAvailability(domain)}
         {children}
       </div>
     </>
