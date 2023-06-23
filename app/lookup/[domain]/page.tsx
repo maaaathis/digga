@@ -13,7 +13,7 @@ export const fetchCache = 'default-no-store';
 const LookupDomain = async ({ params: { domain } }: LookupDomainProps) => {
   const records = await DnsLookup.resolveAllRecords(domain);
 
-  if (isAvailable(domain) != 'registered') {
+  if (await isAvailable(domain) != 'registered') {
     return (
       <Alert>
         <AlertTitle>Not registered</AlertTitle>
