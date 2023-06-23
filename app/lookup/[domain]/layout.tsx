@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from 'lucide-react';
-import { headers } from 'next/headers';
+import { useRouter } from 'next/router';
 import type { FC, ReactNode } from 'react';
 
 import RelatedDomains from '@/components/RelatedDomains';
@@ -17,8 +17,8 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   children,
   params: { domain },
 }) => {
-  const headersList = headers();
-  const url = headersList.get('next-url') || '';
+  const router = useRouter();
+  const url = router.asPath;
 
   console.log(url);
 
