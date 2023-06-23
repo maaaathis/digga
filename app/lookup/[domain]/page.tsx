@@ -22,12 +22,12 @@ const LookupDomain = async ({ params: { domain } }: LookupDomainProps) => {
         <div className="md:col-span-3">
           <div className="h-56 rounded-xl bg-slate-100 dark:bg-slate-950 px-8 py-5">
             <div>
-              <span className="text-sm font-extrabold uppercase text-slate-950">
+              <span className="text-sm font-extrabold uppercase text-slate-950 dark:text-slate-50">
                 Domain Owner
               </span>
             </div>
             <div className="mt-4">
-              <p className="text-2xl font-bold text-slate-950">
+              <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                 Whois Privacy, Private by Design, LLC
               </p>
 
@@ -65,7 +65,7 @@ const LookupDomain = async ({ params: { domain } }: LookupDomainProps) => {
       </div>
       <div className="grid gap-4 md:grid-cols-5">
         <div
-          className="relative h-72 w-full bg-cover md:col-span-2"
+          className="relative h-72 w-full bg-cover md:col-span-2 rounded-xl"
           style={{
             backgroundImage:
               "url('https://helios-i.mashable.com/imagery/articles/06CN9HpdYJ3zWr2vUfYDFBG/hero-image.fill.size_1248x702.v1623387368.png')",
@@ -74,17 +74,17 @@ const LookupDomain = async ({ params: { domain } }: LookupDomainProps) => {
         <div className="md:col-span-3">
           <div className="h-72 rounded-xl bg-slate-100 dark:bg-slate-950 px-8 py-5">
             <div>
-              <span className="text-sm font-extrabold uppercase text-slate-950">
+              <span className="text-sm font-extrabold uppercase text-slate-950 dark:text-slate-50">
                 Preview
               </span>
             </div>
             <div className="mt-16">
-              <p className="text-xl font-bold text-slate-950">
-                Youtube &middot; Deine Pornoseite
+              <p className="text-xl font-bold text-slate-900 dark:text-slate-100">
+                Youtube &middot; Deine 
               </p>
 
               <div className="mt-3">
-                <p>https://youtube.porn/</p>
+                <p>https://youtube./</p>
                 <p>22 Archive.org snapshots found</p>
               </div>
             </div>
