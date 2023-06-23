@@ -334,12 +334,6 @@ const LookupDomain = async ({ params: { domain } }) => {
                 {Object.values(aRecords).map((record) => {
                   return (
                     <li>
-                      <a
-                        className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                        href={`/lookup/${record.data}`}
-                      >
-                        {record.data}
-                      </a>
                       <OverviewRecordList record={record.data} />
                     </li>
                   );
