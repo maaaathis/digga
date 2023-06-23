@@ -18,7 +18,7 @@ import IpDetailsModal from '@/components/IpDetailsModal';
 import { RawRecord } from '@/utils/DnsLookup';
 
 const OverviewRecordList = ({ record }) => {
-  const [detailedIp, setDetailedIp] = (useState < string) | (null > null);
+  const [detailedIp, setDetailedIp] = useState(null);
   const { isOpen, open, close } = useDisclosure();
 
   return (
