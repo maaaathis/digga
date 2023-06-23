@@ -7,7 +7,7 @@ import useSWR from 'swr';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default async function PageScreenshotter({ url }) {
-    console.log('URL'.url);
+    console.log('URL'+url);
     // Use useSWR to fetch the screenshot data from the API route
     const { data, error } = useSWR(`/api/screenshot?url=${url}`, fetcher);
     
