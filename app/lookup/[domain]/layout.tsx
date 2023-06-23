@@ -16,7 +16,6 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   children,
   params: { domain },
 }) => {
-
   let isStandalone = false;
 
   return (
