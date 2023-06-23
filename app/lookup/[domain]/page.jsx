@@ -22,8 +22,6 @@ const LookupDomain = async ({ params: { domain } }) => {
     })
   );
 
-  console.log(whoisResult);
-
   if ((await isAvailable(domain)) !== 'registered') {
     return <DomainNotRegistered />;
   }
@@ -45,7 +43,7 @@ const LookupDomain = async ({ params: { domain } }) => {
                     {new Date(whoisResult['Created Date']).toLocaleDateString(
                       'en-US',
                       {
-                        month: 'long',
+                        month: 'numeric',
                         day: 'numeric',
                         year: 'numeric',
                       }
@@ -71,7 +69,7 @@ const LookupDomain = async ({ params: { domain } }) => {
                     {new Date(whoisResult['Updated Date']).toLocaleDateString(
                       'en-US',
                       {
-                        month: 'long',
+                        month: 'numeric',
                         day: 'numeric',
                         year: 'numeric',
                       }
@@ -97,7 +95,7 @@ const LookupDomain = async ({ params: { domain } }) => {
                     {new Date(whoisResult['Expiry Date']).toLocaleDateString(
                       'en-US',
                       {
-                        month: 'long',
+                        month: 'numeric',
                         day: 'numeric',
                         year: 'numeric',
                       }
