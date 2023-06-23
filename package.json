@@ -19,7 +19,6 @@
     "@types/punycode": "^2.1.0",
     "@types/validator": "^13.7.17",
     "autoprefixer": "^10.4.14",
-    "capture-website": "^3.2.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "fs": "^0.0.1-security",

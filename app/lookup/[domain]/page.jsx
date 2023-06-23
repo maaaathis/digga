@@ -3,7 +3,6 @@ import whoiser from 'whoiser';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
-import PageScreenshotter from '@/components/PageScreenshotter';
 import { isAvailable } from '@/lib/whois';
 import DnsLookup from '@/utils/DnsLookup';
 
@@ -228,35 +227,6 @@ const LookupDomain = async ({ params: { domain } }) => {
               alt=""
             />
           </button>
-        </div>
-      </div>
-      <div className="mt-4 grid gap-4 md:grid-cols-5">
-        <div
-          className="relative h-72 w-full rounded-xl bg-cover md:col-span-2"
-          style={{
-            backgroundImage:
-              "url('https://helios-i.mashable.com/imagery/articles/06CN9HpdYJ3zWr2vUfYDFBG/hero-image.fill.size_1248x702.v1623387368.png')",
-          }}
-        ></div>
-        <PageScreenshotter url="https://www.youtube.com" />
-        <div className="md:col-span-3">
-          <div className="h-72 rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
-            <div>
-              <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
-                Preview
-              </span>
-            </div>
-            <div className="mt-16">
-              <p className="text-xl font-bold text-slate-900 dark:text-slate-100">
-                Youtube &middot; Deine
-              </p>
-
-              <div className="mt-3">
-                <p>https://youtube./</p>
-                <p>22 Archive.org snapshots found</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </>
