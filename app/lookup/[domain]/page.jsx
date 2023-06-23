@@ -26,7 +26,7 @@ const LookupDomain = async ({ params: { domain } }) => {
   return (
     <>
       <div className="grid gap-4 md:grid-cols-4">
-        <div className="md:col-span-2 h-full">
+        <div className="h-full md:col-span-2">
           <div className="h-full rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 md:flex">
             <div>
               <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
@@ -35,82 +35,82 @@ const LookupDomain = async ({ params: { domain } }) => {
             </div>
             <div className="grid gap-4 md:m-auto md:grid-cols-3">
               {whoisResult['Created Date'] ? (
-              <div className="flex flex-col text-center">
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {new Date(whoisResult['Created Date']).toLocaleDateString(
-                    'en-US',
-                    {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    }
-                  )}
-                </p>
-                <p className="text-lg font-light text-slate-900 dark:text-slate-100">
-                  {new Date(whoisResult['Created Date']).toLocaleTimeString(
-                    'en-US',
-                    {
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    }
-                  )}
-                </p>
-                <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
-                  Domain registered
-                </p>
-              </div>
+                <div className="flex flex-col text-center">
+                  <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                    {new Date(whoisResult['Created Date']).toLocaleDateString(
+                      'en-US',
+                      {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                      }
+                    )}
+                  </p>
+                  <p className="text-lg font-light text-slate-900 dark:text-slate-100">
+                    {new Date(whoisResult['Created Date']).toLocaleTimeString(
+                      'en-US',
+                      {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      }
+                    )}
+                  </p>
+                  <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
+                    Domain registered
+                  </p>
+                </div>
               ) : null}
               {whoisResult['Updated Date'] ? (
-              <div className="flex flex-col text-center">
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {new Date(whoisResult['Updated Date']).toLocaleDateString(
-                    'en-US',
-                    {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    }
-                  )}
-                </p>
-                <p className="text-lg font-light text-slate-900 dark:text-slate-100">
-                  {new Date(whoisResult['Updated Date']).toLocaleTimeString(
-                    'en-US',
-                    {
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    }
-                  )}
-                </p>
-                <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
-                  Updated
-                </p>
-              </div>
+                <div className="flex flex-col text-center">
+                  <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                    {new Date(whoisResult['Updated Date']).toLocaleDateString(
+                      'en-US',
+                      {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                      }
+                    )}
+                  </p>
+                  <p className="text-lg font-light text-slate-900 dark:text-slate-100">
+                    {new Date(whoisResult['Updated Date']).toLocaleTimeString(
+                      'en-US',
+                      {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      }
+                    )}
+                  </p>
+                  <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
+                    Updated
+                  </p>
+                </div>
               ) : null}
               {whoisResult['Expiry Date'] ? (
-              <div className="flex flex-col text-center">
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {new Date(whoisResult['Expiry Date']).toLocaleDateString(
-                    'en-US',
-                    {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    }
-                  )}
-                </p>
-                <p className="text-lg font-light text-slate-900 dark:text-slate-100">
-                  {new Date(whoisResult['Expiry Date']).toLocaleTimeString(
-                    'en-US',
-                    {
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    }
-                  )}
-                </p>
-                <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
-                  Domain expiration
-                </p>
-              </div>
+                <div className="flex flex-col text-center">
+                  <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                    {new Date(whoisResult['Expiry Date']).toLocaleDateString(
+                      'en-US',
+                      {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                      }
+                    )}
+                  </p>
+                  <p className="text-lg font-light text-slate-900 dark:text-slate-100">
+                    {new Date(whoisResult['Expiry Date']).toLocaleTimeString(
+                      'en-US',
+                      {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      }
+                    )}
+                  </p>
+                  <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
+                    Domain expiration
+                  </p>
+                </div>
               ) : null}
             </div>
           </div>
@@ -122,11 +122,15 @@ const LookupDomain = async ({ params: { domain } }) => {
                 <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
                   Domain Owner
                 </span>
-                <ReactCountryFlag countryCode={whoisResult['Registrant Country']} svg style={{
-                  fontSize: '1.75em',
-                  lineHeight: '1.75em',
-                  borderRadius: '20%',
-                }} />
+                <ReactCountryFlag
+                  countryCode={whoisResult['Registrant Country']}
+                  svg
+                  style={{
+                    fontSize: '1.75em',
+                    lineHeight: '1.75em',
+                    borderRadius: '20%',
+                  }}
+                />
               </div>
               <div className="mt-4">
                 <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
@@ -136,22 +140,29 @@ const LookupDomain = async ({ params: { domain } }) => {
             </div>
           ) : null}
           {whoisResult['Registrar'] ? (
-          <div className="rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
-            <div class="flex flex-row justify-between">
-              <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
-                Domain Registry
-              </span>
-              <ReactCountryFlag countryCode={whoisResult['Registrant Country']} svg style={{
+            <div className="rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
+              <div class="flex flex-row justify-between">
+                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+                  Domain Registry
+                </span>
+                <ReactCountryFlag
+                  countryCode={whoisResult['Registrant Country']}
+                  svg
+                  style={{
                     fontSize: '1.75em',
                     lineHeight: '1.75em',
                     borderRadius: '20%',
-                }}/>
-            </div>
-            <div className="mt-4">
-              <a href={whoisResult['Registrar URL']} className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                {whoisResult['Registrar']}
-              </a>
-            </div>
+                  }}
+                />
+              </div>
+              <div className="mt-4">
+                <a
+                  href={whoisResult['Registrar URL']}
+                  className="text-2xl font-bold text-slate-900 dark:text-slate-100"
+                >
+                  {whoisResult['Registrar']}
+                </a>
+              </div>
             </div>
           ) : null}
         </div>
