@@ -19,7 +19,7 @@ const LookupLayout: FC<LookupLayoutProps> = ({
 }) => {
   const searchParams = useSearchParams();
 
-  const url = searchParams.get('standalone');
+  const url = searchParams.get('standalone') || "";
 
   console.log(url);
 
