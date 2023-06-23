@@ -1,13 +1,13 @@
-import whoiser from 'whoiser';
+import whoiser, { WhoisSearchResult } from 'whoiser';
 
-export default async function whois(domain) {
+export default async function whois(domain: string): Promise<any> {
   return await whoiser(domain);
 }
 
-export async function isAvailable(domain) {
+export async function isAvailable(domain: string): Promise<string> {
   const domainWhois = await whoiser(domain, { follow: 1 });
 
-  const firstDomainWhois = whoiser.firstResult(domainWhois);
+  const firstDomainWhois = getFirstResult(domainWhois);
   const firstTextLine = (firstDomainWhois.text[0] || '').toLowerCase();
 
   let domainAvailability = 'unknown';
@@ -24,4 +24,11 @@ export async function isAvailable(domain) {
   }
 
   return domainAvailability;
+}
+
+function getFirstResult(whoisSearchResult: WhoisSearchResult): any {
+  if (Array.isArray(whoisSearchResult.results) && whoisSearchResult.results.length > 0) {
+    return whoisSearchResult.results[0];
+  }
+  return {};
 }

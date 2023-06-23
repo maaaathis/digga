@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "lib/whois.js"
+    "lib/whois.ts"
   ],
   "exclude": ["node_modules"]
 }
