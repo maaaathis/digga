@@ -7,6 +7,8 @@ export default async function OverviewSecurity({ domain }) {
   async function getRobotsTXTData(domain) {
     let domainFormatted = encodeURIComponent(`https://${domain}`);
 
+    console.log(encodeURIComponent(`https://${domain}`));
+
     let robotsTXTcheck = await fetch(
       `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
         'robots.txt'
@@ -91,16 +93,16 @@ export default async function OverviewSecurity({ domain }) {
         href={robotsData.domain + '/' + robotsData.file}
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800"
+        className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800"
       >
-        <CheckIcon className="h-1.5 w-1.5 fill-green-400" aria-hidden="true" />
+        <CheckIcon className="h-3.5 w-3.5 text-green-400" aria-hidden="true" />
         robots.txt
       </a>
     );
   } else {
     returnValue.push(
-      <span className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
-        <XIcon className="h-1.5 w-1.5 fill-red-400" aria-hidden="true" />
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+        <XIcon className="h-3.5 w-3.5 text-red-400" aria-hidden="true" />
         robots.txt
       </span>
     );
@@ -112,16 +114,16 @@ export default async function OverviewSecurity({ domain }) {
         href={securityData.domain + '/' + securityData.file}
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800"
+        className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800"
       >
-        <CheckIcon className="h-1.5 w-1.5 fill-green-400" aria-hidden="true" />
+        <CheckIcon className="h-3.5 w-3.5 text-green-400" aria-hidden="true" />
         security.txt
       </a>
     );
   } else {
     returnValue.push(
-      <span className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
-        <XIcon className="h-1.5 w-1.5 fill-red-400" aria-hidden="true" />
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+        <XIcon className="h-3.5 w-3.5 text-red-400" aria-hidden="true" />
         security.txt
       </span>
     );
@@ -129,15 +131,15 @@ export default async function OverviewSecurity({ domain }) {
 
   if (hstsData != 'false') {
     returnValue.push(
-      <span className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
-        <CheckIcon className="h-1.5 w-1.5 fill-green-400" aria-hidden="true" />
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+        <CheckIcon className="h-3.5 w-3.5 text-green-400" aria-hidden="true" />
         HSTS
       </span>
     );
   } else {
     returnValue.push(
-      <span className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
-        <XIcon className="h-1.5 w-1.5 fill-red-400" aria-hidden="true" />
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+        <XIcon className="h-3.5 w-3.5 text-red-400" aria-hidden="true" />
         HSTS
       </span>
     );

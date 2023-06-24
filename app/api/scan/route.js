@@ -32,6 +32,20 @@ export async function GET(request) {
       }
     );
   }
+
+  if (!file) {
+    return new Response(
+      JSON.stringify({
+        fileResponse: '301',
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  }
   let targetHSTS;
   https
     .get(domain, (res) => {

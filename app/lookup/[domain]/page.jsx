@@ -1,4 +1,5 @@
 import { XSquareIcon } from 'lucide-react';
+import { Suspense } from 'react';
 import ReactCountryFlag from 'react-country-flag';
 import whoiser from 'whoiser';
 
@@ -6,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
+import Loader from '@/components/Loader';
 import OverviewRecordList from '@/components/OverviewRecordList';
 //import OverviewMap from '@/components/OverviewMap';
 import OverviewSecurity from '@/components/OverviewSecurity';
@@ -220,7 +222,9 @@ const LookupDomain = async ({ params: { domain } }) => {
           </div>
           <div className="mt-4">
             <p className="text-lg font-medium text-slate-900 dark:text-slate-100">
-              <OverviewSecurity domain={domain} />
+              <Suspense fallback={<Loader />}>
+                <OverviewSecurity domain={domain} />
+              </Suspense>
             </p>
           </div>
         </div>
