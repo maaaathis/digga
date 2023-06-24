@@ -6,9 +6,7 @@ export default async function OverviewSecurity({ domain }) {
   const domainFormatted = encodeURIComponent(`https://${domain}`);
 
   const robotsTXTcheck = await fetch(
-    `${
-      process.env.URL
-    }/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
+    `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
       'robots.txt'
     )}`,
     { next: { revalidate: 10 } }
@@ -16,9 +14,7 @@ export default async function OverviewSecurity({ domain }) {
   const robotsTXT = await robotsTXTcheck.json();
 
   const securityTXTcheck = await fetch(
-    `${
-      process.env.URL
-    }/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
+    `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
       'security.txt'
     )}`,
     { next: { revalidate: 10 } }
