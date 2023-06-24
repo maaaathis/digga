@@ -20,7 +20,7 @@ export default async function OverviewSecurity({ domain }) {
       domainFormatted = encodeURIComponent(`https://www.${domain}`);
       robotsTXTcheck = await fetch(
         `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
-          'security.txt'
+          'robots.txt'
         )}`,
         { next: { revalidate: 20 } }
       );
@@ -40,7 +40,7 @@ export default async function OverviewSecurity({ domain }) {
 
     let securityTXTcheck = await fetch(
       `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
-        'robots.txt'
+        'security.txt'
       )}`,
       { next: { revalidate: 20 } }
     );
@@ -80,14 +80,13 @@ export default async function OverviewSecurity({ domain }) {
     return hsts.hsts;
   }
 
-  console.log('robots.txt: ' + (await getRobotsTXTData(domain).fileResponse));
-  console.log(
-    'security.txt: ' + (await getSecurityTXTData(domain).fileResponse)
-  );
+  const robotsData = await getRobotsTXTData(domain);
+  const securityData = await getSecurityTXTData(domain);
+  const hstsData = await getHSTSState(domain);
 
-  if ((await getRobotsTXTData(domain).fileResponse) != 404) {
+  if (robotsData.fileResponse != 404) {
     returnValue.push(
-      <span className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+      <a href={robotsData.domain+"/"+robotsData.file} target="_blank" rel="noopener noreferrer" className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
         <svg
           className="h-1.5 w-1.5 fill-green-400"
           viewBox="0 0 6 6"
@@ -96,7 +95,7 @@ export default async function OverviewSecurity({ domain }) {
           <circle cx={3} cy={3} r={3} />
         </svg>
         robots.txt
-      </span>
+      </a>
     );
   } else {
     returnValue.push(
@@ -113,9 +112,9 @@ export default async function OverviewSecurity({ domain }) {
     );
   }
 
-  if ((await getSecurityTXTData(domain).fileResponse) != 404) {
+  if (securityData.fileResponse != 404) {
     returnValue.push(
-      <span className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+      <a href={securityData.domain+"/"+securityData.file} target="_blank" rel="noopener noreferrer" className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
         <svg
           className="h-1.5 w-1.5 fill-green-400"
           viewBox="0 0 6 6"
@@ -124,7 +123,7 @@ export default async function OverviewSecurity({ domain }) {
           <circle cx={3} cy={3} r={3} />
         </svg>
         security.txt
-      </span>
+      </a>
     );
   } else {
     returnValue.push(
@@ -141,7 +140,7 @@ export default async function OverviewSecurity({ domain }) {
     );
   }
 
-  if ((await getHSTSState(domain).fileResponse) != 'false') {
+  if (hstsData != 'false') {
     returnValue.push(
       <span className="mx-1 my-2 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
         <svg
