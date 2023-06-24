@@ -3364,9 +3364,10 @@ validator@^13.9.0:
   resolved "https://registry.npmjs.org/validator/-/validator-13.9.0.tgz"
   integrity sha512-B+dGG8U3fdtM0/aNK4/X8CXq/EcxU2WPrPEkJGslb47qyHsxmbggTWK0yEA4qnYVNF+nxNlN88o14hIcPmSIEA==
 
-website-analysis-api@duckystudios/website-analysis-api:
-  version "1.0.0"
-  resolved "https://codeload.github.com/duckystudios/website-analysis-api/tar.gz/f6522e4592a589646d04ebe3b38ffe045b67267c"
+website-analysis-api@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/website-analysis-api/-/website-analysis-api-1.0.3.tgz#da17b93a9d59af3b58501c4e29490b41ee597fc4"
+  integrity sha512-wO/JtkXb3GyJlWnZCPtFJh0YFlNLIdnLS8qzbE+2TUnsSW1XxSeDmEBqoxilnC4f1xIzZJFCNlLFSxxnGCfQEQ==
   dependencies:
     axios "^1.4.0"
     typescript "^5.1.3"
