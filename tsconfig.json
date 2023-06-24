@@ -21,7 +21,9 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@/api/*": ["./pages/api/*"]
+      "@/api/*": ["./pages/api/*"],
+      "@/components/*": ["./components/*"],
+      "@/utils/*": ["./utils/*"],
     }
   },
   "include": [

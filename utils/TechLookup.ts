@@ -1,10 +1,9 @@
 import fs from 'fs';
-import path from 'path';
 import WebsiteAnalyzer from 'website-analysis-api/src/WebsiteAnalyzer';
 
 class TechLookup {
   static async fetchTechs(domain: string): Promise<any> {
-    const path = './utils/stack/';
+    const path = './utils/techstack/';
 
     const analyzer = new WebsiteAnalyzer({
       url: 'https://' + domain + '/',
