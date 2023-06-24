@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
 import OverviewRecordList from '@/components/OverviewRecordList';
+//import OverviewMap from '@/components/OverviewMap';
+import OverviewSecurity from '@/components/OverviewSecurity';
 import whois, { isAvailable } from '@/lib/whois';
 import DnsLookup from '@/utils/DnsLookup';
 
@@ -210,6 +212,19 @@ const LookupDomain = async ({ params: { domain } }) => {
             </div>
           ) : null}
         </div>
+        <div className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950`}>
+          <div className="flex flex-row justify-between">
+            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+              Security
+            </span>
+          </div>
+          <div className="mt-4">
+            <p className="text-lg font-medium text-slate-900 dark:text-slate-100">
+              <OverviewSecurity domain={domain} />
+            </p>
+          </div>
+        </div>
+        {/**<OverviewMap ip="188.114.96.3" />
         <div className="relative col-span-1 w-full">
           <img
             src="https://www.stuttgarter-nachrichten.de/media.media.129d97af-13ca-4d8b-a2e5-5f0e21903ff0.original1024.jpg"
@@ -232,7 +247,7 @@ const LookupDomain = async ({ params: { domain } }) => {
               alt=""
             />
           </button>
-        </div>
+        </div>**/}
         <div className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950`}>
           <div className="flex flex-row justify-between">
             <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
