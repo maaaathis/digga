@@ -23,7 +23,7 @@
       "@/*": ["./*"],
       "@/api/*": ["./pages/api/*"],
       "@/components/*": ["./components/*"],
-      "@/utils/*": ["./utils/*"],
+      "@/utils/*": ["./utils/*"]
     }
   },
   "include": [
