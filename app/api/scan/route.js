@@ -52,6 +52,7 @@ export async function GET(request) {
       fileResponse: await checkFile(domain, file),
       hsts: targetHSTS,
       file: file,
+      domain: domain,
     }),
     {
       status: 200,
