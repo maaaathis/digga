@@ -7,7 +7,7 @@ export default async function OverviewSecurity({ domain }) {
 
   async function getRobotsTXTData(domain) {
     let robotsTXTcheck = await fetch(
-      `https://stage.digga.dev/api/scan/?domain=${domain}&file=${encodeURIComponent(
+      `${process.env.BASE_URL}/api/scan/?domain=${domain}&file=${encodeURIComponent(
         'robots.txt'
       )}`,
       { next: { revalidate: 20 } }
@@ -17,7 +17,7 @@ export default async function OverviewSecurity({ domain }) {
 
   async function getSecurityTXTData(domain) {
     let securityTXTcheck = await fetch(
-      `https://stage.digga.dev/api/scan/?domain=${domain}&file=${encodeURIComponent(
+      `${process.env.BASE_URL}/api/scan/?domain=${domain}&file=${encodeURIComponent(
         'security.txt'
       )}`,
       { next: { revalidate: 20 } }
@@ -27,7 +27,7 @@ export default async function OverviewSecurity({ domain }) {
 
   async function getHSTSState(domain) {
     let hstsCheck = await fetch(
-      `https://stage.digga.dev/api/scan/?domain=${domain}&file=${encodeURIComponent(
+      `${process.env.BASE_URL}/api/scan/?domain=${domain}&file=${encodeURIComponent(
         'robots.txt'
       )}`,
       { next: { revalidate: 20 } }
