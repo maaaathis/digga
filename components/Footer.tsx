@@ -17,7 +17,6 @@ const Footer = () => (
           Felix Wotschofsky
         </a>
       </p>
-
     </div>
   </footer>
 );
