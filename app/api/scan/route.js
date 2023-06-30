@@ -25,6 +25,12 @@ export async function GET(request) {
           checkFile(redirectDomain, file)
             .then(resolve)
             .catch(reject);
+        } else if (res.statusCode === 301 && redirectCount === 1) {
+          const wwwDomain = `www.${domain}`;
+          redirectCount++;
+          checkFile(wwwDomain, file)
+            .then(resolve)
+            .catch(reject);
         } else {
           resolve(res.statusCode);
         }
