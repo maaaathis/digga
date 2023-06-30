@@ -37,6 +37,7 @@ export async function GET(request) {
     return new Response(
       JSON.stringify({
         fileResponse: '301',
+        hsts: false,
       }),
       {
         status: 200,
