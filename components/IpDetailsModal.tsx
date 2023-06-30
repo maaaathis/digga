@@ -1,5 +1,8 @@
 import type { DialogProps } from '@radix-ui/react-dialog';
 import type { LatLngExpression } from 'leaflet';
+
+import { ExternalLinkIcon, LeafIcon } from 'lucide-react';
+
 import dynamic from 'next/dynamic';
 import { type FC } from 'react';
 import useSWR from 'swr';
@@ -46,7 +49,12 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
     open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
   );
 
-  let mappedEntries: { label: string; value: string; type: EntryTypes }[] = [];
+  let mappedEntries: {
+    label: string;
+    value: string;
+    type: EntryTypes;
+    green?: boolean;
+  }[] = [];
   let location: LatLngExpression = [0, 0];
 
   if (data) {
@@ -55,6 +63,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
         type: EntryTypes.IP,
         label: 'IP',
         value: ip,
+        ...(data.greenHosted && { green: true }),
       },
       ...data.reverse
         .slice()
@@ -98,7 +107,9 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
     <Dialog modal open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>IP Details for {ip}</DialogTitle>
+          <DialogTitle>
+            IP Details for <span className="font-extrabold">{ip}</span>
+          </DialogTitle>
           <DialogDescription>
             {!data ? (
               <div className="flex items-center justify-center">
@@ -118,7 +129,33 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
                             <DomainLink domain={el.value} />
                           ) : (
                             <span>{el.value}</span>
-                          )}
+                            {el.type === EntryTypes.Reverse && (
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <Link href={`/lookup/${el.value}`}>
+                                      <ExternalLinkIcon className="mx-1 inline-block h-3 w-3 -translate-y-0.5" />
+                                    </Link>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>View Domain Records</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            )}
+                            {el.type === EntryTypes.IP && el.green && (
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <LeafIcon className="mx-1 inline-block h-3 w-3 -translate-y-0.5 text-green-500" />
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>Green Hosted</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            )}
+                          </>
                         </TableCell>
                       </TableRow>
                     ))}
