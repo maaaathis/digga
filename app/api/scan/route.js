@@ -4,6 +4,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
   const domain = searchParams.get('domain');
   const file = searchParams.get('file');
+  let redirectCount = 0;
 
   async function checkFile(domain, file) {
     return new Promise((resolve, reject) => {
@@ -17,9 +18,10 @@ export async function GET(request) {
       };
 
       const req = https.request(options, (res) => {
-        if (res.statusCode === 301 || res.statusCode === 302) {
+        if ((res.statusCode === 301 || res.statusCode === 302) && redirectCount < 1) {
           const redirectURL = res.headers.location;
           const redirectDomain = new URL(redirectURL).hostname;
+          redirectCount++;
           checkFile(redirectDomain, file)
             .then(resolve)
             .catch(reject);
