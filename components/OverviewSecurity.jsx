@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CheckIcon, XIcon } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
 
 export default async function OverviewSecurity({ domain }) {
@@ -7,9 +8,9 @@ export default async function OverviewSecurity({ domain }) {
 
   async function getRobotsTXTData(domain) {
     let robotsTXTcheck = await fetch(
-      `${process.env.BASE_URL}/api/scan/?domain=${domain}&file=${encodeURIComponent(
-        'robots.txt'
-      )}`,
+      `${
+        process.env.BASE_URL
+      }/api/scan/?domain=${domain}&file=${encodeURIComponent('robots.txt')}`,
       { next: { revalidate: 20 } }
     );
     return await robotsTXTcheck.json();
@@ -17,9 +18,9 @@ export default async function OverviewSecurity({ domain }) {
 
   async function getSecurityTXTData(domain) {
     let securityTXTcheck = await fetch(
-      `${process.env.BASE_URL}/api/scan/?domain=${domain}&file=${encodeURIComponent(
-        'security.txt'
-      )}`,
+      `${
+        process.env.BASE_URL
+      }/api/scan/?domain=${domain}&file=${encodeURIComponent('security.txt')}`,
       { next: { revalidate: 20 } }
     );
     return await securityTXTcheck.json();
@@ -27,9 +28,9 @@ export default async function OverviewSecurity({ domain }) {
 
   async function getHSTSState(domain) {
     let hstsCheck = await fetch(
-      `${process.env.BASE_URL}/api/scan/?domain=${domain}&file=${encodeURIComponent(
-        'robots.txt'
-      )}`,
+      `${
+        process.env.BASE_URL
+      }/api/scan/?domain=${domain}&file=${encodeURIComponent('robots.txt')}`,
       { next: { revalidate: 20 } }
     );
     return await hstsCheck.json();
@@ -42,13 +43,16 @@ export default async function OverviewSecurity({ domain }) {
   if (robotsData.fileResponse == 200) {
     returnValue.push(
       <a
-        href={'https://'+robotsData.domain + '/' + robotsData.file}
+        href={'https://' + robotsData.domain + '/' + robotsData.file}
         target="_blank"
         rel="noopener noreferrer"
         className="cursor-pointer"
       >
         <Badge variant="outline">
-          <CheckIcon className="h-3.5 w-3.5 text-green-400 mr-1" aria-hidden="true" />
+          <CheckIcon
+            className="mr-1 h-3.5 w-3.5 text-green-400"
+            aria-hidden="true"
+          />
           robots.txt
         </Badge>
       </a>
@@ -56,22 +60,25 @@ export default async function OverviewSecurity({ domain }) {
   } else {
     returnValue.push(
       <Badge variant="outline">
-          <XIcon className="h-3.5 w-3.5 text-red-400 mr-1" aria-hidden="true" />
-          robots.txt
-        </Badge>
+        <XIcon className="mr-1 h-3.5 w-3.5 text-red-400" aria-hidden="true" />
+        robots.txt
+      </Badge>
     );
   }
 
   if (securityData.fileResponse == 200) {
     returnValue.push(
       <a
-        href={'https://'+securityData.domain + '/' + securityData.file}
+        href={'https://' + securityData.domain + '/' + securityData.file}
         target="_blank"
         rel="noopener noreferrer"
         className="cursor-pointer"
       >
         <Badge variant="outline">
-          <XIcon className="h-3.5 w-3.5 text-red-400 mr-1" aria-hidden="true" />
+          <CheckIcon
+            className="mr-1 h-3.5 w-3.5 text-green-400"
+            aria-hidden="true"
+          />
           security.txt
         </Badge>
       </a>
@@ -79,32 +86,37 @@ export default async function OverviewSecurity({ domain }) {
   } else {
     returnValue.push(
       <Badge variant="outline">
-          <XIcon className="h-3.5 w-3.5 text-red-400 mr-1" aria-hidden="true" />
-          security.txt
-        </Badge>
+        <XIcon className="mr-1 h-3.5 w-3.5 text-red-400" aria-hidden="true" />
+        security.txt
+      </Badge>
     );
   }
 
   if (hstsData != 'false') {
     returnValue.push(
       <Badge variant="outline">
-          <XIcon className="h-3.5 w-3.5 text-red-400 mr-1" aria-hidden="true" />
-          HSTS
-        </Badge>
+        <CheckIcon
+          className="mr-1 h-3.5 w-3.5 text-green-400"
+          aria-hidden="true"
+        />
+        HSTS
+      </Badge>
     );
   } else {
     returnValue.push(
       <Badge variant="outline">
-        <XIcon className="h-3.5 w-3.5 text-red-400 mr-1" aria-hidden="true" />
+        <XIcon className="mr-1 h-3.5 w-3.5 text-red-400" aria-hidden="true" />
         HSTS
-        </Badge>
+      </Badge>
     );
   }
 
   return (
     <div>
       {returnValue.map((element, index) => (
-        <React.Fragment key={index}><span className="mx-1 my-2">{element}</span></React.Fragment>
+        <React.Fragment key={index}>
+          <span className="mx-1 my-2">{element}</span>
+        </React.Fragment>
       ))}
     </div>
   );

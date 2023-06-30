@@ -1,7 +1,10 @@
 import https from 'https';
 
 export async function GET(request) {
-  const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
+  const { searchParams } = new URL(
+    request.url,
+    `http://${request.headers.host}`
+  );
   const domain = searchParams.get('domain');
   const file = searchParams.get('file');
   let redirectCount = 0;
@@ -18,19 +21,18 @@ export async function GET(request) {
       };
 
       const req = https.request(options, (res) => {
-        if ((res.statusCode === 301 || res.statusCode === 302) && redirectCount < 1) {
+        if (
+          (res.statusCode === 301 || res.statusCode === 302) &&
+          redirectCount < 1
+        ) {
           const redirectURL = res.headers.location;
           const redirectDomain = new URL(redirectURL).hostname;
           redirectCount++;
-          checkFile(redirectDomain, file)
-            .then(resolve)
-            .catch(reject);
+          checkFile(redirectDomain, file).then(resolve).catch(reject);
         } else if (res.statusCode === 301 && redirectCount === 1) {
           const wwwDomain = `www.${domain}`;
           redirectCount++;
-          checkFile(wwwDomain, file)
-            .then(resolve)
-            .catch(reject);
+          checkFile(wwwDomain, file).then(resolve).catch(reject);
         } else {
           resolve(res.statusCode);
         }
@@ -86,7 +88,6 @@ export async function GET(request) {
   });
 
   hstsRequest.on('error', (err) => {
-    console.error('Fehler:', err.message);
     targetHSTS = false;
   });
 
