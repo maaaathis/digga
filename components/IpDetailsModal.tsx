@@ -1,8 +1,10 @@
+import type { DialogProps } from '@radix-ui/react-dialog';
 import type { LatLngExpression } from 'leaflet';
-import { ExternalLinkIcon } from 'lucide-react';
+
+import { ExternalLinkIcon, LeafIcon } from 'lucide-react';
+
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import { type FC, useCallback } from 'react';
+import { type FC } from 'react';
 import useSWR from 'swr';
 
 import {
@@ -14,14 +16,9 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 import type { IpLookupResponse } from '@/app/api/lookupIp/route';
+import DomainLink from '@/components/DomainLink';
 
 const LocationMap = dynamic(() => import('@/components/LocationMap'), {
   ssr: false,
@@ -39,16 +36,25 @@ enum EntryTypes {
 
 type IpDetailsModalProps = {
   ip: string;
-  isOpen: boolean;
-  onClose: () => void;
+  open: DialogProps['open'];
+  onOpenChange: DialogProps['onOpenChange'];
 };
 
-const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, isOpen, onClose }) => {
+const IpDetailsModal: FC<IpDetailsModalProps> = ({
+  ip,
+  open,
+  onOpenChange,
+}) => {
   const { data, error } = useSWR<IpLookupResponse>(
-    isOpen ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
+    open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
   );
 
-  let mappedEntries: { label: string; value: string; type: EntryTypes }[] = [];
+  let mappedEntries: {
+    label: string;
+    value: string;
+    type: EntryTypes;
+    green?: boolean;
+  }[] = [];
   let location: LatLngExpression = [0, 0];
 
   if (data) {
@@ -57,6 +63,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, isOpen, onClose }) => {
         type: EntryTypes.IP,
         label: 'IP',
         value: ip,
+        ...(data.greenHosted && { green: true }),
       },
       ...data.reverse
         .slice()
@@ -96,20 +103,13 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, isOpen, onClose }) => {
     location = [data.lat, data.lon];
   }
 
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) {
-        onClose();
-      }
-    },
-    [onClose]
-  );
-
   return (
-    <Dialog modal open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog modal open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>IP Details for {ip}</DialogTitle>
+          <DialogTitle>
+            IP Details for <span className="font-extrabold">{ip}</span>
+          </DialogTitle>
           <DialogDescription>
             {!data ? (
               <div className="flex items-center justify-center">
@@ -125,7 +125,9 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, isOpen, onClose }) => {
                       <TableRow key={el.label + el.value}>
                         <TableCell className="pl-0">{el.label}</TableCell>
                         <TableCell className="pr-0">
-                          <>
+                          {el.type === EntryTypes.Reverse ? (
+                            <DomainLink domain={el.value} />
+                          ) : (
                             <span>{el.value}</span>
                             {el.type === EntryTypes.Reverse && (
                               <TooltipProvider>
@@ -137,6 +139,18 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, isOpen, onClose }) => {
                                   </TooltipTrigger>
                                   <TooltipContent>
                                     <p>View Domain Records</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            )}
+                            {el.type === EntryTypes.IP && el.green && (
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <LeafIcon className="mx-1 inline-block h-3 w-3 -translate-y-0.5 text-green-500" />
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>Green Hosted</p>
                                   </TooltipContent>
                                 </Tooltip>
                               </TooltipProvider>

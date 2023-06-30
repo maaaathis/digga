@@ -17,6 +17,7 @@ enum FormStates {
 
 type SearchFormProps = {
   initialValue?: string;
+  autofocus?: boolean;
 };
 
 const SearchForm = (props: SearchFormProps) => {
@@ -41,7 +42,7 @@ const SearchForm = (props: SearchFormProps) => {
     let tDomain;
     try {
       tDomain = new URL(domain.trim().toLowerCase()).hostname;
-    } catch(err) {
+    } catch (err) {
       tDomain = domain.trim().toLowerCase();
     }
 
@@ -80,6 +81,7 @@ const SearchForm = (props: SearchFormProps) => {
             setDomain(event.target.value)
           }
           disabled={state !== FormStates.Initial}
+          autoFocus={props.autofocus}
         />
         <Button
           className="flex-[1]"
@@ -99,7 +101,7 @@ const SearchForm = (props: SearchFormProps) => {
         </p>
       ) : (
         <p className="mt-2 text-center text-sm text-muted-foreground">
-          It can be anything! An apex or subdomain.
+          It can be anything! An apex, subdomain or even an URL.
         </p>
       )}
     </>
