@@ -25,7 +25,6 @@ const LookupLayout: FC<LookupLayoutProps> = ({
       <div
         className={`container mb-8 max-w-xl ${isStandalone ? 'hidden' : null}`}
       >
-      <div className="container mb-8 max-w-xl">
         <SearchForm initialValue={domain} autofocus={false} />
       </div>
 
