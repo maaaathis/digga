@@ -50,7 +50,7 @@ export default async function OverviewSecurity({ domain }) {
         href={robotsData.domain + '/' + robotsData.file}
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800"
+        className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-black dark:text-white ring-1 ring-inset ring-gray-800"
       >
         <CheckIcon className="h-3.5 w-3.5 text-green-400" aria-hidden="true" />
         robots.txt
@@ -58,7 +58,7 @@ export default async function OverviewSecurity({ domain }) {
     );
   } else {
     returnValue.push(
-      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-black dark:text-white ring-1 ring-inset ring-gray-800">
         <XIcon className="h-3.5 w-3.5 text-red-400" aria-hidden="true" />
         robots.txt
       </span>
@@ -71,7 +71,7 @@ export default async function OverviewSecurity({ domain }) {
         href={securityData.domain + '/' + securityData.file}
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800"
+        className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-black dark:text-white ring-1 ring-inset ring-gray-800"
       >
         <CheckIcon className="h-3.5 w-3.5 text-green-400" aria-hidden="true" />
         security.txt
@@ -79,7 +79,7 @@ export default async function OverviewSecurity({ domain }) {
     );
   } else {
     returnValue.push(
-      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-black dark:text-white ring-1 ring-inset ring-gray-800">
         <XIcon className="h-3.5 w-3.5 text-red-400" aria-hidden="true" />
         security.txt
       </span>
@@ -88,14 +88,14 @@ export default async function OverviewSecurity({ domain }) {
 
   if (hstsData != 'false') {
     returnValue.push(
-      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-black dark:text-white ring-1 ring-inset ring-gray-800">
         <CheckIcon className="h-3.5 w-3.5 text-green-400" aria-hidden="true" />
         HSTS
       </span>
     );
   } else {
     returnValue.push(
-      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-800">
+      <span className="mx-1 my-1 inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-black dark:text-white ring-1 ring-inset ring-gray-800">
         <XIcon className="h-3.5 w-3.5 text-red-400" aria-hidden="true" />
         HSTS
       </span>
