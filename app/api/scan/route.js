@@ -1,20 +1,30 @@
 import https from 'https';
 
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(request.url, `http://${request.headers.host}`);
   const domain = searchParams.get('domain');
   const file = searchParams.get('file');
 
   async function checkFile(domain, file) {
     return new Promise((resolve, reject) => {
-      const url = `${domain}/${file}`;
-      https
-        .get(url, (res) => {
-          resolve(res.statusCode);
-        })
-        .on('error', (err) => {
-          reject(err);
-        });
+      const protocol = 'https:'; // oder 'http:' je nach Bedarf
+
+      const options = {
+        hostname: domain,
+        path: `/${file}`,
+        method: 'GET',
+        protocol: protocol,
+      };
+
+      const req = https.request(options, (res) => {
+        resolve(res.statusCode);
+      });
+
+      req.on('error', (err) => {
+        reject(err);
+      });
+
+      req.end();
     });
   }
 
@@ -47,27 +57,31 @@ export async function GET(request) {
       }
     );
   }
+
   let targetHSTS;
-  https
-    .get(domain, (res) => {
-      const hsts = res.headers['strict-transport-security'];
-      if (hsts) {
-        targetHSTS = hsts;
-      } else {
-        targetHSTS = false;
-      }
-    })
-    .on('error', (err) => {
-      console.error('Fehler:', err.message);
+
+  const hstsRequest = https.get(`https://${domain}`, (res) => {
+    const hsts = res.headers['strict-transport-security'];
+    if (hsts) {
+      targetHSTS = hsts;
+    } else {
       targetHSTS = false;
-    });
+    }
+  });
+
+  hstsRequest.on('error', (err) => {
+    console.error('Fehler:', err.message);
+    targetHSTS = false;
+  });
+
+  const fileResponse = await checkFile(domain, file);
 
   return new Response(
     JSON.stringify({
-      fileResponse: await checkFile(domain, file),
+      fileResponse,
       hsts: targetHSTS,
-      file: file,
-      domain: domain,
+      file,
+      domain,
     }),
     {
       status: 200,

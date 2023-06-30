@@ -7,35 +7,13 @@ export default async function OverviewSecurity({ domain }) {
   async function getRobotsTXTData(domain) {
     let domainFormatted = encodeURIComponent(`https://${domain}`);
 
-    console.log(encodeURIComponent(`https://${domain}`));
-
     let robotsTXTcheck = await fetch(
       `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
         'robots.txt'
       )}`,
       { next: { revalidate: 20 } }
     );
-    let robotsTXT = await robotsTXTcheck.json();
-    if (
-      (await robotsTXT.fileResponse) == 301 ||
-      (await robotsTXT.fileResponse) == 404
-    ) {
-      domainFormatted = encodeURIComponent(`https://www.${domain}`);
-      robotsTXTcheck = await fetch(
-        `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
-          'robots.txt'
-        )}`,
-        { next: { revalidate: 20 } }
-      );
-      robotsTXT = await robotsTXTcheck.json();
-      if ((await robotsTXT.fileResponse) == 301) {
-        return '404';
-      } else {
-        return robotsTXT;
-      }
-    } else {
-      return robotsTXT;
-    }
+    return await robotsTXTcheck.json();
   }
 
   async function getSecurityTXTData(domain) {
@@ -47,27 +25,7 @@ export default async function OverviewSecurity({ domain }) {
       )}`,
       { next: { revalidate: 20 } }
     );
-    let securityTXT = await securityTXTcheck.json();
-    if (
-      (await securityTXT.fileResponse) == 301 ||
-      (await securityTXT.fileResponse) == 404
-    ) {
-      domainFormatted = encodeURIComponent(`https://www.${domain}`);
-      securityTXTcheck = await fetch(
-        `https://stage.digga.dev/api/scan/?domain=${domainFormatted}&file=${encodeURIComponent(
-          'security.txt'
-        )}`,
-        { next: { revalidate: 20 } }
-      );
-      securityTXT = await securityTXTcheck.json();
-      if ((await securityTXT.fileResponse) == 301) {
-        return '404';
-      } else {
-        return securityTXT;
-      }
-    } else {
-      return securityTXT;
-    }
+    return await securityTXTcheck.json();
   }
 
   async function getHSTSState(domain) {
@@ -79,8 +37,7 @@ export default async function OverviewSecurity({ domain }) {
       )}`,
       { next: { revalidate: 20 } }
     );
-    let hsts = await hstsCheck.json();
-    return hsts.hsts;
+    return await hstsCheck.json();
   }
 
   const robotsData = await getRobotsTXTData(domain);
