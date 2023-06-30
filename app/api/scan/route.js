@@ -17,7 +17,15 @@ export async function GET(request) {
       };
 
       const req = https.request(options, (res) => {
-        resolve(res.statusCode);
+        if (res.statusCode === 301 || res.statusCode === 302) {
+          const redirectURL = res.headers.location;
+          const redirectDomain = new URL(redirectURL).hostname;
+          checkFile(redirectDomain, file)
+            .then(resolve)
+            .catch(reject);
+        } else {
+          resolve(res.statusCode);
+        }
       });
 
       req.on('error', (err) => {
