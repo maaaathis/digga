@@ -191,15 +191,6 @@ const LookupDomain = async ({ params: { domain } }) => {
                 <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
                   Domain Registry
                 </span>
-                <ReactCountryFlag
-                  countryCode={whoisResult['Registrant Country']}
-                  svg
-                  style={{
-                    fontSize: '1.75em',
-                    lineHeight: '1.75em',
-                    borderRadius: '20%',
-                  }}
-                />
               </div>
               <div className="mt-4">
                 <a
