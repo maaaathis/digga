@@ -13,7 +13,11 @@ const Footer = () => (
           <span className="sr-only">love</span>{' '}
         </>
         by{' '}
-        <a href="https://github.com/feliskio/domain-digger" target="_blank" rel="noopener">
+        <a
+          href="https://github.com/feliskio/domain-digger"
+          target="_blank"
+          rel="noopener"
+        >
           Felix Wotschofsky
         </a>
       </p>

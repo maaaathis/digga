@@ -16,7 +16,7 @@ type LookupLayoutProps = {
 export const generateMetadata = ({
   params: { domain },
 }: LookupLayoutProps): Metadata => ({
-  title: `Results for ${domain} - Domain Digger`,
+  title: `Results for ${domain} - digga`,
 });
 
 const LookupLayout: FC<LookupLayoutProps> = ({
