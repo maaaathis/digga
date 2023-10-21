@@ -25,7 +25,7 @@ const IpLink: FC<IpLinkProps> = ({ value }) => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild onClick={open}>
-            <a className="cursor-pointer underline decoration-dotted hover:decoration-dashed underline-offset-4 select-none">
+            <a className="cursor-pointer select-none underline decoration-dotted underline-offset-4 hover:decoration-dashed">
               <span className="select-all">{value}</span>
               <InfoIcon
                 role="button"

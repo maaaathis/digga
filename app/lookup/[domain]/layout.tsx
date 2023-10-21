@@ -47,10 +47,10 @@ const LookupLayout: FC<LookupLayoutProps> = ({
         <h1 className="mb-2">
           <span className="block text-muted-foreground">Results for</span>
           <a
-              className="block text-4xl font-bold"
-              href={`https://${domain}`}
-              target="_blank"
-              rel="noreferrer"
+            className="block text-4xl font-bold"
+            href={`https://${domain}`}
+            target="_blank"
+            rel="noreferrer"
           >
             {domain} <ExternalLinkIcon className="inline-block" />
           </a>

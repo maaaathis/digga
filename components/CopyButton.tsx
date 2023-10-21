@@ -23,7 +23,9 @@ const CopyButton: FC<CopyButton> = ({ value }) => {
   }, [value, setWasCopied]);
 
   if (wasCopied) {
-    return <CheckIcon className="mx-1 inline-block h-4 w-4 -translate-y-0.5 text-green-400" />;
+    return (
+      <CheckIcon className="mx-1 inline-block h-4 w-4 -translate-y-0.5 text-green-400" />
+    );
   }
 
   return (

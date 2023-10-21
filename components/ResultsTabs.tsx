@@ -30,25 +30,25 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
       <ul className="-mb-px flex flex-wrap">
         <li className="mr-2">
           <Link
-              href={`/lookup/${domain}`}
-              className={
-                selectedSegment === null
-                    ? 'relative inline-block rounded-t-lg border-b-2 border-primary p-4 text-primary'
-                    : 'relative inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
-              }
+            href={`/lookup/${domain}`}
+            className={
+              selectedSegment === null
+                ? 'relative inline-block rounded-t-lg border-b-2 border-primary p-4 text-primary'
+                : 'relative inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+            }
           >
             Overview
             <span className="pointer-events-none absolute bottom-0 block translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
               {isAppleDevice() ? (
-                  <>
-                    <OptionIcon
-                        className="inline-block h-3 w-3"
-                        strokeWidth={3}
-                    />
-                    {' + 1'}
-                  </>
+                <>
+                  <OptionIcon
+                    className="inline-block h-3 w-3"
+                    strokeWidth={3}
+                  />
+                  {' + 1'}
+                </>
               ) : (
-                  'alt+1'
+                'alt+1'
               )}
             </span>
           </Link>
@@ -58,8 +58,8 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
             href={`/lookup/${domain}/dns`}
             className={
               selectedSegment === 'dns'
-                  ? 'relative inline-block rounded-t-lg border-b-2 border-primary p-4 text-primary'
-                  : 'relative inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+                ? 'relative inline-block rounded-t-lg border-b-2 border-primary p-4 text-primary'
+                : 'relative inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
             }
           >
             DNS
