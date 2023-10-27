@@ -38,11 +38,7 @@ export const handler = async ({ params }: { params: { domain: string } }) => {
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          alt="digga"
-          width="350"
-          src={`https://digga.dev/digga.png`}
-        />
+          <img alt="digga" width="350" src={`https://digga.dev/digga.png`} />
         </span>
         <span style={{ fontSize: 48, fontWeight: 700 }}>
           Results for {params.domain}
