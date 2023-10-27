@@ -37,7 +37,7 @@ export const handler = async ({ params }: { params: { domain: string } }) => {
             color: '#000',
           }}
         >
-          digga
+          <img src="https://digga.dev/digga.svg" alt="digga"/>
         </span>
         <span style={{ fontSize: 48, fontWeight: 700 }}>
           Results for {params.domain}
