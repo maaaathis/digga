@@ -21,7 +21,7 @@ export const metadata = {
     type: 'website',
     title: 'digga: Infrastructure research',
     description:
-        'Effortlessly gather and analyze DNS records, WHOIS data, SSL/TLS certificate history, and more with digga – a powerful tool that requires no installation for swift access and insights into domain-related information.',
+      'Effortlessly gather and analyze DNS records, WHOIS data, SSL/TLS certificate history, and more with digga – a powerful tool that requires no installation for swift access and insights into domain-related information.',
     url: '/',
   },
   alternates: {

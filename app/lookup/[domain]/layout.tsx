@@ -2,6 +2,7 @@ import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { FC, ReactNode } from 'react';
 
+import ExternalFavicon from '@/components/ExternalFavicon';
 import RelatedDomains from '@/components/RelatedDomains';
 import ResultsTabs from '@/components/ResultsTabs';
 import SearchForm from '@/components/SearchForm';
@@ -46,14 +47,17 @@ const LookupLayout: FC<LookupLayoutProps> = ({
       <div className="container">
         <h1 className="mb-2">
           <span className="block text-muted-foreground">Results for</span>
-          <a
-            className="block text-4xl font-bold"
-            href={`https://${domain}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {domain} <ExternalLinkIcon className="inline-block" />
-          </a>
+          <span className="flex flex-row gap-2">
+            <ExternalFavicon url={domain} />
+            <a
+              className="block text-4xl font-bold"
+              href={`https://${domain}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {domain} <ExternalLinkIcon className="inline-block" />
+            </a>
+          </span>
         </h1>
 
         <RelatedDomains domain={domain} />
