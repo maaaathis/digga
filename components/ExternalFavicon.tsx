@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import Image from 'next/image';
 import { type FC, useCallback, useState } from 'react';
 

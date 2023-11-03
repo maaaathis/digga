@@ -8,15 +8,14 @@ import { Badge } from '@/components/ui/badge';
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
 import Loader from '@/components/Loader';
+import DnsRecordsWidget from '@/components/overview/DnsRecordsWidget';
 import RecordList from '@/components/overview/RecordList';
 import SecurityWidget from '@/components/overview/SecurityWidget';
 import whois, { isAvailable } from '@/lib/whois';
-import DnsRecordsWidget from '@/components/overview/DnsRecordsWidget';
 
 export const fetchCache = 'default-no-store';
 
 const LookupDomain = async ({ params: { domain } }) => {
-
   const whoisResult = whoiser.firstResult(
     await whoiser(domain, {
       timeout: 3000,

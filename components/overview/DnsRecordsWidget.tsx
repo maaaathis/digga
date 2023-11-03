@@ -1,9 +1,9 @@
+import { XSquareIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import DnsLookup from '@/utils/DnsLookup';
-import RecordList from './RecordList';
 
-import { XSquareIcon } from 'lucide-react';
+import RecordList from './RecordList';
 
 interface DnsRecordsWidgetProps {
   type:
@@ -46,15 +46,15 @@ const DnsRecordsWidget: FC<DnsRecordsWidgetProps> = async ({
           {Object.values(records).map((record) => {
             return (
               <li key={record.data.split(' ')[1]}>
-                {type == "MX" ? (
-                <a
-                  className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                  href={`/lookup/${record.data.split(' ')[1]}`}
-                >
-                  {record.data.split(' ')[1]}
+                {type == 'MX' ? (
+                  <a
+                    className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                    href={`/lookup/${record.data.split(' ')[1]}`}
+                  >
+                    {record.data.split(' ')[1]}
                   </a>
                 ) : (
-                    <RecordList record={record.data} />
+                  <RecordList record={record.data} />
                 )}
               </li>
             );
