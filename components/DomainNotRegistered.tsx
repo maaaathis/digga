@@ -10,7 +10,12 @@ const DomainNotRegistered = () => (
     <div className="ml-4">
       <AlertTitle>Not registered</AlertTitle>
       <AlertDescription>
-        This Domain is currently not registered. If you want to register it, visit <a href='https://tlds.world' className='underline'>tlds.world</a> for the best prices.
+        This Domain is currently not registered. If you want to register it,
+        visit{' '}
+        <a href="https://tlds.world" className="underline">
+          tlds.world
+        </a>{' '}
+        for the best prices.
       </AlertDescription>
     </div>
   </Alert>
