@@ -2,7 +2,7 @@
 
 import IpLink from '@/components/IpLink';
 
-const OverviewRecordList = ({ record }) => {
+const RecordList = ({ record }) => {
   return (
     <>
       <IpLink value={record} />
@@ -10,4 +10,4 @@ const OverviewRecordList = ({ record }) => {
   );
 };
 
-export default OverviewRecordList;
+export default RecordList;

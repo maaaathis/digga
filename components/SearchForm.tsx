@@ -9,6 +9,8 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import { cn } from '@/lib/utils';
+
 enum FormStates {
   Initial,
   Submitting,
@@ -18,6 +20,7 @@ enum FormStates {
 type SearchFormProps = {
   initialValue?: string;
   autofocus?: boolean;
+  className?: string;
 };
 
 const SearchForm = (props: SearchFormProps) => {
@@ -71,7 +74,7 @@ const SearchForm = (props: SearchFormProps) => {
     <>
       <form className="flex gap-3" onSubmit={handleSubmit}>
         <Input
-          className="flex-[3]"
+          className={cn('font-wider flex-[4]', props.className)}
           type="text"
           required
           placeholder="example.com"
@@ -84,7 +87,7 @@ const SearchForm = (props: SearchFormProps) => {
           autoFocus={props.autofocus}
         />
         <Button
-          className="flex-[1]"
+          className="h-12 flex-[1]"
           type="submit"
           disabled={state !== FormStates.Initial}
         >
@@ -96,11 +99,11 @@ const SearchForm = (props: SearchFormProps) => {
       </form>
 
       {error ? (
-        <p className="mt-2 text-center text-sm text-red-600">
+        <p className="mt-3 text-center text-sm text-red-600">
           An error occured! Please check your input or try again later.
         </p>
       ) : (
-        <p className="mt-2 text-center text-sm text-muted-foreground">
+        <p className="mt-3 text-center text-sm text-muted-foreground">
           It can be anything! An apex, subdomain, or even a URL.
         </p>
       )}

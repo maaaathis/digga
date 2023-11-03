@@ -26,16 +26,20 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
 }) => {
   const data = await lookupWhois(domain);
 
+  console.log(data);
+
   return (
     <>
       {Object.keys(data).map((key) => (
         <Fragment key={key}>
           <h2 className="mb-4 mt-8 text-3xl font-bold tracking-tight">{key}</h2>
-          <code>
-            {data[key].split('\n').map((line, index) => (
-              <p key={index}>{line}</p>
-            ))}
-          </code>
+          {data[key] !== undefined ? (
+            <code>
+              {data[key].split('\n').map((line, index) => (
+                <p key={index}>{line}</p>
+              ))}
+            </code>
+          ) : null}
         </Fragment>
       ))}
     </>

@@ -8,18 +8,14 @@ import { Badge } from '@/components/ui/badge';
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
 import Loader from '@/components/Loader';
-import OverviewRecordList from '@/components/OverviewRecordList';
-//import OverviewMap from '@/components/OverviewMap';
-import OverviewSecurity from '@/components/OverviewSecurity';
+import RecordList from '@/components/overview/RecordList';
+import SecurityWidget from '@/components/overview/SecurityWidget';
 import whois, { isAvailable } from '@/lib/whois';
-import DnsLookup from '@/utils/DnsLookup';
+import DnsRecordsWidget from '@/components/overview/DnsRecordsWidget';
 
 export const fetchCache = 'default-no-store';
 
 const LookupDomain = async ({ params: { domain } }) => {
-  const lookup = new DnsLookup();
-  const mxRecords = await lookup.fetchRecords(domain, 'MX');
-  const aRecords = await lookup.fetchRecords(domain, 'A');
 
   const whoisResult = whoiser.firstResult(
     await whoiser(domain, {
@@ -38,9 +34,9 @@ const LookupDomain = async ({ params: { domain } }) => {
         whoisResult['Updated Date'] ||
         whoisResult['Expiry Date'] ? (
           <div className="h-full md:col-span-2">
-            <div className="h-full rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 md:flex">
+            <div className="h-full rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover md:flex">
               <div>
-                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
                   Dates
                 </span>
               </div>
@@ -130,12 +126,12 @@ const LookupDomain = async ({ params: { domain } }) => {
         <div className="col-span-1 flex flex-col gap-2">
           {whoisResult['Registrant Organization'] ? (
             <div
-              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 ${
+              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover ${
                 !whoisResult['Registrar'] ? 'h-full' : ''
               }`}
             >
               <div className="flex flex-row justify-between">
-                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
                   Domain Owner
                 </span>
                 <ReactCountryFlag
@@ -158,12 +154,12 @@ const LookupDomain = async ({ params: { domain } }) => {
           {!whoisResult['Registrant Organization'] &&
           whoisResult['Registrant Country'] ? (
             <div
-              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 ${
+              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover ${
                 !whoisResult['Registrar'] ? 'h-full' : ''
               }`}
             >
               <div className="flex flex-row justify-between">
-                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
                   Domain Owner Region
                 </span>
                 <ReactCountryFlag
@@ -185,7 +181,7 @@ const LookupDomain = async ({ params: { domain } }) => {
           ) : null}
           {whoisResult['Registrar'] ? (
             <div
-              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950 ${
+              className={`rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover ${
                 !whoisResult['Registrant Organization'] &&
                 !whoisResult['Registrant Country']
                   ? 'h-full'
@@ -193,7 +189,7 @@ const LookupDomain = async ({ params: { domain } }) => {
               }`}
             >
               <div className="flex flex-row justify-between">
-                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+                <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
                   Domain Registry
                 </span>
               </div>
@@ -210,16 +206,16 @@ const LookupDomain = async ({ params: { domain } }) => {
             </div>
           ) : null}
         </div>
-        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
+        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover">
           <div className="flex flex-row justify-between">
-            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
               Security
             </span>
           </div>
           <div className="mt-4">
             <p className="text-lg font-medium text-slate-900 dark:text-slate-100">
               <Suspense fallback={<Loader />}>
-                <OverviewSecurity domain={domain} />
+                <SecurityWidget domain={domain} />
               </Suspense>
             </p>
           </div>
@@ -248,9 +244,9 @@ const LookupDomain = async ({ params: { domain } }) => {
             />
           </button>
         </div>**/}
-        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
+        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover">
           <div className="flex flex-row justify-between">
-            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
               Domainlabel
             </span>
           </div>
@@ -274,9 +270,9 @@ const LookupDomain = async ({ params: { domain } }) => {
             </p>
           </div>
         </div>
-        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
+        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover">
           <div className="flex flex-row justify-between">
-            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
               Nameserver
             </span>
           </div>
@@ -297,66 +293,25 @@ const LookupDomain = async ({ params: { domain } }) => {
             </ul>
           </div>
         </div>
-        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
+        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover">
           <div className="flex flex-row justify-between">
-            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
               Mailserver
             </span>
           </div>
-          <div
-            className={`flex h-full ${
-              Object.values(mxRecords).length === 0 ? null : 'mt-4'
-            }`}
-          >
-            {Object.values(mxRecords).length === 0 ? (
-              <div className="m-auto">
-                <XSquareIcon className="h-10 w-10" />
-              </div>
-            ) : (
-              <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
-                {Object.values(mxRecords).map((record) => {
-                  return (
-                    <li key={record.data.split(' ')[1]}>
-                      <a
-                        className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                        href={`/lookup/${record.data.split(' ')[1]}`}
-                      >
-                        {record.data.split(' ')[1]}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
+          <Suspense fallback={<Loader />}>
+            <DnsRecordsWidget type="MX" domain={domain} />
+          </Suspense>
         </div>
-        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-slate-950">
+        <div className="col-span-1 rounded-xl bg-slate-100 px-8 py-5 dark:bg-popover">
           <div className="flex flex-row justify-between">
-            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-slate-900 dark:text-slate-50">
+            <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-gray-900 dark:text-slate-50">
               A-Records
             </span>
           </div>
-          <div
-            className={`flex h-full ${
-              Object.values(aRecords).length === 0 ? null : 'mt-4'
-            }`}
-          >
-            {Object.values(aRecords).length === 0 ? (
-              <div className="m-auto">
-                <XSquareIcon className="h-10 w-10" />
-              </div>
-            ) : (
-              <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
-                {Object.values(aRecords).map((record) => {
-                  return (
-                    <li key={record}>
-                      <OverviewRecordList record={record.data} />
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
+          <Suspense fallback={<Loader />}>
+            <DnsRecordsWidget type="A" domain={domain} />
+          </Suspense>
         </div>
       </div>
     </>

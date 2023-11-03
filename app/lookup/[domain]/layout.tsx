@@ -18,10 +18,10 @@ export const generateMetadata = ({
   params: { domain },
 }: LookupLayoutProps): Metadata => ({
   metadataBase: process.env.SITE_URL ? new URL(process.env.SITE_URL) : null,
-  title: `Results for ${domain} - digga`,
+  title: `Results for ${domain} · digga`,
   openGraph: {
     type: 'website',
-    title: `Results for ${domain} - digga`,
+    title: `Results for ${domain} · digga`,
     description: `Find DNS records, WHOIS data, SSL/TLS certificate history and more for ${domain}`,
     url: `/lookup/${domain}`,
   },
@@ -38,10 +38,12 @@ const LookupLayout: FC<LookupLayoutProps> = ({
 
   return (
     <>
-      <div
-        className={`container mb-8 max-w-xl ${isStandalone ? 'hidden' : null}`}
-      >
-        <SearchForm initialValue={domain} autofocus={false} />
+      <div className={`container mb-8 w-2/4 ${isStandalone ? 'hidden' : null}`}>
+        <SearchForm
+          initialValue={domain}
+          autofocus={false}
+          className="bg-background"
+        />
       </div>
 
       <div className="container">

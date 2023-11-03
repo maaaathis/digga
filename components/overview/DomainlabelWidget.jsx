@@ -2,7 +2,7 @@ import whoiser from 'whoiser';
 
 import { Badge } from '@/components/ui/badge';
 
-export default async function OverviewDomainlabel({ domain }) {
+export default async function DomainlabelWidget({ domain }) {
   const whoisResult = whoiser.firstResult(
     await whoiser(domain, {
       timeout: 3000,

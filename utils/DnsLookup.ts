@@ -164,7 +164,7 @@ class DnsLookup {
     }
   );
 
-  private async fetchRecords(
+  public async fetchRecords(
     domain: string,
     recordType: RecordType,
     nameserver?: string

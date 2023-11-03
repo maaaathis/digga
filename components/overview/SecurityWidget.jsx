@@ -3,7 +3,7 @@ import { CheckIcon, XIcon } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 
-export default async function OverviewSecurity({ domain }) {
+export default async function SecurityWidget({ domain }) {
   let returnValue = [];
 
   async function getRobotsTXTData(domain) {

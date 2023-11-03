@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image';
 import { type FC, useCallback, useState } from 'react';
 
@@ -13,6 +14,11 @@ const ExternalFavicon: FC<ExternalFavicon> = ({ url }) => {
       width={32}
       height={32}
       className="my-auto inline-block h-8 w-8 rounded-sm"
+      loading="lazy"
+      quality={75}
+      priority={false}
+      id={`favicon-${url}`}
+      onError={(e) => document.getElementById(`favicon-${url}`)?.remove()}
     />
   );
 };

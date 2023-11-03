@@ -5,14 +5,12 @@ import SearchForm from '@/components/SearchForm';
 
 const Home = () => {
   return (
-    <>
-      <Card className="mx-auto my-16 max-w-lg p-6">
-        <h1 className="mb-5 text-center text-xl font-semibold tracking-tight sm:text-2xl">
-          Get details about any Domain
-        </h1>
-
-        <SearchForm autofocus={true} />
-      </Card>
+    <div className="flex h-[calc(100vh-50px)] w-full flex-col justify-center">
+      <div className="flex w-full flex-row justify-center">
+        <div className="w-2/4">
+          <SearchForm autofocus={true} className="bg-background p-5 text-2xl" />
+        </div>
+      </div>
 
       <Card className="mx-auto my-16 max-w-lg p-6">
         <h2 className="mb-5 text-center text-xl font-semibold tracking-tight sm:text-2xl">
@@ -26,7 +24,7 @@ const Home = () => {
 
         <BookmarkletLink />
       </Card>
-    </>
+    </div>
   );
 };
 
