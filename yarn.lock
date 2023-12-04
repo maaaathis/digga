@@ -1745,10 +1745,10 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
-"@types/dns-packet@^5.6.2":
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/@types/dns-packet/-/dns-packet-5.6.2.tgz#672eb878ac11768ceff0e72d0d88fa8d86963dfc"
-  integrity sha512-vgUZ0ilYvpnTDx7tBmmAUn1HsyzK3huAtulHaDbBBCW5UdaDrEei5XJjWHnD4s8r9/MSL1hJ8s+nvJdcvNKgMA==
+"@types/dns-packet@^5.6.4":
+  version "5.6.4"
+  resolved "https://registry.yarnpkg.com/@types/dns-packet/-/dns-packet-5.6.4.tgz#4467cea19002a135a73b0fbb6cb4a85ef216248a"
+  integrity sha512-R0ORTvCCeujG+upKfV4JlvozKLdQWlpsducXGd1L6ezBChwpjSj9K84F+KoMDsZQ9RhOLTR1hnNrwJHWagY24g==
   dependencies:
     "@types/node" "*"
 
