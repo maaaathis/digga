@@ -24,7 +24,7 @@ const CreditsInfo: FC = () => {
           <MedalIcon />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="rounded-xl p-3 text-default-500 transition-opacity bg-background">
+      <PopoverContent className="rounded-xl bg-background p-3 text-default-500 transition-opacity">
         originally created by{' '}
         <a
           className="decoration-offset-4 hover:underline"

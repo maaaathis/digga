@@ -6999,7 +6999,7 @@ tailwindcss-dotted-background@^1.1.0:
   resolved "https://registry.yarnpkg.com/tailwindcss-dotted-background/-/tailwindcss-dotted-background-1.1.0.tgz#0fb009d8b84ab56a438942b05affe698dae29f3b"
   integrity sha512-uFzCW5Bpyn8XgppTkyzqdHecH7XCDaS/eXvegDrOCYE6PxTm7dRrD9cuUcZe6mxQFVfkLu9rDmHJdqbjz9FdLA==
 
-tailwindcss@^3.3.5:
+tailwindcss@^3.3.6:
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.3.6.tgz#4dd7986bf4902ad385d90d45fd4b2fa5fab26d5f"
   integrity sha512-AKjF7qbbLvLaPieoKeTjG1+FyNZT6KaJMJPFeQyLfIp7l82ggH1fbHJSsYIvnbTFQOlkh+gBYpyby5GT1LIdLw==

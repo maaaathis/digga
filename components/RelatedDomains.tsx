@@ -29,7 +29,7 @@ const RelatedDomains: FC<RelatedDomainsProps> = ({ domain: original }) => {
           key={domain}
           asChild
           variant="secondary"
-          className="h-6 p-2 text-xs rounded-lg"
+          className="h-6 rounded-lg p-2 text-xs"
         >
           <Link href={`/lookup/${domain}`}>{domain}</Link>
         </Button>
