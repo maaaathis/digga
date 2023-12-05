@@ -18,10 +18,11 @@ const ThemeMenu: FC<Record<string, never>> = () => {
   return (
     <Dropdown
       showArrow
-      radius="sm"
+      placement="bottom-end"
+      radius="lg"
       classNames={{
-        base: 'p-0 border-small border-divider bg-background',
-        arrow: 'bg-default-200',
+        base: 'border border-divider rounded-xl bg-background',
+        arrow: 'bg-divider',
       }}
     >
       <DropdownTrigger>
@@ -44,7 +45,7 @@ const ThemeMenu: FC<Record<string, never>> = () => {
             'dark:data-[hover=true]:bg-default-50',
             'data-[selectable=true]:focus:bg-default-50',
             'data-[pressed=true]:opacity-70',
-            'data-[focus-visible=true]:ring-default-500',
+            'data-[focus-visible=true]:ring-default-500'
           ],
         }}
       >

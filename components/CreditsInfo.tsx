@@ -12,11 +12,11 @@ const CreditsInfo: FC = () => {
   return (
     <Popover
       showArrow
-      placement="top"
-      radius="sm"
+      placement="top-end"
+      radius="lg"
       classNames={{
-        base: 'p-0 border-small border-divider bg-background',
-        arrow: 'bg-default-200',
+        base: 'border border-divider rounded-xl',
+        arrow: 'bg-divider',
       }}
     >
       <PopoverTrigger>
@@ -24,7 +24,7 @@ const CreditsInfo: FC = () => {
           <MedalIcon />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="rounded-md p-3 text-default-500 transition-opacity">
+      <PopoverContent className="rounded-xl p-3 text-default-500 transition-opacity bg-background">
         originally created by{' '}
         <a
           className="decoration-offset-4 hover:underline"

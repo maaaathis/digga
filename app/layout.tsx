@@ -38,7 +38,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
     <html lang="en" suppressHydrationWarning className={rubik.className}>
       <body>
         <Providers>
-          <div className="flex min-h-screen flex-col items-center justify-center bg-dotted-spacing-8 bg-dotted-gray-300 dark:bg-dotted-slate-900">
+          <div className="flex min-h-screen flex-col items-center justify-center bg-dotted-spacing-8 bg-dotted-gray-300 dark:bg-dotted-background">
             <Header />
             <main className="w-full flex-1">{children}</main>
           </div>
