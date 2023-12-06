@@ -3,8 +3,6 @@
 import { XSquareIcon } from 'lucide-react';
 import { FC, ReactElement } from 'react';
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-
 const DomainNotRegistered: FC = (): ReactElement => (
   <div className="mt-12 flex flex-col items-center gap-2">
     <XSquareIcon className="h-16 w-16" />
