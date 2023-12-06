@@ -4,11 +4,11 @@ export const runtime = 'edge';
 export const contentType = 'image/png';
 
 const interRegularFontP = fetch(
-    new URL('../../../fonts/inter.woff', import.meta.url)
+  new URL('https://fonts.bunny.net/inter/files/inter-latin-400-normal.woff')
 ).then((res) => res.arrayBuffer());
 
 const interBoldFontP = fetch(
-    new URL('../../../fonts/inter.woff', import.meta.url)
+  new URL('https://fonts.bunny.net/inter/files/inter-latin-700-normal.woff')
 ).then((res) => res.arrayBuffer());
 
 export const handler = async ({
