@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import { FC, ReactElement } from 'react';
 
 import ThemeMenu from '@/components/ThemeMenu';
 
-const Header = () => (
+const Header: FC = (): ReactElement => (
   <header className="w-full p-4 md:px-8">
     <div className="flex flex-row items-center justify-between pb-4">
       <Link href="/">

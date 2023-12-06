@@ -1,13 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { type FC, useCallback, useState } from 'react';
+import { type FC, ReactElement, useCallback, useState } from 'react';
 
 type ExternalFavicon = {
   url: string;
 };
 
-const ExternalFavicon: FC<ExternalFavicon> = ({ url }) => {
+const ExternalFavicon: FC<ExternalFavicon> = ({ url }): ReactElement => {
   return (
     <Image
       src={`https://www.google.com/s2/favicons?sz=32&domain_url=${url}`}

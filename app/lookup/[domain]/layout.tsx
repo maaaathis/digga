@@ -1,6 +1,6 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata } from 'next';
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 
 import ExternalFavicon from '@/components/ExternalFavicon';
 import RelatedDomains from '@/components/RelatedDomains';
@@ -33,12 +33,16 @@ export const generateMetadata = ({
 const LookupLayout: FC<LookupLayoutProps> = ({
   children,
   params: { domain },
-}) => {
+}): ReactElement => {
   let isStandalone = false;
 
   return (
     <>
-      <div className={`container mb-8 w-2/4 ${isStandalone ? 'hidden' : null}`}>
+      <div
+        className={`container mb-8 w-5/6 xl:w-4/6 2xl:w-2/4 ${
+          isStandalone ? 'hidden' : null
+        }`}
+      >
         <SearchForm
           initialValue={domain}
           autofocus={false}

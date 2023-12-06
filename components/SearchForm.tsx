@@ -4,7 +4,14 @@ import isValidDomain from 'is-valid-domain';
 import { Loader2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { toASCII } from 'punycode';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,7 +30,7 @@ type SearchFormProps = {
   className?: string;
 };
 
-const SearchForm = (props: SearchFormProps) => {
+const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   const router = useRouter();
   const pathname = usePathname();
 

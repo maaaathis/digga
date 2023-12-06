@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 
 import {
   Table,
@@ -51,7 +51,7 @@ export const preferredRegion = 'lhr1';
 
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   params: { domain },
-}) => {
+}): Promise<ReactElement> => {
   const certRequests = [lookupCerts(domain)];
 
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;

@@ -1,8 +1,8 @@
-import { type FC, Fragment } from 'react';
+import { type FC, Fragment, ReactElement } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
-const DomainLoader: FC = () => (
+const DomainLoader: FC = (): ReactElement => (
   <div className="mt-12">
     {Array.from({ length: 3 }).map((_, i) => (
       <Fragment key={i}>

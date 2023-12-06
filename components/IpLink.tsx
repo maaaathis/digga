@@ -1,7 +1,7 @@
 'use client';
 
 import { InfoIcon } from 'lucide-react';
-import { type FC, useCallback, useState } from 'react';
+import { type FC, ReactElement, useCallback, useState } from 'react';
 
 import {
   Tooltip,
@@ -16,7 +16,7 @@ type IpLinkProps = {
   value: string;
 };
 
-const IpLink: FC<IpLinkProps> = ({ value }) => {
+const IpLink: FC<IpLinkProps> = ({ value }): ReactElement => {
   const [isOpen, setOpen] = useState(false);
   const open = useCallback(() => setOpen(true), [setOpen]);
 

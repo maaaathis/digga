@@ -2,7 +2,7 @@ import type { DialogProps } from '@radix-ui/react-dialog';
 import type { LatLngExpression } from 'leaflet';
 import naturalCompare from 'natural-compare-lite';
 import dynamic from 'next/dynamic';
-import { type FC } from 'react';
+import { type FC, ReactElement } from 'react';
 import useSWR from 'swr';
 
 import {
@@ -43,7 +43,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
   ip,
   open,
   onOpenChange,
-}) => {
+}): ReactElement => {
   const { data, error } = useSWR<IpLookupResponse>(
     open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
   );

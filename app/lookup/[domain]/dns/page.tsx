@@ -1,4 +1,5 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
+import React from 'react';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
@@ -13,7 +14,9 @@ type LookupDomainProps = {
 
 export const fetchCache = 'default-no-store';
 
-const LookupDomain: FC<LookupDomainProps> = async ({ params: { domain } }) => {
+const LookupDomain: FC<LookupDomainProps> = async ({
+  params: { domain },
+}): Promise<ReactElement> => {
   const lookup = new DnsLookup();
   const records = await lookup.resolveAllRecords(domain);
 

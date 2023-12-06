@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, useEffect } from 'react';
+import { type FC, ReactElement, useEffect } from 'react';
 
 type WhoisErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
 
-const WhoisError: FC<WhoisErrorProps> = ({ error }) => {
+const WhoisError: FC<WhoisErrorProps> = ({ error }): ReactElement => {
   useEffect(() => {
     console.error(error);
   }, [error]);

@@ -2,14 +2,14 @@
 
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider } from 'next-themes';
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import { SWRConfig } from 'swr';
 
 type ProvidersProps = {
   children: ReactNode;
 };
 
-const Providers: FC<ProvidersProps> = ({ children }) => (
+const Providers: FC<ProvidersProps> = ({ children }): ReactElement => (
   <ThemeProvider attribute="class">
     <NextUIProvider>
       <SWRConfig

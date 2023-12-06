@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import reactStringReplace from 'react-string-replace';
 
 import { TableCell, TableRow } from '@/components/ui/table';
@@ -16,7 +16,7 @@ type RecordRowProps = {
   record: RawRecord;
 };
 
-const RecordRow: FC<RecordRowProps> = ({ record }) => {
+const RecordRow: FC<RecordRowProps> = ({ record }): ReactElement => {
   let interpolatedValue: ReactNode[] | string | null = record.data;
 
   const domainMatches = record.data.match(DOMAIN_REGEX);

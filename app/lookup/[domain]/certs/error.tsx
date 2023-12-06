@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, useEffect } from 'react';
+import { type FC, ReactElement, useEffect } from 'react';
 
 type CertsErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
 
-const CertsError: FC<CertsErrorProps> = ({ error }) => {
+const CertsError: FC<CertsErrorProps> = ({ error }): ReactElement => {
   useEffect(() => {
     console.error(error);
   }, [error]);

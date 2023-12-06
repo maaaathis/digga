@@ -1,9 +1,11 @@
+import { FC, ReactElement } from 'react';
+
 import { Card } from '@/components/ui/card';
 
 import BookmarkletLink from '@/components/BookmarkletLink';
 import SearchForm from '@/components/SearchForm';
 
-const Home = () => {
+const Home: FC = (): ReactElement => {
   return (
     <div className="flex h-[calc(100vh-50px)] w-full flex-col justify-center">
       <div className="flex w-full flex-row justify-center">
@@ -12,7 +14,7 @@ const Home = () => {
         </div>
       </div>
 
-      <Card className="mx-auto my-16 max-w-lg p-6">
+      <Card className="mx-auto my-16 max-w-lg p-6 text-foreground">
         <h2 className="mb-5 text-center text-xl font-semibold tracking-tight sm:text-2xl">
           Quick Inspect Bookmarklet
         </h2>

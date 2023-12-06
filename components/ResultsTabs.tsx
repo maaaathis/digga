@@ -3,7 +3,7 @@
 import { OptionIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 const isAppleDevice = () => {
@@ -16,7 +16,7 @@ type ResultsTabsProps = {
   domain: string;
 };
 
-const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
+const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
   const router = useRouter();
   const selectedSegment = useSelectedLayoutSegment();
 
@@ -28,7 +28,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
   return (
     <div className="group mb-6 mt-6 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
       <ul className="-mb-px flex flex-wrap">
-        <li className="mr-2">
+        <li className="mr-2" key="overview">
           <Link
             href={`/lookup/${domain}`}
             className={
@@ -53,7 +53,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
             </span>
           </Link>
         </li>
-        <li className="mr-2">
+        <li className="mr-2" key="dns">
           <Link
             href={`/lookup/${domain}/dns`}
             className={
@@ -78,7 +78,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
             </span>
           </Link>
         </li>
-        <li className="mr-2">
+        <li className="mr-2" key="whois">
           <Link
             href={`/lookup/${domain}/whois`}
             className={
@@ -104,7 +104,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }) => {
             </span>
           </Link>
         </li>
-        <li className="mr-2">
+        <li className="mr-2" key="certs">
           <Link
             href={`/lookup/${domain}/certs`}
             className={

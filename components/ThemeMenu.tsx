@@ -10,9 +10,9 @@ import {
 } from '@nextui-org/react';
 import { LaptopIcon, MoonIcon, SunMediumIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 
-const ThemeMenu: FC<Record<string, never>> = () => {
+const ThemeMenu: FC<Record<string, never>> = (): ReactElement => {
   const { setTheme } = useTheme();
 
   return (

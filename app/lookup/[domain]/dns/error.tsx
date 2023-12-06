@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, useEffect } from 'react';
+import { type FC, ReactElement, useEffect } from 'react';
 
 type DNSErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
 
-const DNSError: FC<DNSErrorProps> = ({ error }) => {
+const DNSError: FC<DNSErrorProps> = ({ error }): ReactElement => {
   useEffect(() => {
     console.error(error);
   }, [error]);

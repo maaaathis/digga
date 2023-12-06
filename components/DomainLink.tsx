@@ -1,6 +1,6 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 
 import {
   Tooltip,
@@ -13,7 +13,7 @@ type DomainLinkProps = {
   domain: string;
 };
 
-const DomainLink: FC<DomainLinkProps> = ({ domain }) => (
+const DomainLink: FC<DomainLinkProps> = ({ domain }): ReactElement => (
   <>
     <TooltipProvider>
       <Tooltip>

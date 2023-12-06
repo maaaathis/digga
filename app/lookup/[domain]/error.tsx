@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, useEffect } from 'react';
+import { type FC, ReactElement, useEffect } from 'react';
 
 type DomainErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
 
-const DomainError: FC<DomainErrorProps> = ({ error }) => {
+const DomainError: FC<DomainErrorProps> = ({ error }): ReactElement => {
   useEffect(() => {
     console.error(error);
   }, [error]);

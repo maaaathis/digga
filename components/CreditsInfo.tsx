@@ -6,9 +6,9 @@ import {
 } from '@nextui-org/react';
 import { MedalIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 
-const CreditsInfo: FC = () => {
+const CreditsInfo: FC = (): ReactElement => {
   return (
     <Popover
       showArrow

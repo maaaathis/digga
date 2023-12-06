@@ -11,7 +11,7 @@ const interBoldFontP = fetch(
   new URL('https://fonts.bunny.net/inter/files/inter-latin-700-normal.woff')
 ).then((res) => res.arrayBuffer());
 
-export const handler = async () => {
+export const handler = async (): Promise<ImageResponse> => {
   const [interRegularFont, interBoldFont] = await Promise.all([
     interRegularFontP,
     interBoldFontP,

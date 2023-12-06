@@ -1,19 +1,20 @@
 'use client';
 
 import { XSquareIcon } from 'lucide-react';
+import { FC, ReactElement } from 'react';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-const DomainNotRegistered = () => (
-  <Alert variant="destructive">
-    <XSquareIcon className="h-8 w-8" />
-    <div className="ml-4">
-      <AlertTitle>Not registered</AlertTitle>
-      <AlertDescription>
-        This Domain is currently not registered.
-      </AlertDescription>
-    </div>
-  </Alert>
+const DomainNotRegistered: FC = (): ReactElement => (
+  <div className="mt-12 flex flex-col items-center gap-2">
+    <XSquareIcon className="h-16 w-16" />
+    <h2 className="mt-4 text-2xl font-bold">
+      This Domain is currently not registered!
+    </h2>
+    <p className="mt-2 text-center text-lg text-muted-foreground">
+      Please try again a other Domain.
+    </p>
+  </div>
 );
 
 export default DomainNotRegistered;
