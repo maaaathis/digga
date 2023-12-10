@@ -1,8 +1,6 @@
 import React from 'react';
 import whoiser from 'whoiser';
 
-import { Badge } from '@/components/ui/badge';
-
 import DashboardItem from './DashboardItem';
 
 interface Props {

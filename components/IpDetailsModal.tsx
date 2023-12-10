@@ -2,11 +2,13 @@
 
 import type { DialogProps } from '@radix-ui/react-dialog';
 import type { LatLngExpression } from 'leaflet';
+import { LeafIcon } from 'lucide-react';
 import naturalCompare from 'natural-compare-lite';
 import dynamic from 'next/dynamic';
 import { type FC, ReactElement } from 'react';
 import useSWR from 'swr';
 
+import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -52,6 +54,8 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
 
   let mappedEntries: { label: string; value: string; type: EntryTypes }[] = [];
   let location: LatLngExpression = [0, 0];
+
+  console.log(data);
 
   if (data) {
     mappedEntries = [
@@ -105,6 +109,12 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
           <DialogTitle>
             IP Details for{' '}
             <span className="font-extrabold tracking-wider">{ip}</span>
+            {data && data.greenHosted && (
+              <Badge variant="outline" className="ml-2">
+                <LeafIcon className="mr-1 inline-block h-3 w-3 text-green-500" />
+                Green hosted
+              </Badge>
+            )}
           </DialogTitle>
           <DialogDescription>
             {!data ? (
