@@ -49,12 +49,14 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
     setError(false);
     setState(FormStates.Submitting);
 
-    let tDomain;
+    let tDomain: string;
     try {
       tDomain = new URL(domain.trim().toLowerCase()).hostname;
     } catch (err) {
       tDomain = domain.trim().toLowerCase();
     }
+    //initially remove www. from every domain (only!) through the SearchForm
+    if (tDomain.startsWith('www.')) tDomain = tDomain.slice(4, tDomain.length);
 
     const normalizedDomain = toASCII(tDomain);
 

@@ -55,8 +55,6 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
   let mappedEntries: { label: string; value: string; type: EntryTypes }[] = [];
   let location: LatLngExpression = [0, 0];
 
-  console.log(data);
-
   if (data) {
     mappedEntries = [
       {
