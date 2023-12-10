@@ -36,7 +36,7 @@ export type RawRecord = {
 export type ResolvedRecords = Record<string, RawRecord[]>;
 
 class DnsLookup {
-  private async getRootServers() {
+  private async getRootServers(): Promise<string[]> {
     const response = await fetch('https://www.internic.net/domain/named.root', {
       next: {
         revalidate: 7 * 24 * 60 * 60,
@@ -44,18 +44,17 @@ class DnsLookup {
     });
     const body = await response.text();
 
-    // TODO Support IPv6
+    // Support both IPv4 and IPv6
     const aRecords = body.match(/\sA\s+(.+)/g);
+    const aaaaRecords = body.match(/\sAAAA\s+(.+)/g);
 
-    if (!aRecords) {
+    if (!aRecords && !aaaaRecords) {
       throw new Error('Failed to fetch root servers');
     }
 
-    const ipAddresses = aRecords?.map(
+    return [...(aRecords || []), ...(aaaaRecords || [])].map(
       (l) => l.replaceAll(/\s+/g, ' ').split(' ')[2]
     );
-
-    return ipAddresses;
   }
 
   private recordToString(record: Answer): string {
@@ -112,17 +111,15 @@ class DnsLookup {
       questions: [{ type: recordType, name: domain } as Question],
     });
 
-    const socket = dgram.createSocket('udp4');
+    const socket = dgram.createSocket({
+      type: nameserver.includes(':') ? 'udp6' : 'udp4',
+    });
     socket.send(packetBuffer, 0, packetBuffer.length, 53, nameserver);
 
     return await new Promise<Packet>((resolve, reject) => {
       const timeout = setTimeout(() => {
         socket.close();
-        reject(
-          new Error(
-            `Request to ${nameserver} for domain ${domain}, type ${recordType} timed out`
-          )
-        );
+        resolve({ answers: [] });
       }, 4000);
 
       socket.on('message', (message: Buffer) => {

@@ -1,36 +1,43 @@
 import { XSquareIcon } from 'lucide-react';
-import React, { FC } from 'react';
+import React, { FC, use } from 'react';
 
 import DashboardItem from '@/components/overview/DashboardItem';
 import DnsLookup from '@/utils/DnsLookup';
 
 import RecordList from './RecordList';
 
+enum DnsRecordType {
+  A = 'A',
+  AAAA = 'AAAA',
+  CAA = 'CAA',
+  CNAME = 'CNAME',
+  DNSKEY = 'DNSKEY',
+  DS = 'DS',
+  MX = 'MX',
+  NAPTR = 'NAPTR',
+  NS = 'NS',
+  PTR = 'PTR',
+  SOA = 'SOA',
+  SRV = 'SRV',
+  TXT = 'TXT',
+}
+
 interface DnsRecordsWidgetProps {
-  type:
-    | 'A'
-    | 'AAAA'
-    | 'CAA'
-    | 'CNAME'
-    | 'DNSKEY'
-    | 'DS'
-    | 'MX'
-    | 'NAPTR'
-    | 'NS'
-    | 'PTR'
-    | 'SOA'
-    | 'SRV'
-    | 'TXT';
+  type: DnsRecordType;
   domain: string;
 }
 
-const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = async ({
-  type,
-  domain,
-}): Promise<React.ReactElement> => {
+async function fetchRecords(domain: string, type: DnsRecordType) {
   const lookup = new DnsLookup();
 
-  const records = await lookup.fetchRecords(domain, type);
+  return await lookup.fetchRecords(domain, type);
+}
+
+const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
+  type,
+  domain,
+}): React.ReactElement => {
+  const records = use(fetchRecords(domain, type));
 
   return (
     <DashboardItem title={type + '-Records'}>
