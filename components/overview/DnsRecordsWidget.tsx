@@ -6,7 +6,7 @@ import DnsLookup from '@/utils/DnsLookup';
 
 import RecordList from './RecordList';
 
-enum DnsRecordType {
+export enum DnsRecordType {
   A = 'A',
   AAAA = 'AAAA',
   CAA = 'CAA',
