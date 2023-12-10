@@ -25,7 +25,7 @@ type CertsData = {
 
 const lookupCerts = async (domain: string): Promise<CertsData> => {
   const response = await fetch(
-      'https://crt.sh?' +
+    'https://crt.sh?' +
       new URLSearchParams({
         Identity: domain,
         output: 'json',
@@ -46,8 +46,8 @@ type CertsResultsPageProps = {
 };
 
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
-                                                             params: { domain },
-                                                           }) => {
+  params: { domain },
+}) => {
   const certRequests = [lookupCerts(domain)];
 
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
@@ -57,58 +57,58 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   }
 
   const certs = await Promise.all(certRequests).then((responses) =>
-      responses
-          .flat()
-          .sort(
-              (a, b) =>
-                  new Date(b.entry_timestamp).getTime() -
-                  new Date(a.entry_timestamp).getTime()
-          )
+    responses
+      .flat()
+      .sort(
+        (a, b) =>
+          new Date(b.entry_timestamp).getTime() -
+          new Date(a.entry_timestamp).getTime()
+      )
   );
 
   if (!certs.length) {
     return (
-        <p className="mt-8 text-center text-muted-foreground">
-          No issued certificates found!
-        </p>
+      <p className="mt-8 text-center text-muted-foreground">
+        No issued certificates found!
+      </p>
     );
   }
 
   return (
-      <Table>
-        <TableHeader>
-          <TableRow className="hover:bg-transparent">
-            <TableHead className="pl-0">Logged At</TableHead>
-            <TableHead>Not Before</TableHead>
-            <TableHead>Not After</TableHead>
-            <TableHead>Common Name</TableHead>
-            <TableHead>Matching Identities</TableHead>
-            <TableHead className="pr-0">Issuer Name</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {certs.map((cert) => (
-              <TableRow key={cert.id} className="hover:bg-transparent">
-                <TableCell className="pl-0">{cert.entry_timestamp}</TableCell>
-                <TableCell>{cert.not_before}</TableCell>
-                <TableCell>{cert.not_after}</TableCell>
-                <TableCell>
-                  <DomainLink domain={cert.common_name} />
-                </TableCell>
+    <Table>
+      <TableHeader>
+        <TableRow className="hover:bg-transparent">
+          <TableHead className="pl-0">Logged At</TableHead>
+          <TableHead>Not Before</TableHead>
+          <TableHead>Not After</TableHead>
+          <TableHead>Common Name</TableHead>
+          <TableHead>Matching Identities</TableHead>
+          <TableHead className="pr-0">Issuer Name</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {certs.map((cert) => (
+          <TableRow key={cert.id} className="hover:bg-transparent">
+            <TableCell className="pl-0">{cert.entry_timestamp}</TableCell>
+            <TableCell>{cert.not_before}</TableCell>
+            <TableCell>{cert.not_after}</TableCell>
+            <TableCell>
+              <DomainLink domain={cert.common_name} />
+            </TableCell>
 
-                <TableCell>
-                  {cert.name_value.split(/\n/g).map((value, index) => (
-                      <>
-                        {index !== 0 && <br />}
-                        <DomainLink domain={value} />
-                      </>
-                  ))}
-                </TableCell>
-                <TableCell className="pr-0">{cert.issuer_name}</TableCell>
-              </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+            <TableCell>
+              {cert.name_value.split(/\n/g).map((value, index) => (
+                <>
+                  {index !== 0 && <br />}
+                  <DomainLink domain={value} />
+                </>
+              ))}
+            </TableCell>
+            <TableCell className="pr-0">{cert.issuer_name}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
