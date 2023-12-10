@@ -1,3 +1,5 @@
+'use client';
+
 import naturalCompare from 'natural-compare-lite';
 import { type FC, Fragment, ReactElement } from 'react';
 

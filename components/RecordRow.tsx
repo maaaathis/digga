@@ -1,3 +1,5 @@
+'use client';
+
 import type { FC, ReactElement, ReactNode } from 'react';
 import reactStringReplace from 'react-string-replace';
 

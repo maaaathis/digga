@@ -1,3 +1,5 @@
+'use client';
+
 import type { DialogProps } from '@radix-ui/react-dialog';
 import type { LatLngExpression } from 'leaflet';
 import naturalCompare from 'natural-compare-lite';
