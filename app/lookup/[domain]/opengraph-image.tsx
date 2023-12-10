@@ -11,8 +11,8 @@ const interBoldFontP = fetch(
   new URL('https://fonts.bunny.net/inter/files/inter-latin-700-normal.woff')
 ).then((res) => res.arrayBuffer());
 
-const kanitBoldFontP = fetch(
-  new URL('https://fonts.bunny.net/kanit/files/kanit-latin-800-normal.woff')
+const kanitRegularFontP = fetch(
+  new URL('https://fonts.bunny.net/kanit/files/kanit-latin-500-normal.woff')
 ).then((res) => res.arrayBuffer());
 
 export const handler = async ({
@@ -20,11 +20,9 @@ export const handler = async ({
 }: {
   params: { domain: string };
 }): Promise<ImageResponse> => {
-  const [interRegularFont, interBoldFont, kanitBoldFont] = await Promise.all([
-    interRegularFontP,
-    interBoldFontP,
-    kanitBoldFontP,
-  ]);
+  const [interRegularFont, interBoldFont, kanitRegularFont] = await Promise.all(
+    [interRegularFontP, interBoldFontP, kanitRegularFontP]
+  );
 
   return new ImageResponse(
     (
@@ -42,9 +40,10 @@ export const handler = async ({
       >
         <span
           style={{
-            fontSize: 32,
+            fontSize: 38,
             color: '#000',
-            fontWeight: 800,
+            fontWeight: 500,
+            fontFamily: 'Kanit',
           }}
         >
           digga
@@ -81,9 +80,9 @@ export const handler = async ({
         },
         {
           name: 'Kanit',
-          data: kanitBoldFont,
+          data: kanitRegularFont,
           style: 'normal',
-          weight: 800,
+          weight: 500,
         },
       ],
     }
