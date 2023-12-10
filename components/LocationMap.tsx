@@ -1,3 +1,5 @@
+'use client';
+
 import type { LatLngExpression } from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
