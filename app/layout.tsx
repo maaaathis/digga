@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Rubik } from 'next/font/google';
 import type { FC, ReactElement, ReactNode } from 'react';
 
@@ -47,6 +48,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }): ReactElement => {
             </main>
           </div>
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
