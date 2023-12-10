@@ -12,7 +12,7 @@ type LocationMapProps = {
 };
 
 const LocationMap: FC<LocationMapProps> = ({ location }): ReactElement => (
-  <MapContainer center={location} zoom={4}>
+  <MapContainer center={location} zoom={5}>
     <TileLayer
       attribution='&copy; <a href="http://osm.org/copyright" rel="noreferrer">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
