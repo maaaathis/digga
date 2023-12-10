@@ -25,7 +25,7 @@ const Home: FC = (): ReactElement => {
         </svg>
       </div>
       <div className="flex w-full flex-row justify-center">
-        <div className="w-2/4">
+        <div className="mx-4 w-full md:w-5/6 xl:w-4/6 2xl:w-2/4">
           <SearchForm autofocus={true} className="bg-background p-5 text-2xl" />
         </div>
       </div>

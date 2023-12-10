@@ -39,7 +39,7 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   return (
     <>
       <div
-        className={`container mb-8 w-5/6 xl:w-4/6 2xl:w-2/4 ${
+        className={`container mb-8 w-full md:w-5/6 xl:w-4/6 2xl:w-2/4 ${
           isStandalone ? 'hidden' : null
         }`}
       >

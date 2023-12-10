@@ -34,7 +34,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
         <DomainDatesWidget domain={domain} />
         <DomainOwnerInfoWidget domain={domain} />
         <DomainlabelWidget domain={domain} />
