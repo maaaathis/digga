@@ -10,7 +10,7 @@ const DomainNotRegistered: FC = (): ReactElement => (
       This Domain is currently not registered!
     </h2>
     <p className="mt-2 text-center text-lg text-muted-foreground">
-      Please try again a other Domain.
+      Please try again with a different domain.
     </p>
   </div>
 );
