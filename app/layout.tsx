@@ -1,4 +1,5 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Metadata } from 'next';
 import { Rubik } from 'next/font/google';
 import type { FC, ReactElement, ReactNode } from 'react';
 
@@ -13,11 +14,30 @@ const rubik = Rubik({
   display: 'swap',
 });
 
-export const metadata = {
-  metadataBase: process.env.SITE_URL ? new URL(process.env.SITE_URL) : null,
+export const metadata: Metadata = {
+  metadataBase: process.env.SITE_URL
+    ? new URL(process.env.SITE_URL)
+    : new URL('http://localhost:300'),
   title: 'digga · Domain- & Infrastructure research',
+  icons: {
+    icon: '/favicon-32x32.png',
+    apple: '/apple-touch-icon.png',
+    other: [
+      { url: '/android-chrome-192x192.png', rel: 'icon', sizes: '192x192' },
+      { url: '/android-chrome-256x256.png', rel: 'icon', sizes: '256x256' },
+    ],
+  },
   description:
     'digga is the easy but incredibly powerful tool for full domain and infrastructure research.',
+  keywords: [
+    'digga',
+    'dig',
+    'domain',
+    'domain dig',
+    'dns',
+    'ssl certs',
+    'dns dig',
+  ],
   openGraph: {
     type: 'website',
     title: 'digga · Infrastructure research',
