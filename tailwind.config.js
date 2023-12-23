@@ -74,9 +74,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('tailwindcss-animate'),
-    require('tailwindcss-dotted-background'),
-    nextui(),
-  ],
+  plugins: [require('tailwindcss-animate'), nextui()],
 };
