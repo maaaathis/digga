@@ -53,7 +53,11 @@ const BookmarkletLink: FC = (): ReactElement => {
     <>
       <div className="flex justify-center">
         {target ? (
-          <a className="text-center" href={target} onClick={clickHandler}>
+          <a
+            className="select-none rounded-lg bg-slate-200 p-2 px-4 text-center duration-300 hover:scale-105 dark:bg-secondary"
+            href={target}
+            onClick={clickHandler}
+          >
             Inspect Domain
           </a>
         ) : (
