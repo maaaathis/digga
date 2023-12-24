@@ -53,7 +53,7 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
                 <li key={record.data.split(' ')[1]}>
                   {type == 'MX' ? (
                     <a
-                      className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                      className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                       href={`/lookup/${record.data.split(' ')[1]}`}
                     >
                       {record.data.split(' ')[1]}
