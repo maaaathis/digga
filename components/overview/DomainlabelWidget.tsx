@@ -11,13 +11,15 @@ interface Props {
 
 const DomainlabelWidget: React.FC<Props> = async ({
   domain,
-}): Promise<React.ReactElement> => {
+}): Promise<React.ReactElement | null> => {
   // @ts-ignore
   const whoisResult = whoiser.firstResult(
     await whoiser(domain, {
       timeout: 3000,
     })
   );
+
+  if (whoisResult['Domain Status'].length === 0) return null;
 
   return (
     <DashboardItem title="Domainlabels">
