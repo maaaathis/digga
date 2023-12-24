@@ -29,7 +29,12 @@ const lookupCerts = async (domain: string): Promise<CertsData> => {
       new URLSearchParams({
         Identity: domain,
         output: 'json',
-      })
+      }),
+    {
+      next: {
+        revalidate: 60 * 60,
+      },
+    }
   );
 
   if (!response.ok) {
