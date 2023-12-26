@@ -27,7 +27,7 @@ const DomainlabelWidget: React.FC<Props> = async ({
 
   return (
     <DashboardItem title="Domainlabels">
-      <div className="flex flex-col gap-2">
+      <div className="flex h-full flex-col gap-2">
         {Object.values(whoisResult['Domain Status']).map(
           (label: unknown, index: number) => {
             const labelValue = label as string;

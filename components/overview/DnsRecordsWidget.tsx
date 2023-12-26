@@ -41,7 +41,7 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
 
   return (
     <DashboardItem title={type + '-Records'}>
-      <div className={`flex h-full`}>
+      <div className="flex h-full">
         {Object.values(records).length === 0 ? (
           <div className="m-auto">
             <XSquareIcon className="h-10 w-10 text-black dark:text-white" />
