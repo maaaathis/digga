@@ -19,7 +19,11 @@ const DomainlabelWidget: React.FC<Props> = async ({
     })
   );
 
-  if (whoisResult['Domain Status'].length === 0) return null;
+  if (
+    !whoisResult['Domain Status'] ||
+    whoisResult['Domain Status'].length === 0
+  )
+    return null;
 
   return (
     <DashboardItem title="Domainlabels">

@@ -23,7 +23,8 @@ const NameserverWidget: React.FC<Props> = async ({
   return (
     <DashboardItem title="Nameserver">
       <div className="flex h-full">
-        {Object.values(whoisResult['Name Server']).length === 0 ? (
+        {whoisResult['Name Server'] &&
+        Object.values(whoisResult['Name Server']).length === 0 ? (
           <div className="m-auto">
             <XSquareIcon className="h-10 w-10 text-black dark:text-white" />
           </div>
