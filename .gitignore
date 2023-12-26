@@ -11,12 +11,14 @@
 # next.js
 /.next/
 /out/
+/.turbo/
 
 # production
 /build
 
 # misc
 .DS_Store
+/.vscode/
 *.pem
 
 # debug

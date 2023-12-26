@@ -1,5 +1,7 @@
+'use client';
+
 import naturalCompare from 'natural-compare-lite';
-import { type FC, Fragment } from 'react';
+import { type FC, Fragment, ReactElement } from 'react';
 
 import {
   Table,
@@ -16,7 +18,7 @@ type DnsTableProps = {
   records: ResolvedRecords;
 };
 
-const DnsTable: FC<DnsTableProps> = ({ records }) => (
+const DnsTable: FC<DnsTableProps> = ({ records }): ReactElement => (
   <>
     {Object.keys(records).map((recordType) => {
       const value = records[recordType];

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -9,7 +9,9 @@ type RelatedDomainsProps = {
   domain: string;
 };
 
-const RelatedDomains: FC<RelatedDomainsProps> = ({ domain: original }) => {
+const RelatedDomains: FC<RelatedDomainsProps> = ({
+  domain: original,
+}): ReactElement => {
   const domains = [];
 
   const splitOriginal = original.split('.');
@@ -29,7 +31,7 @@ const RelatedDomains: FC<RelatedDomainsProps> = ({ domain: original }) => {
           key={domain}
           asChild
           variant="secondary"
-          className="h-6 p-2 text-xs"
+          className="h-6 rounded-lg p-2 text-xs"
         >
           <Link href={`/lookup/${domain}`}>{domain}</Link>
         </Button>

@@ -1,4 +1,4 @@
-import { type FC, Fragment } from 'react';
+import { type FC, Fragment, ReactElement } from 'react';
 import whoiser, { type WhoisSearchResult } from 'whoiser';
 
 const lookupWhois = async (domain: string) => {
@@ -23,19 +23,23 @@ type WhoisResultsPageProps = {
 
 const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
   params: { domain },
-}) => {
+}): Promise<ReactElement> => {
   const data = await lookupWhois(domain);
+
+  console.log(data);
 
   return (
     <>
       {Object.keys(data).map((key) => (
         <Fragment key={key}>
           <h2 className="mb-4 mt-8 text-3xl font-bold tracking-tight">{key}</h2>
-          <code>
-            {data[key].split('\n').map((line, index) => (
-              <p key={index}>{line}</p>
-            ))}
-          </code>
+          {data[key] !== undefined ? (
+            <code>
+              {data[key].split('\n').map((line, index) => (
+                <p key={index}>{line}</p>
+              ))}
+            </code>
+          ) : null}
         </Fragment>
       ))}
     </>

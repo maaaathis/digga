@@ -4,10 +4,19 @@ import isValidDomain from 'is-valid-domain';
 import { Loader2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { toASCII } from 'punycode';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
+import { cn } from '@/lib/utils';
 
 enum FormStates {
   Initial,
@@ -18,9 +27,10 @@ enum FormStates {
 type SearchFormProps = {
   initialValue?: string;
   autofocus?: boolean;
+  className?: string;
 };
 
-const SearchForm = (props: SearchFormProps) => {
+const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -39,12 +49,14 @@ const SearchForm = (props: SearchFormProps) => {
     setError(false);
     setState(FormStates.Submitting);
 
-    let tDomain;
+    let tDomain: string;
     try {
       tDomain = new URL(domain.trim().toLowerCase()).hostname;
     } catch (err) {
       tDomain = domain.trim().toLowerCase();
     }
+    //initially remove www. from every domain (only!) through the SearchForm
+    if (tDomain.startsWith('www.')) tDomain = tDomain.slice(4, tDomain.length);
 
     const normalizedDomain = toASCII(tDomain);
 
@@ -71,7 +83,7 @@ const SearchForm = (props: SearchFormProps) => {
     <>
       <form className="flex gap-3" onSubmit={handleSubmit}>
         <Input
-          className="flex-[3]"
+          className={cn('font-wider flex-[4]', props.className)}
           type="text"
           required
           placeholder="example.com"
@@ -84,7 +96,7 @@ const SearchForm = (props: SearchFormProps) => {
           autoFocus={props.autofocus}
         />
         <Button
-          className="flex-[1]"
+          className="h-12 flex-[1]"
           type="submit"
           disabled={state !== FormStates.Initial}
         >
@@ -96,11 +108,11 @@ const SearchForm = (props: SearchFormProps) => {
       </form>
 
       {error ? (
-        <p className="mt-2 text-center text-sm text-red-600">
+        <p className="mt-3 text-center text-sm text-red-600">
           An error occured! Please check your input or try again later.
         </p>
       ) : (
-        <p className="mt-2 text-center text-sm text-muted-foreground">
+        <p className="mt-3 text-center text-sm text-muted-foreground">
           It can be anything! An apex, subdomain, or even a URL.
         </p>
       )}

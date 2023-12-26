@@ -29,7 +29,12 @@ const lookupCerts = async (domain: string): Promise<CertsData> => {
       new URLSearchParams({
         Identity: domain,
         output: 'json',
-      })
+      }),
+    {
+      next: {
+        revalidate: 60 * 60,
+      },
+    }
   );
 
   if (!response.ok) {
@@ -44,10 +49,6 @@ type CertsResultsPageProps = {
     domain: string;
   };
 };
-
-export const runtime = 'edge';
-// crt.sh located in GB, always use LHR1 for lowest latency
-export const preferredRegion = 'lhr1';
 
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   params: { domain },

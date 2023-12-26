@@ -1,10 +1,14 @@
+'use client';
+
 import type { DialogProps } from '@radix-ui/react-dialog';
 import type { LatLngExpression } from 'leaflet';
+import { LeafIcon } from 'lucide-react';
 import naturalCompare from 'natural-compare-lite';
 import dynamic from 'next/dynamic';
-import { type FC } from 'react';
+import { type FC, ReactElement } from 'react';
 import useSWR from 'swr';
 
+import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -43,7 +47,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
   ip,
   open,
   onOpenChange,
-}) => {
+}): ReactElement => {
   const { data, error } = useSWR<IpLookupResponse>(
     open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
   );
@@ -101,7 +105,14 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            IP Details for <span className="font-extrabold">{ip}</span>
+            IP Details for{' '}
+            <span className="font-extrabold tracking-wider">{ip}</span>
+            {data && data.greenHosted && (
+              <Badge variant="outline" className="ml-2">
+                <LeafIcon className="mr-1 inline-block h-3 w-3 text-green-500" />
+                Green hosted
+              </Badge>
+            )}
           </DialogTitle>
           <DialogDescription>
             {!data ? (
@@ -137,7 +148,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
                   </TableBody>
                 </Table>
 
-                <div className="my-4 [&_.leaflet-container]:h-80 [&_.leaflet-container]:w-full">
+                <div className="my-4 [&_.leaflet-container]:h-48 [&_.leaflet-container]:w-full">
                   <LocationMap location={location} />
                 </div>
               </>

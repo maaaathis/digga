@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckIcon, ClipboardIcon } from 'lucide-react';
-import { type FC, useCallback, useState } from 'react';
+import { type FC, ReactElement, useCallback, useState } from 'react';
 
 import {
   Tooltip,
@@ -14,7 +14,7 @@ type CopyButton = {
   value: string;
 };
 
-const CopyButton: FC<CopyButton> = ({ value }) => {
+const CopyButton: FC<CopyButton> = ({ value }): ReactElement => {
   const [wasCopied, setWasCopied] = useState(false);
   const copy = useCallback(() => {
     setWasCopied(true);

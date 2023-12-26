@@ -1,7 +1,9 @@
 'use client';
 
 import {
+  FC,
   type MouseEventHandler,
+  ReactElement,
   useCallback,
   useEffect,
   useState,
@@ -17,7 +19,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-const BookmarkletLink = () => {
+const BookmarkletLink: FC = (): ReactElement => {
   const [target, setTarget] = useState('');
   const [isOpen, setOpen] = useState(false);
 
@@ -51,7 +53,11 @@ const BookmarkletLink = () => {
     <>
       <div className="flex justify-center">
         {target ? (
-          <a className="text-center" href={target} onClick={clickHandler}>
+          <a
+            className="select-none rounded-lg bg-slate-200 p-2 px-4 text-center duration-300 hover:scale-105 hover:cursor-grab active:cursor-grabbing dark:bg-secondary"
+            href={target}
+            onClick={clickHandler}
+          >
             Inspect Domain
           </a>
         ) : (
