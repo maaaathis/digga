@@ -32,85 +32,87 @@ const DomainDatesWidget: React.FC<Props> = async ({
 
   return (
     <DashboardItem title="Dates" className={colSpan}>
-      <div className="flex h-full flex-row justify-around gap-4">
-        {whoisResult['Created Date'] && (
-          <div className="flex flex-col text-center">
-            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-              {new Date(whoisResult['Created Date']).toLocaleDateString(
-                'en-US',
-                {
-                  month: 'numeric',
-                  day: 'numeric',
-                  year: 'numeric',
-                }
-              )}
-            </p>
-            <p className="text-lg font-light text-slate-900 dark:text-slate-100">
-              {new Date(whoisResult['Created Date']).toLocaleTimeString(
-                'en-US',
-                {
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }
-              )}
-            </p>
-            <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
-              Domain registered
-            </p>
-          </div>
-        )}
-        {whoisResult['Updated Date'] && (
-          <div className="flex flex-col text-center">
-            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-              {new Date(whoisResult['Updated Date']).toLocaleDateString(
-                'en-US',
-                {
-                  month: 'numeric',
-                  day: 'numeric',
-                  year: 'numeric',
-                }
-              )}
-            </p>
-            <p className="text-lg font-light text-slate-900 dark:text-slate-100">
-              {new Date(whoisResult['Updated Date']).toLocaleTimeString(
-                'en-US',
-                {
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }
-              )}
-            </p>
-            <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
-              Domain updated
-            </p>
-          </div>
-        )}
-        {whoisResult['Expiry Date'] && (
-          <div className="flex flex-col text-center">
-            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-              {new Date(whoisResult['Expiry Date']).toLocaleDateString(
-                'en-US',
-                {
-                  month: 'numeric',
-                  day: 'numeric',
-                  year: 'numeric',
-                }
-              )}
-            </p>
-            <p className="text-lg font-light text-slate-900 dark:text-slate-100">
-              {new Date(whoisResult['Expiry Date']).toLocaleTimeString(
-                'en-US',
-                {
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }
-              )}
-            </p>
-            <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
-              Domain expiration
-            </p>
-          </div>
-        )}
+      <div className="h-full">
+        <div className="m-auto flex flex-row justify-around gap-4">
+          {whoisResult['Created Date'] && (
+            <div className="flex flex-col text-center">
+              <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                {new Date(whoisResult['Created Date']).toLocaleDateString(
+                  'en-US',
+                  {
+                    month: 'numeric',
+                    day: 'numeric',
+                    year: 'numeric',
+                  }
+                )}
+              </p>
+              <p className="text-lg font-light text-slate-900 dark:text-slate-100">
+                {new Date(whoisResult['Created Date']).toLocaleTimeString(
+                  'en-US',
+                  {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  }
+                )}
+              </p>
+              <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
+                Domain registered
+              </p>
+            </div>
+          )}
+          {whoisResult['Updated Date'] && (
+            <div className="flex flex-col text-center">
+              <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                {new Date(whoisResult['Updated Date']).toLocaleDateString(
+                  'en-US',
+                  {
+                    month: 'numeric',
+                    day: 'numeric',
+                    year: 'numeric',
+                  }
+                )}
+              </p>
+              <p className="text-lg font-light text-slate-900 dark:text-slate-100">
+                {new Date(whoisResult['Updated Date']).toLocaleTimeString(
+                  'en-US',
+                  {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  }
+                )}
+              </p>
+              <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
+                Domain updated
+              </p>
+            </div>
+          )}
+          {whoisResult['Expiry Date'] && (
+            <div className="flex flex-col text-center">
+              <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                {new Date(whoisResult['Expiry Date']).toLocaleDateString(
+                  'en-US',
+                  {
+                    month: 'numeric',
+                    day: 'numeric',
+                    year: 'numeric',
+                  }
+                )}
+              </p>
+              <p className="text-lg font-light text-slate-900 dark:text-slate-100">
+                {new Date(whoisResult['Expiry Date']).toLocaleTimeString(
+                  'en-US',
+                  {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  }
+                )}
+              </p>
+              <p className="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">
+                Domain expiration
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </DashboardItem>
   );
