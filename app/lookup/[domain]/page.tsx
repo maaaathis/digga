@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 import whoiser from 'whoiser';
 
-import { isAvailable } from '@/lib/whois';
+import { DomainAvailability, isAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../components/DomainNotRegistered';
 import DnsRecordsWidget, {
@@ -30,7 +30,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
     })
   );
 
-  if ((await isAvailable(domain)) !== 'registered') {
+  if ((await isAvailable(domain)) !== DomainAvailability.REGISTERED) {
     return <DomainNotRegistered />;
   }
 

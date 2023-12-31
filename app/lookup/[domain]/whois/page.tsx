@@ -26,8 +26,6 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
 }): Promise<ReactElement> => {
   const data = await lookupWhois(domain);
 
-  console.log(data);
-
   return (
     <>
       {Object.keys(data).map((key) => (
