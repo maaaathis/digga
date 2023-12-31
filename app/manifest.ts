@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Domain- & Infrastructure research',
     start_url: '/',
     display: 'standalone',
-    background_color: '#fff',
+    background_color: '#030711',
     theme_color: '#fff',
     icons: [
       {
