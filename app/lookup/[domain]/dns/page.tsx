@@ -3,7 +3,7 @@ import React from 'react';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
-import { isAvailable } from '@/lib/whois';
+import { DomainAvailability, isAvailable } from '@/lib/whois';
 import DnsLookup from '@/utils/DnsLookup';
 
 type LookupDomainProps = {
@@ -20,7 +20,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   const lookup = new DnsLookup();
   const records = await lookup.resolveAllRecords(domain);
 
-  if ((await isAvailable(domain)) != 'registered') {
+  if ((await isAvailable(domain)) != DomainAvailability.REGISTERED) {
     return <DomainNotRegistered />;
   }
 
