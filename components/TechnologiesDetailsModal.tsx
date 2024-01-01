@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHorizontal } from 'lucide-react';
+import { GripIcon, MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
 import React, { type FC, ReactElement } from 'react';
 
@@ -41,16 +41,18 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
       <div
         key={'more'}
         onClick={() => setOpen(true)}
-        className={`flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5`}
+        className={`flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5`}
       >
-        <MoreHorizontal className="m-auto h-5 w-5 text-black" />
+        <GripIcon className="m-auto h-5 w-5 text-black dark:text-white" />
       </div>
 
       <Dialog modal open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Used Technologies</DialogTitle>
-            <DialogDescription className={`max-h-96 overflow-scroll`}>
+            <DialogTitle className={`mb-4`}>Used Technologies</DialogTitle>
+            <DialogDescription
+              className={`max-h-96 overflow-scroll overflow-x-hidden`}
+            >
               <Table>
                 <TableBody>
                   {technologies.map((technology: Technology) => {

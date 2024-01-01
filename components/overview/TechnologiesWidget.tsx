@@ -55,7 +55,7 @@ const TechnologiesWidget: React.FC<Props> = async ({
             <Link
               key={technology.index}
               href={technology.website}
-              className={`flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5`}
+              className={`flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5`}
             >
               <div className={`m-auto`}>
                 <Image
@@ -96,6 +96,9 @@ async function requestAndParseTechnologies(domain: string) {
     headers: myHeaders,
     body: urlencoded,
     redirect: 'follow',
+    next: {
+      revalidate: true,
+    },
   };
 
   const data = await fetch(
