@@ -2,6 +2,7 @@
 
 import { GripIcon, MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { type FC, ReactElement } from 'react';
 
 import {
@@ -80,6 +81,19 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                   })}
                 </TableBody>
               </Table>
+
+              <div className={`mt-4`}>
+                <p className={`text-xs text-opacity-80`}>
+                  Data provided by{' '}
+                  <Link
+                    href="https://www.whatruns.com/"
+                    className={`cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300`}
+                  >
+                    WhatRuns.com
+                  </Link>
+                  .
+                </p>
+              </div>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
