@@ -97,7 +97,7 @@ async function requestAndParseTechnologies(domain: string) {
     body: urlencoded,
     redirect: 'follow',
     next: {
-      revalidate: true,
+      revalidate: 24 * 60 * 60,
     },
   };
 
