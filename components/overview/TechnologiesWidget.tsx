@@ -2,6 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import DashboardItem from '@/components/overview/DashboardItem';
 import TechnologiesDetailsModal from '@/components/TechnologiesDetailsModal';
 
@@ -52,20 +59,27 @@ const TechnologiesWidget: React.FC<Props> = async ({
           if (arrayIndex >= 7) return null;
 
           return (
-            <Link
-              key={technology.index}
-              href={technology.website}
-              className={`flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5`}
-            >
-              <div className={`m-auto`}>
-                <Image
-                  src={`https://www.whatruns.com/imgs/${technology.icon}`}
-                  alt={technology.name}
-                  width={25}
-                  height={25}
-                />
-              </div>
-            </Link>
+            <TooltipProvider key={technology.index}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    key={technology.index}
+                    href={technology.website}
+                    className="flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                  >
+                    <div className="m-auto">
+                      <Image
+                        src={`https://www.whatruns.com/imgs/${technology.icon}`}
+                        alt={technology.name}
+                        width={25}
+                        height={25}
+                      />
+                    </div>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>{technology.name}</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           );
         })}
 
