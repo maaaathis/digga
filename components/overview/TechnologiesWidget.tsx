@@ -73,6 +73,7 @@ const TechnologiesWidget: React.FC<Props> = async ({
                   >
                     <div className="m-auto">
                       <Image
+                        unoptimized
                         src={`https://www.whatruns.com/imgs/${technology.icon}`}
                         alt={technology.name}
                         width={25}

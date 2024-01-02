@@ -61,6 +61,7 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                       <TableRow key={technology.index}>
                         <TableCell>
                           <Image
+                            unoptimized
                             src={`https://www.whatruns.com/imgs/${technology.icon}`}
                             alt={technology.name}
                             width={20}
