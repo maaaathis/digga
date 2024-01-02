@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import whoiser from 'whoiser';
 
@@ -32,13 +33,13 @@ const DomainlabelWidget: React.FC<Props> = async ({
           (label: unknown, index: number) => {
             const labelValue = label as string;
             return (
-              <a
+              <Link
                 className={`${
                   labelValue.split(' ')[1] ? 'cursor-pointer' : 'cursor-text'
                 }`}
                 href={labelValue.split(' ')[1]}
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer noopener"
                 key={labelValue}
               >
                 <Badge
@@ -47,7 +48,7 @@ const DomainlabelWidget: React.FC<Props> = async ({
                 >
                   {labelValue.split(' ')[0]}
                 </Badge>
-              </a>
+              </Link>
             );
           }
         )}

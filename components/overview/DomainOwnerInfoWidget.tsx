@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import ReactCountryFlag from 'react-country-flag';
 import whoiser from 'whoiser';
@@ -68,14 +69,14 @@ const DomainOwnerInfoWidget: React.FC<Props> = async ({
         )}
       {whoisResult['Registrar'] && (
         <DashboardItem title="Domain Registry">
-          <a
+          <Link
             href={whoisResult['Registrar URL']}
             target="_blank"
             rel="noopener noreferrer"
             className="cursor-pointer text-xl font-bold text-slate-900 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:text-slate-100 dark:decoration-slate-300"
           >
             {whoisResult['Registrar']}
-          </a>
+          </Link>
         </DashboardItem>
       )}
     </div>
