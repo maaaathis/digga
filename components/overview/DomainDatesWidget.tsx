@@ -33,7 +33,7 @@ const DomainDatesWidget: React.FC<Props> = async ({
   return (
     <DashboardItem title="Dates" className={colSpan}>
       <div className="flex h-full">
-        <div className="m-auto flex flex-row justify-around gap-4">
+        <div className="m-auto flex flex-col justify-around gap-6 sm:flex-row sm:gap-4">
           {whoisResult['Created Date'] && (
             <div className="flex flex-col text-center">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
