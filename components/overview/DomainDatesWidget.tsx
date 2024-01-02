@@ -9,9 +9,9 @@ interface Props {
   whoisData: any;
 }
 
-const DomainDatesWidget: React.FC<Props> = async ({
+const DomainDatesWidget: React.FC<Props> = ({
   whoisData,
-}): Promise<React.ReactElement | null> => {
+}): React.ReactElement | null => {
   const whoisResult = whoisData;
   if (
     !whoisResult['Created Date'] &&
