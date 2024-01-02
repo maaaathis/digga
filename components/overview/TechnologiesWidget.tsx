@@ -52,7 +52,7 @@ const TechnologiesWidget: React.FC<Props> = async ({
 
   return (
     <DashboardItem title={`Technologies`}>
-      <div className="grid h-full grid-cols-4">
+      <div className="grid grid-cols-4">
         {technologies.map((technology: Technology) => {
           const arrayIndex = technologies.indexOf(technology);
 
