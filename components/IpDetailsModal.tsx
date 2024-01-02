@@ -9,6 +9,7 @@ import { type FC, ReactElement } from 'react';
 import useSWR from 'swr';
 
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -16,12 +17,23 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
 import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 import type { IpLookupResponse } from '@/app/api/lookupIp/route';
 import CopyButton from '@/components/CopyButton';
 import DomainLink from '@/components/DomainLink';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 const LocationMap = dynamic(() => import('@/components/LocationMap'), {
   ssr: false,
@@ -37,21 +49,13 @@ enum EntryTypes {
   Timezone,
 }
 
-type IpDetailsModalProps = {
+type IpDetailsContentProps = {
   ip: string;
-  open: DialogProps['open'];
-  onOpenChange: DialogProps['onOpenChange'];
+  data: IpLookupResponse | undefined;
+  error: string;
 };
 
-const IpDetailsModal: FC<IpDetailsModalProps> = ({
-  ip,
-  open,
-  onOpenChange,
-}): ReactElement => {
-  const { data, error } = useSWR<IpLookupResponse>(
-    open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
-  );
-
+const IpDetailsContent: FC<IpDetailsContentProps> = ({ ip, data, error }) => {
   let mappedEntries: { label: string; value: string; type: EntryTypes }[] = [];
   let location: LatLngExpression = [0, 0];
 
@@ -100,11 +104,97 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
     location = [data.lat, data.lon];
   }
 
+  if (!data) {
+    return (
+      <div className="flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p>An error occurred!</p>;
+  }
+
   return (
-    <Dialog modal open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>
+    <>
+      <Table>
+        <TableBody>
+          {mappedEntries.map((el) => (
+            <TableRow
+              key={el.label + el.value}
+              className="hover:bg-transparent"
+            >
+              <TableCell className="pl-0">{el.label}</TableCell>
+              <TableCell className="pr-0">
+                {el.type === EntryTypes.Reverse ? (
+                  <DomainLink domain={el.value} />
+                ) : (
+                  <>
+                    <span>{el.value}</span>
+                    {el.type === EntryTypes.IP && (
+                      <CopyButton value={el.value} />
+                    )}
+                  </>
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      <div className="my-4 [&_.leaflet-container]:h-48 [&_.leaflet-container]:w-full">
+        <LocationMap location={location} />
+      </div>
+    </>
+  );
+};
+
+type IpDetailsModalProps = {
+  ip: string;
+  open: DialogProps['open'];
+  onOpenChange: DialogProps['onOpenChange'];
+};
+
+const IpDetailsModal: FC<IpDetailsModalProps> = ({
+  ip,
+  open,
+  onOpenChange,
+}): ReactElement => {
+  const { data, error } = useSWR<IpLookupResponse>(
+    open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
+  );
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+
+  if (isDesktop) {
+    return (
+      <Dialog modal open={open} onOpenChange={onOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              IP Details for{' '}
+              <span className="font-extrabold tracking-wider">{ip}</span>
+              {data && data.greenHosted && (
+                <Badge variant="outline" className="ml-2">
+                  <LeafIcon className="mr-1 inline-block h-3 w-3 text-green-500" />
+                  Green hosted
+                </Badge>
+              )}
+            </DialogTitle>
+            <DialogDescription>
+              <IpDetailsContent data={data} ip={ip} error={error} />
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent>
+        <DrawerHeader className="text-left">
+          <DrawerTitle>
             IP Details for{' '}
             <span className="font-extrabold tracking-wider">{ip}</span>
             {data && data.greenHosted && (
@@ -113,50 +203,19 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
                 Green hosted
               </Badge>
             )}
-          </DialogTitle>
-          <DialogDescription>
-            {!data ? (
-              <div className="flex items-center justify-center">
-                <Spinner />
-              </div>
-            ) : error ? (
-              <p>An error occurred!</p>
-            ) : (
-              <>
-                <Table>
-                  <TableBody>
-                    {mappedEntries.map((el) => (
-                      <TableRow
-                        key={el.label + el.value}
-                        className="hover:bg-transparent"
-                      >
-                        <TableCell className="pl-0">{el.label}</TableCell>
-                        <TableCell className="pr-0">
-                          {el.type === EntryTypes.Reverse ? (
-                            <DomainLink domain={el.value} />
-                          ) : (
-                            <>
-                              <span>{el.value}</span>
-                              {el.type === EntryTypes.IP && (
-                                <CopyButton value={el.value} />
-                              )}
-                            </>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+          </DrawerTitle>
+          <DrawerDescription>
+            <IpDetailsContent data={data} ip={ip} error={error} />
+          </DrawerDescription>
+        </DrawerHeader>
 
-                <div className="my-4 [&_.leaflet-container]:h-48 [&_.leaflet-container]:w-full">
-                  <LocationMap location={location} />
-                </div>
-              </>
-            )}
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+        <DrawerFooter className="pt-2">
+          <DrawerClose asChild>
+            <Button variant="outline">Close</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
