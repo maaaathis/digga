@@ -32,11 +32,9 @@ const DomainlabelWidget: React.FC<Props> = async ({
         {Object.values(whoisResult['Domain Status']).map(
           (label: unknown, index: number) => {
             const labelValue = label as string;
-            return (
+            return labelValue.split(' ')[1] ? (
               <Link
-                className={`${
-                  labelValue.split(' ')[1] ? 'cursor-pointer' : 'cursor-text'
-                }`}
+                className="cursor-pointer"
                 href={labelValue.split(' ')[1]}
                 target="_blank"
                 rel="noreferrer noopener"
@@ -49,6 +47,16 @@ const DomainlabelWidget: React.FC<Props> = async ({
                   {labelValue.split(' ')[0]}
                 </Badge>
               </Link>
+            ) : (
+              <span>
+                <Badge
+                  variant="outline"
+                  className="cursor-text text-base"
+                  key={labelValue}
+                >
+                  {labelValue.split(' ')[0]}
+                </Badge>
+              </span>
             );
           }
         )}
