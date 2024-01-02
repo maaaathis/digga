@@ -63,7 +63,10 @@ const TechnologiesWidget: React.FC<Props> = async ({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={technology.website}
+                    href={
+                      filterWhatRunsDirectUrl(technology.website) ||
+                      technology.website
+                    }
                     target="_blank"
                     rel="noreferrer noopener"
                     className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
@@ -135,6 +138,12 @@ async function requestAndParseTechnologies(domain: string) {
   const appsJsonKey = Object.keys(appsJson)[0];
 
   return appsJson[appsJsonKey];
+}
+
+export function filterWhatRunsDirectUrl(url: string): string | undefined {
+  const urlObj = new URL(url);
+
+  return 'https://' + urlObj.searchParams.get('target') || undefined;
 }
 
 export default TechnologiesWidget;

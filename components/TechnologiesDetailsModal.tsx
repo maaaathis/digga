@@ -15,6 +15,8 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
+import { filterWhatRunsDirectUrl } from '@/components/overview/TechnologiesWidget';
+
 type Technology = {
   name: string;
   category: number;
@@ -68,7 +70,10 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                         <TableCell>
                           <Link
                             className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                            href={technology.website}
+                            href={
+                              filterWhatRunsDirectUrl(technology.website) ||
+                              technology.website
+                            }
                             rel="noreferrer noopener"
                             target="_blank"
                           >
