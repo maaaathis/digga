@@ -1,5 +1,6 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import type { FC, ReactElement, ReactNode } from 'react';
 
 import ExternalFavicon from '@/components/ExternalFavicon';
@@ -55,14 +56,14 @@ const LookupLayout: FC<LookupLayoutProps> = ({
           <span className="block text-muted-foreground">Results for</span>
           <span className="flex flex-row gap-2">
             <ExternalFavicon url={domain} />
-            <a
+            <Link
               className="block text-4xl font-bold"
               href={`https://${domain}`}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
             >
               {domain} <ExternalLinkIcon className="inline-block" />
-            </a>
+            </Link>
           </span>
         </h1>
 
