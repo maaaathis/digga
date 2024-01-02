@@ -1,23 +1,21 @@
+'use client';
+
+import Link from 'next/link';
 import React from 'react';
-import whoiser from 'whoiser';
 
 import { Badge } from '@/components/ui/badge';
 
 import DashboardItem from './DashboardItem';
 
 interface Props {
-  domain: string;
+  // whoiser doesn't have a proper type definition :c
+  whoisData: any;
 }
 
-const DomainlabelWidget: React.FC<Props> = async ({
-  domain,
-}): Promise<React.ReactElement | null> => {
-  // @ts-ignore
-  const whoisResult = whoiser.firstResult(
-    await whoiser(domain, {
-      timeout: 3000,
-    })
-  );
+const DomainlabelWidget: React.FC<Props> = ({
+  whoisData,
+}): React.ReactElement | null => {
+  const whoisResult = whoisData;
 
   if (
     !whoisResult['Domain Status'] ||
@@ -31,14 +29,12 @@ const DomainlabelWidget: React.FC<Props> = async ({
         {Object.values(whoisResult['Domain Status']).map(
           (label: unknown, index: number) => {
             const labelValue = label as string;
-            return (
-              <a
-                className={`${
-                  labelValue.split(' ')[1] ? 'cursor-pointer' : 'cursor-text'
-                }`}
+            return labelValue.split(' ')[1] ? (
+              <Link
+                className="cursor-pointer"
                 href={labelValue.split(' ')[1]}
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer noopener"
                 key={labelValue}
               >
                 <Badge
@@ -47,7 +43,17 @@ const DomainlabelWidget: React.FC<Props> = async ({
                 >
                   {labelValue.split(' ')[0]}
                 </Badge>
-              </a>
+              </Link>
+            ) : (
+              <span>
+                <Badge
+                  variant="outline"
+                  className="cursor-text text-base"
+                  key={labelValue}
+                >
+                  {labelValue.split(' ')[0]}
+                </Badge>
+              </span>
             );
           }
         )}
