@@ -6,7 +6,7 @@ import { LeafIcon } from 'lucide-react';
 import naturalCompare from 'natural-compare-lite';
 import dynamic from 'next/dynamic';
 import { type FC, ReactElement } from 'react';
-import useSWR from 'swr';
+import useSWRImmutable from 'swr/immutable';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -161,7 +161,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
   open,
   onOpenChange,
 }): ReactElement => {
-  const { data, error } = useSWR<IpLookupResponse>(
+  const { data, error } = useSWRImmutable<IpLookupResponse>(
     open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
   );
   const isDesktop = useMediaQuery('(min-width: 768px)');
