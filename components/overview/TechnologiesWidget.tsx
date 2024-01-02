@@ -66,7 +66,7 @@ const TechnologiesWidget: React.FC<Props> = async ({
                     href={technology.website}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                    className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
                   >
                     <div className="m-auto">
                       <Image
