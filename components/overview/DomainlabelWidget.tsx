@@ -1,24 +1,21 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
-import whoiser from 'whoiser';
 
 import { Badge } from '@/components/ui/badge';
 
 import DashboardItem from './DashboardItem';
 
 interface Props {
-  domain: string;
+  // whoiser doesn't have a proper type definition :c
+  whoisData: any;
 }
 
-const DomainlabelWidget: React.FC<Props> = async ({
-  domain,
-}): Promise<React.ReactElement | null> => {
-  // @ts-ignore
-  const whoisResult = whoiser.firstResult(
-    await whoiser(domain, {
-      timeout: 3000,
-    })
-  );
+const DomainlabelWidget: React.FC<Props> = ({
+  whoisData,
+}): React.ReactElement | null => {
+  const whoisResult = whoisData;
 
   if (
     !whoisResult['Domain Status'] ||

@@ -38,12 +38,12 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   return (
     <>
       <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-        <DomainDatesWidget domain={domain} />
-        <DomainOwnerInfoWidget domain={domain} />
+        <DomainDatesWidget whoisData={whoisResult} />
+        <DomainOwnerInfoWidget whoisData={whoisResult} />
         <DnsRecordsWidget type={DnsRecordType.A} domain={domain} />
-        <NameserverWidget domain={domain} />
+        <NameserverWidget whoisData={whoisResult} />
         <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
-        <DomainlabelWidget domain={domain} />
+        <DomainlabelWidget whoisData={whoisResult} />
         <TechnologiesWidget domain={domain} />
       </div>
     </>
