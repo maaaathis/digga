@@ -143,7 +143,7 @@ const IpDetailsContent: FC<IpDetailsContentProps> = ({ ip, data, error }) => {
         </TableBody>
       </Table>
 
-      <div className="my-4 [&_.leaflet-container]:h-48 [&_.leaflet-container]:w-full">
+      <div className="my-4 [&_.leaflet-container]:h-24 [&_.leaflet-container]:w-full sm:[&_.leaflet-container]:h-48">
         <LocationMap location={location} />
       </div>
     </>
