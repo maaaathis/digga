@@ -17,7 +17,7 @@ const rubik = Rubik({
 export const metadata: Metadata = {
   metadataBase: process.env.SITE_URL
     ? new URL(process.env.SITE_URL)
-    : new URL('http://localhost:300'),
+    : new URL('http://localhost:3000'),
   title: 'digga · Domain- & Infrastructure research',
   icons: {
     icon: '/favicon-32x32.png',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     ],
   },
   description:
-    'digga is the easy but incredibly powerful tool for full domain and infrastructure research.',
+    'digga is your all-in-one dig solution for comprehensive domain and infrastructure research. Effortlessly conduct DNS, Whois & SSL-Certificate lookups by only entering your domain name.',
   keywords: [
     'digga',
     'dig',
@@ -37,17 +37,31 @@ export const metadata: Metadata = {
     'dns',
     'ssl certs',
     'dns dig',
+    'dns lookup',
+    'domain lookup',
+    'whois',
+    'whois lookup',
+    'whois dig',
+    'whois search',
+    'whois domain',
+    'domain research',
+    'dig online',
+    'domain lookup online',
+    'domain certificates',
+    'domain ssl',
+    'domain ssl certificates',
   ],
   openGraph: {
     type: 'website',
-    title: 'digga · Infrastructure research',
+    title: 'digga · Domain & Infrastructure research',
     description:
-      'Effortlessly gather and analyze DNS records, WHOIS data, SSL/TLS certificate history, and more with digga – a powerful tool that requires no installation for swift access and insights into domain-related information.',
+      'Gather and analyze DNS records, WHOIS data, SSL/TLS certificate history, and more effortlessly with digga – a powerful, no-installation tool for swift access and deep insights into domain-related information.',
     url: '/',
   },
   alternates: {
     canonical: '/',
   },
+  robots: 'index, follow',
 };
 
 interface RootLayoutProps {
