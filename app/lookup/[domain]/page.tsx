@@ -1,6 +1,7 @@
 import { FC, ReactElement } from 'react';
 import whoiser from 'whoiser';
 
+import TechnologiesWidget from '@/components/overview/TechnologiesWidget';
 import { DomainAvailability, isAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../components/DomainNotRegistered';
@@ -43,6 +44,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
         <NameserverWidget domain={domain} />
         <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
         <DomainlabelWidget domain={domain} />
+        <TechnologiesWidget domain={domain} />
       </div>
     </>
   );
