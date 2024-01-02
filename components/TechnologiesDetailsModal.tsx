@@ -42,7 +42,7 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
       <div
         key={'more'}
         onClick={() => setOpen(true)}
-        className={`flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5`}
+        className="flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
       >
         <GripIcon className="m-auto h-5 w-5 text-black dark:text-white" />
       </div>
@@ -50,10 +50,8 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
       <Dialog modal open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className={`mb-4`}>Used Technologies</DialogTitle>
-            <DialogDescription
-              className={`max-h-96 overflow-scroll overflow-x-hidden`}
-            >
+            <DialogTitle className="mb-4">Used Technologies</DialogTitle>
+            <DialogDescription className="max-h-96 overflow-scroll overflow-x-hidden">
               <Table>
                 <TableBody>
                   {technologies.map((technology: Technology) => {
@@ -82,12 +80,12 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                 </TableBody>
               </Table>
 
-              <div className={`mt-4`}>
-                <p className={`text-xs text-opacity-80`}>
+              <div className="mt-4">
+                <p className="text-xs text-opacity-80">
                   Data provided by{' '}
                   <Link
                     href="https://www.whatruns.com/"
-                    className={`cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300`}
+                    className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                   >
                     WhatRuns.com
                   </Link>
