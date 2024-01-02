@@ -66,12 +66,14 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                           />
                         </TableCell>
                         <TableCell>
-                          <a
+                          <Link
                             className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                             href={technology.website}
+                            rel="noreferrer noopener"
+                            target="_blank"
                           >
                             {technology.name}
-                          </a>
+                          </Link>
                         </TableCell>
                         <TableCell>{technology.categoryString}</TableCell>
                       </TableRow>
@@ -85,6 +87,8 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                   Data provided by{' '}
                   <Link
                     href="https://www.whatruns.com/"
+                    target="_blank"
+                    rel="noreferrer noopener"
                     className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                   >
                     WhatRuns.com
