@@ -27,8 +27,13 @@ const ArchivePage: FC<ArchivePageProps> = ({
         Create snapshot
       </Button>
 
-      <div className="mt-10 grid grid-cols-4 gap-4">
-        <WebArchiveItem url={domain} timestamp="20231220211300" />
+      <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <WebArchiveItem
+          url={
+            'https://web.archive.org/web/20231220211300/https://www.lostify.net/'
+          }
+          timestamp="20231220211300"
+        />
       </div>
     </>
   );
