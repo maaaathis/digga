@@ -52,43 +52,45 @@ const TechnologiesWidget: React.FC<Props> = async ({
 
   return (
     <DashboardItem title={`Technologies`}>
-      <div className="grid grid-cols-4">
-        {technologies.map((technology: Technology) => {
-          const arrayIndex = technologies.indexOf(technology);
+      <div className="h-full">
+        <div className="grid grid-cols-4">
+          {technologies.map((technology: Technology) => {
+            const arrayIndex = technologies.indexOf(technology);
 
-          if (arrayIndex >= 7) return null;
+            if (arrayIndex >= 7) return null;
 
-          return (
-            <TooltipProvider key={technology.index}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={
-                      filterWhatRunsDirectUrl(technology.website) ||
-                      technology.website
-                    }
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
-                  >
-                    <div className="m-auto">
-                      <Image
-                        unoptimized
-                        src={`https://www.whatruns.com/imgs/${technology.icon}`}
-                        alt={technology.name}
-                        width={25}
-                        height={25}
-                      />
-                    </div>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>{technology.name}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          );
-        })}
+            return (
+              <TooltipProvider key={technology.index}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={
+                        filterWhatRunsDirectUrl(technology.website) ||
+                        technology.website
+                      }
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                    >
+                      <div className="m-auto">
+                        <Image
+                          unoptimized
+                          src={`https://www.whatruns.com/imgs/${technology.icon}`}
+                          alt={technology.name}
+                          width={25}
+                          height={25}
+                        />
+                      </div>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>{technology.name}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            );
+          })}
 
-        <TechnologiesDetailsModal technologies={technologies} />
+          <TechnologiesDetailsModal technologies={technologies} />
+        </div>
       </div>
     </DashboardItem>
   );
