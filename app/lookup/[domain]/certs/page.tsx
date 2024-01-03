@@ -1,4 +1,6 @@
-import type { FC } from 'react';
+import { ExternalLink } from 'lucide-react';
+import Link from 'next/link';
+import React, { FC } from 'react';
 
 import {
   Table,
@@ -8,6 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import DomainLink from '@/components/DomainLink';
 
@@ -80,40 +88,72 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow className="hover:bg-transparent">
-          <TableHead className="pl-0">Logged At</TableHead>
-          <TableHead>Not Before</TableHead>
-          <TableHead>Not After</TableHead>
-          <TableHead>Common Name</TableHead>
-          <TableHead>Matching Identities</TableHead>
-          <TableHead className="pr-0">Issuer Name</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {certs.map((cert) => (
-          <TableRow key={cert.id} className="hover:bg-transparent">
-            <TableCell className="pl-0">{cert.entry_timestamp}</TableCell>
-            <TableCell>{cert.not_before}</TableCell>
-            <TableCell>{cert.not_after}</TableCell>
-            <TableCell>
-              <DomainLink domain={cert.common_name} />
-            </TableCell>
-
-            <TableCell>
-              {cert.name_value.split(/\n/g).map((value, index) => (
-                <>
-                  {index !== 0 && <br />}
-                  <DomainLink domain={value} />
-                </>
-              ))}
-            </TableCell>
-            <TableCell className="pr-0">{cert.issuer_name}</TableCell>
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent">
+            <TableHead className="pl-0">Logged At</TableHead>
+            <TableHead>Not Before</TableHead>
+            <TableHead>Not After</TableHead>
+            <TableHead>Common Name</TableHead>
+            <TableHead>Matching Identities</TableHead>
+            <TableHead>Issuer Name</TableHead>
+            <TableHead className="pr-0" />
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {certs.map((cert) => (
+            <TableRow key={cert.id} className="hover:bg-transparent">
+              <TableCell className="pl-0">{cert.entry_timestamp}</TableCell>
+              <TableCell>{cert.not_before}</TableCell>
+              <TableCell>{cert.not_after}</TableCell>
+              <TableCell>
+                <DomainLink domain={cert.common_name} />
+              </TableCell>
+
+              <TableCell>
+                {cert.name_value.split(/\n/g).map((value, index) => (
+                  <>
+                    {index !== 0 && <br />}
+                    <DomainLink domain={value} />
+                  </>
+                ))}
+              </TableCell>
+              <TableCell>{cert.issuer_name}</TableCell>
+              <TableCell className="pr-0">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={`https://crt.sh/?id=${cert.id}`}
+                        target="_blank"
+                        rel="noreferrer noopener nofollow"
+                        className="mx-auto flex h-9 w-9 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                      >
+                        <ExternalLink className="m-auto h-4 w-4 text-black dark:text-white" />
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>View certificate details</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <p className="mt-5 text-xs text-opacity-80">
+        Data provided by{' '}
+        <Link
+          href={`https://crt.sh?q=${domain}`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+        >
+          Sectigo&apos;s crt.sh
+        </Link>
+        .
+      </p>
+    </>
   );
 };
 
