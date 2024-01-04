@@ -1,22 +1,18 @@
+'use client';
+
 import React from 'react';
-import whoiser from 'whoiser';
 
 import DashboardItem from './DashboardItem';
 
 interface Props {
-  domain: string;
+  // whoiser doesn't have a proper type definition :c
+  whoisData: any;
 }
 
-const DomainDatesWidget: React.FC<Props> = async ({
-  domain,
-}): Promise<React.ReactElement | null> => {
-  // @ts-ignore
-  const whoisResult = whoiser.firstResult(
-    await whoiser(domain, {
-      timeout: 3000,
-    })
-  );
-
+const DomainDatesWidget: React.FC<Props> = ({
+  whoisData,
+}): React.ReactElement | null => {
+  const whoisResult = whoisData;
   if (
     !whoisResult['Created Date'] &&
     !whoisResult['Updated Date'] &&
@@ -33,7 +29,7 @@ const DomainDatesWidget: React.FC<Props> = async ({
   return (
     <DashboardItem title="Dates" className={colSpan}>
       <div className="flex h-full">
-        <div className="m-auto flex flex-row justify-around gap-4">
+        <div className="m-auto flex flex-col justify-around gap-6 sm:flex-row sm:gap-4">
           {whoisResult['Created Date'] && (
             <div className="flex flex-col text-center">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">

@@ -10,6 +10,7 @@ type ExternalFavicon = {
 const ExternalFavicon: FC<ExternalFavicon> = ({ url }): ReactElement => {
   return (
     <Image
+      unoptimized
       src={`https://www.google.com/s2/favicons?sz=32&domain_url=${url}`}
       alt={''}
       width={32}

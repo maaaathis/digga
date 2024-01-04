@@ -12,6 +12,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,6 +38,11 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   const [domain, setDomain] = useState('');
   const [state, setState] = useState<FormStates>(FormStates.Initial);
   const [error, setError] = useState(false);
+
+  useHotkeys(['s', 'shift+7'], (event) => {
+    event.preventDefault();
+    document.getElementById('domain-search-input')?.focus();
+  });
 
   useEffect(() => {
     if (props.initialValue) {
@@ -93,7 +99,11 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
             setDomain(event.target.value)
           }
           disabled={state !== FormStates.Initial}
+          id="domain-search-input"
           autoFocus={props.autofocus}
+          autoCapitalize="none"
+          autoComplete="url"
+          autoCorrect="off"
         />
         <Button
           className="h-12 flex-[1]"

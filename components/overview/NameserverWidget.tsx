@@ -1,24 +1,19 @@
+'use client';
+
 import { XSquareIcon } from 'lucide-react';
 import React from 'react';
-import whoiser from 'whoiser';
-
-import { Badge } from '@/components/ui/badge';
 
 import DashboardItem from './DashboardItem';
 
 interface Props {
-  domain: string;
+  // whoiser doesn't have a proper type definition :c
+  whoisData: any;
 }
 
-const NameserverWidget: React.FC<Props> = async ({
-  domain,
-}): Promise<React.ReactElement> => {
-  // @ts-ignore
-  const whoisResult = whoiser.firstResult(
-    await whoiser(domain, {
-      timeout: 3000,
-    })
-  );
+const NameserverWidget: React.FC<Props> = ({
+  whoisData,
+}): React.ReactElement => {
+  const whoisResult = whoisData;
 
   return (
     <DashboardItem title="Nameserver">
