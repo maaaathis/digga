@@ -101,6 +101,9 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
           disabled={state !== FormStates.Initial}
           id="domain-search-input"
           autoFocus={props.autofocus}
+          autoCapitalize="none"
+          autoComplete="url"
+          autoCorrect="off"
         />
         <Button
           className="h-12 flex-[1]"
