@@ -22,7 +22,12 @@ const CreditsInfo: FC = (): ReactElement => {
       }}
     >
       <PopoverTrigger>
-        <Button variant="ghost" className="bg-background" disableRipple>
+        <Button
+          variant="ghost"
+          className="bg-background"
+          disableRipple
+          aria-label="Credits"
+        >
           <MedalIcon />
         </Button>
       </PopoverTrigger>
