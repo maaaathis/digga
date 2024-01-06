@@ -25,7 +25,6 @@
     "@types/validator": "^13.11.7",
     "@vercel/speed-insights": "^1.0.2",
     "autoprefixer": "^10.4.16",
-    "bottleneck": "^2.19.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "dataloader": "^2.2.2",
