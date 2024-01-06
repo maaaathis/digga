@@ -1,4 +1,3 @@
-import Bottleneck from 'bottleneck';
 import DataLoader from 'dataloader';
 import dnsPacket, {
   type Answer,
@@ -134,11 +133,6 @@ class DnsLookup {
     });
   }
 
-  private limiter = new Bottleneck({
-    maxConcurrent: 10,
-    minTime: 160,
-  });
-
   private requestLoader = new DataLoader<
     {
       domain: string;
@@ -151,9 +145,7 @@ class DnsLookup {
     async (keys) =>
       Promise.all(
         keys.map(async ({ domain, type, nameserver }) =>
-          this.limiter.schedule(() =>
-            this.sendRequest(domain, type, nameserver)
-          )
+          this.sendRequest(domain, type, nameserver)
         )
       ),
     {
