@@ -3,12 +3,29 @@ import React from 'react';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
+import ResolverSelector from '@/components/ResolverSelector';
+import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
+import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
 import { DomainAvailability, isAvailable } from '@/lib/whois';
-import DnsLookup from '@/utils/DnsLookup';
+
+const getResolver = (resolverName: string | undefined) => {
+  switch (resolverName) {
+    case 'cloudflare':
+      return CloudflareDoHResolver;
+    case 'google':
+      return GoogleDoHResolver;
+    default:
+      return AuthoritativeResolver;
+  }
+};
 
 type LookupDomainProps = {
   params: {
     domain: string;
+  };
+  searchParams: {
+    resolver?: string;
   };
 };
 
@@ -16,8 +33,11 @@ export const fetchCache = 'default-no-store';
 
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
+  searchParams: { resolver: resolverName },
 }): Promise<ReactElement> => {
-  const lookup = new DnsLookup();
+  const Resolver = getResolver(resolverName);
+
+  const lookup = new Resolver();
   const records = await lookup.resolveAllRecords(domain);
 
   if ((await isAvailable(domain)) != DomainAvailability.REGISTERED) {
@@ -33,7 +53,13 @@ const LookupDomain: FC<LookupDomainProps> = async ({
           No DNS records found!
         </p>
       ) : (
-        <DnsTable records={records} />
+        <div>
+          <div className="flex flex-col gap-1">
+            <span className="text-sm text-muted-foreground">Resolver</span>
+            <ResolverSelector initialValue={resolverName} />
+          </div>
+          <DnsTable records={records} />
+        </div>
       )}
     </>
   );
