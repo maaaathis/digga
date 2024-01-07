@@ -2,7 +2,7 @@ import { XSquareIcon } from 'lucide-react';
 import React, { FC, use } from 'react';
 
 import DashboardItem from '@/components/overview/DashboardItem';
-import DnsLookup from '@/utils/AuthoritativeResolver';
+import DnsLookup from '@/lib/resolvers/AuthoritativeResolver';
 
 import RecordList from './RecordList';
 
