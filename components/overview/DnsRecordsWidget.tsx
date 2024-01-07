@@ -1,8 +1,8 @@
 import { XSquareIcon } from 'lucide-react';
-import React, { FC, use } from 'react';
+import React, { use } from 'react';
 
 import DashboardItem from '@/components/overview/DashboardItem';
-import DnsLookup from '@/utils/DnsLookup';
+import DnsLookup from '@/lib/resolvers/AuthoritativeResolver';
 
 import RecordList from './RecordList';
 
