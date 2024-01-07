@@ -3,8 +3,8 @@ import React from 'react';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
+import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import { DomainAvailability, isAvailable } from '@/lib/whois';
-import DnsLookup from '@/utils/DnsLookup';
 
 type LookupDomainProps = {
   params: {
@@ -17,7 +17,7 @@ export const fetchCache = 'default-no-store';
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
-  const lookup = new DnsLookup();
+  const lookup = new AuthoritativeResolver();
   const records = await lookup.resolveAllRecords(domain);
 
   if ((await isAvailable(domain)) != DomainAvailability.REGISTERED) {
