@@ -56,7 +56,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
         <div>
           <div className="flex flex-col gap-1">
             <span className="text-sm text-muted-foreground">Resolver</span>
-            <ResolverSelector />
+            <ResolverSelector initialValue={resolverName} />
           </div>
           <DnsTable records={records} />
         </div>
