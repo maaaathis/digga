@@ -22,8 +22,9 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
 
   useHotkeys('alt+1', () => router.push(`/lookup/${domain}`), [router]);
   useHotkeys('alt+2', () => router.push(`/lookup/${domain}/dns`), [router]);
-  useHotkeys('alt+3', () => router.push(`/lookup/${domain}/whois`), [router]);
-  useHotkeys('alt+4', () => router.push(`/lookup/${domain}/certs`), [router]);
+  useHotkeys('alt+3', () => router.push(`/lookup/${domain}/map`), [router]);
+  useHotkeys('alt+4', () => router.push(`/lookup/${domain}/whois`), [router]);
+  useHotkeys('alt+5', () => router.push(`/lookup/${domain}/certs`), [router]);
 
   return (
     <div className="group mb-6 mt-6 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
@@ -38,7 +39,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
             }
           >
             Overview
-            <span className="pointer-events-none absolute bottom-0 block translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
+            <span className="pointer-events-none absolute bottom-0 left-1/2 block w-full -translate-x-1/2 translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
               {isAppleDevice() ? (
                 <>
                   <OptionIcon
@@ -63,7 +64,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
             }
           >
             DNS
-            <span className="pointer-events-none absolute bottom-0 block translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
+            <span className="pointer-events-none absolute bottom-0 left-1/2 block w-full -translate-x-1/2 translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
               {isAppleDevice() ? (
                 <>
                   <OptionIcon
@@ -74,6 +75,32 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
                 </>
               ) : (
                 'alt+2'
+              )}
+            </span>
+          </Link>
+        </li>
+        <li className="mr-2">
+          <Link
+            href={`/lookup/${domain}/map`}
+            className={
+              selectedSegment === 'map'
+                ? 'relative inline-block rounded-t-lg border-b-2 border-primary p-4 text-primary'
+                : 'relative inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+            }
+            aria-current="page"
+          >
+            DNS Map
+            <span className="pointer-events-none absolute bottom-0 left-1/2 block w-full -translate-x-1/2 translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
+              {isAppleDevice() ? (
+                <>
+                  <OptionIcon
+                    className="inline-block h-3 w-3"
+                    strokeWidth={3}
+                  />
+                  {' + 3'}
+                </>
+              ) : (
+                'alt+3'
               )}
             </span>
           </Link>
@@ -89,17 +116,17 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
             aria-current="page"
           >
             Whois
-            <span className="pointer-events-none absolute bottom-0 block translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
+            <span className="pointer-events-none absolute bottom-0 left-1/2 block w-full -translate-x-1/2 translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
               {isAppleDevice() ? (
                 <>
                   <OptionIcon
                     className="inline-block h-3 w-3"
                     strokeWidth={3}
                   />
-                  {' + 3'}
+                  {' + 4'}
                 </>
               ) : (
-                'alt+3'
+                'alt4'
               )}
             </span>
           </Link>
@@ -115,17 +142,17 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
             aria-current="page"
           >
             Certs
-            <span className="pointer-events-none absolute bottom-0 block translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
+            <span className="pointer-events-none absolute bottom-0 left-1/2 block w-full -translate-x-1/2 translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
               {isAppleDevice() ? (
                 <>
                   <OptionIcon
                     className="inline-block h-3 w-3"
                     strokeWidth={3}
                   />
-                  {' + 4'}
+                  {' + 5'}
                 </>
               ) : (
-                'alt+4'
+                'alt+5'
               )}
             </span>
           </Link>
