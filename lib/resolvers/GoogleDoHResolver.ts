@@ -1,33 +1,9 @@
 import DnsResolver, {
+  DoHResponse,
   type RawRecord,
   RECORD_TYPES_BY_DECIMAL,
   type RecordType,
 } from './DnsResolver';
-
-type DoHResponse = {
-  Status: number;
-  TC: boolean;
-  RD: boolean;
-  RA: boolean;
-  AD: boolean;
-  CD: boolean;
-  Question: {
-    name: string;
-    type: number;
-  }[];
-  Answer?: {
-    name: string;
-    type: number;
-    TTL: number;
-    data: string;
-  }[];
-  Authority?: {
-    name: string;
-    type: number;
-    TTL: number;
-    data: string;
-  }[];
-};
 
 export default class GoogleDoHResolver extends DnsResolver {
   public async resolveRecordType(
