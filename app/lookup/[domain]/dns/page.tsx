@@ -1,22 +1,38 @@
+import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
 
 import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
+import LocationSelector from '@/components/LocationSelector';
 import ResolverSelector from '@/components/ResolverSelector';
 import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
+import InternalDoHResolver from '@/lib/resolvers/InternalDoHResolver';
 import { DomainAvailability, isAvailable } from '@/lib/whois';
 
-const getResolver = (resolverName: string | undefined) => {
+const getResolver = (
+  resolverName: string | undefined,
+  locationName: string | undefined
+) => {
+  if (locationName) {
+    switch (resolverName) {
+      case 'cloudflare':
+        return new InternalDoHResolver(locationName, 'cloudflare');
+      case 'google':
+        return new InternalDoHResolver(locationName, 'google');
+    }
+
+    throw new Error('Invalid resolver');
+  }
   switch (resolverName) {
     case 'cloudflare':
-      return CloudflareDoHResolver;
+      return new CloudflareDoHResolver();
     case 'google':
-      return GoogleDoHResolver;
+      return new GoogleDoHResolver();
     default:
-      return AuthoritativeResolver;
+      return new AuthoritativeResolver();
   }
 };
 
@@ -26,6 +42,7 @@ type LookupDomainProps = {
   };
   searchParams: {
     resolver?: string;
+    location?: string;
   };
 };
 
@@ -33,12 +50,17 @@ export const fetchCache = 'default-no-store';
 
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
-  searchParams: { resolver: resolverName },
+  searchParams: { resolver: resolverName, location: locationName },
 }): Promise<ReactElement> => {
-  const Resolver = getResolver(resolverName);
+  if (locationName && !resolverName) {
+    return redirect(
+      `/lookup/${encodeURIComponent(domain)}`,
+      RedirectType.replace
+    );
+  }
 
-  const lookup = new Resolver();
-  const records = await lookup.resolveAllRecords(domain);
+  const resolver = getResolver(resolverName, locationName);
+  const records = await resolver.resolveAllRecords(domain);
 
   const hasResults =
     Object.values(records)
@@ -51,9 +73,12 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 
   return (
     <>
-      <div className="flex flex-col gap-1">
-        <span className="text-sm text-muted-foreground">Resolver</span>
+      <div className="flex gap-8">
         <ResolverSelector initialValue={resolverName} />
+        <LocationSelector
+          initialValue={locationName}
+          disabled={!resolverName}
+        />
       </div>
 
       {hasResults ? (
