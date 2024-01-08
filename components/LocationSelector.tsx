@@ -37,7 +37,8 @@ const LocationSelector: FC<LocationSelectorProps> = ({
       }
 
       const search = current.toString();
-      router.push(`${pathname}${search ? `?${search}` : ''}`);
+      const queryString = search ? `?${search}` : '';
+      router.push(pathname + queryString);
     },
     [router, pathname, searchParams]
   );
