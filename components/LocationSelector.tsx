@@ -51,7 +51,7 @@ const LocationSelector: FC<LocationSelectorProps> = ({
         onValueChange={onValueChange}
         disabled={disabled}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px]" aria-label="Location">
           <SelectValue placeholder="Location" />
         </SelectTrigger>
         <SelectContent>

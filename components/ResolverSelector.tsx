@@ -44,7 +44,7 @@ const ResolverSelector: FC<ResolverSelectorProps> = ({ initialValue }) => {
         defaultValue={initialValue || 'authoritative'}
         onValueChange={onValueChange}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px]" aria-label="Resolver">
           <SelectValue placeholder="Resolver" />
         </SelectTrigger>
         <SelectContent>
