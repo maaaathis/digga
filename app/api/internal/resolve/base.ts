@@ -1,3 +1,4 @@
+import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { RECORD_TYPES, RecordType } from '@/lib/resolvers/DnsResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
@@ -23,7 +24,7 @@ export const handler = async (request: Request) => {
     );
   }
 
-  if (!['cloudflare', 'google'].includes(resolverName)) {
+  if (!['cloudflare', 'google', 'alibaba'].includes(resolverName)) {
     return Response.json(
       {
         error: true,
@@ -59,7 +60,9 @@ export const handler = async (request: Request) => {
   const resolver =
     resolverName === 'google'
       ? new GoogleDoHResolver()
-      : new CloudflareDoHResolver();
+      : resolverName === 'cloudflare'
+        ? new CloudflareDoHResolver()
+        : new AlibabaDoHResolver();
   const records = Object.fromEntries(
     await Promise.all(
       types.map(async (type) => [

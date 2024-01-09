@@ -6,6 +6,7 @@ import DnsTable from '@/components/DnsTable';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
 import LocationSelector from '@/components/LocationSelector';
 import ResolverSelector from '@/components/ResolverSelector';
+import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
 import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
@@ -22,6 +23,8 @@ const getResolver = (
         return new InternalDoHResolver(locationName, 'cloudflare');
       case 'google':
         return new InternalDoHResolver(locationName, 'google');
+      case 'alibaba':
+        return new InternalDoHResolver(locationName, 'alibaba');
     }
 
     throw new Error('Invalid resolver');
@@ -31,6 +34,8 @@ const getResolver = (
       return new CloudflareDoHResolver();
     case 'google':
       return new GoogleDoHResolver();
+    case 'alibaba':
+      return new AlibabaDoHResolver();
     default:
       return new AuthoritativeResolver();
   }
