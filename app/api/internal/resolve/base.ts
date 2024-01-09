@@ -1,8 +1,7 @@
+import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { RECORD_TYPES, RecordType } from '@/lib/resolvers/DnsResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
-import OpenDNSDoHResolver from '@/lib/resolvers/OpenDNSDoHResolver';
-import YandexDoHResolver from '@/lib/resolvers/YandexDoHResolver';
 
 export const handler = async (request: Request) => {
   const { searchParams } = new URL(request.url);
@@ -25,7 +24,7 @@ export const handler = async (request: Request) => {
     );
   }
 
-  if (!['cloudflare', 'google', 'yandex', 'opendns'].includes(resolverName)) {
+  if (!['cloudflare', 'google', 'alibaba'].includes(resolverName)) {
     return Response.json(
       {
         error: true,
@@ -63,11 +62,7 @@ export const handler = async (request: Request) => {
       ? new GoogleDoHResolver()
       : resolverName === 'cloudflare'
         ? new CloudflareDoHResolver()
-        : resolverName === 'yandex'
-          ? new YandexDoHResolver()
-          : resolverName === 'opendns'
-            ? new OpenDNSDoHResolver()
-            : null;
+        : new AlibabaDoHResolver();
   const records = Object.fromEntries(
     await Promise.all(
       types.map(async (type) => [

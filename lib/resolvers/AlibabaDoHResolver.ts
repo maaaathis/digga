@@ -5,20 +5,20 @@ import DnsResolver, {
   type RecordType,
 } from './DnsResolver';
 
-export default class YandexDoHResolver extends DnsResolver {
+export default class AlibabaDoHResolver extends DnsResolver {
   public async resolveRecordType(
     domain: string,
     type: RecordType
   ): Promise<RawRecord[]> {
     const response = await fetch(
-      `https://common.dot.dns.yandex.net/dns-query?name=${domain}&type=${type}`,
+      `https://dns.alidns.com/resolve?name=${domain}&type=${type}`,
       {
         method: 'GET',
         headers: { Accept: 'application/json' },
       }
     );
     if (!response.ok)
-      throw new Error(`Bad response from Yandex: ${response.statusText}`);
+      throw new Error(`Bad response from Alibaba: ${response.statusText}`);
     const results = (await response.json()) as DoHResponse;
 
     if (!results.Answer) {

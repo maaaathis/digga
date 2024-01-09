@@ -33,7 +33,7 @@ type DoHResponse = {
 export default class InternalDoHResolver extends DnsResolver {
   constructor(
     private readonly location: string,
-    private readonly resolver: 'cloudflare' | 'google' | 'yandex' | 'opendns'
+    private readonly resolver: 'cloudflare' | 'google' | 'alibaba'
   ) {
     super();
   }
