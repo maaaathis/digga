@@ -24,6 +24,8 @@ const getResolver = (
         return new InternalDoHResolver(locationName, 'google');
       case 'yandex':
         return new InternalDoHResolver(locationName, 'yandex');
+      case 'opendns':
+        return new InternalDoHResolver(locationName, 'opendns');
     }
 
     throw new Error('Invalid resolver');

@@ -1,6 +1,7 @@
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { RECORD_TYPES, RecordType } from '@/lib/resolvers/DnsResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
+import OpenDNSDoHResolver from '@/lib/resolvers/OpenDNSDoHResolver';
 import YandexDoHResolver from '@/lib/resolvers/YandexDoHResolver';
 
 export const handler = async (request: Request) => {
@@ -24,7 +25,7 @@ export const handler = async (request: Request) => {
     );
   }
 
-  if (!['cloudflare', 'google', 'yandex'].includes(resolverName)) {
+  if (!['cloudflare', 'google', 'yandex', 'opendns'].includes(resolverName)) {
     return Response.json(
       {
         error: true,
@@ -62,7 +63,11 @@ export const handler = async (request: Request) => {
       ? new GoogleDoHResolver()
       : resolverName === 'cloudflare'
         ? new CloudflareDoHResolver()
-        : new YandexDoHResolver();
+        : resolverName === 'yandex'
+          ? new YandexDoHResolver()
+          : resolverName === 'opendns'
+            ? new OpenDNSDoHResolver()
+            : null;
   const records = Object.fromEntries(
     await Promise.all(
       types.map(async (type) => [
