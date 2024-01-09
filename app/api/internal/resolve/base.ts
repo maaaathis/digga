@@ -1,6 +1,7 @@
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { RECORD_TYPES, RecordType } from '@/lib/resolvers/DnsResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
+import YandexDoHResolver from '@/lib/resolvers/YandexDoHResolver';
 
 export const handler = async (request: Request) => {
   const { searchParams } = new URL(request.url);
@@ -23,7 +24,7 @@ export const handler = async (request: Request) => {
     );
   }
 
-  if (!['cloudflare', 'google'].includes(resolverName)) {
+  if (!['cloudflare', 'google', 'yandex'].includes(resolverName)) {
     return Response.json(
       {
         error: true,
@@ -59,7 +60,9 @@ export const handler = async (request: Request) => {
   const resolver =
     resolverName === 'google'
       ? new GoogleDoHResolver()
-      : new CloudflareDoHResolver();
+      : resolverName === 'cloudflare'
+        ? new CloudflareDoHResolver()
+        : new YandexDoHResolver();
   const records = Object.fromEntries(
     await Promise.all(
       types.map(async (type) => [

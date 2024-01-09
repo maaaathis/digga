@@ -51,6 +51,7 @@ const ResolverSelector: FC<ResolverSelectorProps> = ({ initialValue }) => {
           <SelectItem value="authoritative">Authoritative</SelectItem>
           <SelectItem value="google">Google</SelectItem>
           <SelectItem value="cloudflare">Cloudflare</SelectItem>
+          <SelectItem value="yandex">Yandex</SelectItem>
         </SelectContent>
       </Select>
     </div>

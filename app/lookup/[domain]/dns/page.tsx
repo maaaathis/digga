@@ -22,6 +22,8 @@ const getResolver = (
         return new InternalDoHResolver(locationName, 'cloudflare');
       case 'google':
         return new InternalDoHResolver(locationName, 'google');
+      case 'yandex':
+        return new InternalDoHResolver(locationName, 'yandex');
     }
 
     throw new Error('Invalid resolver');
