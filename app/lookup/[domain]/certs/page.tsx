@@ -61,12 +61,12 @@ type CertsResultsPageProps = {
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   params: { domain },
 }) => {
-  const certRequests = [lookupCerts(domain)];
+  const certRequests = [await lookupCerts(domain)];
 
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
   if (hasParentDomain) {
     const parentDomain = domain.split('.').slice(1).join('.');
-    certRequests.push(lookupCerts(`*.${parentDomain}`));
+    certRequests.push(await lookupCerts(`*.${parentDomain}`));
   }
 
   const certs = await Promise.all(certRequests).then((responses) =>
@@ -89,6 +89,13 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
 
   return (
     <>
+      {hasParentDomain && (
+        <p className="my-2 text-sm text-muted-foreground">
+          <span className="font-bold">Note:</span> This domain has a parent
+          domain. The following certificates were issued for both this domain
+          and its parent domain.
+        </p>
+      )}
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
@@ -144,7 +151,11 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
       <p className="mt-5 text-xs text-opacity-80">
         Data provided by{' '}
         <Link
-          href={`https://crt.sh?q=${domain}`}
+          href={
+            hasParentDomain
+              ? `https://crt.sh?q=${domain.split('.').slice(1).join('.')}`
+              : `https://crt.sh?q=${domain}`
+          }
           target="_blank"
           rel="noreferrer noopener"
           className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
