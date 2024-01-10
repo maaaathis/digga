@@ -3,6 +3,7 @@ import React, { type FC, Fragment, ReactElement } from 'react';
 import whoiser, { type WhoisSearchResult } from 'whoiser';
 
 import StyledError from '@/components/StyledError';
+import { getBaseDomain } from '@/lib/utils';
 
 const lookupWhois = async (domain: string) => {
   const result = await whoiser(domain, {
@@ -27,13 +28,14 @@ type WhoisResultsPageProps = {
 const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
-  const data = await lookupWhois(domain);
+  const baseDomain = getBaseDomain(domain);
+  const data = await lookupWhois(baseDomain);
 
   const tryAtICANN = (
     <>
       <span> Try a direct request at the </span>
       <Link
-        href={`https://lookup.icann.org/whois/en?q=${domain}&t=a`}
+        href={`https://lookup.icann.org/whois/en?q=${baseDomain}&t=a`}
         target="_blank"
         rel="noreferrer noopener"
         className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
@@ -93,7 +95,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
       <p className="mt-5 text-xs italic text-opacity-80">
         Make a direct whois request at the{' '}
         <Link
-          href={`https://lookup.icann.org/whois/en?q=${domain}&t=a`}
+          href={`https://lookup.icann.org/whois/en?q=${baseDomain}&t=a`}
           target="_blank"
           rel="noreferrer noopener"
           className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
