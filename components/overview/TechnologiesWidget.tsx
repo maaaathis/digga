@@ -122,25 +122,29 @@ async function requestAndParseTechnologies(domain: string) {
     },
   };
 
-  const data = await fetch(
-    'https://www.whatruns.com/api/v1/get_site_apps',
-    // @ts-ignore
-    requestOptions
-  );
+  try {
+    const data = await fetch(
+      'https://www.whatruns.com/api/v1/get_site_apps',
+      // @ts-ignore
+      requestOptions
+    );
 
-  const text = await data.text();
+    const text = await data.text();
 
-  const json = JSON.parse(text);
+    const json = JSON.parse(text);
 
-  const apps = json.apps;
+    const apps = json.apps;
 
-  if (!apps) return null;
+    if (!apps) return null;
 
-  const appsJson = JSON.parse(apps);
+    const appsJson = JSON.parse(apps);
 
-  const appsJsonKey = Object.keys(appsJson)[0];
+    const appsJsonKey = Object.keys(appsJson)[0];
 
-  return appsJson[appsJsonKey];
+    return appsJson[appsJsonKey];
+  } catch (e) {
+    return null;
+  }
 }
 
 export function filterWhatRunsDirectUrl(url: string): string | undefined {
