@@ -59,7 +59,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 }): Promise<ReactElement> => {
   if (locationName && !resolverName) {
     return redirect(
-      `/lookup/${encodeURIComponent(domain)}`,
+      `/lookup/${encodeURIComponent(domain)}/dns`,
       RedirectType.replace
     );
   }

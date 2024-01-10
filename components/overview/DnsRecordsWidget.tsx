@@ -2,7 +2,7 @@ import { XSquareIcon } from 'lucide-react';
 import React, { use } from 'react';
 
 import DashboardItem from '@/components/overview/DashboardItem';
-import DnsLookup from '@/lib/resolvers/AuthoritativeResolver';
+import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 
 import RecordList from './RecordList';
 
@@ -28,9 +28,8 @@ interface DnsRecordsWidgetProps {
 }
 
 async function fetchRecords(domain: string, type: DnsRecordType) {
-  const lookup = new DnsLookup();
-
-  return await lookup.fetchRecords(domain, type);
+  const resolver = new CloudflareDoHResolver();
+  return await resolver.resolveRecordType(domain, type);
 }
 
 const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
