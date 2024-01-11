@@ -26,12 +26,18 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
   const baseDomain = getBaseDomain(domain);
-  // @ts-ignore
-  const whoisResult = whoiser.firstResult(
-    await whoiser(baseDomain, {
-      timeout: 3000,
-    })
-  );
+
+  let whoisResult;
+  try {
+    // @ts-ignore
+    whoisResult = whoiser.firstResult(
+      await whoiser(baseDomain, {
+        timeout: 3000,
+      })
+    );
+  } catch (error) {
+    console.error('Error fetching whois data:', error);
+  }
 
   if ((await isAvailable(baseDomain)) !== DomainAvailability.REGISTERED) {
     return <DomainNotRegistered />;
@@ -40,12 +46,16 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   return (
     <>
       <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-        <DomainDatesWidget whoisData={whoisResult} />
-        <DomainOwnerInfoWidget whoisData={whoisResult} />
+        {whoisResult && (
+          <>
+            <DomainDatesWidget whoisData={whoisResult} />
+            <DomainOwnerInfoWidget whoisData={whoisResult} />
+          </>
+        )}
         <DnsRecordsWidget type={DnsRecordType.A} domain={domain} />
-        <NameserverWidget whoisData={whoisResult} />
+        {whoisResult && <NameserverWidget whoisData={whoisResult} />}
         <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
-        <DomainlabelWidget whoisData={whoisResult} />
+        {whoisResult && <DomainlabelWidget whoisData={whoisResult} />}
         <TechnologiesWidget domain={domain} />
       </div>
     </>
