@@ -18,7 +18,7 @@ const EXAMPLE_DOMAINS: string[] = [
 const Home: FC = (): ReactElement => {
   return (
     <div className="flex h-full w-full flex-col justify-center">
-      <div className="my-14 flex w-full flex-row justify-center">
+      <div className="my-12 flex w-full flex-row justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
@@ -38,10 +38,16 @@ const Home: FC = (): ReactElement => {
       <div className="flex w-full flex-row justify-center">
         <div className="mx-4 w-full md:w-5/6 xl:w-4/6 2xl:w-2/4">
           <h1 className="mb-7 text-center text-3xl font-bold">
-            Get details about any domain
+            Simple DNS Lookup, WHOIS, SSL History, and More
           </h1>
           <SearchForm autofocus={true} className="bg-background p-5 text-2xl" />
-          <div className="mx-auto mt-5 flex flex-col justify-around gap-1 p-5 text-sm sm:flex-row sm:gap-0">
+          <h2 className="mt-5 text-center">
+            Effortlessly perform DNS lookup, WHOIS check, SSL history, and more.
+          </h2>
+          <p className="text-center text-sm">
+            Take a look at one of the examples below:
+          </p>
+          <div className="mx-auto flex flex-wrap justify-around gap-2 p-5 text-sm sm:flex-row sm:gap-0">
             {EXAMPLE_DOMAINS.map((domain) => (
               <Link
                 key={domain}
@@ -55,7 +61,7 @@ const Home: FC = (): ReactElement => {
         </div>
       </div>
 
-      <Card className="mx-auto my-16 max-w-lg p-6 text-foreground">
+      <Card className="mx-auto my-12 max-w-lg p-6 text-foreground">
         <h2 className="mb-5 text-center text-xl font-semibold tracking-tight sm:text-2xl">
           Quick Inspect Bookmarklet
         </h2>
