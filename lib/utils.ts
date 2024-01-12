@@ -17,7 +17,11 @@ export function getBaseDomain(input: string): string {
 
 export function getTLD(domain: string): string | null {
   const tldRegex = /\.([a-z]{2,})$/i;
-  const match = domain.match(tldRegex);
+  const match = tldRegex.exec(domain);
 
-  return match ? match[1] : null;
+  if (match) {
+    return match[1];
+  }
+
+  return null;
 }
