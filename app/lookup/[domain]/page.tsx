@@ -3,7 +3,7 @@ import whoiser from 'whoiser';
 
 import TechnologiesWidget from '@/components/overview/TechnologiesWidget';
 import { getBaseDomain } from '@/lib/utils';
-import { DomainAvailability, isAvailable } from '@/lib/whois';
+import { isDomainAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../components/DomainNotRegistered';
 import DnsRecordsWidget, {
@@ -39,7 +39,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
     console.error('Error fetching whois data:', error);
   }
 
-  if ((await isAvailable(baseDomain)) !== DomainAvailability.REGISTERED) {
+  if (await isDomainAvailable(baseDomain)) {
     return <DomainNotRegistered />;
   }
 
@@ -53,7 +53,9 @@ const LookupDomain: FC<LookupDomainProps> = async ({
           </>
         )}
         <DnsRecordsWidget type={DnsRecordType.A} domain={domain} />
-        {whoisResult && <NameserverWidget whoisData={whoisResult} />}
+        {whoisResult && (
+          <NameserverWidget whoisData={whoisResult} domain={domain} />
+        )}
         <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
         {whoisResult && <DomainlabelWidget whoisData={whoisResult} />}
         <TechnologiesWidget domain={domain} />

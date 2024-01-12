@@ -3,7 +3,7 @@ import React, { type FC, Fragment, ReactElement } from 'react';
 import whoiser, { type WhoisSearchResult } from 'whoiser';
 
 import StyledError from '@/components/StyledError';
-import { getBaseDomain } from '@/lib/utils';
+import { getBaseDomain, getTLD } from '@/lib/utils';
 
 const lookupWhois = async (domain: string) => {
   const result = await whoiser(domain, {
@@ -45,6 +45,34 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
       .
     </>
   );
+
+  // .ch TLD doesn't support whois via api routes :c
+  if (getTLD(domain) === 'ch') {
+    return (
+      <StyledError
+        title="WHOIS Data unavailable"
+        description={
+          <>
+            <span>
+              SWITCH, the registry for .ch TLDs, does not support automated
+              WHOIS requests.{' '}
+            </span>
+            <br />
+            <span> Try a direct request at </span>
+            <Link
+              href="https://www.nic.ch/whois/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+            >
+              SWITCH
+            </Link>
+            .
+          </>
+        }
+      />
+    );
+  }
 
   if (Object.keys(data).length === 0) {
     return (

@@ -14,3 +14,14 @@ export function getBaseDomain(input: string): string {
 
   return `${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
 }
+
+export function getTLD(domain: string): string | null {
+  const tldRegex = /\.([a-z]{2,})$/i;
+  const match = tldRegex.exec(domain);
+
+  if (match) {
+    return match[1];
+  }
+
+  return null;
+}
