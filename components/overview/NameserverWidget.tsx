@@ -1,5 +1,6 @@
 import React, { use } from 'react';
 
+import DNSSECinfo from '@/components/DNSSECinfo';
 import { DnsRecordType } from '@/components/overview/DnsRecordsWidget';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 
@@ -34,12 +35,15 @@ const NameserverWidget: React.FC<Props> = ({
   }
 
   const nsList =
-    nameserversByWhois.length > 0
+    nameserversByWhois && nameserversByWhois.length > 0
       ? Object.values(nameserversByWhois).map((ns) => ns as string)
       : Object.values(records).map((record) => record.data);
 
   return (
-    <DashboardItem title="Nameserver">
+    <DashboardItem
+      title="Nameserver"
+      secondaryElement={<DNSSECinfo domain={domain} />}
+    >
       <div className="flex h-full">
         <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
           {nsList.map((ns) => (

@@ -25,7 +25,7 @@ const DashboardItem: React.FC<Props> = ({
         className
       )}
     >
-      <div className="flex flex-row justify-between">
+      <div className="xxs:flex-row flex flex-col justify-between gap-1">
         <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-secondary dark:text-slate-50">
           {title}
         </span>
