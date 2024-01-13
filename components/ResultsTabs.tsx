@@ -24,7 +24,13 @@ const Tab: FC<{
   selected: boolean;
   shortcutNumber: number;
   hideShortcut?: boolean;
-}> = ({ label, href, selected, shortcutNumber, hideShortcut }) => (
+}> = ({
+  label,
+  href,
+  selected,
+  shortcutNumber,
+  hideShortcut,
+}): ReactElement => (
   <li className="mr-2">
     <Link
       href={href}
