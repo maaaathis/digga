@@ -2,7 +2,8 @@ import { FC, ReactElement } from 'react';
 import whoiser from 'whoiser';
 
 import TechnologiesWidget from '@/components/overview/TechnologiesWidget';
-import { DomainAvailability, isAvailable } from '@/lib/whois';
+import { getBaseDomain } from '@/lib/utils';
+import { isDomainAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../components/DomainNotRegistered';
 import DnsRecordsWidget, {
@@ -24,26 +25,39 @@ interface LookupDomainProps {
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
-  // @ts-ignore
-  const whoisResult = whoiser.firstResult(
-    await whoiser(domain, {
-      timeout: 3000,
-    })
-  );
+  const baseDomain = getBaseDomain(domain);
 
-  if ((await isAvailable(domain)) !== DomainAvailability.REGISTERED) {
+  let whoisResult;
+  try {
+    // @ts-ignore
+    whoisResult = whoiser.firstResult(
+      await whoiser(baseDomain, {
+        timeout: 3000,
+      })
+    );
+  } catch (error) {
+    console.error('Error fetching whois data:', error);
+  }
+
+  if (await isDomainAvailable(baseDomain)) {
     return <DomainNotRegistered />;
   }
 
   return (
     <>
       <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-        <DomainDatesWidget whoisData={whoisResult} />
-        <DomainOwnerInfoWidget whoisData={whoisResult} />
+        {whoisResult && (
+          <>
+            <DomainDatesWidget whoisData={whoisResult} />
+            <DomainOwnerInfoWidget whoisData={whoisResult} />
+          </>
+        )}
         <DnsRecordsWidget type={DnsRecordType.A} domain={domain} />
-        <NameserverWidget whoisData={whoisResult} />
+        {whoisResult && (
+          <NameserverWidget whoisData={whoisResult} domain={domain} />
+        )}
         <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
-        <DomainlabelWidget whoisData={whoisResult} />
+        {whoisResult && <DomainlabelWidget whoisData={whoisResult} />}
         <TechnologiesWidget domain={domain} />
       </div>
     </>

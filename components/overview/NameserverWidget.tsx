@@ -1,44 +1,63 @@
-'use client';
+import React, { use } from 'react';
 
-import { XSquareIcon } from 'lucide-react';
-import React from 'react';
+import DNSSECinfo from '@/components/DNSSECinfo';
+import { DnsRecordType } from '@/components/overview/DnsRecordsWidget';
+import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import { cutLastDot } from '@/lib/utils';
 
 import DashboardItem from './DashboardItem';
 
 interface Props {
   // whoiser doesn't have a proper type definition :c
   whoisData: any;
+  domain: string;
+}
+
+async function fetchRecords(domain: string, type: DnsRecordType) {
+  const resolver = new CloudflareDoHResolver();
+  return await resolver.resolveRecordType(domain, type);
 }
 
 const NameserverWidget: React.FC<Props> = ({
   whoisData,
-}): React.ReactElement => {
-  const whoisResult = whoisData;
+  domain,
+}): React.ReactElement | null => {
+  const records = use(fetchRecords(domain, DnsRecordType.NS));
+
+  const nameserversByWhois =
+    whoisData['Name Server'] &&
+    Object.values(whoisData['Name Server']).filter(Boolean);
+
+  if (
+    !nameserversByWhois &&
+    (!records || Object.values(records).length === 0)
+  ) {
+    return null;
+  }
+
+  const nsList =
+    nameserversByWhois && nameserversByWhois.length > 0
+      ? Object.values(nameserversByWhois).map((ns) => ns as string)
+      : Object.values(records).map((record) => record.data);
 
   return (
-    <DashboardItem title="Nameserver">
+    <DashboardItem
+      title="Nameserver"
+      secondaryElement={<DNSSECinfo domain={domain} />}
+    >
       <div className="flex h-full">
-        {whoisResult['Name Server'] &&
-        Object.values(whoisResult['Name Server']).length === 0 ? (
-          <div className="m-auto">
-            <XSquareIcon className="h-10 w-10 text-black dark:text-white" />
-          </div>
-        ) : (
-          <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
-            {Object.values(whoisResult['Name Server']).map((ns) => {
-              return (
-                <li key={ns as string}>
-                  <a
-                    className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                    href={`/lookup/${ns as string}`}
-                  >
-                    {ns as string}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
+          {nsList.map((ns) => (
+            <li key={ns}>
+              <a
+                className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                href={`/lookup/${cutLastDot(ns)}`}
+              >
+                {cutLastDot(ns)}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </DashboardItem>
   );
