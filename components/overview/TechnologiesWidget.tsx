@@ -97,11 +97,11 @@ const TechnologiesWidget: React.FC<Props> = async ({
 };
 
 async function requestAndParseTechnologies(domain: string) {
-  var myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+  const requestHeaders = new Headers();
+  requestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
 
-  var urlencoded = new URLSearchParams();
-  urlencoded.append(
+  const requestUrlencoded = new URLSearchParams();
+  requestUrlencoded.append(
     'data',
     '{"hostname": "' +
       domain +
@@ -112,28 +112,28 @@ async function requestAndParseTechnologies(domain: string) {
       '"}'
   );
 
-  var requestOptions = {
+  const requestOptions = {
     method: 'POST',
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: 'follow',
+    headers: requestHeaders,
+    body: requestUrlencoded,
     next: {
       revalidate: 24 * 60 * 60,
     },
+    timeout: 2000,
   };
 
   try {
-    const data = await fetch(
+    const request = await fetch(
       'https://www.whatruns.com/api/v1/get_site_apps',
       // @ts-ignore
       requestOptions
     );
 
-    const text = await data.text();
+    if (request.status !== 200) return null;
 
-    const json = JSON.parse(text);
+    const requestJson = await request.json();
 
-    const apps = json.apps;
+    const apps = requestJson.apps;
 
     if (!apps) return null;
 
