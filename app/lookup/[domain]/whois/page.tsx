@@ -38,7 +38,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
         href={`https://lookup.icann.org/whois/en?q=${baseDomain}&t=a`}
         target="_blank"
         rel="noreferrer noopener"
-        className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+        className="cursor-pointer select-none underline decoration-muted-foreground decoration-dotted underline-offset-4 hover:underline hover:decoration-dashed"
       >
         ICANN
       </Link>
@@ -63,7 +63,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
               href="https://www.nic.ch/whois/"
               target="_blank"
               rel="noreferrer noopener"
-              className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+              className="cursor-pointer select-none underline decoration-muted-foreground decoration-dotted underline-offset-4 hover:underline hover:decoration-dashed"
             >
               SWITCH
             </Link>

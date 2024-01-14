@@ -45,7 +45,6 @@ enum EntryTypes {
   Organization,
   ISP,
   Location,
-  Coordinates,
   Timezone,
 }
 
@@ -88,11 +87,6 @@ const IpDetailsContent: FC<IpDetailsContentProps> = ({ ip, data, error }) => {
         type: EntryTypes.Location,
         label: 'Location',
         value: `${data.country}, ${data.region}, ${data.city}`,
-      },
-      {
-        type: EntryTypes.Coordinates,
-        label: 'Coordinates',
-        value: `Latitude: ${data.lat}; Longitude: ${data.lon}`,
       },
       {
         type: EntryTypes.Timezone,
@@ -143,8 +137,13 @@ const IpDetailsContent: FC<IpDetailsContentProps> = ({ ip, data, error }) => {
         </TableBody>
       </Table>
 
-      <div className="my-4 [&_.leaflet-container]:h-24 [&_.leaflet-container]:w-full sm:[&_.leaflet-container]:h-48">
-        <LocationMap location={location} />
+      <div className="my-4 flex flex-col gap-1">
+        <div className="[&_.leaflet-container]:h-16 [&_.leaflet-container]:w-full sm:[&_.leaflet-container]:h-48">
+          <LocationMap location={location} />
+        </div>
+        <p className="text-center text-xs text-muted-foreground">
+          Latitude: {data.lat} - Longitude: {data.lon}
+        </p>
       </div>
     </>
   );
