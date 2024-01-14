@@ -1,6 +1,8 @@
+import isValidDomain from 'is-valid-domain';
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import type { FC, ReactElement, ReactNode } from 'react';
 
 import ExternalFavicon from '@/components/ExternalFavicon';
@@ -35,6 +37,10 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   children,
   params: { domain },
 }): ReactElement => {
+  if (!isValidDomain(domain)) {
+    return notFound();
+  }
+
   let isStandalone = false;
 
   return (
