@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { use } from 'react';
 
 import {
   Tooltip,
@@ -29,11 +29,11 @@ type Technology = {
   categoryString?: string;
 };
 
-const TechnologiesWidget: React.FC<Props> = async ({
+const TechnologiesWidget: React.FC<Props> = ({
   domain,
-}): Promise<React.ReactElement | null> => {
+}): React.ReactElement | null => {
   try {
-    const data = await requestAndParseTechnologies(domain);
+    const data = use(requestAndParseTechnologies(domain));
     const technologies: Technology[] = [];
 
     if (!data) return null;
