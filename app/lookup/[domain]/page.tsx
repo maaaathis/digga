@@ -54,11 +54,12 @@ const LookupDomain: FC<LookupDomainProps> = async ({
             <DomainOwnerInfoWidget whoisData={whoisResult} />
           </>
         )}
+        <DnsRecordsWidget type={DnsRecordType.A} domain={domain} />
         {whoisResult && (
           <NameserverWidget whoisData={whoisResult} domain={domain} />
         )}
+        <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
         {whoisResult && <DomainlabelWidget whoisData={whoisResult} />}
-        <TechnologiesWidget domain={domain} />
       </div>
     </>
   );
