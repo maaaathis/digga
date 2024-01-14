@@ -9,13 +9,6 @@ interface Props {
   whoisData: any;
 }
 
-const isDateValid = (date: string): boolean => {
-  return (
-    Object.prototype.toString.call(date) === '[object Date]' &&
-    !isNaN(new Date(date).getTime())
-  );
-};
-
 const DomainDatesWidget: React.FC<Props> = ({
   whoisData,
 }): React.ReactElement | null => {
@@ -24,13 +17,6 @@ const DomainDatesWidget: React.FC<Props> = ({
     !whoisResult['Created Date'] &&
     !whoisResult['Updated Date'] &&
     !whoisResult['Expiry Date']
-  )
-    return null;
-
-  if (
-    !isDateValid(whoisResult['Created Date']) &&
-    !isDateValid(whoisResult['Updated Date']) &&
-    !isDateValid(whoisResult['Expiry Date'])
   )
     return null;
 
@@ -44,7 +30,7 @@ const DomainDatesWidget: React.FC<Props> = ({
     <DashboardItem title="Dates" className={colSpan}>
       <div className="flex h-full">
         <div className="m-auto flex flex-col justify-around gap-6 sm:flex-row sm:gap-4">
-          {isDateValid(whoisResult['Created Date']) && (
+          {whoisResult['Created Date'] && (
             <div className="flex flex-col text-center">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                 {new Date(whoisResult['Created Date']).toLocaleDateString(
@@ -70,7 +56,7 @@ const DomainDatesWidget: React.FC<Props> = ({
               </p>
             </div>
           )}
-          {isDateValid(whoisResult['Updated Date']) && (
+          {whoisResult['Updated Date'] && (
             <div className="flex flex-col text-center">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                 {new Date(whoisResult['Updated Date']).toLocaleDateString(
@@ -96,7 +82,7 @@ const DomainDatesWidget: React.FC<Props> = ({
               </p>
             </div>
           )}
-          {isDateValid(whoisResult['Expiry Date']) && (
+          {whoisResult['Expiry Date'] && (
             <div className="flex flex-col text-center">
               <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                 {new Date(whoisResult['Expiry Date']).toLocaleDateString(
