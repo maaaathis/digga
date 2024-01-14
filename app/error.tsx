@@ -1,13 +1,12 @@
 'use client';
 
-import { Bug, XOctagon } from 'lucide-react';
+import { Bug } from 'lucide-react';
 import { type FC, useEffect } from 'react';
 
 import StyledError from '@/components/StyledError';
 
 type GlobalErrorProps = {
   error: Error & { digest?: string };
-  reset: () => void;
 };
 
 const GlobalError: FC<GlobalErrorProps> = ({ error }) => {
