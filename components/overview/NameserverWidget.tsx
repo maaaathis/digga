@@ -3,6 +3,7 @@ import React, { use } from 'react';
 import DNSSECinfo from '@/components/DNSSECinfo';
 import { DnsRecordType } from '@/components/overview/DnsRecordsWidget';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import { cutLastDot } from '@/lib/utils';
 
 import DashboardItem from './DashboardItem';
 
@@ -50,9 +51,9 @@ const NameserverWidget: React.FC<Props> = ({
             <li key={ns}>
               <a
                 className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                href={`/lookup/${ns}`}
+                href={`/lookup/${cutLastDot(ns)}`}
               >
-                {ns}
+                {cutLastDot(ns)}
               </a>
             </li>
           ))}

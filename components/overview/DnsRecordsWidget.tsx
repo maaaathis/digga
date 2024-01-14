@@ -3,6 +3,7 @@ import React, { use } from 'react';
 
 import DashboardItem from '@/components/overview/DashboardItem';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import { cutLastDot } from '@/lib/utils';
 
 import RecordList from './RecordList';
 
@@ -53,9 +54,9 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
                   {type == 'MX' ? (
                     <a
                       className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                      href={`/lookup/${record.data.split(' ')[1]}`}
+                      href={`/lookup/${cutLastDot(record.data.split(' ')[1])}`}
                     >
-                      {record.data.split(' ')[1]}
+                      {cutLastDot(record.data.split(' ')[1])}
                     </a>
                   ) : (
                     <RecordList record={record.data} />
