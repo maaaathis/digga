@@ -1,8 +1,6 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { use } from 'react';
+import React from 'react';
 
 import {
   Tooltip,
@@ -31,11 +29,11 @@ type Technology = {
   categoryString?: string;
 };
 
-const TechnologiesWidget: React.FC<Props> = ({
+const TechnologiesWidget: React.FC<Props> = async ({
   domain,
-}): React.ReactElement | null => {
+}): Promise<React.ReactElement | null> => {
   try {
-    const data = use(requestAndParseTechnologies(domain));
+    const data = await requestAndParseTechnologies(domain);
     const technologies: Technology[] = [];
 
     if (!data) return null;
