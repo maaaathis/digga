@@ -43,8 +43,6 @@ const LookupDomain: FC<LookupDomainProps> = async ({
     return <DomainNotRegistered />;
   }
 
-  whoisResult = false;
-
   return (
     <>
       <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
