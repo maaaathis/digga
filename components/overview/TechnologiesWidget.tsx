@@ -32,72 +32,68 @@ type Technology = {
 const TechnologiesWidget: React.FC<Props> = async ({
   domain,
 }): Promise<React.ReactElement | null> => {
-  try {
-    const data = await requestAndParseTechnologies(domain);
-    const technologies: Technology[] = [];
+  const data = await requestAndParseTechnologies(domain);
+  const technologies: Technology[] = [];
 
-    if (!data) return null;
+  if (!data) return null;
 
-    Object.keys(data).forEach((key) => {
-      data[key].forEach((technology: Technology) => {
-        technology = {
-          ...technology,
-          categoryString: key,
-        };
+  Object.keys(data).forEach((key) => {
+    data[key].forEach((technology: Technology) => {
+      technology = {
+        ...technology,
+        categoryString: key,
+      };
 
-        technologies.push(technology);
-      });
+      technologies.push(technology);
     });
+  });
 
-    if (technologies.length === 0) return null;
+  if (technologies.length === 0) return null;
 
-    return (
-      <DashboardItem title={`Technologies`}>
-        <div className="h-full">
-          <div className="grid grid-cols-4">
-            {technologies.map((technology: Technology) => {
-              const arrayIndex = technologies.indexOf(technology);
+  return (
+    <DashboardItem title={`Technologies`}>
+      <div className="h-full">
+        <div className="grid grid-cols-4">
+          {technologies.map((technology: Technology) => {
+            const arrayIndex = technologies.indexOf(technology);
 
-              if (arrayIndex >= 7) return null;
+            if (arrayIndex >= 7) return null;
 
-              return (
-                <TooltipProvider key={technology.index}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={
-                          filterWhatRunsDirectUrl(technology.website) ||
-                          technology.website
-                        }
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
-                      >
-                        <div className="m-auto">
-                          <Image
-                            unoptimized
-                            src={`https://www.whatruns.com/imgs/${technology.icon}`}
-                            alt={technology.name}
-                            width={25}
-                            height={25}
-                          />
-                        </div>
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent>{technology.name}</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              );
-            })}
+            return (
+              <TooltipProvider key={technology.index}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={
+                        filterWhatRunsDirectUrl(technology.website) ||
+                        technology.website
+                      }
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                    >
+                      <div className="m-auto">
+                        <Image
+                          unoptimized
+                          src={`https://www.whatruns.com/imgs/${technology.icon}`}
+                          alt={technology.name}
+                          width={25}
+                          height={25}
+                        />
+                      </div>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>{technology.name}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            );
+          })}
 
-            <TechnologiesDetailsModal technologies={technologies} />
-          </div>
+          <TechnologiesDetailsModal technologies={technologies} />
         </div>
-      </DashboardItem>
-    );
-  } catch (e) {
-    return null;
-  }
+      </div>
+    </DashboardItem>
+  );
 };
 
 async function requestAndParseTechnologies(domain: string) {
@@ -116,6 +112,14 @@ async function requestAndParseTechnologies(domain: string) {
       '"}'
   );
 
+  const requestController = new AbortController();
+  const requestWhatRunsTimer = setTimeout(
+    () => requestController.abort(),
+    2000
+  );
+
+  const requestSignal = requestController.signal;
+
   const requestOptions = {
     method: 'POST',
     headers: requestHeaders,
@@ -124,6 +128,7 @@ async function requestAndParseTechnologies(domain: string) {
       revalidate: 24 * 60 * 60,
     },
     timeout: 2000,
+    signal: requestSignal,
   };
 
   try {
@@ -132,6 +137,7 @@ async function requestAndParseTechnologies(domain: string) {
       // @ts-ignore
       requestOptions
     );
+    clearTimeout(requestWhatRunsTimer);
 
     if (request.status !== 200) return null;
 
