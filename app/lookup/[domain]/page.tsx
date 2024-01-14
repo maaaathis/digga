@@ -58,6 +58,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
           <NameserverWidget whoisData={whoisResult} domain={domain} />
         )}
         {whoisResult && <DomainlabelWidget whoisData={whoisResult} />}
+        <TechnologiesWidget domain={domain} />
       </div>
     </>
   );
