@@ -1,11 +1,9 @@
-'use client';
+import { CircleOff } from 'lucide-react';
+import { type FC, ReactElement } from 'react';
 
-import { redirect, useRouter } from 'next/navigation';
-import { type FC, Fragment, ReactElement, useEffect, useState } from 'react';
-
-import { Button } from '@/components/ui/button';
-
+import { CreateSnapshotCTA } from '@/app/lookup/[domain]/archive/_components/CreateSnapshotCTA';
 import WebArchiveItem from '@/app/lookup/[domain]/archive/_components/WebArchiveItem';
+import StyledError from '@/components/StyledError';
 
 type ArchivePageProps = {
   params: {
@@ -13,26 +11,43 @@ type ArchivePageProps = {
   };
 };
 
-const ArchivePage: FC<ArchivePageProps> = ({
+const ArchivePage: FC<ArchivePageProps> = async ({
   params: { domain },
-}): ReactElement => {
-  const router = useRouter();
+}): Promise<ReactElement> => {
+  // fetch latest snapshot by WebArchive
+  const latestSnapshotFetch = await fetch(
+    `https://archive.org/wayback/available?url=${domain}`
+  );
+  const latestSnapshot = await latestSnapshotFetch.json();
+
+  console.log(latestSnapshot);
+
+  if (!latestSnapshot.archived_snapshots.closest) {
+    return (
+      <div className="flex h-full w-full">
+        <div className="m-auto">
+          <StyledError
+            title="This domain has not been archived yet."
+            description="This domain has not been archived yet. Create a snapshot to archive this domain."
+            icon={<CircleOff className="h-16 w-16" />}
+          />
+          <div className="mt-3 flex flex-row justify-center">
+            <CreateSnapshotCTA domain={domain} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  //TODO: fetch older snapshots by WebArchive
 
   return (
     <>
-      <Button
-        variant="outline"
-        onClick={() => router.push(`https://web.archive.org/save/${domain}`)}
-      >
-        Create snapshot
-      </Button>
-
+      <CreateSnapshotCTA domain={domain} />
       <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <WebArchiveItem
-          url={
-            'https://web.archive.org/web/20231220211300/https://www.lostify.net/'
-          }
-          timestamp="20231220211300"
+          url={latestSnapshot.archived_snapshots.closest.url}
+          timestamp={latestSnapshot.archived_snapshots.closest.timestamp}
         />
       </div>
     </>
