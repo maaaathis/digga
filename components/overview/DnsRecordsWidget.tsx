@@ -2,7 +2,8 @@ import { XSquareIcon } from 'lucide-react';
 import React, { use } from 'react';
 
 import DashboardItem from '@/components/overview/DashboardItem';
-import DnsLookup from '@/lib/resolvers/AuthoritativeResolver';
+import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import { cutLastDot } from '@/lib/utils';
 
 import RecordList from './RecordList';
 
@@ -28,9 +29,8 @@ interface DnsRecordsWidgetProps {
 }
 
 async function fetchRecords(domain: string, type: DnsRecordType) {
-  const lookup = new DnsLookup();
-
-  return await lookup.fetchRecords(domain, type);
+  const resolver = new CloudflareDoHResolver();
+  return await resolver.resolveRecordType(domain, type);
 }
 
 const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
@@ -54,9 +54,9 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
                   {type == 'MX' ? (
                     <a
                       className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
-                      href={`/lookup/${record.data.split(' ')[1]}`}
+                      href={`/lookup/${cutLastDot(record.data.split(' ')[1])}`}
                     >
-                      {record.data.split(' ')[1]}
+                      {cutLastDot(record.data.split(' ')[1])}
                     </a>
                   ) : (
                     <RecordList record={record.data} />

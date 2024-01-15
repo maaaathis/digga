@@ -11,7 +11,7 @@ import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
 import InternalDoHResolver from '@/lib/resolvers/InternalDoHResolver';
-import { DomainAvailability, isAvailable } from '@/lib/whois';
+import { isDomainAvailable } from '@/lib/whois';
 
 const getResolver = (
   resolverName: string | undefined,
@@ -59,7 +59,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 }): Promise<ReactElement> => {
   if (locationName && !resolverName) {
     return redirect(
-      `/lookup/${encodeURIComponent(domain)}`,
+      `/lookup/${encodeURIComponent(domain)}/dns`,
       RedirectType.replace
     );
   }
@@ -72,7 +72,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
       .map((r) => r.length)
       .reduce((prev, curr) => prev + curr, 0) > 0;
 
-  if ((await isAvailable(domain)) != DomainAvailability.REGISTERED) {
+  if (await isDomainAvailable(domain)) {
     return <DomainNotRegistered />;
   }
 

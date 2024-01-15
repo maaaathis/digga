@@ -3,6 +3,7 @@ import React, { type FC, Fragment, ReactElement } from 'react';
 import whoiser, { type WhoisSearchResult } from 'whoiser';
 
 import StyledError from '@/components/StyledError';
+import { getBaseDomain, getTLD } from '@/lib/utils';
 
 const lookupWhois = async (domain: string) => {
   const result = await whoiser(domain, {
@@ -27,22 +28,51 @@ type WhoisResultsPageProps = {
 const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
-  const data = await lookupWhois(domain);
+  const baseDomain = getBaseDomain(domain);
+  const data = await lookupWhois(baseDomain);
 
   const tryAtICANN = (
     <>
       <span> Try a direct request at the </span>
       <Link
-        href={`https://lookup.icann.org/whois/en?q=${domain}&t=a`}
+        href={`https://lookup.icann.org/whois/en?q=${baseDomain}&t=a`}
         target="_blank"
         rel="noreferrer noopener"
-        className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+        className="cursor-pointer select-none underline decoration-muted-foreground decoration-dotted underline-offset-4 hover:underline hover:decoration-dashed"
       >
         ICANN
       </Link>
       .
     </>
   );
+
+  // .ch TLD doesn't support whois via api routes :c
+  if (getTLD(domain) === 'ch') {
+    return (
+      <StyledError
+        title="WHOIS Data unavailable"
+        description={
+          <>
+            <span>
+              SWITCH, the registry for .ch TLDs, does not support automated
+              WHOIS requests.{' '}
+            </span>
+            <br />
+            <span> Try a direct request at </span>
+            <Link
+              href="https://www.nic.ch/whois/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="cursor-pointer select-none underline decoration-muted-foreground decoration-dotted underline-offset-4 hover:underline hover:decoration-dashed"
+            >
+              SWITCH
+            </Link>
+            .
+          </>
+        }
+      />
+    );
+  }
 
   if (Object.keys(data).length === 0) {
     return (
@@ -93,7 +123,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
       <p className="mt-5 text-xs italic text-opacity-80">
         Make a direct whois request at the{' '}
         <Link
-          href={`https://lookup.icann.org/whois/en?q=${domain}&t=a`}
+          href={`https://lookup.icann.org/whois/en?q=${baseDomain}&t=a`}
           target="_blank"
           rel="noreferrer noopener"
           className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"

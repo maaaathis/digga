@@ -6,9 +6,12 @@ import { FC, ReactElement } from 'react';
 import ThemeMenu from '@/components/ThemeMenu';
 
 const Header: FC = (): ReactElement => (
-  <header className="w-full p-4 md:px-8">
+  <header className="w-full p-3 md:px-6">
     <div className="flex flex-row items-center justify-between pb-4">
-      <Link href="/">
+      <Link
+        href="/"
+        className="rounded-xl py-1.5 pl-3 pr-1.5 hover:bg-gray-200/80 dark:hover:bg-gray-800/50"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
