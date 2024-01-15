@@ -1,7 +1,7 @@
 'use client';
 
 import isValidDomain from 'is-valid-domain';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Search } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { toASCII } from 'punycode';
 import {
@@ -111,9 +111,14 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
           disabled={state !== FormStates.Initial}
         >
           {state === FormStates.Submitting && (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="h-4 w-4 animate-spin md:mr-2" />
           )}
-          Lookup
+          <Search
+            className={`h-6 w-6 md:hidden ${
+              state === FormStates.Submitting && 'hidden'
+            }`}
+          />
+          <span className="hidden md:block">Lookup</span>
         </Button>
       </form>
 
