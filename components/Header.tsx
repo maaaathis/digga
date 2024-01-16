@@ -1,9 +1,19 @@
 'use client';
 
+import { ArrowUpRight, Github, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { FC, ReactElement } from 'react';
 
-import ThemeMenu from '@/components/ThemeMenu';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import ThemeToggle from '@/components/ThemeToggle';
 
 const Header: FC = (): ReactElement => (
   <header className="w-full p-3 md:px-6">
@@ -28,7 +38,58 @@ const Header: FC = (): ReactElement => (
         </svg>
         <span className="sr-only">digga</span>
       </Link>
-      <ThemeMenu />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="w-11 cursor-pointer data-[state=open]:bg-gray-100 dark:data-[state=open]:bg-gray-800"
+          >
+            <Menu />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="end"
+          className="w-60 overflow-hidden rounded-2xl p-3"
+        >
+          <DropdownMenuItem asChild>
+            <Link
+              className="flex cursor-pointer items-center justify-between rounded-xl px-4 py-3"
+              href="https://github.com/maaaathis/digga"
+              target="_blank"
+            >
+              <div className="flex flex-row gap-1">
+                <Github className="my-auto h-4 w-4" />
+                <span className="text-base font-medium">GitHub</span>
+              </div>
+              <ArrowUpRight className="h-5 w-5" />
+            </Link>
+          </DropdownMenuItem>
+          <p className="mx-4 mt-2 text-xs text-muted-foreground">
+            Built by{' '}
+            <Link
+              href="https://github.com/maaaathis"
+              target="_blank"
+              className="underline-offset-4 hover:underline"
+            >
+              maaaathis
+            </Link>{' '}
+            &{' '}
+            <Link
+              href="https://github.com/maaaathis"
+              target="_blank"
+              className="underline-offset-4 hover:underline"
+            >
+              Felix Wotschofsky
+            </Link>
+            . Hosted on Vercel.
+          </p>
+          <DropdownMenuSeparator className="my-3" />
+          <DropdownMenuItem asChild>
+            <ThemeToggle />
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   </header>
 );
