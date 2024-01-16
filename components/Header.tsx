@@ -57,6 +57,7 @@ const Header: FC = (): ReactElement => (
               className="flex cursor-pointer items-center justify-between rounded-xl px-4 py-3"
               href="https://github.com/maaaathis/digga"
               target="_blank"
+              rel="noreferrer noopener"
             >
               <div className="flex flex-row gap-1">
                 <Github className="my-auto h-4 w-4" />
@@ -70,14 +71,16 @@ const Header: FC = (): ReactElement => (
             <Link
               href="https://github.com/maaaathis"
               target="_blank"
+              rel="noreferrer noopener"
               className="underline-offset-4 hover:underline"
             >
               maaaathis
             </Link>{' '}
             &{' '}
             <Link
-              href="https://github.com/maaaathis"
+              href="https://github.com/wotschofsky"
               target="_blank"
+              rel="noreferrer noopener nofollow"
               className="underline-offset-4 hover:underline"
             >
               Felix Wotschofsky
