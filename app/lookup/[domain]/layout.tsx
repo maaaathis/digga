@@ -63,7 +63,7 @@ const LookupLayout: FC<LookupLayoutProps> = ({
           <span className="flex flex-row gap-2">
             <ExternalFavicon url={domain} />
             <Link
-              className="block text-4xl font-bold"
+              className="block text-4xl font-bold decoration-muted-foreground underline-offset-4 hover:underline"
               href={`https://${domain}`}
               target="_blank"
               rel="noreferrer noopener"

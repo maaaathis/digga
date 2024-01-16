@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { Rubik } from 'next/font/google';
 import type { FC, ReactElement, ReactNode } from 'react';
 
-import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
 import './globals.css';
@@ -79,7 +78,6 @@ const RootLayout: FC<RootLayoutProps> = ({ children }): ReactElement => {
             <main className="z-10 w-full flex-1 pb-5">
               <Header />
               {children}
-              <Footer />
             </main>
           </div>
         </Providers>
