@@ -29,7 +29,7 @@
     "clsx": "^2.1.0",
     "dataloader": "^2.2.2",
     "dns-packet": "^5.6.1",
-    "framer-motion": "^10.17.9",
+    "framer-motion": "^10.18.0",
     "is-valid-domain": "^0.1.6",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
