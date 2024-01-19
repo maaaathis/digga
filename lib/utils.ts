@@ -33,3 +33,13 @@ export function cutLastDot(input: string): string {
 
   return input;
 }
+
+// From https://stackoverflow.com/a/30471209/12475254
+export const retry = <T extends Function>(fn: T, maxRetries: number) =>
+  fn().catch((err: Error) => {
+    if (maxRetries <= 0) {
+      throw err;
+    }
+    console.warn(err.message);
+    return retry(fn, maxRetries - 1);
+  });
