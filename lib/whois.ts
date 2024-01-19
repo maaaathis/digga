@@ -47,10 +47,8 @@ async function isAvailable(domain: string): Promise<string> {
 
   // Status: available
   if (
-    (firstDomainWhois['Domain Status'] &&
-      firstDomainWhois['Domain Status'].includes('available')) ||
-    (firstDomainWhois['Domain Status'] &&
-      firstDomainWhois['Domain Status'].includes('AVAILABLE'))
+    firstDomainWhois['Domain Status']?.includes('available') ||
+    firstDomainWhois['Domain Status']?.includes('AVAILABLE')
   )
     return DomainAvailability.AVAILABLE;
 
