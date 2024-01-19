@@ -35,9 +35,12 @@ import CopyButton from '@/components/CopyButton';
 import DomainLink from '@/components/DomainLink';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
-const LocationMap = dynamic(() => import('@/components/LocationMap'), {
-  ssr: false,
-});
+const LocationMap = dynamic(
+  () => import('@/app/lookup/[domain]/dns/_components/LocationMap'),
+  {
+    ssr: false,
+  }
+);
 
 enum EntryTypes {
   IP,
@@ -138,7 +141,7 @@ const IpDetailsContent: FC<IpDetailsContentProps> = ({ ip, data, error }) => {
       </Table>
 
       <div className="my-4 flex flex-col gap-1">
-        <div className="[&_.leaflet-container]:h-16 [&_.leaflet-container]:w-full sm:[&_.leaflet-container]:h-48">
+        <div className="[&_.leaflet-container]:h-24 [&_.leaflet-container]:w-full sm:[&_.leaflet-container]:h-48">
           <LocationMap location={location} />
         </div>
         <p className="text-center text-xs text-muted-foreground">

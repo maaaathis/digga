@@ -1,6 +1,6 @@
 'use client';
 
-import { GripIcon, MoreHorizontal } from 'lucide-react';
+import { GripIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { type FC, ReactElement } from 'react';
@@ -12,10 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
-import { filterWhatRunsDirectUrl } from '@/components/overview/TechnologiesWidget';
+import { filterWhatRunsDirectUrl } from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
 
 type Technology = {
   name: string;

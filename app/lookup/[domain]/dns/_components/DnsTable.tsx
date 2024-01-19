@@ -11,7 +11,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import RecordRow from '@/components/RecordRow';
+import RecordRow from '@/app/lookup/[domain]/dns/_components/RecordRow';
 import type { ResolvedRecords } from '@/lib/resolvers/DnsResolver';
 
 type DnsTableProps = {

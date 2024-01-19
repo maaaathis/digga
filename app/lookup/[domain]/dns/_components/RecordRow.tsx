@@ -5,8 +5,8 @@ import reactStringReplace from 'react-string-replace';
 
 import { TableCell, TableRow } from '@/components/ui/table';
 
+import IpLink from '@/app/lookup/[domain]/dns/_components/IpLink';
 import DomainLink from '@/components/DomainLink';
-import IpLink from '@/components/IpLink';
 import type { RawRecord } from '@/lib/resolvers/DnsResolver';
 
 const DOMAIN_REGEX = /([a-zA-Z0-9-_]+\.)+[a-z]+\.?/gi;

@@ -1,18 +1,18 @@
 import { FC, ReactElement } from 'react';
 import whoiser from 'whoiser';
 
-import TechnologiesWidget from '@/components/overview/TechnologiesWidget';
+import DnsRecordsWidget, {
+  DnsRecordType,
+} from '@/app/lookup/[domain]/(overview)/_components/DnsRecordsWidget';
+import DomainDatesWidget from '@/app/lookup/[domain]/(overview)/_components/DomainDatesWidget';
+import DomainlabelWidget from '@/app/lookup/[domain]/(overview)/_components/DomainlabelWidget';
+import DomainOwnerInfoWidget from '@/app/lookup/[domain]/(overview)/_components/DomainOwnerInfoWidget';
+import NameserverWidget from '@/app/lookup/[domain]/(overview)/_components/NameserverWidget';
+import TechnologiesWidget from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
 import { getBaseDomain } from '@/lib/utils';
 import { isDomainAvailable } from '@/lib/whois';
 
-import DomainNotRegistered from '../../../components/DomainNotRegistered';
-import DnsRecordsWidget, {
-  DnsRecordType,
-} from '../../../components/overview/DnsRecordsWidget';
-import DomainDatesWidget from '../../../components/overview/DomainDatesWidget';
-import DomainlabelWidget from '../../../components/overview/DomainlabelWidget';
-import DomainOwnerInfoWidget from '../../../components/overview/DomainOwnerInfoWidget';
-import NameserverWidget from '../../../components/overview/NameserverWidget';
+import DomainNotRegistered from '../../../../components/DomainNotRegistered';
 
 export const fetchCache = 'default-no-store';
 
