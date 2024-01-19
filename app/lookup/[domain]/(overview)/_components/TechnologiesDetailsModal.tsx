@@ -43,6 +43,11 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
       <div
         key={'more'}
         onClick={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setOpen(true);
+          }
+        }}
         className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
       >
         <GripIcon className="m-auto h-5 w-5 text-black dark:text-white" />
