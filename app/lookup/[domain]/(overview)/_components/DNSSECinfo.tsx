@@ -5,10 +5,9 @@ import type { FC } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { WhoisDataResponse } from '@/app/api/internal/whois/route';
-
-import { Skeleton } from './ui/skeleton';
 
 type DNSSECinfoProps = {
   domain: string;

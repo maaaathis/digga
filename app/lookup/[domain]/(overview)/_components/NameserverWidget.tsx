@@ -1,7 +1,7 @@
 import React, { use } from 'react';
 
-import DNSSECinfo from '@/components/DNSSECinfo';
-import { DnsRecordType } from '@/components/overview/DnsRecordsWidget';
+import { DnsRecordType } from '@/app/lookup/[domain]/(overview)/_components/DnsRecordsWidget';
+import DNSSECinfo from '@/app/lookup/[domain]/(overview)/_components/DNSSECinfo';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { cutLastDot } from '@/lib/utils';
 

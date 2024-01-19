@@ -2,10 +2,10 @@ import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
 
-import DnsTable from '@/components/DnsTable';
+import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
+import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSelector';
+import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
-import LocationSelector from '@/components/LocationSelector';
-import ResolverSelector from '@/components/ResolverSelector';
 import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
 import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
