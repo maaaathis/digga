@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
@@ -52,6 +53,25 @@ type LookupDomainProps = {
 };
 
 export const fetchCache = 'default-no-store';
+
+export const generateMetadata = ({
+  params: { domain },
+  searchParams: { resolver, location },
+}: LookupDomainProps): Metadata => {
+  const params = new URLSearchParams();
+  if (resolver) params.set('resolver', resolver);
+  if (location) params.set('location', location);
+  const search = params.size ? `?${params.toString()}` : '';
+
+  return {
+    openGraph: {
+      url: `/lookup/${domain}/dns${search}`,
+    },
+    alternates: {
+      canonical: `/lookup/${domain}/dns${search}`,
+    },
+  };
+};
 
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },

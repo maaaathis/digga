@@ -20,16 +20,11 @@ type LookupLayoutProps = {
 export const generateMetadata = ({
   params: { domain },
 }: LookupLayoutProps): Metadata => ({
-  metadataBase: process.env.SITE_URL ? new URL(process.env.SITE_URL) : null,
   title: `Results for ${domain} · digga`,
   openGraph: {
     type: 'website',
     title: `Results for ${domain} · digga`,
     description: `Find DNS records, WHOIS data, SSL/TLS certificate history and more for ${domain}`,
-    url: `/lookup/${domain}`,
-  },
-  alternates: {
-    canonical: `/lookup/${domain}`,
   },
 });
 

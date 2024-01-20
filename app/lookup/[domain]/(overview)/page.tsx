@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { FC, ReactElement } from 'react';
 import whoiser from 'whoiser';
 
@@ -21,6 +22,19 @@ interface LookupDomainProps {
     domain: string;
   };
 }
+
+export const generateMetadata = ({
+  params: { domain },
+}: LookupDomainProps): Metadata => {
+  return {
+    openGraph: {
+      url: `/lookup/${domain}`,
+    },
+    alternates: {
+      canonical: `/lookup/${domain}`,
+    },
+  };
+};
 
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
