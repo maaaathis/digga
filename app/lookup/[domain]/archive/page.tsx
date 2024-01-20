@@ -1,4 +1,5 @@
 import { CircleOff } from 'lucide-react';
+import { Metadata } from 'next';
 import { type FC, ReactElement } from 'react';
 
 import { CreateSnapshotCTA } from '@/app/lookup/[domain]/archive/_components/CreateSnapshotCTA';
@@ -10,6 +11,17 @@ type ArchivePageProps = {
     domain: string;
   };
 };
+
+export const generateMetadata = ({
+  params: { domain },
+}: ArchivePageProps): Metadata => ({
+  openGraph: {
+    url: `/lookup/${domain}/archive`,
+  },
+  alternates: {
+    canonical: `/lookup/${domain}/archive`,
+  },
+});
 
 const ArchivePage: FC<ArchivePageProps> = async ({
   params: { domain },
