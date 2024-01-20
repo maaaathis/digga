@@ -15,6 +15,15 @@ const EXAMPLE_DOMAINS: string[] = [
   'discord.com',
 ];
 
+export const metadata = {
+  openGraph: {
+    url: '/',
+  },
+  alternates: {
+    canonical: '/',
+  },
+};
+
 const Home: FC = (): ReactElement => {
   return (
     <div className="flex h-full w-full flex-col justify-center">

@@ -1,6 +1,6 @@
 'use client';
 
-import { GripIcon, MoreHorizontal } from 'lucide-react';
+import { GripIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { type FC, ReactElement } from 'react';
@@ -12,10 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
-import { filterWhatRunsDirectUrl } from '@/components/overview/TechnologiesWidget';
+import { filterWhatRunsDirectUrl } from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
 
 type Technology = {
   name: string;
@@ -44,6 +43,11 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
       <div
         key={'more'}
         onClick={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setOpen(true);
+          }
+        }}
         className="mx-auto flex h-12 w-12 justify-center rounded-lg hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
       >
         <GripIcon className="m-auto h-5 w-5 text-black dark:text-white" />

@@ -2,7 +2,7 @@
 
 import { FC, ReactElement } from 'react';
 
-import IpLink from '@/components/IpLink';
+import IpLink from '@/app/lookup/[domain]/dns/_components/IpLink';
 
 type RecordListProps = {
   record: string;

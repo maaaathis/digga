@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import IpDetailsModal from '@/components/IpDetailsModal';
+import IpDetailsModal from '@/app/lookup/[domain]/dns/_components/IpDetailsModal';
 
 type IpLinkProps = {
   value: string;
