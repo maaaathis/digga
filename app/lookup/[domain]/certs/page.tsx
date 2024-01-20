@@ -1,4 +1,5 @@
 import { ExternalLink } from 'lucide-react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import React, { FC } from 'react';
 
@@ -30,6 +31,17 @@ type CertsData = {
   not_after: string;
   serial_number: string;
 }[];
+
+export const generateMetadata = ({
+  params: { domain },
+}: CertsResultsPageProps): Metadata => ({
+  openGraph: {
+    url: `/lookup/${domain}/certs`,
+  },
+  alternates: {
+    canonical: `/lookup/${domain}/certs`,
+  },
+});
 
 const lookupCerts = async (domain: string): Promise<CertsData> => {
   const response = await fetch(

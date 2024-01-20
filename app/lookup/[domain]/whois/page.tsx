@@ -1,9 +1,21 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import React, { type FC, Fragment, ReactElement } from 'react';
 import whoiser, { type WhoisSearchResult } from 'whoiser';
 
 import StyledError from '@/components/StyledError';
 import { getBaseDomain, getTLD } from '@/lib/utils';
+
+export const generateMetadata = ({
+  params: { domain },
+}: WhoisResultsPageProps): Metadata => ({
+  openGraph: {
+    url: `/lookup/${domain}/whois`,
+  },
+  alternates: {
+    canonical: `/lookup/${domain}/whois`,
+  },
+});
 
 const lookupWhois = async (domain: string) => {
   const result = await whoiser(domain, {
