@@ -9,8 +9,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import DashboardItem from '@/components/overview/DashboardItem';
-import TechnologiesDetailsModal from '@/components/TechnologiesDetailsModal';
+import DashboardItem from '@/app/lookup/[domain]/(overview)/_components/DashboardItem';
+import TechnologiesDetailsModal from '@/app/lookup/[domain]/(overview)/_components/TechnologiesDetailsModal';
 
 interface Props {
   domain: string;

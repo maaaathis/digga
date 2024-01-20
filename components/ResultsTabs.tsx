@@ -75,7 +75,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
         <Tab
           label="Overview"
           href={`/lookup/${domain}`}
-          selected={selectedSegment === null}
+          selected={selectedSegment === '(overview)'}
           shortcutNumber={1}
           hideShortcut={!isDesktop}
         />

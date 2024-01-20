@@ -1,11 +1,12 @@
+import { Metadata } from 'next';
 import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
 
-import DnsTable from '@/components/DnsTable';
+import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
+import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSelector';
+import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
-import LocationSelector from '@/components/LocationSelector';
-import ResolverSelector from '@/components/ResolverSelector';
 import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
 import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
@@ -52,6 +53,25 @@ type LookupDomainProps = {
 };
 
 export const fetchCache = 'default-no-store';
+
+export const generateMetadata = ({
+  params: { domain },
+  searchParams: { resolver, location },
+}: LookupDomainProps): Metadata => {
+  const params = new URLSearchParams();
+  if (resolver) params.set('resolver', resolver);
+  if (location) params.set('location', location);
+  const search = params.size ? `?${params.toString()}` : '';
+
+  return {
+    openGraph: {
+      url: `/lookup/${domain}/dns${search}`,
+    },
+    alternates: {
+      canonical: `/lookup/${domain}/dns${search}`,
+    },
+  };
+};
 
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },

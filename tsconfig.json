@@ -16,13 +16,13 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+      },
     ],
     "paths": {
       "@/*": ["./*"],
-      "@/api/*": ["./pages/api/*"]
-    }
+      "@/api/*": ["./pages/api/*"],
+    },
   },
   "include": [
     "next-env.d.ts",
@@ -31,7 +31,7 @@
     ".next/types/**/*.ts",
     "lib/whois",
     "app/lookup/[domain]/page",
-    "components/overview/RecordList"
+    "components/overview/RecordList",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

@@ -1,7 +1,7 @@
 import { XSquareIcon } from 'lucide-react';
 import React, { use } from 'react';
 
-import DashboardItem from '@/components/overview/DashboardItem';
+import DashboardItem from '@/app/lookup/[domain]/(overview)/_components/DashboardItem';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { cutLastDot } from '@/lib/utils';
 
