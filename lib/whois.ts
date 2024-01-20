@@ -61,8 +61,8 @@ export async function isDomainAvailable(domain: string): Promise<boolean> {
   const tld = getTLD(domain);
   if (!tld) return true;
 
-  // .ch registry does not support whois :c
-  if (tld === 'ch') return false;
+  // .ch & .li registry does not support whois :c
+  if (tld === 'ch' || tld === 'li') return false;
 
   return (await isAvailable(domain)) === DomainAvailability.AVAILABLE;
 }
