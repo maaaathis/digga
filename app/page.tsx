@@ -27,7 +27,7 @@ export const metadata = {
 const Home: FC = (): ReactElement => {
   return (
     <div className="flex h-full w-full flex-col justify-center">
-      <div className="my-12 flex w-full flex-row justify-center">
+      <div className="mb-8 mt-6 flex w-full flex-row justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
@@ -45,15 +45,27 @@ const Home: FC = (): ReactElement => {
         </svg>
       </div>
       <div className="flex w-full flex-row justify-center">
-        <div className="mx-4 w-full md:w-5/6 xl:w-4/6 2xl:w-2/4">
-          <h1 className="mb-7 text-center text-3xl font-bold">
+        <div className="mx-2 w-full md:w-5/6 xl:w-4/6 2xl:w-2/4">
+          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+            <Link
+              href="https://github.com/maaaathis/digga"
+              className="relative overflow-hidden rounded-full bg-background px-4 py-1.5 text-sm leading-6 text-zinc-400 ring-1 ring-zinc-100/10 duration-150 hover:ring-zinc-100/30"
+              target="_blank"
+            >
+              digga is Open Source on{' '}
+              <span className="font-semibold text-zinc-200">
+                GitHub <span aria-hidden="true">&rarr;</span>
+              </span>
+            </Link>
+          </div>
+          <h1 className="mb-7 text-center text-2xl font-medium md:text-3xl md:font-bold">
             Simple DNS Lookup, WHOIS, SSL History, and More
           </h1>
           <SearchForm autofocus={true} className="bg-background p-5 text-2xl" />
           <h2 className="mt-5 text-center">
             Effortlessly perform DNS lookup, WHOIS check, SSL history, and more.
           </h2>
-          <p className="text-center text-sm">
+          <p className="text-center text-sm text-muted-foreground">
             Take a look at one of the examples below:
           </p>
           <div className="mx-auto flex flex-wrap justify-around gap-2 p-5 text-sm sm:flex-row sm:gap-0">
@@ -71,11 +83,11 @@ const Home: FC = (): ReactElement => {
       </div>
 
       <Card className="mx-auto my-12 max-w-lg p-6 text-foreground">
-        <h2 className="mb-5 text-center text-xl font-semibold tracking-tight sm:text-2xl">
+        <h2 className="mb-4 text-center text-xl font-semibold tracking-tight sm:text-2xl">
           Quick Inspect Bookmarklet
         </h2>
 
-        <p className="mb-5 mt-2 text-center text-sm text-muted-foreground">
+        <p className="mb-4 mt-2 text-center text-sm text-muted-foreground">
           Drag this link to your bookmarks bar to quickly go to the results page
           for the site you are currently on!
         </p>
