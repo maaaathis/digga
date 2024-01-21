@@ -27,7 +27,7 @@ export const metadata = {
 const Home: FC = (): ReactElement => {
   return (
     <div className="flex h-full w-full flex-col justify-center">
-      <div className="my-8 flex w-full flex-row justify-center">
+      <div className="mb-8 mt-6 flex w-full flex-row justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
@@ -50,6 +50,7 @@ const Home: FC = (): ReactElement => {
             <Link
               href="https://github.com/maaaathis/digga"
               className="relative overflow-hidden rounded-full bg-background px-4 py-1.5 text-sm leading-6 text-zinc-400 ring-1 ring-zinc-100/10 duration-150 hover:ring-zinc-100/30"
+              target="_blank"
             >
               digga is Open Source on{' '}
               <span className="font-semibold text-zinc-200">
@@ -57,7 +58,7 @@ const Home: FC = (): ReactElement => {
               </span>
             </Link>
           </div>
-          <h1 className="mb-7 text-center text-3xl font-bold">
+          <h1 className="mb-7 text-center text-2xl font-medium md:text-3xl md:font-bold">
             Simple DNS Lookup, WHOIS, SSL History, and More
           </h1>
           <SearchForm autofocus={true} className="bg-background p-5 text-2xl" />
