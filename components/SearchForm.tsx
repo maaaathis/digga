@@ -10,6 +10,7 @@ import {
   FormEvent,
   ReactElement,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -17,7 +18,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { cn } from '@/lib/utils';
+import { cn, isAppleDevice } from '@/lib/utils';
 
 enum FormStates {
   Initial,
@@ -39,10 +40,13 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   const [state, setState] = useState<FormStates>(FormStates.Initial);
   const [error, setError] = useState(false);
 
-  useHotkeys(['s', 'shift+7'], (event) => {
-    event.preventDefault();
-    document.getElementById('domain-search-input')?.focus();
-  });
+  const inputRef = useRef<HTMLInputElement>(null);
+  useHotkeys(
+    isAppleDevice() ? ['meta+k', 's', 'shift+7'] : ['ctrl+k', 's', 'shift+7'],
+    () => inputRef.current?.focus(),
+    { preventDefault: true },
+    [inputRef.current]
+  );
 
   useEffect(() => {
     if (props.initialValue) {
@@ -88,23 +92,34 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   return (
     <>
       <form className="flex gap-3" onSubmit={handleSubmit}>
-        <Input
-          className={cn('font-wider flex-[4]', props.className)}
-          type="text"
-          required
-          placeholder="example.com"
-          aria-label="Domain"
-          value={domain}
-          onInput={(event: ChangeEvent<HTMLInputElement>) =>
-            setDomain(event.target.value)
-          }
-          disabled={state !== FormStates.Initial}
-          id="domain-search-input"
-          autoFocus={props.autofocus}
-          autoCapitalize="none"
-          autoComplete="url"
-          autoCorrect="off"
-        />
+        <div className="relative flex-[4]">
+          <Input
+            ref={inputRef}
+            className={cn('font-wider', props.className)}
+            type="text"
+            required
+            placeholder="example.com"
+            aria-label="Domain"
+            value={domain}
+            onInput={(event: ChangeEvent<HTMLInputElement>) =>
+              setDomain(event.target.value)
+            }
+            disabled={state !== FormStates.Initial}
+            autoFocus={props.autofocus}
+            autoCapitalize="none"
+            autoComplete="url"
+            autoCorrect="off"
+          />
+          <kbd className="pointer-events-none absolute right-3 top-1/2 hidden h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+            {isAppleDevice() ? (
+              <>
+                <span className="text-xs">⌘</span>K
+              </>
+            ) : (
+              'ctrl+k'
+            )}
+          </kbd>
+        </div>
         <Button
           className="h-12 flex-[1]"
           type="submit"
