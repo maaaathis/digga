@@ -43,3 +43,9 @@ export const retry = <T extends Function>(fn: T, maxRetries: number) =>
     console.warn(err.message);
     return retry(fn, maxRetries - 1);
   });
+
+export const isAppleDevice = () => {
+  if (typeof window === 'undefined') return false;
+  const userAgent = window.navigator.userAgent;
+  return /Mac|iPad|iPhone|iPod/.test(userAgent);
+};

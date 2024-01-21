@@ -7,12 +7,7 @@ import type { FC, ReactElement } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useMediaQuery } from '@/hooks/use-media-query';
-
-const isAppleDevice = () => {
-  if (typeof window === 'undefined') return false;
-  const userAgent = window.navigator.userAgent;
-  return /Mac|iPad|iPhone|iPod/.test(userAgent);
-};
+import { isAppleDevice } from '@/lib/utils';
 
 type ResultsTabsProps = {
   domain: string;
