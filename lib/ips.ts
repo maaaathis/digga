@@ -29,7 +29,7 @@ export const getIpDetails = async (ip: string) => {
 };
 
 const normalizeIp = (ip: string) =>
-  ip.replace(/\.[0-9]+$/, '.0').replace(/:([0-9a-fA-F]+)$/, ':');
+  ip.replace(/\.\d+$/, '.0').replace(/:([0-9a-fA-F]+)$/, ':');
 
 // Normalize IPs to their CIDR ranges to reduce the number of requests and avoid rate limiting
 export const hostLookupLoader = new DataLoader(

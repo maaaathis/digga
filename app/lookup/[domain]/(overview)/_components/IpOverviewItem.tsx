@@ -1,6 +1,6 @@
 'use client';
 
-import { Dot, DotSquare, InfoIcon } from 'lucide-react';
+import { Dot } from 'lucide-react';
 import { type FC, ReactElement, useCallback, useState } from 'react';
 
 import {
