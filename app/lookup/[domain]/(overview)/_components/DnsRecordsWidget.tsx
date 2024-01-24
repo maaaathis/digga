@@ -2,10 +2,10 @@ import { XSquareIcon } from 'lucide-react';
 import React, { use } from 'react';
 
 import DashboardItem from '@/app/lookup/[domain]/(overview)/_components/DashboardItem';
+import IpOverviewItem from '@/app/lookup/[domain]/(overview)/_components/IpOverviewItem';
+import { getIpsInfo } from '@/lib/ips';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { cutLastDot } from '@/lib/utils';
-
-import RecordList from './RecordList';
 
 export enum DnsRecordType {
   A = 'A',
@@ -38,6 +38,13 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
   domain,
 }): React.ReactElement => {
   const records = use(fetchRecords(domain, type));
+  const ipsInfo = use(
+    getIpsInfo(
+      records
+        .filter((record) => record.type === 'A' || record.type === 'AAAA')
+        .map((record) => record.data)
+    )
+  );
 
   return (
     <DashboardItem title={type + '-Records'}>
@@ -47,7 +54,7 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
             <XSquareIcon className="h-10 w-10 text-black dark:text-white" />
           </div>
         ) : (
-          <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
+          <ul className="flex flex-col gap-2 text-lg font-medium text-slate-900 dark:text-slate-100">
             {Object.values(records).map((record) => {
               return (
                 <li key={record.data.split(' ')[1]}>
@@ -59,7 +66,10 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
                       {cutLastDot(record.data.split(' ')[1])}
                     </a>
                   ) : (
-                    <RecordList record={record.data} />
+                    <IpOverviewItem
+                      value={record.data}
+                      subvalue={ipsInfo[record.data]}
+                    />
                   )}
                 </li>
               );
