@@ -21,12 +21,12 @@ type RecordRowProps = {
   subvalue?: string;
 };
 
-const RecordRow: FC<RecordRowProps> = async ({
+const RecordRow: FC<RecordRowProps> = ({
   name,
   TTL,
   value,
   subvalue,
-}): Promise<ReactElement> => {
+}): ReactElement => {
   let interpolatedValue: ReactNode[] | string | null = value;
 
   const domainMatches = value.match(DOMAIN_REGEX);

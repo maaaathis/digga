@@ -50,3 +50,14 @@ export const hostLookupLoader = new DataLoader(
     cacheKeyFn: normalizeIp,
   }
 );
+
+export const getIpsInfo = async (
+  ips: string[]
+): Promise<Record<string, string>> => {
+  const hosts = await hostLookupLoader.loadMany(ips);
+  return Object.fromEntries(
+    ips
+      .map((ip, index) => [ip, hosts[index]])
+      .filter(([, host]) => typeof host === 'string')
+  );
+};

@@ -7,6 +7,7 @@ import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
 import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSelector';
 import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
+import { getIpsInfo } from '@/lib/ips';
 import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
 import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
@@ -86,6 +87,9 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 
   const resolver = getResolver(resolverName, locationName);
   const records = await resolver.resolveAllRecords(domain);
+  const ipsInfo = await getIpsInfo(
+    records.A.map((r) => r.data).concat(records.AAAA.map((r) => r.data))
+  );
 
   const hasResults =
     Object.values(records)
@@ -107,7 +111,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
       </div>
 
       {hasResults ? (
-        <DnsTable records={records} />
+        <DnsTable records={records} ipsInfo={ipsInfo} />
       ) : (
         <p className="mt-24 text-center text-muted-foreground">
           No DNS records found!
