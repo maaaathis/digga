@@ -1,6 +1,6 @@
 'use client';
 
-import { InfoIcon } from 'lucide-react';
+import { Dot } from 'lucide-react';
 import { type FC, ReactElement, useCallback, useState } from 'react';
 
 import {
@@ -12,11 +12,15 @@ import {
 
 import IpDetailsModal from '@/app/lookup/[domain]/dns/_components/IpDetailsModal';
 
-type IpLinkProps = {
+type IpOverviewItemProps = {
   value: string;
+  subvalue?: string;
 };
 
-const IpLink: FC<IpLinkProps> = ({ value }): ReactElement => {
+const IpOverviewItem: FC<IpOverviewItemProps> = ({
+  value,
+  subvalue,
+}): ReactElement => {
   const [isOpen, setOpen] = useState(false);
   const open = useCallback(() => setOpen(true), [setOpen]);
 
@@ -25,22 +29,27 @@ const IpLink: FC<IpLinkProps> = ({ value }): ReactElement => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild onClick={open}>
-            <a className="cursor-pointer select-none underline decoration-dotted underline-offset-4 hover:decoration-dashed">
-              <span className="select-none">{value}</span>
-              <InfoIcon
-                role="button"
-                className="mx-1 inline-block h-3 w-3 -translate-y-0.5"
-              />
-            </a>
+            <div className="flex cursor-pointer select-none flex-row gap-2 rounded-lg p-1.5 px-2.5 hover:bg-accent">
+              <Dot className="my-auto inline-block h-6 w-6" />
+              <div className="flex flex-col">
+                <span className="select-none">{value}</span>
+                {subvalue && (
+                  <span className="block select-none text-xs text-muted-foreground">
+                    {subvalue}
+                  </span>
+                )}
+              </div>
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <p>View IP Info</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+
       <IpDetailsModal ip={value} open={isOpen} onOpenChange={setOpen} />
     </>
   );
 };
 
-export default IpLink;
+export default IpOverviewItem;
