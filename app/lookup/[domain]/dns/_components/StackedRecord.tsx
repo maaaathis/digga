@@ -1,27 +1,23 @@
-'use client';
-
-import { FC, ReactElement, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import reactStringReplace from 'react-string-replace';
-
-import { TableCell, TableRow } from '@/components/ui/table';
 
 import IpLink from '@/app/lookup/[domain]/dns/_components/IpLink';
 import DomainLink from '@/components/DomainLink';
-import { cn, DOMAIN_REGEX, IPV4_REGEX, IPV6_REGEX } from '@/lib/utils';
+import { DOMAIN_REGEX, IPV4_REGEX, IPV6_REGEX } from '@/lib/utils';
 
-type RecordRowProps = {
+type StackedRecordProps = {
   name: string;
   TTL: number;
   value: string;
   subvalue?: string;
 };
 
-const RecordRow: FC<RecordRowProps> = ({
+const StackedRecord: FC<StackedRecordProps> = async ({
   name,
   TTL,
   value,
   subvalue,
-}): ReactElement => {
+}) => {
   let interpolatedValue: ReactNode[] | string | null = value;
 
   const domainMatches = value.match(DOMAIN_REGEX);
@@ -57,19 +53,19 @@ const RecordRow: FC<RecordRowProps> = ({
   }
 
   return (
-    <TableRow className="hover:bg-transparent">
-      <TableCell className="pl-0">{name}</TableCell>
-      <TableCell>{TTL}</TableCell>
-      <TableCell className={cn('pr-0', { ['py-1']: subvalue })}>
-        {interpolatedValue}
-        {subvalue && (
-          <span className="mt-1 block text-xs text-muted-foreground">
-            {subvalue}
-          </span>
-        )}
-      </TableCell>
-    </TableRow>
+    <div className="flex flex-col gap-1">
+      <div className="flex justify-between font-bold">
+        <span>{name}</span>
+        <span>{TTL}</span>
+      </div>
+      <p className="break-words">{interpolatedValue}</p>
+      {subvalue && (
+        <span className="mt-1 block break-words text-xs text-muted-foreground">
+          {subvalue}
+        </span>
+      )}
+    </div>
   );
 };
 
-export default RecordRow;
+export default StackedRecord;

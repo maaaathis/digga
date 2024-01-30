@@ -66,7 +66,8 @@ const TechnologiesWidget: React.FC<Props> = async ({
                     <Link
                       href={
                         filterWhatRunsDirectUrl(technology.website) ||
-                        technology.website
+                        technology.website ||
+                        '#'
                       }
                       target="_blank"
                       rel="noreferrer noopener"

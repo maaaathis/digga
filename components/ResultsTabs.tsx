@@ -26,13 +26,13 @@ const Tab: FC<{
   shortcutNumber,
   hideShortcut,
 }): ReactElement => (
-  <li className="mr-2">
+  <li className="mr-2" key={label}>
     <Link
       href={href}
       className={
         selected
-          ? 'relative inline-block rounded-t-lg border-b-2 border-primary p-4 text-primary'
-          : 'relative inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+          ? 'relative inline-block w-max rounded-t-lg border-b-2 border-primary p-4 text-primary'
+          : 'relative inline-block w-max rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
       }
     >
       {label}

@@ -29,8 +29,8 @@ const IpOverviewItem: FC<IpOverviewItemProps> = ({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild onClick={open}>
-            <div className="flex cursor-pointer select-none flex-row gap-2 rounded-lg p-1.5 px-2.5 hover:bg-accent">
-              <Dot className="my-auto inline-block h-6 w-6" />
+            <div className="flex cursor-pointer select-none flex-row gap-2 rounded-lg p-2 px-2.5 pr-3 hover:bg-accent">
+              <Dot className="my-auto inline-block h-7 w-7 shrink-0" />
               <div className="flex flex-col">
                 <span className="select-none">{value}</span>
                 {subvalue && (

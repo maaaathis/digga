@@ -1,3 +1,4 @@
+import { Dot } from 'lucide-react';
 import React, { use } from 'react';
 
 import { DnsRecordType } from '@/app/lookup/[domain]/(overview)/_components/DnsRecordsWidget';
@@ -46,14 +47,15 @@ const NameserverWidget: React.FC<Props> = ({
       secondaryElement={<DNSSECinfo domain={domain} />}
     >
       <div className="flex h-full">
-        <ul className="list-inside list-disc text-lg font-medium text-slate-900 dark:text-slate-100">
+        <ul className="text-lg font-medium text-slate-900 dark:text-slate-100">
           {nsList.map((ns) => (
             <li key={ns}>
               <a
-                className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                className="flex cursor-pointer select-none flex-row gap-2 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                 href={`/lookup/${cutLastDot(ns)}`}
               >
-                {cutLastDot(ns)}
+                <Dot className="my-auto h-7 w-7 shrink-0" />
+                <span>{cutLastDot(ns)}</span>
               </a>
             </li>
           ))}
