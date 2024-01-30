@@ -1,4 +1,4 @@
-import { XSquareIcon } from 'lucide-react';
+import { Dot, XSquareIcon } from 'lucide-react';
 import React, { use } from 'react';
 
 import DashboardItem from '@/app/lookup/[domain]/(overview)/_components/DashboardItem';
@@ -60,10 +60,11 @@ const DnsRecordsWidget: React.FC<DnsRecordsWidgetProps> = ({
                 <li key={record.data.split(' ')[1]}>
                   {type == 'MX' ? (
                     <a
-                      className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                      className="flex cursor-pointer select-none flex-row gap-2 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                       href={`/lookup/${cutLastDot(record.data.split(' ')[1])}`}
                     >
-                      {cutLastDot(record.data.split(' ')[1])}
+                      <Dot className="my-auto h-7 w-7 shrink-0" />
+                      <span>{cutLastDot(record.data.split(' ')[1])}</span>
                     </a>
                   ) : (
                     <IpOverviewItem

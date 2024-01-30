@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/table';
 
 import RecordRow from '@/app/lookup/[domain]/dns/_components/RecordRow';
+import StackedRecord from '@/app/lookup/[domain]/dns/_components/StackedRecord';
 import type { ResolvedRecords } from '@/lib/resolvers/DnsResolver';
 
 type DnsTableProps = {
@@ -34,7 +35,24 @@ const DnsTable: FC<DnsTableProps> = ({ records, ipsInfo }): ReactElement => (
             {recordType}
           </h2>
 
-          <div className="overflow-x-auto">
+          <div className="flex flex-col gap-4 sm:hidden">
+            {value
+              .slice()
+              .sort((a, b) => naturalCompare(a.data, b.data))
+              .map((v, i) => (
+                <Fragment key={v.type + v.data}>
+                  {i > 0 && <hr />}
+                  <StackedRecord
+                    name={v.name}
+                    TTL={v.TTL}
+                    value={v.data}
+                    subvalue={ipsInfo[v.data]}
+                  />
+                </Fragment>
+              ))}
+          </div>
+
+          <div className="hidden overflow-x-auto sm:block">
             <Table key={recordType}>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">

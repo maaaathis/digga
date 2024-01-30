@@ -126,7 +126,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
         <Fragment key={key}>
           <h2 className="mb-4 mt-8 text-3xl font-bold tracking-tight">{key}</h2>
           {data[key] !== undefined ? (
-            <code>
+            <code className="break-words">
               {data[key].split('\n').map((line, index) => (
                 <p key={index}>{line}</p>
               ))}
