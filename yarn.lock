@@ -1838,10 +1838,10 @@
   resolved "https://registry.yarnpkg.com/@types/natural-compare-lite/-/natural-compare-lite-1.4.2.tgz#9ec517cd6759d006ac432875019eedbc2e878858"
   integrity sha512-kk1ie31cI6AUm17qOi72lEOBfpRhcknJPsJQoKBulaZC9y00MHUWqxGTk/luWEnenLB+lHoNThrKAKdYVydlew==
 
-"@types/node@*", "@types/node@^20.11.7":
-  version "20.11.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.7.tgz#cb49aedd758c978c30806d0c38b520ed2a3df6e0"
-  integrity sha512-GPmeN1C3XAyV5uybAf4cMLWT9fDWcmQhZVtMFu7OR32WjrqGG+Wnk2V1d0bmtUyE/Zy1QJ9BxyiTih9z8Oks8A==
+"@types/node@*", "@types/node@^20.11.16":
+  version "20.11.16"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.16.tgz#4411f79411514eb8e2926f036c86c9f0e4ec6708"
+  integrity sha512-gKb0enTmRCzXSSUJDq6/sPcqrfCv2mkkG6Jt/clpn5eiCbKTY+SgZUxo+p8ZKMof5dCp9vHQUAB7wOUTod22wQ==
   dependencies:
     undici-types "~5.26.4"
 
@@ -4404,11 +4404,6 @@ react-hotkeys-hook@^4.4.4:
   resolved "https://registry.yarnpkg.com/react-hotkeys-hook/-/react-hotkeys-hook-4.4.4.tgz#5f055f39113218fe5e23f8723db68ccf99d155ab"
   integrity sha512-wzZmqb/Obr0ds9Myc1sIFPJ52GA/Eeg/vXBWV0HA1LvHlVAW5Va3KB0q6EZNlNSHQWscWZ2K8+6w0GYSie2o7A==
 
-react-icons@^4.12.0:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.12.0.tgz#54806159a966961bfd5cdb26e492f4dafd6a8d78"
-  integrity sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==
-
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -4993,6 +4988,18 @@ titleize@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/titleize/-/titleize-3.0.0.tgz#71c12eb7fdd2558aa8a44b0be83b8a76694acd53"
   integrity sha512-KxVu8EYHDPBdUYdKZdKtU2aj2XfEx9AfjXxE/Aj0vT06w2icA09Vus1rh6eSu1y01akYg6BjIK/hxyLJINoMLQ==
+
+tldts-core@^6.1.6:
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-6.1.6.tgz#e32d5af2be5caeccd3093cd871d5a687e8e0267b"
+  integrity sha512-oZ/t8X6O1HpCpEbXf3MZw9i8syxCK3sCEreLcZiX8/kaeDLic1aOfP+N5i7EOHhDW9/aZIL5cES8QBL9oq88XQ==
+
+tldts@^6.1.6:
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/tldts/-/tldts-6.1.6.tgz#7d418ec5bdbc48af88045c85bf743c1cecabcdbb"
+  integrity sha512-orc9LxxetmZjMPj01oScIF06fPVr83bQKjgBh2HWDNZMv1LUOzAPdwqRPN+/luy/AhJXcwUHTn87MX4G0nwPHg==
+  dependencies:
+    tldts-core "^6.1.6"
 
 to-fast-properties@^2.0.0:
   version "2.0.0"

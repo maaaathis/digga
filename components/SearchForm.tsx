@@ -14,6 +14,7 @@ import {
   useState,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { parse } from 'tldts';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -59,16 +60,22 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
     setError(false);
     setState(FormStates.Submitting);
 
-    let tDomain: string;
-    try {
-      tDomain = new URL(domain.trim().toLowerCase()).hostname;
-    } catch (err) {
-      tDomain = domain.trim().toLowerCase();
-    }
-    //initially remove www. from every domain (only!) through the SearchForm
-    if (tDomain.startsWith('www.')) tDomain = tDomain.slice(4, tDomain.length);
+    const parsedDomain = parse(domain.trim().toLowerCase());
 
-    const normalizedDomain = toASCII(tDomain);
+    const cleanedDomain =
+      (parsedDomain.subdomain === 'www' && parsedDomain.domain) ||
+      parsedDomain.hostname;
+
+    if (!parsedDomain || !cleanedDomain) {
+      setError(true);
+      setState(FormStates.Initial);
+      return;
+    }
+
+    let normalizedDomain = cleanedDomain.endsWith('.')
+      ? cleanedDomain.slice(0, -1)
+      : cleanedDomain;
+    normalizedDomain = toASCII(normalizedDomain);
 
     if (!isValidDomain(normalizedDomain)) {
       setError(true);
