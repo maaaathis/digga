@@ -1,4 +1,4 @@
-name: Testing
+name: CI
 
 on:
   push:
@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  formatting:
-    name: Code Formatting
+  build:
+    name: Next.js build
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
@@ -26,5 +26,5 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - name: Run Tests
-        run: yarn run test:format
+      - name: Run build
+        run: yarn run build
