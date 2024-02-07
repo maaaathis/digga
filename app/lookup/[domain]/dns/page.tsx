@@ -3,7 +3,11 @@ import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
 
+import { Button } from '@/components/ui/button';
+
+import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryButton';
 import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
+import FlushGoogleDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushGoogleDnsCacheButton';
 import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSelector';
 import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
@@ -102,12 +106,18 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 
   return (
     <>
-      <div className="flex flex-col gap-8 sm:flex-row">
-        <ResolverSelector initialValue={resolverName} />
-        <LocationSelector
-          initialValue={locationName}
-          disabled={!resolverName}
-        />
+      <div className="flex flex-col justify-between gap-4 sm:flex-row">
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+          <ResolverSelector initialValue={resolverName} />
+          <LocationSelector
+            initialValue={locationName}
+            disabled={!resolverName}
+          />
+        </div>
+        <div className="flex flex-col gap-2 sm:gap-4 md:flex-row">
+          {resolverName === 'google' && <FlushGoogleDnsCacheButton />}
+          <DnsHistoryButton domain={domain} />
+        </div>
       </div>
 
       {hasResults ? (
