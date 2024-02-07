@@ -3,8 +3,6 @@ import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
-
 import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryButton';
 import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
 import FlushGoogleDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushGoogleDnsCacheButton';
