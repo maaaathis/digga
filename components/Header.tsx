@@ -44,6 +44,7 @@ const Header: FC = (): ReactElement => (
             variant="outline"
             size="icon"
             className="w-11 cursor-pointer data-[state=open]:bg-gray-100 dark:data-[state=open]:bg-gray-800"
+            aria-label="Menu"
           >
             <Menu />
           </Button>
