@@ -1,14 +1,27 @@
 'use client';
 
+import { ArrowUpRight, Github, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { FC, ReactElement } from 'react';
 
-import ThemeMenu from '@/components/ThemeMenu';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import ThemeToggle from '@/components/ThemeToggle';
 
 const Header: FC = (): ReactElement => (
-  <header className="w-full p-4 md:px-8">
+  <header className="w-full p-3 md:px-6">
     <div className="flex flex-row items-center justify-between pb-4">
-      <Link href="/">
+      <Link
+        href="/"
+        className="rounded-xl py-1.5 pl-3 pr-1.5 hover:bg-gray-200/80 dark:hover:bg-gray-800/50"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
@@ -25,7 +38,62 @@ const Header: FC = (): ReactElement => (
         </svg>
         <span className="sr-only">digga</span>
       </Link>
-      <ThemeMenu />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="w-11 cursor-pointer data-[state=open]:bg-gray-100 dark:data-[state=open]:bg-gray-800"
+            aria-label="Menu"
+          >
+            <Menu />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="end"
+          className="w-60 overflow-hidden rounded-2xl p-3"
+        >
+          <DropdownMenuItem asChild>
+            <Link
+              className="flex cursor-pointer items-center justify-between rounded-xl px-4 py-3"
+              href="https://github.com/maaaathis/digga"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <div className="flex flex-row gap-1">
+                <Github className="my-auto h-4 w-4" />
+                <span className="text-base font-medium">GitHub</span>
+              </div>
+              <ArrowUpRight className="h-5 w-5" />
+            </Link>
+          </DropdownMenuItem>
+          <p className="mx-4 mt-2 text-xs text-muted-foreground">
+            Built by{' '}
+            <Link
+              href="https://github.com/maaaathis"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline-offset-4 hover:underline"
+            >
+              maaaathis
+            </Link>{' '}
+            &{' '}
+            <Link
+              href="https://github.com/wotschofsky"
+              target="_blank"
+              rel="noreferrer noopener nofollow"
+              className="underline-offset-4 hover:underline"
+            >
+              Felix Wotschofsky
+            </Link>
+            . Hosted on Vercel.
+          </p>
+          <DropdownMenuSeparator className="my-3" />
+          <DropdownMenuItem asChild>
+            <ThemeToggle />
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   </header>
 );

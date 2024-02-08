@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import IpDetailsModal from '@/components/IpDetailsModal';
+import IpDetailsModal from '@/app/lookup/[domain]/dns/_components/IpDetailsModal';
 
 type IpLinkProps = {
   value: string;
@@ -38,7 +38,6 @@ const IpLink: FC<IpLinkProps> = ({ value }): ReactElement => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-
       <IpDetailsModal ip={value} open={isOpen} onOpenChange={setOpen} />
     </>
   );

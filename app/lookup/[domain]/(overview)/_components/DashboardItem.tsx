@@ -1,3 +1,5 @@
+'use client';
+
 import { Loader } from 'lucide-react';
 import React, { Suspense } from 'react';
 
@@ -25,7 +27,7 @@ const DashboardItem: React.FC<Props> = ({
         className
       )}
     >
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-col justify-between gap-1 xxs:flex-row">
         <span className="rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold uppercase text-slate-950 dark:bg-secondary dark:text-slate-50">
           {title}
         </span>

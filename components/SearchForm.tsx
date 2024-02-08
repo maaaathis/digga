@@ -1,7 +1,7 @@
 'use client';
 
 import isValidDomain from 'is-valid-domain';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Search } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { toASCII } from 'punycode';
 import {
@@ -10,14 +10,16 @@ import {
   FormEvent,
   ReactElement,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { parse } from 'tldts';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { cn } from '@/lib/utils';
+import { cn, isAppleDevice } from '@/lib/utils';
 
 enum FormStates {
   Initial,
@@ -39,10 +41,13 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   const [state, setState] = useState<FormStates>(FormStates.Initial);
   const [error, setError] = useState(false);
 
-  useHotkeys(['s', 'shift+7'], (event) => {
-    event.preventDefault();
-    document.getElementById('domain-search-input')?.focus();
-  });
+  const inputRef = useRef<HTMLInputElement>(null);
+  useHotkeys(
+    isAppleDevice() ? ['meta+k', 's', 'shift+7'] : ['ctrl+k', 's', 'shift+7'],
+    () => inputRef.current?.focus(),
+    { preventDefault: true },
+    [inputRef.current]
+  );
 
   useEffect(() => {
     if (props.initialValue) {
@@ -55,16 +60,22 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
     setError(false);
     setState(FormStates.Submitting);
 
-    let tDomain: string;
-    try {
-      tDomain = new URL(domain.trim().toLowerCase()).hostname;
-    } catch (err) {
-      tDomain = domain.trim().toLowerCase();
-    }
-    //initially remove www. from every domain (only!) through the SearchForm
-    if (tDomain.startsWith('www.')) tDomain = tDomain.slice(4, tDomain.length);
+    const parsedDomain = parse(domain.trim().toLowerCase());
 
-    const normalizedDomain = toASCII(tDomain);
+    const cleanedDomain =
+      (parsedDomain.subdomain === 'www' && parsedDomain.domain) ||
+      parsedDomain.hostname;
+
+    if (!parsedDomain || !cleanedDomain) {
+      setError(true);
+      setState(FormStates.Initial);
+      return;
+    }
+
+    let normalizedDomain = cleanedDomain.endsWith('.')
+      ? cleanedDomain.slice(0, -1)
+      : cleanedDomain;
+    normalizedDomain = toASCII(normalizedDomain);
 
     if (!isValidDomain(normalizedDomain)) {
       setError(true);
@@ -88,32 +99,49 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   return (
     <>
       <form className="flex gap-3" onSubmit={handleSubmit}>
-        <Input
-          className={cn('font-wider flex-[4]', props.className)}
-          type="text"
-          required
-          placeholder="example.com"
-          aria-label="Domain"
-          value={domain}
-          onInput={(event: ChangeEvent<HTMLInputElement>) =>
-            setDomain(event.target.value)
-          }
-          disabled={state !== FormStates.Initial}
-          id="domain-search-input"
-          autoFocus={props.autofocus}
-          autoCapitalize="none"
-          autoComplete="url"
-          autoCorrect="off"
-        />
+        <div className="relative flex-[4]">
+          <Input
+            ref={inputRef}
+            className={cn('font-wider', props.className)}
+            type="text"
+            required
+            placeholder="example.com"
+            aria-label="Domain"
+            value={domain}
+            onInput={(event: ChangeEvent<HTMLInputElement>) =>
+              setDomain(event.target.value)
+            }
+            disabled={state !== FormStates.Initial}
+            autoFocus={props.autofocus}
+            autoCapitalize="none"
+            autoComplete="url"
+            autoCorrect="off"
+          />
+          <kbd className="pointer-events-none absolute right-3 top-1/2 hidden h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+            {isAppleDevice() ? (
+              <>
+                <span className="text-xs">⌘</span>K
+              </>
+            ) : (
+              'ctrl+k'
+            )}
+          </kbd>
+        </div>
         <Button
           className="h-12 flex-[1]"
           type="submit"
           disabled={state !== FormStates.Initial}
+          aria-label="Lookup Domain"
         >
           {state === FormStates.Submitting && (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="h-4 w-4 animate-spin md:mr-2" />
           )}
-          Lookup
+          <Search
+            className={`h-6 w-6 md:hidden ${
+              state === FormStates.Submitting && 'hidden'
+            }`}
+          />
+          <span className="hidden md:block">Lookup</span>
         </Button>
       </form>
 

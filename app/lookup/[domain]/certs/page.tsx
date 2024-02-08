@@ -1,6 +1,7 @@
 import { ExternalLink } from 'lucide-react';
+import { Metadata } from 'next';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 
 import {
   Table,
@@ -31,6 +32,20 @@ type CertsData = {
   serial_number: string;
 }[];
 
+export const runtime = 'edge';
+export const preferredRegion = 'lhr1';
+
+export const generateMetadata = ({
+  params: { domain },
+}: CertsResultsPageProps): Metadata => ({
+  openGraph: {
+    url: `/lookup/${domain}/certs`,
+  },
+  alternates: {
+    canonical: `/lookup/${domain}/certs`,
+  },
+});
+
 const lookupCerts = async (domain: string): Promise<CertsData> => {
   const response = await fetch(
     'https://crt.sh?' +
@@ -60,13 +75,13 @@ type CertsResultsPageProps = {
 
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   params: { domain },
-}) => {
-  const certRequests = [lookupCerts(domain)];
+}): Promise<ReactElement> => {
+  const certRequests = [await lookupCerts(domain)];
 
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
   if (hasParentDomain) {
     const parentDomain = domain.split('.').slice(1).join('.');
-    certRequests.push(lookupCerts(`*.${parentDomain}`));
+    certRequests.push(await lookupCerts(`*.${parentDomain}`));
   }
 
   const certs = await Promise.all(certRequests).then((responses) =>
@@ -89,6 +104,13 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
 
   return (
     <>
+      {hasParentDomain && (
+        <p className="my-2 text-sm text-muted-foreground">
+          <span className="font-bold">Note:</span> This domain has a parent
+          domain. The following certificates were issued for both this domain
+          and its parent domain.
+        </p>
+      )}
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
@@ -144,7 +166,11 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
       <p className="mt-5 text-xs text-opacity-80">
         Data provided by{' '}
         <Link
-          href={`https://crt.sh?q=${domain}`}
+          href={
+            hasParentDomain
+              ? `https://crt.sh?q=${domain.split('.').slice(1).join('.')}`
+              : `https://crt.sh?q=${domain}`
+          }
           target="_blank"
           rel="noreferrer noopener"
           className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"

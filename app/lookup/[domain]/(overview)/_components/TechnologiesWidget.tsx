@@ -9,8 +9,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import DashboardItem from '@/components/overview/DashboardItem';
-import TechnologiesDetailsModal from '@/components/TechnologiesDetailsModal';
+import DashboardItem from '@/app/lookup/[domain]/(overview)/_components/DashboardItem';
+import TechnologiesDetailsModal from '@/app/lookup/[domain]/(overview)/_components/TechnologiesDetailsModal';
 
 interface Props {
   domain: string;
@@ -66,7 +66,8 @@ const TechnologiesWidget: React.FC<Props> = async ({
                     <Link
                       href={
                         filterWhatRunsDirectUrl(technology.website) ||
-                        technology.website
+                        technology.website ||
+                        '#'
                       }
                       target="_blank"
                       rel="noreferrer noopener"
@@ -97,11 +98,11 @@ const TechnologiesWidget: React.FC<Props> = async ({
 };
 
 async function requestAndParseTechnologies(domain: string) {
-  var myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+  const requestHeaders = new Headers();
+  requestHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
 
-  var urlencoded = new URLSearchParams();
-  urlencoded.append(
+  const requestUrlencoded = new URLSearchParams();
+  requestUrlencoded.append(
     'data',
     '{"hostname": "' +
       domain +
@@ -112,35 +113,49 @@ async function requestAndParseTechnologies(domain: string) {
       '"}'
   );
 
-  var requestOptions = {
+  const requestController = new AbortController();
+  const requestWhatRunsTimer = setTimeout(
+    () => requestController.abort(),
+    2000
+  );
+
+  const requestSignal = requestController.signal;
+
+  const requestOptions = {
     method: 'POST',
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: 'follow',
+    headers: requestHeaders,
+    body: requestUrlencoded,
     next: {
       revalidate: 24 * 60 * 60,
     },
+    timeout: 2000,
+    signal: requestSignal,
   };
 
-  const data = await fetch(
-    'https://www.whatruns.com/api/v1/get_site_apps',
-    // @ts-ignore
-    requestOptions
-  );
+  try {
+    const request = await fetch(
+      'https://www.whatruns.com/api/v1/get_site_apps',
+      // @ts-ignore
+      requestOptions
+    );
+    clearTimeout(requestWhatRunsTimer);
 
-  const text = await data.text();
+    if (request.status !== 200) return null;
 
-  const json = JSON.parse(text);
+    const requestJson = await request.json();
 
-  const apps = json.apps;
+    const apps = requestJson.apps;
 
-  if (!apps) return null;
+    if (!apps) return null;
 
-  const appsJson = JSON.parse(apps);
+    const appsJson = JSON.parse(apps);
 
-  const appsJsonKey = Object.keys(appsJson)[0];
+    const appsJsonKey = Object.keys(appsJson)[0];
 
-  return appsJson[appsJsonKey];
+    return appsJson[appsJsonKey];
+  } catch (e) {
+    return null;
+  }
 }
 
 export function filterWhatRunsDirectUrl(url: string): string | undefined {

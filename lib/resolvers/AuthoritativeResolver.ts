@@ -7,6 +7,7 @@ import dnsPacket, {
 } from 'dns-packet';
 import dgram from 'node:dgram';
 
+import { retry } from '../utils';
 import DnsResolver, { type RawRecord, type RecordType } from './DnsResolver';
 
 class AuthoritativeResolver extends DnsResolver {
@@ -94,7 +95,7 @@ class AuthoritativeResolver extends DnsResolver {
       const timeout = setTimeout(() => {
         socket.close();
         resolve({ answers: [] });
-      }, 4000);
+      }, 3000);
 
       socket.on('message', (message: Buffer) => {
         socket.close();
@@ -120,7 +121,7 @@ class AuthoritativeResolver extends DnsResolver {
     async (keys) =>
       Promise.all(
         keys.map(async ({ domain, type, nameserver }) =>
-          this.sendRequest(domain, type, nameserver)
+          retry(() => this.sendRequest(domain, type, nameserver), 3)
         )
       ),
     {

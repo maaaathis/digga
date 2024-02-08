@@ -1,5 +1,7 @@
 import whoiser, { WhoisSearchResult } from 'whoiser';
 
+import { getTLD } from '@/lib/utils';
+
 export enum DomainAvailability {
   UNKNOWN = 'unknown',
   RESERVED = 'reserved',
@@ -13,7 +15,7 @@ export default async function whois(
   return await whoiser(domain);
 }
 
-export async function isAvailable(domain: string): Promise<string> {
+async function isAvailable(domain: string): Promise<string> {
   domain = domain.toLowerCase();
   //accept also subdomains
   if (domain.includes('.')) {
@@ -24,7 +26,10 @@ export async function isAvailable(domain: string): Promise<string> {
 
   // @ts-ignore
   const firstDomainWhois = whoiser.firstResult(domainWhois);
-  const firstTextLine = (firstDomainWhois.text[0] || '').toLowerCase();
+  const firstTextLine = (
+    (firstDomainWhois.text && firstDomainWhois.text[0]) ||
+    ''
+  ).toLowerCase();
 
   let domainAvailability = DomainAvailability.UNKNOWN;
 
@@ -40,5 +45,24 @@ export async function isAvailable(domain: string): Promise<string> {
     domainAvailability = DomainAvailability.AVAILABLE;
   }
 
+  // Status: available
+  if (
+    firstDomainWhois['Domain Status']?.includes('available') ||
+    firstDomainWhois['Domain Status']?.includes('AVAILABLE')
+  )
+    return DomainAvailability.AVAILABLE;
+
   return domainAvailability;
+}
+
+export async function isDomainAvailable(domain: string): Promise<boolean> {
+  if (!domain) return true;
+
+  const tld = getTLD(domain);
+  if (!tld) return true;
+
+  // .ch & .li registry does not support whois :c
+  if (tld === 'ch' || tld === 'li') return false;
+
+  return (await isAvailable(domain)) === DomainAvailability.AVAILABLE;
 }

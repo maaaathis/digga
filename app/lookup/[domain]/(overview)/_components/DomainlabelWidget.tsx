@@ -29,10 +29,10 @@ const DomainlabelWidget: React.FC<Props> = ({
         {Object.values(whoisResult['Domain Status']).map(
           (label: unknown, index: number) => {
             const labelValue = label as string;
-            return labelValue.split(' ')[1] ? (
+            return labelValue && labelValue.split(' ')[1] ? (
               <Link
                 className="cursor-pointer"
-                href={labelValue.split(' ')[1]}
+                href={labelValue.split(' ')[1] || '#'}
                 target="_blank"
                 rel="noreferrer noopener"
                 key={labelValue}

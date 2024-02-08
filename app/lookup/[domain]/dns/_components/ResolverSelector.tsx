@@ -37,19 +37,24 @@ const ResolverSelector: FC<ResolverSelectorProps> = ({ initialValue }) => {
   );
 
   return (
-    <Select
-      defaultValue={initialValue || 'authoritative'}
-      onValueChange={onValueChange}
-    >
-      <SelectTrigger className="w-[180px]" aria-label="Resolver">
-        <SelectValue placeholder="Resolver" aria-label="Resolver" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="authoritative">Authoritative</SelectItem>
-        <SelectItem value="google">Google</SelectItem>
-        <SelectItem value="cloudflare">Cloudflare</SelectItem>
-      </SelectContent>
-    </Select>
+    <div className="flex flex-col gap-1">
+      <span className="text-sm text-muted-foreground">Resolver</span>
+
+      <Select
+        defaultValue={initialValue || 'authoritative'}
+        onValueChange={onValueChange}
+      >
+        <SelectTrigger className="w-[180px]" aria-label="Resolver">
+          <SelectValue placeholder="Resolver" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="authoritative">Authoritative</SelectItem>
+          <SelectItem value="google">Google</SelectItem>
+          <SelectItem value="cloudflare">Cloudflare</SelectItem>
+          <SelectItem value="alibaba">Alibaba Public DNS</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
   );
 };
 
