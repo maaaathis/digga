@@ -69,7 +69,7 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
     })
   );
 
-  const regionList = markers.map((marker) => (
+  const regionEntries = markers.map((marker) => (
     <div key={marker.code}>
       <h3 className="mb-2 font-semibold">{marker.name}</h3>
       <ul>
@@ -122,11 +122,10 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
         )}
       </Alert>
       <div className="flex flex-row">
-        <div className="basis-1/4">
-          <h2 className="mb-4 text-lg font-semibold">IP-Adressen je Region</h2>
-          <div className="flex flex-wrap gap-4">{regionList}</div>
+        <div className="basis-2/5">
+          <div className="grid grid-cols-2 gap-4">{regionEntries}</div>
         </div>
-        <div className="basis-3/4">
+        <div className="basis-3/5">
           <ResultsGlobe domain={domain} markers={markers} />
         </div>
       </div>
