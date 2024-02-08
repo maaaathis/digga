@@ -109,7 +109,7 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
 
   return (
     <>
-      <Alert className="mx-auto">
+      <Alert className="mx-auto my-6 max-w-max">
         {hasDifferentRecords ? (
           <>
             <InfoIcon className="h-4 w-4" />
