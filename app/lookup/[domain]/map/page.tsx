@@ -111,7 +111,7 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
         <div className="basis-2/5">
           <div className="grid grid-cols-2 gap-4">{regionEntries}</div>
         </div>
-        <div className="basis-3/5">
+        <div className="order-first basis-3/5 lg:order-last">
           <Alert className="mx-auto">
             {hasDifferentRecords ? (
               <>

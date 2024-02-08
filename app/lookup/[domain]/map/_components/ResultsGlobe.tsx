@@ -52,7 +52,7 @@ const ResultsGlobe: FC<ResultsGlobeProps> = ({ domain, markers }) => {
   }, [wrapperRef]);
 
   return (
-    <div ref={wrapperRef} className={cn(styles.wrapper, 'w-full')}>
+    <div ref={wrapperRef} className={cn(styles.wrapper, 'w-8/12 lg:w-full')}>
       <Globe
         // Map from https://github.com/vasturiano/three-globe
         globeImageUrl={
@@ -137,7 +137,7 @@ const ResultsGlobe: FC<ResultsGlobeProps> = ({ domain, markers }) => {
                 h(
                   'a.underline.decoration-dotted',
                   {
-                    href: `/lookup/${domain}?resolver=cloudflare&location=${d.code}`,
+                    href: `/lookup/${domain}/dns?resolver=cloudflare&location=${d.code}`,
                     onclick: (event: MouseEvent) => {
                       event.preventDefault();
                       const el = event.target as HTMLAnchorElement;
