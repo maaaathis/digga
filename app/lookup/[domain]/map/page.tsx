@@ -89,21 +89,23 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
     </Link>
   ));
 
-  let hasDifferentRecords = false;
-  for (let i = 1; i < markers.length; i++) {
-    const previous = markers[i - 1].results;
-    const current = markers[i].results;
-    if (
-      previous.A.toSorted().toString() !== current.A.toSorted().toString() ||
-      previous.AAAA.toSorted().toString() !==
-        current.AAAA.toSorted().toString() ||
-      previous.CNAME.toSorted().toString() !==
-        current.CNAME.toSorted().toString()
-    ) {
-      hasDifferentRecords = true;
-      break;
-    }
-  }
+  const hasDifferentRecords = markers.some((marker, index) => {
+    if (index === 0) return false;
+
+    const previous = markers[index - 1].results;
+    const current = marker.results;
+
+    const compareRecords = (recordType: 'A' | 'AAAA' | 'CNAME') => {
+      return (
+        previous[recordType].length !== current[recordType].length ||
+        previous[recordType].some((ip, idx) => ip !== current[recordType][idx])
+      );
+    };
+
+    return (
+      compareRecords('A') || compareRecords('AAAA') || compareRecords('CNAME')
+    );
+  });
 
   return (
     <>
