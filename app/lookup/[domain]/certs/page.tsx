@@ -1,7 +1,7 @@
 import { ExternalLink } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 
 import {
   Table,
@@ -31,6 +31,9 @@ type CertsData = {
   not_after: string;
   serial_number: string;
 }[];
+
+export const runtime = 'edge';
+export const preferredRegion = 'lhr1';
 
 export const generateMetadata = ({
   params: { domain },
@@ -72,7 +75,7 @@ type CertsResultsPageProps = {
 
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   params: { domain },
-}) => {
+}): Promise<ReactElement> => {
   const certRequests = [await lookupCerts(domain)];
 
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
