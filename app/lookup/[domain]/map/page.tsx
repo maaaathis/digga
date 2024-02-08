@@ -6,6 +6,7 @@ import Link from 'next/link';
 import type { FC } from 'react';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 
 import ResultsGlobe from '@/app/lookup/[domain]/map/_components/ResultsGlobe';
 import { REGIONS } from '@/lib/data';
@@ -72,16 +73,17 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
 
   const regionEntries = markers.map((marker) => (
     <Link
-      href={`/lookup/${domain}?resolver=cloudflare&location=${marker.code}`}
+      href={`/lookup/${domain}/dns?resolver=cloudflare&location=${marker.code}`}
       key={marker.code}
-      className="rounded-xl border border-gray-200 p-4 transition-colors duration-200 ease-in-out hover:bg-gray-100"
     >
-      <h3 className="mb-2 font-semibold">{marker.name}</h3>
-      <ul>
-        {marker.results.A.map((ip, index) => (
-          <li key={index}>{ip}</li>
-        ))}
-      </ul>
+      <Button variant="outline">
+        <h3 className="mb-2 font-semibold">{marker.name}</h3>
+        <ul>
+          {marker.results.A.map((ip, index) => (
+            <li key={index}>{ip}</li>
+          ))}
+        </ul>
+      </Button>
     </Link>
   ));
 
@@ -103,7 +105,7 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
 
   return (
     <>
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col gap-8 lg:flex-row">
         <div className="basis-2/5">
           <div className="grid grid-cols-2 gap-4">{regionEntries}</div>
         </div>
