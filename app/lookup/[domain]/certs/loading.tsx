@@ -1,5 +1,7 @@
 'use client';
 
+import { ReactElement } from 'react';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
@@ -10,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const CertsLoading = () => (
+const CertsLoading = (): ReactElement => (
   <Table>
     <TableHeader>
       <TableRow className="hover:bg-transparent">
