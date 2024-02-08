@@ -76,11 +76,13 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
       href={`/lookup/${domain}/dns?resolver=cloudflare&location=${marker.code}`}
       key={marker.code}
     >
-      <Button variant="outline" className="flex flex-col">
+      <Button variant="outline" className="flex h-full w-full flex-col">
         <h3 className="mb-2 font-semibold">{marker.name}</h3>
         <ul>
           {marker.results.A.map((ip, index) => (
-            <li key={index}>{ip}</li>
+            <li key={index} className="text-sm font-medium">
+              {ip}
+            </li>
           ))}
         </ul>
       </Button>
