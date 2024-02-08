@@ -131,6 +131,7 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
           className="h-12 flex-[1]"
           type="submit"
           disabled={state !== FormStates.Initial}
+          aria-label="Lookup Domain"
         >
           {state === FormStates.Submitting && (
             <Loader2 className="h-4 w-4 animate-spin md:mr-2" />
