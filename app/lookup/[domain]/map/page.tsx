@@ -69,6 +69,17 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
     })
   );
 
+  const regionList = markers.map((marker) => (
+    <div key={marker.code}>
+      <h3 className="mb-2 font-semibold">{marker.name}</h3>
+      <ul>
+        {marker.results.A.map((ip, index) => (
+          <li key={index}>{ip}</li>
+        ))}
+      </ul>
+    </div>
+  ));
+
   let hasDifferentRecords = false;
   for (let i = 1; i < markers.length; i++) {
     const previous = markers[i - 1].results;
@@ -112,9 +123,8 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
       </Alert>
       <div className="flex flex-row">
         <div className="basis-1/4">
-          <div className="mt-12 flex justify-center">
-            <div className="bg-skeleton my-36 aspect-square w-3/5 rounded-full" />
-          </div>
+          <h2 className="mb-4 text-lg font-semibold">IP-Adressen je Region</h2>
+          <div className="flex flex-wrap gap-4">{regionList}</div>
         </div>
         <div className="basis-3/4">
           <ResultsGlobe domain={domain} markers={markers} />
