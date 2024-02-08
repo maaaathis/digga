@@ -110,7 +110,16 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
           </>
         )}
       </Alert>
-      <ResultsGlobe domain={domain} markers={markers} />
+      <div className="flex flex-row">
+        <div className="basis-1/4">
+          <div className="mt-12 flex justify-center">
+            <div className="bg-skeleton my-36 aspect-square w-3/5 rounded-full" />
+          </div>
+        </div>
+        <div className="basis-3/4">
+          <ResultsGlobe domain={domain} markers={markers} />
+        </div>
+      </div>
     </>
   );
 };
