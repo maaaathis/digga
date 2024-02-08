@@ -60,8 +60,9 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
 
   useHotkeys('alt+1', () => router.push(`/lookup/${domain}`), [router]);
   useHotkeys('alt+2', () => router.push(`/lookup/${domain}/dns`), [router]);
-  useHotkeys('alt+3', () => router.push(`/lookup/${domain}/whois`), [router]);
-  useHotkeys('alt+4', () => router.push(`/lookup/${domain}/certs`), [router]);
+  useHotkeys('alt+3', () => router.push(`/lookup/${domain}/map`), [router]);
+  useHotkeys('alt+4', () => router.push(`/lookup/${domain}/whois`), [router]);
+  useHotkeys('alt+5', () => router.push(`/lookup/${domain}/certs`), [router]);
 
   return (
     <div className="group mb-7 mt-6 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
@@ -81,17 +82,24 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
           hideShortcut={!isDesktop}
         />
         <Tab
+          label="Map"
+          href={`/lookup/${domain}/map`}
+          selected={selectedSegment === 'map'}
+          shortcutNumber={3}
+          hideShortcut={!isDesktop}
+        />
+        <Tab
           label="Whois"
           href={`/lookup/${domain}/whois`}
           selected={selectedSegment === 'whois'}
-          shortcutNumber={3}
+          shortcutNumber={4}
           hideShortcut={!isDesktop}
         />
         <Tab
           label="Certs"
           href={`/lookup/${domain}/certs`}
           selected={selectedSegment === 'certs'}
-          shortcutNumber={4}
+          shortcutNumber={5}
           hideShortcut={!isDesktop}
         />
       </ul>
