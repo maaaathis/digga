@@ -4,6 +4,7 @@ import h from 'hyperscript';
 import naturalCompare from 'natural-compare-lite';
 import { useTheme } from 'next-themes';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { type FC, useEffect, useRef, useState } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -15,7 +16,9 @@ const Globe = dynamic(() => import('react-globe.gl'), { ssr: false });
 export const runtime = 'edge';
 
 type ResultsGlobeProps = {
+  domain: string;
   markers: {
+    code: string;
     name: string;
     lat: number;
     lng: number;
@@ -27,7 +30,8 @@ type ResultsGlobeProps = {
   }[];
 };
 
-const ResultsGlobe: FC<ResultsGlobeProps> = ({ markers }) => {
+const ResultsGlobe: FC<ResultsGlobeProps> = ({ domain, markers }) => {
+  const router = useRouter();
   const { resolvedTheme } = useTheme();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number | undefined>(undefined);
@@ -126,7 +130,23 @@ const ResultsGlobe: FC<ResultsGlobeProps> = ({ markers }) => {
                     'p.text-xs.text-muted-foreground.italic',
                     'No records found!'
                   )
-                : undefined
+                : undefined,
+
+              h(
+                'p.text-xs.text-muted-foreground.italic',
+                h(
+                  'a.underline.decoration-dotted',
+                  {
+                    href: `/lookup/${domain}?resolver=cloudflare&location=${d.code}`,
+                    onclick: (event: MouseEvent) => {
+                      event.preventDefault();
+                      const el = event.target as HTMLAnchorElement;
+                      router.push(el.href);
+                    },
+                  },
+                  'View full results'
+                )
+              )
             )
           );
         }}
