@@ -92,14 +92,14 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
           label="Whois"
           href={`/lookup/${domain}/whois`}
           selected={selectedSegment === 'whois'}
-          shortcutNumber={3}
+          shortcutNumber={4}
           hideShortcut={!isDesktop}
         />
         <Tab
           label="Certs"
           href={`/lookup/${domain}/certs`}
           selected={selectedSegment === 'certs'}
-          shortcutNumber={4}
+          shortcutNumber={5}
           hideShortcut={!isDesktop}
         />
       </ul>
