@@ -108,8 +108,8 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
   return (
     <>
       <div className="flex flex-col gap-8 lg:flex-row">
-        <div className="basis-2/5">
-          <div className="grid grid-cols-2 gap-4">{regionEntries}</div>
+        <div className="flex h-full basis-2/5">
+          <div className="my-auto grid grid-cols-2 gap-4">{regionEntries}</div>
         </div>
         <div className="order-first basis-3/5 lg:order-last">
           <Alert className="mx-auto">

@@ -52,7 +52,7 @@ const ResultsGlobe: FC<ResultsGlobeProps> = ({ domain, markers }) => {
   }, [wrapperRef]);
 
   return (
-    <div ref={wrapperRef} className={cn(styles.wrapper, 'w-8/12 lg:w-full')}>
+    <div ref={wrapperRef} className={cn(styles.wrapper, 'w-full')}>
       <Globe
         // Map from https://github.com/vasturiano/three-globe
         globeImageUrl={
