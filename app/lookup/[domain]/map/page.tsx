@@ -107,34 +107,34 @@ const MapResultsPage: FC<MapResultsPageProps> = async ({
 
   return (
     <>
+      <Alert className="mx-auto">
+        {hasDifferentRecords ? (
+          <>
+            <InfoIcon className="h-4 w-4" />
+            <AlertTitle>Different records detected!</AlertTitle>
+            <AlertDescription>
+              Not all regions have the same records for this domain. This{' '}
+              <i>could</i> be an indication for the use of GeoDNS.
+              <br /> Keep in mind however, that some providers rotate their IP
+              addresses, which can also lead to different results.
+            </AlertDescription>
+          </>
+        ) : (
+          <>
+            <CheckCircleIcon className="h-4 w-4" />
+            <AlertTitle>All records are the same!</AlertTitle>
+            <AlertDescription>
+              All records are the same for all regions. Therefore propagation
+              was successful and the domain is not using GeoDNS.
+            </AlertDescription>
+          </>
+        )}
+      </Alert>
       <div className="flex flex-col gap-8 lg:flex-row">
         <div className="my-auto h-full basis-2/5">
           <div className="grid w-full grid-cols-2 gap-4">{regionEntries}</div>
         </div>
         <div className="order-first basis-3/5 lg:order-last">
-          <Alert className="mx-auto">
-            {hasDifferentRecords ? (
-              <>
-                <InfoIcon className="h-4 w-4" />
-                <AlertTitle>Different records detected!</AlertTitle>
-                <AlertDescription>
-                  Not all regions have the same records for this domain. This{' '}
-                  <i>could</i> be an indication for the use of GeoDNS.
-                  <br /> Keep in mind however, that some providers rotate their
-                  IP addresses, which can also lead to different results.
-                </AlertDescription>
-              </>
-            ) : (
-              <>
-                <CheckCircleIcon className="h-4 w-4" />
-                <AlertTitle>All records are the same!</AlertTitle>
-                <AlertDescription>
-                  All records are the same for all regions. Therefore
-                  propagation was successful and the domain is not using GeoDNS.
-                </AlertDescription>
-              </>
-            )}
-          </Alert>
           <ResultsGlobe domain={domain} markers={markers} />
         </div>
       </div>

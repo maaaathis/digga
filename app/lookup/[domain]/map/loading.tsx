@@ -9,7 +9,7 @@ const DnsMapLoading: FC = (): ReactElement => (
     <div className="flex h-full basis-2/5">
       <div className="my-auto grid grid-cols-2 gap-4">
         {Array.from({ length: 18 }).map((_, i) => (
-          <Skeleton key={i} className="h-full w-full rounded-xl" />
+          <Skeleton key={i} className="h-24 w-full rounded-xl" />
         ))}
       </div>
     </div>
