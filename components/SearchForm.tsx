@@ -44,7 +44,10 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   const inputRef = useRef<HTMLInputElement>(null);
   useHotkeys(
     isAppleDevice() ? ['meta+k', 's', 'shift+7'] : ['ctrl+k', 's', 'shift+7'],
-    () => inputRef.current?.focus(),
+    () => {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    },
     { preventDefault: true },
     [inputRef.current]
   );
