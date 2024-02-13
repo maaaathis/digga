@@ -1,7 +1,6 @@
 import isValidDomain from 'is-valid-domain';
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { FC, ReactElement, ReactNode } from 'react';
