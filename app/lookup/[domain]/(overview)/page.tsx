@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { FC, ReactElement } from 'react';
+import { getDomain } from 'tldts';
 import whoiser from 'whoiser';
 
 import DnsRecordsWidget, {
@@ -10,6 +11,7 @@ import DomainlabelWidget from '@/app/lookup/[domain]/(overview)/_components/Doma
 import DomainOwnerInfoWidget from '@/app/lookup/[domain]/(overview)/_components/DomainOwnerInfoWidget';
 import NameserverWidget from '@/app/lookup/[domain]/(overview)/_components/NameserverWidget';
 import TechnologiesWidget from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
+import bigQuery from '@/lib/bigQuery';
 import { getBaseDomain } from '@/lib/utils';
 import { isDomainAvailable } from '@/lib/whois';
 
@@ -40,6 +42,32 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
   const baseDomain = getBaseDomain(domain);
+
+  if (bigQuery) {
+    const baseDomain = getDomain(domain);
+
+    bigQuery
+      .insertRows({
+        datasetName: process.env.BIGQUERY_DATASET!,
+        tableName: 'domain_lookups',
+        rows: [
+          {
+            domain: domain,
+            baseDomain: baseDomain,
+            timestamp: '' + new Date().toISOString(),
+          },
+        ],
+      })
+      .catch((error) => {
+        if ('errors' in error) {
+          for (const err of error.errors) {
+            console.error(err);
+          }
+        } else {
+          console.error(error);
+        }
+      });
+  }
 
   let whoisResult;
   try {

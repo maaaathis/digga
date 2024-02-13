@@ -12,6 +12,8 @@ import ResultsGlobe from '@/app/lookup/[domain]/map/_components/ResultsGlobe';
 import { REGIONS } from '@/lib/data';
 import InternalDoHResolver from '@/lib/resolvers/InternalDoHResolver';
 
+export const runtime = 'edge';
+
 type MapResultsPageProps = {
   params: {
     domain: string;

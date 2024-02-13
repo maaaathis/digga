@@ -4,13 +4,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { FC, ReactElement, ReactNode } from 'react';
-import { getDomain } from 'tldts';
 
 import ExternalFavicon from '@/components/ExternalFavicon';
 import RelatedDomains from '@/components/RelatedDomains';
 import ResultsTabs from '@/components/ResultsTabs';
 import SearchForm from '@/components/SearchForm';
-import bigQuery from '@/lib/bigQuery';
 
 type LookupLayoutProps = {
   children: ReactNode;
@@ -39,32 +37,6 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   }
 
   let isStandalone = false;
-
-  if (bigQuery) {
-    const baseDomain = getDomain(domain);
-
-    bigQuery
-      .insertRows({
-        datasetName: process.env.BIGQUERY_DATASET!,
-        tableName: 'domain_lookups',
-        rows: [
-          {
-            domain: domain,
-            baseDomain: baseDomain,
-            timestamp: '' + new Date().toISOString(),
-          },
-        ],
-      })
-      .catch((error) => {
-        if ('errors' in error) {
-          for (const err of error.errors) {
-            console.error(err);
-          }
-        } else {
-          console.error(error);
-        }
-      });
-  }
 
   return (
     <>

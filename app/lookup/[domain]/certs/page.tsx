@@ -32,6 +32,9 @@ type CertsData = {
   serial_number: string;
 }[];
 
+export const runtime = 'edge';
+export const preferredRegion = 'lhr1';
+
 export const generateMetadata = ({
   params: { domain },
 }: CertsResultsPageProps): Metadata => ({
