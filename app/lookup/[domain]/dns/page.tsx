@@ -5,6 +5,7 @@ import React from 'react';
 
 import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryButton';
 import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
+import FlushCloudflareDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushCloudflareDnsCacheButton';
 import FlushGoogleDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushGoogleDnsCacheButton';
 import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSelector';
 import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
@@ -114,6 +115,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
         </div>
         <div className="flex flex-col gap-2 sm:gap-4 md:flex-row">
           {resolverName === 'google' && <FlushGoogleDnsCacheButton />}
+          {resolverName === 'cloudflare' && <FlushCloudflareDnsCacheButton />}
           <DnsHistoryButton domain={domain} />
         </div>
       </div>
