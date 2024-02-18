@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { redirect, RedirectType } from 'next/navigation';
-import type { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import React from 'react';
 
 import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryButton';
@@ -120,10 +120,12 @@ const LookupDomain: FC<LookupDomainProps> = async ({
           <DnsHistoryButton domain={domain} />
         </div>
       </div>
-      <GeoDnsCheck domain={domain} />
 
       {hasResults ? (
-        <DnsTable records={records} ipsInfo={ipsInfo} />
+        <>
+          <GeoDnsCheck domain={domain} />
+          <DnsTable records={records} ipsInfo={ipsInfo} />
+        </>
       ) : (
         <p className="mt-24 text-center text-muted-foreground">
           No DNS records found!
