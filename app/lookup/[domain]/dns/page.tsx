@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { redirect, RedirectType } from 'next/navigation';
-import { FC, ReactElement } from 'react';
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
 
 import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryButton';
 import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
