@@ -1,4 +1,6 @@
+import { isbot } from 'isbot';
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
@@ -7,6 +9,7 @@ import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryBu
 import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
 import FlushCloudflareDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushCloudflareDnsCacheButton';
 import FlushGoogleDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushGoogleDnsCacheButton';
+import GeoDnsCheck from '@/app/lookup/[domain]/dns/_components/GeoDnsCheck';
 import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSelector';
 import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
@@ -119,6 +122,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
           <DnsHistoryButton domain={domain} />
         </div>
       </div>
+      <GeoDnsCheck domain={domain} />
 
       {hasResults ? (
         <DnsTable records={records} ipsInfo={ipsInfo} />
