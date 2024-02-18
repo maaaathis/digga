@@ -1,6 +1,4 @@
-import { isbot } from 'isbot';
 import { Metadata } from 'next';
-import { headers } from 'next/headers';
 import { redirect, RedirectType } from 'next/navigation';
 import type { FC, ReactElement } from 'react';
 import React from 'react';
