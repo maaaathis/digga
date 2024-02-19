@@ -21,8 +21,8 @@ const IpOverviewItem: FC<IpOverviewItemProps> = ({
   value,
   subvalue,
 }): ReactElement => {
-  const [isOpen, setOpen] = useState(false);
-  const open = useCallback(() => setOpen(true), [setOpen]);
+  const [isOpen, setIsOpen] = useState(false);
+  const open = useCallback(() => setIsOpen(true), [setIsOpen]);
 
   return (
     <>
@@ -47,7 +47,7 @@ const IpOverviewItem: FC<IpOverviewItemProps> = ({
         </Tooltip>
       </TooltipProvider>
 
-      <IpDetailsModal ip={value} open={isOpen} onOpenChange={setOpen} />
+      <IpDetailsModal ip={value} open={isOpen} onOpenChange={setIsOpen} />
     </>
   );
 };

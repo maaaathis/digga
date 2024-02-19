@@ -25,7 +25,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/components/ui/drawer';
 import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
