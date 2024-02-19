@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { FC, ReactElement } from 'react';
 import { getDomain, getPublicSuffix } from 'tldts';
 import whoiser from 'whoiser';
@@ -43,7 +44,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   const baseDomain = getDomain(domain);
   const publicSuffix = getPublicSuffix(domain);
 
-  if (!baseDomain) return <>No BaseDomain found.</>;
+  if (!baseDomain) return notFound();
 
   if (bigQuery) {
     bigQuery
