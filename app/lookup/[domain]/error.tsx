@@ -4,7 +4,6 @@ import { type FC, ReactElement, useEffect } from 'react';
 
 type DomainErrorProps = {
   error: Error & { digest?: string };
-  reset: () => void;
 };
 
 const DomainError: FC<DomainErrorProps> = ({ error }): ReactElement => {

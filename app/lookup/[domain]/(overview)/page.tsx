@@ -88,23 +88,21 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-        {whoisResult && (
-          <>
-            <DomainDatesWidget whoisData={whoisResult} />
-            <DomainOwnerInfoWidget whoisData={whoisResult} />
-          </>
-        )}
-        <DnsRecordsWidget type={DnsRecordType.A} domain={domain} />
-        {whoisResult && (
-          <NameserverWidget whoisData={whoisResult} domain={domain} />
-        )}
-        <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
-        {whoisResult && <DomainlabelWidget whoisData={whoisResult} />}
-        <TechnologiesWidget domain={domain} />
-      </div>
-    </>
+    <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+      {whoisResult && (
+        <>
+          <DomainDatesWidget whoisData={whoisResult} />
+          <DomainOwnerInfoWidget whoisData={whoisResult} />
+        </>
+      )}
+      <DnsRecordsWidget type={DnsRecordType.A} domain={domain} />
+      {whoisResult && (
+        <NameserverWidget whoisData={whoisResult} domain={domain} />
+      )}
+      <DnsRecordsWidget type={DnsRecordType.MX} domain={domain} />
+      {whoisResult && <DomainlabelWidget whoisData={whoisResult} />}
+      <TechnologiesWidget domain={domain} />
+    </div>
   );
 };
 

@@ -139,7 +139,7 @@ class AuthoritativeResolver extends DnsResolver {
     const response = await this.requestLoader.load({
       domain,
       type: recordType,
-      nameserver: nameserver || rootServers[0], // TODO Use fallback nameservers
+      nameserver: nameserver ?? rootServers[0], // TODO Use fallback nameservers
     });
 
     if (response.answers?.length) {

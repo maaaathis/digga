@@ -21,7 +21,7 @@ import {
 
 const BookmarkletLink: FC = (): ReactElement => {
   const [target, setTarget] = useState('');
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const rawScript = `
@@ -44,9 +44,9 @@ const BookmarkletLink: FC = (): ReactElement => {
   const clickHandler = useCallback<MouseEventHandler<HTMLAnchorElement>>(
     (event) => {
       event.preventDefault();
-      setOpen(true);
+      setIsOpen(true);
     },
-    [setOpen]
+    [setIsOpen]
   );
 
   return (
@@ -65,7 +65,7 @@ const BookmarkletLink: FC = (): ReactElement => {
         )}
       </div>
 
-      <AlertDialog open={isOpen} onOpenChange={setOpen}>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Installation required</AlertDialogTitle>

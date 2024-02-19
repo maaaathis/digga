@@ -65,8 +65,8 @@ const TechnologiesWidget: React.FC<Props> = async ({
                   <TooltipTrigger asChild>
                     <Link
                       href={
-                        filterWhatRunsDirectUrl(technology.website) ||
-                        technology.website ||
+                        filterWhatRunsDirectUrl(technology.website) ??
+                        technology.website ??
                         '#'
                       }
                       target="_blank"

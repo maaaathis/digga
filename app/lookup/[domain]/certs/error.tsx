@@ -4,7 +4,6 @@ import { type FC, ReactElement, useEffect } from 'react';
 
 type CertsErrorProps = {
   error: Error & { digest?: string };
-  reset: () => void;
 };
 
 const CertsError: FC<CertsErrorProps> = ({ error }): ReactElement => {

@@ -76,8 +76,8 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                           <Link
                             className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                             href={
-                              filterWhatRunsDirectUrl(technology.website) ||
-                              technology.website ||
+                              filterWhatRunsDirectUrl(technology.website) ??
+                              technology.website ??
                               '#'
                             }
                             rel="noreferrer noopener"

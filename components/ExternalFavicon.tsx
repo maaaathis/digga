@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { type FC, ReactElement, useCallback, useState } from 'react';
+import { type FC, ReactElement } from 'react';
 
 type ExternalFavicon = {
   url: string;
