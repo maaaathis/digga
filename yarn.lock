@@ -6125,12 +6125,7 @@ prop-types@^15.8.1:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
-punycode@^2.1.0, punycode@^2.1.1:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.0.tgz#f67fa67c94da8f4d0cfff981aee4118064199b8f"
-  integrity sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==
-
-punycode@^2.3.1:
+punycode@^2.1.0, punycode@^2.1.1, punycode@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
@@ -7088,10 +7083,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-whoiser@^1.17.1:
-  version "1.17.1"
-  resolved "https://registry.yarnpkg.com/whoiser/-/whoiser-1.17.1.tgz#07ba2924283717b9f0c4830bbe73819dda7f45d1"
-  integrity sha512-dyIwadr1nYHPbz/rqoUTJvIarA2ZzBozi34etDff4Z3o5aj9Z3HPG9AULBRk3D0Vz/xtVAZwez6QaRoeV9GJPg==
+whoiser@^1.17.2:
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/whoiser/-/whoiser-1.17.2.tgz#7d22cfc86688d9dd49495f62f09671daf121f415"
+  integrity sha512-ZCkcgl7k4216jbIDhZrD581zmgS3ZWnNo8GziV46i/CRqbaT2QsNDyMF1QdqKsma3V0oxh6YMWmvqKvwq7Ah1w==
   dependencies:
     punycode "^2.1.1"
 
