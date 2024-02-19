@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { FC, ReactElement } from 'react';
-import { getDomain } from 'tldts';
+import { getDomain, getPublicSuffix } from 'tldts';
 import whoiser from 'whoiser';
 
 import DnsRecordsWidget, {
@@ -12,7 +12,6 @@ import DomainOwnerInfoWidget from '@/app/lookup/[domain]/(overview)/_components/
 import NameserverWidget from '@/app/lookup/[domain]/(overview)/_components/NameserverWidget';
 import TechnologiesWidget from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
 import bigQuery from '@/lib/bigQuery';
-import { getBaseDomain } from '@/lib/utils';
 import { isDomainAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../../components/DomainNotRegistered';
@@ -41,11 +40,12 @@ export const generateMetadata = ({
 const LookupDomain: FC<LookupDomainProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
-  const baseDomain = getBaseDomain(domain);
+  const baseDomain = getDomain(domain);
+  const publicSuffix = getPublicSuffix(domain);
+
+  if (!baseDomain) return <>No BaseDomain found.</>;
 
   if (bigQuery) {
-    const baseDomain = getDomain(domain);
-
     bigQuery
       .insertRows({
         datasetName: process.env.BIGQUERY_DATASET!,
@@ -54,6 +54,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
           {
             domain: domain,
             baseDomain: baseDomain,
+            publicSuffix: publicSuffix,
             timestamp: '' + new Date().toISOString(),
           },
         ],
