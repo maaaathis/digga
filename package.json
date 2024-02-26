@@ -23,7 +23,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@types/punycode": "^2.1.4",
-    "@types/validator": "^13.11.8",
+    "@types/validator": "^13.11.9",
     "@vercel/speed-insights": "^1.0.9",
     "autoprefixer": "^10.4.17",
     "class-variance-authority": "^0.7.0",
