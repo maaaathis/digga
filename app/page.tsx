@@ -58,7 +58,7 @@ const Home: FC = (): ReactElement => {
               </span>
             </Link>
           </div>
-          <h1 className="mb-7 text-center text-2xl font-medium md:text-3xl md:font-bold">
+          <h1 className="mb-7 text-center font-clash text-2xl font-medium tracking-wider md:text-3xl md:font-bold">
             Simple DNS Lookup, WHOIS, SSL History, and More
           </h1>
           <SearchForm autofocus={true} className="bg-background p-5 text-2xl" />
@@ -83,7 +83,7 @@ const Home: FC = (): ReactElement => {
       </div>
 
       <Card className="mx-auto my-12 max-w-lg p-6 text-foreground">
-        <h2 className="mb-4 text-center text-xl font-semibold tracking-tight sm:text-2xl">
+        <h2 className="mb-4 text-center font-clash text-xl font-semibold tracking-tight tracking-wide sm:text-2xl">
           Quick Inspect Bookmarklet
         </h2>
 

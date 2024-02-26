@@ -1,6 +1,7 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Metadata } from 'next';
 import { Rubik } from 'next/font/google';
+import localFont from 'next/font/local';
 import type { FC, ReactElement, ReactNode } from 'react';
 
 import Header from '@/components/Header';
@@ -11,6 +12,12 @@ import Providers from './providers';
 const rubik = Rubik({
   subsets: ['latin'],
   display: 'swap',
+});
+
+const clash = localFont({
+  src: '../public/fonts/ClashDisplay-Variable.woff2',
+  display: 'swap',
+  variable: '--font-clash',
 });
 
 export const metadata: Metadata = {
@@ -70,7 +77,11 @@ interface RootLayoutProps {
 
 const RootLayout: FC<RootLayoutProps> = ({ children }): ReactElement => {
   return (
-    <html lang="en" suppressHydrationWarning className={rubik.className}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${rubik.className} ${clash.variable}`}
+    >
       <body>
         <Providers>
           <div className="relative flex min-h-screen flex-col items-center justify-center bg-background">
