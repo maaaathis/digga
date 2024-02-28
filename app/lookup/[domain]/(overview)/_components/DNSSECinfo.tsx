@@ -26,7 +26,7 @@ const DNSSECinfo: FC<DNSSECinfoProps> = ({ domain }) => {
         <>
           {data?.isDNSSECSigned ? (
             <Badge
-              className="px-1 text-xs font-light"
+              className="px-1 text-xs font-light tracking-tighter"
               color="green"
               variant="outline"
             >
@@ -35,7 +35,7 @@ const DNSSECinfo: FC<DNSSECinfoProps> = ({ domain }) => {
             </Badge>
           ) : (
             <Badge
-              className="px-1 text-xs  font-light"
+              className="px-1 text-xs  font-light tracking-tighter"
               color="red"
               variant="outline"
             >
