@@ -21,6 +21,7 @@ const DomainLink: FC<DomainLinkProps> = ({ domain }): ReactElement => (
           <Link
             className="select-none underline decoration-dotted underline-offset-4 hover:decoration-dashed"
             href={`/lookup/${domain}`}
+            rel="nofollow"
           >
             <span>{domain}</span>
           </Link>
@@ -37,7 +38,7 @@ const DomainLink: FC<DomainLinkProps> = ({ domain }): ReactElement => (
             <Link
               href={`https://${domain}`}
               target="_blank"
-              rel="noreferrer noopener"
+              rel="noreferrer noopener nofollow"
             >
               <ExternalLinkIcon className="mx-1 inline-block h-3 w-3 -translate-y-0.5" />
             </Link>
