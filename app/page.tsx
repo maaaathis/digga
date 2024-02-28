@@ -49,11 +49,12 @@ const Home: FC = (): ReactElement => {
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
             <Link
               href="https://github.com/maaaathis/digga"
-              className="relative overflow-hidden rounded-full bg-background px-4 py-1.5 text-sm leading-6 text-zinc-400 ring-1 ring-zinc-100/10 duration-150 hover:ring-zinc-100/30"
+              className="relative overflow-hidden rounded-full bg-background px-4 py-1.5 text-sm leading-6 text-zinc-500 ring-1 ring-zinc-800/30 duration-150 hover:ring-zinc-800/80 dark:text-zinc-400 dark:ring-zinc-100/30 dark:hover:ring-zinc-100/80"
               target="_blank"
+              rel="noopener"
             >
               digga is Open Source on{' '}
-              <span className="font-semibold text-zinc-200">
+              <span className="font-semibold text-zinc-700 dark:text-zinc-200">
                 GitHub <span aria-hidden="true">&rarr;</span>
               </span>
             </Link>
