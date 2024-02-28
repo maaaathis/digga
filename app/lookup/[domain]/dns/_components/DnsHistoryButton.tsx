@@ -17,7 +17,7 @@ export const DnsHistoryButton: FC<Props> = (props) => {
     <Link
       href={`https://dnshistory.org/dns-records/${domain}`}
       target="_blank"
-      rel="noopener"
+      rel="noopener nofollow"
       className="my-auto"
     >
       <Button variant="outline" className="rounded-lg text-sm font-medium">

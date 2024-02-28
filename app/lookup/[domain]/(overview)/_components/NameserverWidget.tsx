@@ -53,6 +53,7 @@ const NameserverWidget: React.FC<Props> = ({
               <a
                 className="flex cursor-pointer select-none flex-row gap-2 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
                 href={`/lookup/${cutLastDot(ns)}`}
+                rel="nofollow"
               >
                 <Dot className="my-auto h-7 w-7 shrink-0" />
                 <span>{cutLastDot(ns)}</span>
