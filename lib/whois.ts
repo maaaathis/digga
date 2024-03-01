@@ -17,7 +17,8 @@ export default async function whois(
 
 async function isAvailable(domain: string): Promise<string> {
   domain = domain.toLowerCase();
-  //accept also subdomains
+
+  // accept also subdomains
   if (domain.includes('.')) {
     domain = domain.split('.').slice(-2).join('.');
   }
@@ -48,7 +49,8 @@ async function isAvailable(domain: string): Promise<string> {
   // Status: available
   if (
     firstDomainWhois['Domain Status']?.includes('available') ||
-    firstDomainWhois['Domain Status']?.includes('AVAILABLE')
+    firstDomainWhois['Domain Status']?.includes('AVAILABLE') ||
+    firstDomainWhois['Domain Status']?.includes('free')
   )
     return DomainAvailability.AVAILABLE;
 
