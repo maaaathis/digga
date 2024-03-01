@@ -21,6 +21,8 @@ export const insertRows = async ({
   tableName: string;
   rows: Record<string, any>[];
 }): Promise<void> => {
+  if (process.env.ENVIRONMENT === 'dev') return;
+
   const accessToken = await getAccessToken({
     credentials: credentials,
     scope: 'https://www.googleapis.com/auth/cloud-platform',
