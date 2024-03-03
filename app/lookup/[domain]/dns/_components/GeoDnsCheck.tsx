@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 import InternalDoHResolver from '@/lib/resolvers/InternalDoHResolver';
 
-const geoDNSLocations = ['bom', 'fra', 'iad'];
+const geoDNSLocations = ['bom', 'fra']; // re-add "iad" later
 
 interface Props {
   domain: string;
