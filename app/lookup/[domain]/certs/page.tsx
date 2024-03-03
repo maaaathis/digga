@@ -1,3 +1,5 @@
+'use client';
+
 import { ExternalLink } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -32,10 +34,10 @@ type CertsData = {
   serial_number: string;
 }[];
 
-export const runtime = 'edge';
-export const preferredRegion = 'lhr1';
-
-export const generateMetadata = ({
+// This page loads faster and is more reliable when using the edge runtime:
+// export const runtime = 'edge';
+// export const preferredRegion = 'lhr1';
+/* export const generateMetadata = ({
   params: { domain },
 }: CertsResultsPageProps): Metadata => ({
   openGraph: {
@@ -44,7 +46,7 @@ export const generateMetadata = ({
   alternates: {
     canonical: `/lookup/${domain}/certs`,
   },
-});
+}); */
 
 const lookupCerts = async (domain: string): Promise<CertsData> => {
   const response = await fetch(
