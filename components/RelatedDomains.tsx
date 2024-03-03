@@ -20,7 +20,7 @@ const RelatedDomains: FC<RelatedDomainsProps> = ({
     domains.push(domain);
   }
 
-  if (!original.startsWith('www.')) {
+  if (!original.startsWith('www.') && !original.startsWith('*.')) {
     domains.unshift(`www.${original}`);
   }
 
