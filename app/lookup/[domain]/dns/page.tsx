@@ -6,7 +6,6 @@ import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryBu
 import DnsTable from '@/app/lookup/[domain]/dns/_components/DnsTable';
 import FlushCloudflareDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushCloudflareDnsCacheButton';
 import FlushGoogleDnsCacheButton from '@/app/lookup/[domain]/dns/_components/FlushGoogleDnsCacheButton';
-import GeoDnsCheck from '@/app/lookup/[domain]/dns/_components/GeoDnsCheck';
 import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSelector';
 import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
@@ -122,7 +121,8 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 
       {hasResults ? (
         <>
-          <GeoDnsCheck domain={domain} />
+          {/* <GeoDnsCheck domain={domain} /> */
+          /* TODO: re-add when more optimised */}
           <DnsTable records={records} ipsInfo={ipsInfo} />
         </>
       ) : (
