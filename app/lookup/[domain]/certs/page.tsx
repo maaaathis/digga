@@ -59,6 +59,7 @@ const lookupCerts = async (domain: string): Promise<CertsData> => {
       next: {
         revalidate: 60 * 60,
       },
+      mode: 'no-cors',
     }
   );
 
