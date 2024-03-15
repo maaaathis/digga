@@ -30,7 +30,7 @@
     "clsx": "^2.1.0",
     "dataloader": "^2.2.2",
     "dns-packet": "^5.6.1",
-    "framer-motion": "^11.0.6",
+    "framer-motion": "^11.0.14",
     "is-valid-domain": "^0.1.6",
     "isbot": "^5.1.1",
     "leaflet": "^1.9.4",
