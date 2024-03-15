@@ -3,7 +3,7 @@
 import { ExternalLink } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 
 import {
   Table,
@@ -78,15 +78,25 @@ type CertsResultsPageProps = {
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
-  const certRequests = [await lookupCerts(domain)];
+  const [certsData, setCertData] = useState<CertsData[]>([]);
+
+  useEffect(() => {
+    const certsLookup = async () => {
+      const certs = await lookupCerts(domain);
+      setCertData([certs]);
+    };
+    certsLookup();
+  }, [certsData]);
+
+  //const certRequests = [await lookupCerts(domain)];
 
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
   if (hasParentDomain) {
     const parentDomain = domain.split('.').slice(1).join('.');
-    certRequests.push(await lookupCerts(`*.${parentDomain}`));
+    certsData.push(await lookupCerts(`*.${parentDomain}`));
   }
 
-  const certs = await Promise.all(certRequests).then((responses) =>
+  const certs = await Promise.all(certsData).then((responses) =>
     responses
       .flat()
       .sort(
