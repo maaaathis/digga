@@ -1,5 +1,7 @@
-import { ExternalLink } from 'lucide-react';
+import { isbot } from 'isbot';
+import { ExternalLink, ShieldAlertIcon } from 'lucide-react';
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 import React, { FC, ReactElement } from 'react';
 
@@ -19,6 +21,7 @@ import {
 } from '@/components/ui/tooltip';
 
 import DomainLink from '@/components/DomainLink';
+import StyledError from '@/components/StyledError';
 
 type CertsData = {
   issuer_ca_id: number;
@@ -76,6 +79,19 @@ type CertsResultsPageProps = {
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   params: { domain },
 }): Promise<ReactElement> => {
+  const userAgent = headers().get('user-agent');
+  const isBotRequest = !userAgent || isbot(userAgent);
+
+  if (isBotRequest) {
+    return (
+      <StyledError
+        title="Bot or crawler detected!"
+        icon={<ShieldAlertIcon className="h-16 w-16" />}
+        description="To protect our infrastructure, this page is not available for bots or crawlers. But don't be sad, there's nothing to crawl here anyway."
+      />
+    );
+  }
+
   const certRequests = [await lookupCerts(domain)];
 
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
