@@ -2,6 +2,8 @@ import dns from 'dns';
 import { promisify } from 'util';
 import isIP from 'validator/lib/isIP';
 
+import { getIpDetails, getIpGreenDetails } from '@/lib/ips';
+
 export type IpLookupResponse = {
   city: string;
   country: string;
@@ -14,8 +16,6 @@ export type IpLookupResponse = {
   timezone: string;
   greenHosted: boolean;
 };
-
-export type IpLookupErrorResponse = { error: true; message: string };
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -36,10 +36,6 @@ export async function GET(request: Request) {
     );
   }
 
-  const url = `http://ip-api.com/json/${ip}`;
-  const response = await fetch(url);
-  const data = (await response.json()) as Record<string, any>;
-
   let reverse: string[] = [];
   try {
     reverse = await promisify(dns.reverse)(ip);
@@ -47,10 +43,10 @@ export async function GET(request: Request) {
     console.error(error);
   }
 
-  //GREEN ENERGY CHECK
-  const greenUrl = `https://api.thegreenwebfoundation.org/greencheck/${ip}`;
-  const greenResponse = await fetch(greenUrl);
-  const greenData = (await greenResponse.json()) as Record<string, any>;
+  const [data, isGreenHosted] = await Promise.all([
+    getIpDetails(ip),
+    getIpGreenDetails(ip),
+  ]);
 
   return new Response(
     JSON.stringify({
@@ -63,7 +59,7 @@ export async function GET(request: Request) {
       timezone: data.timezone,
       lat: data.lat,
       lon: data.lon,
-      greenHosted: greenData.green,
+      greenHosted: isGreenHosted,
     }),
     {
       status: 200,

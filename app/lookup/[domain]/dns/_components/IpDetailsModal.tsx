@@ -29,7 +29,7 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
-import type { IpLookupResponse } from '@/app/api/lookupIp/route';
+import type { IpLookupResponse } from '@/app/api/lookup-ip/route';
 import CopyButton from '@/components/CopyButton';
 import DomainLink from '@/components/DomainLink';
 import { useMediaQuery } from '@/hooks/use-media-query';
@@ -163,7 +163,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
   onOpenChange,
 }): ReactElement => {
   const { data, error } = useSWRImmutable<IpLookupResponse>(
-    open ? `/api/lookupIp?ip=${encodeURIComponent(ip)}` : null
+    open ? `/api/lookup-ip?ip=${encodeURIComponent(ip)}` : null
   );
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
