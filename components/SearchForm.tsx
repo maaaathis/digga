@@ -19,6 +19,7 @@ import { parse } from 'tldts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import { cleanDomain } from '@/lib/domain';
 import { cn, isAppleDevice } from '@/lib/utils';
 
 enum FormStates {
@@ -63,13 +64,9 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
     setError(false);
     setState(FormStates.Submitting);
 
-    const parsedDomain = parse(domain.trim().toLowerCase());
+    const cleanedDomain = cleanDomain(domain);
 
-    const cleanedDomain =
-      (parsedDomain.subdomain === 'www' && parsedDomain.domain) ||
-      parsedDomain.hostname;
-
-    if (!parsedDomain || !cleanedDomain) {
+    if (!cleanedDomain) {
       setError(true);
       setState(FormStates.Initial);
       return;
