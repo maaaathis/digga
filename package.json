@@ -37,7 +37,7 @@
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "lucide-react": "^0.365.0",
     "natural-compare-lite": "^1.4.0",
-    "next": "^14.2.2",
+    "next": "^14.2.3",
     "next-themes": "^0.2.1",
     "postcss": "^8.4.38",
     "punycode": "^2.3.1",
