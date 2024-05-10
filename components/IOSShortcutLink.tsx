@@ -2,16 +2,6 @@
 
 import { FC, ReactElement } from 'react';
 
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-
 const IOSShortcutLink: FC = (): ReactElement => {
   return (
     <div className="flex justify-center">
