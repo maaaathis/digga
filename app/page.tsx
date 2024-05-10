@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import { FC, ReactElement } from 'react';
 
+import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
 import BookmarkletLink from '@/components/BookmarkletLink';
+import IOSShortcutLink from '@/components/IOSShortcutLink';
 import SearchForm from '@/components/SearchForm';
 
 const EXAMPLE_DOMAINS: string[] = [
@@ -83,18 +85,35 @@ const Home: FC = (): ReactElement => {
         </div>
       </div>
 
-      <Card className="mx-auto my-12 max-w-lg p-6 text-foreground">
-        <h2 className="mb-4 text-center font-clash text-xl font-semibold tracking-tight tracking-wide sm:text-2xl">
-          Quick Inspect Bookmarklet
-        </h2>
+      <div className="my-12 flex flex-col justify-center gap-8 px-2 lg:flex-row">
+        <Card className="max-w-lg p-5 text-foreground">
+          <h2 className="mb-4 flex flex-row justify-center gap-2 text-center font-clash text-xl font-semibold tracking-wide sm:text-2xl">
+            iOS Shortcut
+            <Badge variant="secondary" className="my-auto text-xs font-light">
+              New 🎉
+            </Badge>
+          </h2>
 
-        <p className="mb-4 mt-2 text-center text-sm text-muted-foreground">
-          Drag this link to your bookmarks bar to quickly go to the results page
-          for the site you are currently on!
-        </p>
+          <p className="mb-4 mt-2 text-center text-sm text-muted-foreground">
+            Add this shortcut to your iOS/iPadOS fixed shortcuts for quick,
+            one-click access to the comprehensive digga research anytime.
+          </p>
 
-        <BookmarkletLink />
-      </Card>
+          <IOSShortcutLink />
+        </Card>
+        <Card className="max-w-lg p-5 text-foreground">
+          <h2 className="mb-4 text-center font-clash text-xl font-semibold tracking-wide sm:text-2xl">
+            Quick Inspect Bookmarklet
+          </h2>
+
+          <p className="mb-4 mt-2 text-center text-sm text-muted-foreground">
+            Drag this link to your bookmarks bar to quickly go to the results
+            page for the site you are currently on!
+          </p>
+
+          <BookmarkletLink />
+        </Card>
+      </div>
     </div>
   );
 };
