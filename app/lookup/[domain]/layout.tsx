@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { FC, ReactElement, ReactNode } from 'react';
 
+import { ShareButton } from '@/app/lookup/[domain]/_components/ShareButton';
 import ExternalFavicon from '@/components/ExternalFavicon';
 import RelatedDomains from '@/components/RelatedDomains';
 import ResultsTabs from '@/components/ResultsTabs';
@@ -51,7 +52,6 @@ const LookupLayout: FC<LookupLayoutProps> = ({
           className="bg-background"
         />
       </div>
-
       <div className="container">
         <h1 className="mb-2">
           <span className="block text-muted-foreground">Results for</span>
@@ -67,10 +67,12 @@ const LookupLayout: FC<LookupLayoutProps> = ({
             </Link>
           </span>
         </h1>
-
-        <RelatedDomains domain={domain} />
+        <div className="mb-4 mt-2 flex flex-row gap-2">
+          <ShareButton />
+          <div className="my-auto inline-block h-full min-h-[1em] w-0.5 self-stretch rounded bg-secondary-foreground" />
+          <RelatedDomains domain={domain} />
+        </div>
         <ResultsTabs domain={domain} />
-
         {children}
       </div>
     </>
