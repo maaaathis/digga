@@ -4,7 +4,8 @@ import React, { use } from 'react';
 import DashboardItem from '@/app/lookup/[domain]/(overview)/_components/DashboardItem';
 import IpOverviewItem from '@/app/lookup/[domain]/(overview)/_components/IpOverviewItem';
 import { getIpsInfo } from '@/lib/ips';
-import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import { ALL_RECORD_TYPES } from '@/lib/resolvers/base';
+import { getResolverFromName } from '@/lib/resolvers/utils';
 import { cutLastDot } from '@/lib/utils';
 
 export enum DnsRecordType {
@@ -29,7 +30,7 @@ interface DnsRecordsWidgetProps {
 }
 
 async function fetchRecords(domain: string, type: DnsRecordType) {
-  const resolver = new CloudflareDoHResolver();
+  const resolver = getResolverFromName('cloudflare');
   return await resolver.resolveRecordType(domain, type);
 }
 

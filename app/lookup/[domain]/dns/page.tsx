@@ -10,40 +10,9 @@ import LocationSelector from '@/app/lookup/[domain]/dns/_components/LocationSele
 import ResolverSelector from '@/app/lookup/[domain]/dns/_components/ResolverSelector';
 import DomainNotRegistered from '@/components/DomainNotRegistered';
 import { getIpsInfo } from '@/lib/ips';
-import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
-import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
-import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
-import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
-import InternalDoHResolver from '@/lib/resolvers/InternalDoHResolver';
+import { ALL_RECORD_TYPES } from '@/lib/resolvers/base';
+import { getResolverFromName } from '@/lib/resolvers/utils';
 import { isDomainAvailable } from '@/lib/whois';
-
-const getResolver = (
-  resolverName: string | undefined,
-  locationName: string | undefined
-) => {
-  if (locationName) {
-    switch (resolverName) {
-      case 'cloudflare':
-        return new InternalDoHResolver(locationName, 'cloudflare');
-      case 'google':
-        return new InternalDoHResolver(locationName, 'google');
-      case 'alibaba':
-        return new InternalDoHResolver(locationName, 'alibaba');
-    }
-
-    throw new Error('Invalid resolver');
-  }
-  switch (resolverName) {
-    case 'cloudflare':
-      return new CloudflareDoHResolver();
-    case 'google':
-      return new GoogleDoHResolver();
-    case 'alibaba':
-      return new AlibabaDoHResolver();
-    default:
-      return new AuthoritativeResolver();
-  }
-};
 
 type LookupDomainProps = {
   params: {
@@ -87,8 +56,8 @@ const LookupDomain: FC<LookupDomainProps> = async ({
     );
   }
 
-  const resolver = getResolver(resolverName, locationName);
-  const records = await resolver.resolveAllRecords(domain);
+  const resolver = getResolverFromName(resolverName, locationName);
+  const records = await resolver.resolveRecordTypes(domain, ALL_RECORD_TYPES);
   const ipsInfo = await getIpsInfo(
     records.A.map((r) => r.data).concat(records.AAAA.map((r) => r.data))
   );

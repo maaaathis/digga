@@ -1,22 +1,47 @@
-import DnsResolver, {
-  DoHResponse,
+import {
+  DnsResolver,
   type RawRecord,
   RECORD_TYPES_BY_DECIMAL,
   type RecordType,
-} from './DnsResolver';
+} from './base';
 
-export default class GoogleDoHResolver extends DnsResolver {
+type DoHResponse = {
+  Status: number;
+  TC: boolean;
+  RD: boolean;
+  RA: boolean;
+  AD: boolean;
+  CD: boolean;
+  Question: {
+    name: string;
+    type: number;
+  }[];
+  Answer?: {
+    name: string;
+    type: number;
+    TTL: number;
+    data: string;
+  }[];
+  Authority?: {
+    name: string;
+    type: number;
+    TTL: number;
+    data: string;
+  }[];
+};
+
+export abstract class BaseDoHResolver extends DnsResolver {
+  constructor(
+    private sendRequest: (domain: string, type: RecordType) => Promise<Response>
+  ) {
+    super();
+  }
+
   public async resolveRecordType(
     domain: string,
     type: RecordType
   ): Promise<RawRecord[]> {
-    const response = await fetch(
-      `https://dns.google/resolve?name=${domain}&type=${type}`,
-      {
-        method: 'GET',
-        headers: { Accept: 'application/json' },
-      }
-    );
+    const response = await this.sendRequest(domain, type);
     if (!response.ok)
       throw new Error(`Bad response from Google: ${response.statusText}`);
     const results = (await response.json()) as DoHResponse;

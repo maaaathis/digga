@@ -1,11 +1,14 @@
 import isValidDomain from 'is-valid-domain';
+import { isbot } from 'isbot';
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { FC, ReactElement, ReactNode } from 'react';
 
 import { ShareButton } from '@/app/lookup/[domain]/_components/ShareButton';
+import SubdomainsRow from '@/app/lookup/[domain]/_components/SubdomainsRow';
 import ExternalFavicon from '@/components/ExternalFavicon';
 import RelatedDomains from '@/components/RelatedDomains';
 import ResultsTabs from '@/components/ResultsTabs';
@@ -36,6 +39,9 @@ const LookupLayout: FC<LookupLayoutProps> = ({
   if (!isValidDomain(domain)) {
     return notFound();
   }
+
+  const userAgent = headers().get('user-agent');
+  const isBotRequest = !userAgent || isbot(userAgent);
 
   let isStandalone = false;
 
@@ -71,6 +77,7 @@ const LookupLayout: FC<LookupLayoutProps> = ({
           <ShareButton />
           <div className="my-auto inline-block h-full min-h-[1em] w-0.5 self-stretch rounded bg-secondary-foreground" />
           <RelatedDomains domain={domain} />
+          {!isBotRequest && <SubdomainsRow domain={domain} />}
         </div>
         <ResultsTabs domain={domain} />
         {children}

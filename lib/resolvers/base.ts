@@ -1,29 +1,4 @@
-export type DoHResponse = {
-  Status: number;
-  TC: boolean;
-  RD: boolean;
-  RA: boolean;
-  AD: boolean;
-  CD: boolean;
-  Question: {
-    name: string;
-    type: number;
-  }[];
-  Answer?: {
-    name: string;
-    type: number;
-    TTL: number;
-    data: string;
-  }[];
-  Authority?: {
-    name: string;
-    type: number;
-    TTL: number;
-    data: string;
-  }[];
-};
-
-export const RECORD_TYPES = [
+export const ALL_RECORD_TYPES = [
   'A',
   'AAAA',
   'CAA',
@@ -55,7 +30,7 @@ export const RECORD_TYPES_BY_DECIMAL = {
   16: 'TXT',
 } as const;
 
-export type RecordType = (typeof RECORD_TYPES)[number];
+export type RecordType = (typeof ALL_RECORD_TYPES)[number];
 
 export type RawRecord = {
   name: string;
@@ -66,18 +41,21 @@ export type RawRecord = {
 
 export type ResolvedRecords = Record<string, RawRecord[]>;
 
-export default abstract class DnsResolver {
+export abstract class DnsResolver {
   public abstract resolveRecordType(
     domain: string,
     type: RecordType
   ): Promise<RawRecord[]>;
 
-  public async resolveAllRecords(domain: string): Promise<ResolvedRecords> {
+  public async resolveRecordTypes(
+    domain: string,
+    types: readonly RecordType[]
+  ): Promise<ResolvedRecords> {
     const results = await Promise.all(
-      RECORD_TYPES.map((type) => this.resolveRecordType(domain, type))
+      types.map((type) => this.resolveRecordType(domain, type))
     );
 
-    return RECORD_TYPES.reduce(
+    return types.reduce(
       (res, type, index) => ({
         ...res,
         [type]: results[index],

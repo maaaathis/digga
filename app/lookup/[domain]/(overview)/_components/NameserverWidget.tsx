@@ -3,7 +3,7 @@ import React, { use } from 'react';
 
 import { DnsRecordType } from '@/app/lookup/[domain]/(overview)/_components/DnsRecordsWidget';
 import DNSSECinfo from '@/app/lookup/[domain]/(overview)/_components/DNSSECinfo';
-import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import { getResolverFromName } from '@/lib/resolvers/utils';
 import { cutLastDot } from '@/lib/utils';
 
 import DashboardItem from './DashboardItem';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 async function fetchRecords(domain: string, type: DnsRecordType) {
-  const resolver = new CloudflareDoHResolver();
+  const resolver = getResolverFromName('cloudflare');
   return await resolver.resolveRecordType(domain, type);
 }
 

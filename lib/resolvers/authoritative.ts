@@ -7,11 +7,12 @@ import dnsPacket, {
 } from 'dns-packet';
 import dgram from 'node:dgram';
 
-import { retry } from '../utils';
-import DnsResolver, { type RawRecord, type RecordType } from './DnsResolver';
+import { retry } from '@/lib/utils';
 
-class AuthoritativeResolver extends DnsResolver {
-  private async getRootServers(): Promise<string[]> {
+import { DnsResolver, type RawRecord, type RecordType } from './base';
+
+export class AuthoritativeResolver extends DnsResolver {
+  private async getRootServers() {
     const response = await fetch('https://www.internic.net/domain/named.root', {
       next: {
         revalidate: 7 * 24 * 60 * 60,
@@ -19,17 +20,18 @@ class AuthoritativeResolver extends DnsResolver {
     });
     const body = await response.text();
 
-    // Support both IPv4 and IPv6
+    // TODO Support IPv6
     const aRecords = body.match(/\sA\s+(.+)/g);
-    const aaaaRecords = body.match(/\sAAAA\s+(.+)/g);
 
-    if (!aRecords && !aaaaRecords) {
+    if (!aRecords) {
       throw new Error('Failed to fetch root servers');
     }
 
-    return [...(aRecords || []), ...(aaaaRecords || [])].map(
+    const ipAddresses = aRecords?.map(
       (l) => l.replaceAll(/\s+/g, ' ').split(' ')[2]
     );
+
+    return ipAddresses;
   }
 
   private recordToString(record: Answer): string {
@@ -86,15 +88,17 @@ class AuthoritativeResolver extends DnsResolver {
       questions: [{ type: recordType, name: domain } as Question],
     });
 
-    const socket = dgram.createSocket({
-      type: nameserver.includes(':') ? 'udp6' : 'udp4',
-    });
+    const socket = dgram.createSocket('udp4');
     socket.send(packetBuffer, 0, packetBuffer.length, 53, nameserver);
 
     return await new Promise<Packet>((resolve, reject) => {
       const timeout = setTimeout(() => {
         socket.close();
-        resolve({ answers: [] });
+        reject(
+          new Error(
+            `Request to ${nameserver} for domain ${domain}, type ${recordType} timed out after 3000ms`
+          )
+        );
       }, 3000);
 
       socket.on('message', (message: Buffer) => {
@@ -129,7 +133,7 @@ class AuthoritativeResolver extends DnsResolver {
     }
   );
 
-  public async fetchRecords(
+  private async fetchRecords(
     domain: string,
     recordType: RecordType,
     nameserver?: string
@@ -139,7 +143,7 @@ class AuthoritativeResolver extends DnsResolver {
     const response = await this.requestLoader.load({
       domain,
       type: recordType,
-      nameserver: nameserver ?? rootServers[0], // TODO Use fallback nameservers
+      nameserver: nameserver || rootServers[0], // TODO Use fallback nameservers
     });
 
     if (response.answers?.length) {
@@ -203,5 +207,3 @@ class AuthoritativeResolver extends DnsResolver {
     return this.fetchRecords(domain, type);
   }
 }
-
-export default AuthoritativeResolver;

@@ -90,7 +90,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
         <Tab
           label="Certs"
           href={`/lookup/${domain}/certs`}
-          selected={selectedSegment === 'certs'}
+          selected={selectedSegment === 'subdomains'}
           shortcutNumber={4}
           hideShortcut={!isDesktop}
         />

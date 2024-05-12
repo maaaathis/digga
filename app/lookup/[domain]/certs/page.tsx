@@ -22,18 +22,7 @@ import {
 
 import DomainLink from '@/components/DomainLink';
 import StyledError from '@/components/StyledError';
-
-type CertsData = {
-  issuer_ca_id: number;
-  issuer_name: string;
-  common_name: string;
-  name_value: string;
-  id: number;
-  entry_timestamp: string;
-  not_before: string;
-  not_after: string;
-  serial_number: string;
-}[];
+import { lookupRelatedCerts } from '@/lib/certs';
 
 export const runtime = 'edge';
 export const preferredRegion = 'lhr1';
@@ -48,27 +37,6 @@ export const generateMetadata = ({
     canonical: `/lookup/${domain}/certs`,
   },
 });
-
-const lookupCerts = async (domain: string): Promise<CertsData> => {
-  const response = await fetch(
-    'https://crt.sh?' +
-      new URLSearchParams({
-        Identity: domain,
-        output: 'json',
-      }),
-    {
-      next: {
-        revalidate: 60 * 60,
-      },
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch certs');
-  }
-
-  return await response.json();
-};
 
 type CertsResultsPageProps = {
   params: {
@@ -92,23 +60,8 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
     );
   }
 
-  const certRequests = [await lookupCerts(domain)];
-
+  const certs = await lookupRelatedCerts(domain);
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
-  if (hasParentDomain) {
-    const parentDomain = domain.split('.').slice(1).join('.');
-    certRequests.push(await lookupCerts(`*.${parentDomain}`));
-  }
-
-  const certs = await Promise.all(certRequests).then((responses) =>
-    responses
-      .flat()
-      .sort(
-        (a, b) =>
-          new Date(b.entry_timestamp).getTime() -
-          new Date(a.entry_timestamp).getTime()
-      )
-  );
 
   if (!certs.length) {
     return (
