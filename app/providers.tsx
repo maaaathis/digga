@@ -9,7 +9,7 @@ type ProvidersProps = {
   children: ReactNode;
 };
 
-const DiggaPlausibleProvider: FC<ProvidersProps> = ({children}) => {
+const DiggaPlausibleProvider: FC<ProvidersProps> = ({ children }) => {
   if (!process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN) {
     return children;
   }
