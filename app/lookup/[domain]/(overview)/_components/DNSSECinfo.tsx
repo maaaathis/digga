@@ -35,7 +35,7 @@ const DNSSECinfo: FC<DNSSECinfoProps> = ({ domain }) => {
             </Badge>
           ) : (
             <Badge
-              className="px-1 text-xs  font-light tracking-tighter"
+              className="px-1 text-xs font-light tracking-tighter"
               color="red"
               variant="outline"
             >
