@@ -7,7 +7,7 @@ export const env = createEnv({
     ENVIRONMENT: z.enum(['production', 'development']).optional(),
 
     SITE_URL: z.string().url().optional(),
-    VERCEL_URL: z.string().url().optional(),
+    VERCEL_URL: z.string().optional(),
     INTERNAL_API_SECRET: z.string().min(1),
 
     GOOGLE_SERVICE_KEY_B64: z.string().optional(),
