@@ -12,6 +12,7 @@ import DomainlabelWidget from '@/app/lookup/[domain]/(overview)/_components/Doma
 import DomainOwnerInfoWidget from '@/app/lookup/[domain]/(overview)/_components/DomainOwnerInfoWidget';
 import NameserverWidget from '@/app/lookup/[domain]/(overview)/_components/NameserverWidget';
 import TechnologiesWidget from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
+import { env } from '@/env';
 import bigQuery from '@/lib/bigQuery';
 import { isDomainAvailable } from '@/lib/whois';
 
@@ -49,7 +50,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   if (bigQuery) {
     bigQuery
       .insertRows({
-        datasetName: process.env.BIGQUERY_DATASET!,
+        datasetName: env.BIGQUERY_DATASET!,
         tableName: 'domain_lookups',
         rows: [
           {
