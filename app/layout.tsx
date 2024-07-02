@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import type { FC, ReactElement, ReactNode } from 'react';
 
 import Header from '@/components/Header';
+import { env } from '@/env';
 
 import './globals.css';
 import Providers from './providers';
@@ -21,8 +22,8 @@ const clash = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: process.env.SITE_URL
-    ? new URL(process.env.SITE_URL)
+  metadataBase: env.SITE_URL
+    ? new URL(env.SITE_URL)
     : new URL('http://localhost:3000'),
   title: 'digga · Domain- & Infrastructure research',
   icons: {

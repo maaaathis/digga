@@ -26,5 +26,8 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
+      - name: Create and fill .env file
+        run: echo "INTERNAL_API_SECRET=S3cret" > .env
+
       - name: Run build
         run: yarn run build

@@ -1,9 +1,10 @@
-// @ts-expect-error
 import { getAccessToken } from 'web-auth-library/google';
 
-const credentials = process.env.GOOGLE_SERVICE_KEY_B64
+import { env } from '@/env';
+
+const credentials = env.GOOGLE_SERVICE_KEY_B64
   ? (JSON.parse(
-      Buffer.from(process.env.GOOGLE_SERVICE_KEY_B64, 'base64').toString()
+      Buffer.from(env.GOOGLE_SERVICE_KEY_B64, 'base64').toString()
     ) as {
       type: 'service_account';
       project_id: string;
@@ -21,9 +22,10 @@ export const insertRows = async ({
   tableName: string;
   rows: Record<string, any>[];
 }): Promise<void> => {
-  if (process.env.ENVIRONMENT === 'dev') return;
+  if (env.ENVIRONMENT === 'development') return;
 
   const accessToken = await getAccessToken({
+    // @ts-expect-error still works
     credentials: credentials,
     scope: 'https://www.googleapis.com/auth/cloud-platform',
   });
