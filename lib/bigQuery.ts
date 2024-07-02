@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { getAccessToken } from 'web-auth-library/google';
 
 import { env } from '@/env';
@@ -24,9 +23,9 @@ export const insertRows = async ({
   rows: Record<string, any>[];
 }): Promise<void> => {
   if (env.ENVIRONMENT === 'development') return;
-  if (!credentials?.client_email) return;
 
   const accessToken = await getAccessToken({
+    // @ts-expect-error still works
     credentials: credentials,
     scope: 'https://www.googleapis.com/auth/cloud-platform',
   });
