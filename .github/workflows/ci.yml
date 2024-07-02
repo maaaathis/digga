@@ -27,19 +27,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Create and fill .env file
-        run: |
-            touch .env
-            echo INTERNAL_API_SECRET="S3cret" >> .env
-            
-            echo "cat .env"
-            cat .env
-            
-            echo "ls -a ."
-            ls -a .
-            
-            echo "ls -a ${{ github.workspace }}"
-            ls -a ${{ github.workspace }}
-          shell: bash
+        run: echo "INTERNAL_API_SECRET=S3cret" > .env
 
       - name: Run build
         run: yarn run build
