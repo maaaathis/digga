@@ -7,11 +7,20 @@ export const middleware = async (request: NextRequest) => {
     const { isBot, userAgent } = isUserBot(request.headers);
     if (isBot) {
       const isAllowedBot =
-        !!userAgent &&
-        // @ts-ignore
-        JSON.parse(process.env.ALLOWED_BOTS).some((name) =>
-          userAgent.toLowerCase().includes(name)
-        );
+        userAgent &&
+        (() => {
+          try {
+            const allowedBots = JSON.parse(process.env.ALLOWED_BOTS || '[]');
+            return (
+              Array.isArray(allowedBots) &&
+              allowedBots.some((bot) =>
+                userAgent.toLowerCase().includes(bot.toLowerCase())
+              )
+            );
+          } catch (error) {
+            return false;
+          }
+        })();
 
       if (!isAllowedBot) {
         return new Response('Forbidden', { status: 403 });
