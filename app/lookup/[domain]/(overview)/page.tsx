@@ -12,7 +12,7 @@ import DomainlabelWidget from '@/app/lookup/[domain]/(overview)/_components/Doma
 import DomainOwnerInfoWidget from '@/app/lookup/[domain]/(overview)/_components/DomainOwnerInfoWidget';
 import NameserverWidget from '@/app/lookup/[domain]/(overview)/_components/NameserverWidget';
 import TechnologiesWidget from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
-import bigQuery from '@/lib/bigQuery';
+import bigQuery from '@/lib/bigquery';
 import { isDomainAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../../components/DomainNotRegistered';
