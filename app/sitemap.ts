@@ -1,5 +1,4 @@
 import type { MetadataRoute } from 'next';
-import { parse as parseTldts } from 'tldts';
 
 import { EXAMPLE_DOMAINS } from '@/lib/data';
 import { getTopDomains } from '@/lib/search';
