@@ -7,6 +7,12 @@ import { deduplicate } from '@/lib/utils';
 
 const RESULTS_SUBPATHS = ['', '/dns', '/certs', '/subdomains', '/whois'];
 
+const compareDomains = (a: string | null, b: string | null): number => {
+  if (a === null) return b === null ? 0 : -1;
+  if (b === null) return 1;
+  return a.length === b.length ? a.localeCompare(b) : a.length - b.length;
+};
+
 const generateSitemapPaths = async (): Promise<string[]> => {
   const topDomains = await getTopDomains(1000);
   const combinedDomains = deduplicate([...EXAMPLE_DOMAINS, ...topDomains]);
@@ -19,7 +25,7 @@ const generateSitemapPaths = async (): Promise<string[]> => {
     ...combinedDomains,
     ...combinedDomains.map((domain) => `www.${domain}`),
     ...tlds,
-  ].sort();
+  ].toSorted(compareDomains);
 
   return allDomains.flatMap((domain) =>
     RESULTS_SUBPATHS.map((suffix) => `/lookup/${domain}${suffix}`)
@@ -27,13 +33,12 @@ const generateSitemapPaths = async (): Promise<string[]> => {
 };
 
 const createSitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  if (!process.env.SITE_URL) {
+  const siteUrl = process.env.SITE_URL;
+  if (!siteUrl) {
     return [];
   }
 
   const paths = await generateSitemapPaths();
-  const siteUrl = process.env.SITE_URL;
-
   const sitemapEntries = paths.map((url) => ({
     url: `${siteUrl}${url}`,
     lastModified: new Date(),
