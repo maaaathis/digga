@@ -5,7 +5,7 @@ export const getTopDomains = async (count: number) => {
     return [];
   }
 
-  const tableName = `\`${bigquery.projectId}.${process.env.BIGQUERY_DATASET}.lookups\``;
+  const tableName = `\`${bigquery.projectId}.${process.env.BIGQUERY_DATASET}.domain_lookups\``;
   const results = await bigquery.query({
     query: `
       SELECT baseDomain
