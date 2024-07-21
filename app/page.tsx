@@ -7,15 +7,7 @@ import { Card } from '@/components/ui/card';
 import BookmarkletLink from '@/components/BookmarkletLink';
 import IOSShortcutLink from '@/components/IOSShortcutLink';
 import SearchForm from '@/components/SearchForm';
-
-const EXAMPLE_DOMAINS: string[] = [
-  'google.com',
-  'wikipedia.org',
-  'microsoft.com',
-  'tiktok.com',
-  'reddit.com',
-  'discord.com',
-];
+import { EXAMPLE_DOMAINS } from '@/lib/data';
 
 export const metadata = {
   openGraph: {

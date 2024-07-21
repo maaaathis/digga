@@ -5,6 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const deduplicate = <T>(array: T[]): T[] => Array.from(new Set(array));
+
 export const DOMAIN_REGEX = /^([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*\.)+[a-z]+\.?$/i;
 export const IPV4_REGEX = /(\d{1,3}\.){3}\d{1,3}/g;
 export const IPV6_REGEX =
