@@ -38,7 +38,7 @@
     "next": "^14.2.5",
     "next-plausible": "^3.12.0",
     "next-themes": "^0.3.0",
-    "postcss": "^8.4.39",
+    "postcss": "^8.4.40",
     "punycode": "^2.3.1",
     "react": "18.3.1",
     "react-country-flag": "^3.1.0",
