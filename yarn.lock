@@ -7092,17 +7092,17 @@ titleize@^3.0.0:
   resolved "https://registry.yarnpkg.com/titleize/-/titleize-3.0.0.tgz#71c12eb7fdd2558aa8a44b0be83b8a76694acd53"
   integrity sha512-KxVu8EYHDPBdUYdKZdKtU2aj2XfEx9AfjXxE/Aj0vT06w2icA09Vus1rh6eSu1y01akYg6BjIK/hxyLJINoMLQ==
 
-tldts-core@^6.1.33:
-  version "6.1.33"
-  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-6.1.33.tgz#9f80f0fac0d033b82fd11069b0e4cacd6122d13a"
-  integrity sha512-illzy+AYvuoDcrz16moF5X8HkjZFX7NpJJOzrLVyH4ATjhiiScfcUwAu+rtOzJFWTWqROJPXvBD/CF5v1JfEcw==
+tldts-core@^6.1.36:
+  version "6.1.36"
+  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-6.1.36.tgz#4b4b4b49df7d321682147d0792836463d3dc608a"
+  integrity sha512-znSW/7cUdiw7UQ662gfDhnMdDZrhsC6MpZt/cu07Ulmw1S2Gh4tr0pqGtHtDqKs9S2Sy9k7irSzvBnN98iGoLA==
 
-tldts@^6.1.33:
-  version "6.1.33"
-  resolved "https://registry.yarnpkg.com/tldts/-/tldts-6.1.33.tgz#62ef2d84ced0a14caed17a161d02b36fe5d3f246"
-  integrity sha512-U0rcEJftDwy6LfRdj5aQNvHlXpLpVCMUBkdp5nqtrhT7nva1+DT8O+cQfwJmOk62lOIHdz4EkAyrHKkH5I1Jtw==
+tldts@^6.1.36:
+  version "6.1.36"
+  resolved "https://registry.yarnpkg.com/tldts/-/tldts-6.1.36.tgz#f3436f1a5b42177d7ecfd54b5e8e5d293c2ba28b"
+  integrity sha512-ajpVQSfbng6tsuAI8fDV9WWE+J6ItELCQvf9+S7w23DhCyvdLG5TV1FZXHEt9yvF4GpNLJegdY+lwgnqlHQhJw==
   dependencies:
-    tldts-core "^6.1.33"
+    tldts-core "^6.1.36"
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
