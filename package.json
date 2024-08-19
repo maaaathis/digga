@@ -30,7 +30,7 @@
     "dns-packet": "^5.6.1",
     "framer-motion": "^11.3.24",
     "is-valid-domain": "^0.1.6",
-    "isbot": "^5.1.14",
+    "isbot": "^5.1.17",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "lucide-react": "^0.427.0",
