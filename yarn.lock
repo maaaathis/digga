@@ -6048,10 +6048,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-plausible@^3.12.1:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-3.12.1.tgz#44d8ce88efacfdf7adbeddb78f96a455f31da866"
-  integrity sha512-DcQxB/oE8gOLuIU0SBbzN0dYYNibOXgKfnzPkO9SXug6B4Y95eT41JgbN3gjlcsqHWaDWJu/s3928O7ilo2sTg==
+next-plausible@^3.12.2:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-3.12.2.tgz#7d8fe30d76b8cc43141da96f190d5eb9b3194a55"
+  integrity sha512-jyOYLAdwaZZR6nrzFhN9xfVjzYOG6mIQ/LLDCfdAS99ELy759cKfNxluGo+pI2Xh9cYxTFYYZGlnkyR3IPy4yg==
 
 next-themes@^0.3.0:
   version "0.3.0"
