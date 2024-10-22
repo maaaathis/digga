@@ -5851,10 +5851,10 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.1.0.tgz#2098d41c2dc56500e6c88584aa656c84de7d0484"
   integrity sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==
 
-lucide-react@^0.440.0:
-  version "0.440.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.440.0.tgz#0ba651c0bed1581fb6a7838b43bf7ec6ab7f13a1"
-  integrity sha512-FW6Z0IJ/WVG968jscSiPXvQWo5B2DddynpgDMyGmTqnBo7pxzJrFMFMChM/d5YEsdHiNoLq0GIZJn14tH70GYQ==
+lucide-react@^0.446.0:
+  version "0.446.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.446.0.tgz#b92bd0229ad79a11fff84d47f9351797fc0b904e"
+  integrity sha512-BU7gy8MfBMqvEdDPH79VhOXSEgyG8TSPOKWaExWGCQVqnGH7wGgDngPbofu+KdtVjPQBWbEmnfMTq90CTiiDRg==
 
 mdn-data@2.0.28:
   version "2.0.28"
