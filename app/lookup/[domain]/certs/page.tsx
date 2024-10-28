@@ -35,9 +35,6 @@ type CertsData = {
   serial_number: string;
 }[];
 
-export const runtime = 'edge';
-export const preferredRegion = 'lhr1';
-
 export const generateMetadata = async ({
   params: params,
 }: CertsResultsPageProps): Promise<Metadata> => {
