@@ -6,16 +6,19 @@ import whoiser, { type WhoisSearchResult } from 'whoiser';
 import StyledError from '@/components/StyledError';
 import { getBaseDomain, getTLD } from '@/lib/utils';
 
-export const generateMetadata = ({
-  params: { domain },
-}: WhoisResultsPageProps): Metadata => ({
-  openGraph: {
-    url: `/lookup/${domain}/whois`,
-  },
-  alternates: {
-    canonical: `/lookup/${domain}/whois`,
-  },
-});
+export const generateMetadata = async ({
+  params: params,
+}: WhoisResultsPageProps): Promise<Metadata> => {
+  const { domain } = await params;
+  return {
+    openGraph: {
+      url: `/lookup/${domain}/whois`,
+    },
+    alternates: {
+      canonical: `/lookup/${domain}/whois`,
+    },
+  };
+};
 
 const lookupWhois = async (domain: string) => {
   const result = await whoiser(domain, {
@@ -32,14 +35,15 @@ const lookupWhois = async (domain: string) => {
 };
 
 type WhoisResultsPageProps = {
-  params: {
+  params: Promise<{
     domain: string;
-  };
+  }>;
 };
 
 const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
-  params: { domain },
+  params: params,
 }): Promise<ReactElement> => {
+  const { domain } = await params;
   const baseDomain = getBaseDomain(domain);
   const data = await lookupWhois(baseDomain);
 
