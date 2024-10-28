@@ -35,19 +35,19 @@ type CertsData = {
   serial_number: string;
 }[];
 
-export const runtime = 'edge';
-export const preferredRegion = 'lhr1';
-
-export const generateMetadata = ({
-  params: { domain },
-}: CertsResultsPageProps): Metadata => ({
-  openGraph: {
-    url: `/lookup/${domain}/certs`,
-  },
-  alternates: {
-    canonical: `/lookup/${domain}/certs`,
-  },
-});
+export const generateMetadata = async ({
+  params: params,
+}: CertsResultsPageProps): Promise<Metadata> => {
+  const { domain } = await params;
+  return {
+    openGraph: {
+      url: `/lookup/${domain}/certs`,
+    },
+    alternates: {
+      canonical: `/lookup/${domain}/certs`,
+    },
+  };
+};
 
 const lookupCerts = async (domain: string): Promise<CertsData> => {
   const response = await fetch(
@@ -71,15 +71,18 @@ const lookupCerts = async (domain: string): Promise<CertsData> => {
 };
 
 type CertsResultsPageProps = {
-  params: {
+  params: Promise<{
     domain: string;
-  };
+  }>;
 };
 
 const CertsResultsPage: FC<CertsResultsPageProps> = async ({
-  params: { domain },
+  params: params,
 }): Promise<ReactElement> => {
-  const userAgent = headers().get('user-agent');
+  const { domain } = await params;
+  const header = await headers();
+
+  const userAgent = header.get('user-agent');
   const isBotRequest = !userAgent || isbot(userAgent);
 
   if (isBotRequest) {

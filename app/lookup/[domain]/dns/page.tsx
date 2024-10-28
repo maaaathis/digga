@@ -46,25 +46,27 @@ const getResolver = (
 };
 
 type LookupDomainProps = {
-  params: {
+  params: Promise<{
     domain: string;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     resolver?: string;
     location?: string;
-  };
+  }>;
 };
 
 export const fetchCache = 'default-no-store';
 
-export const generateMetadata = ({
-  params: { domain },
-  searchParams: { resolver, location },
-}: LookupDomainProps): Metadata => {
-  const params = new URLSearchParams();
-  if (resolver) params.set('resolver', resolver);
-  if (location) params.set('location', location);
-  const search = params.size ? `?${params.toString()}` : '';
+export const generateMetadata = async ({
+  params: params,
+  searchParams: searchParams,
+}: LookupDomainProps): Promise<Metadata> => {
+  const { domain } = await params;
+  const { resolver, location } = await searchParams;
+  const URLsearchParams = new URLSearchParams();
+  if (resolver) URLsearchParams.set('resolver', resolver);
+  if (location) URLsearchParams.set('location', location);
+  const search = URLsearchParams.size ? `?${URLsearchParams.toString()}` : '';
 
   return {
     openGraph: {
@@ -77,17 +79,20 @@ export const generateMetadata = ({
 };
 
 const LookupDomain: FC<LookupDomainProps> = async ({
-  params: { domain },
-  searchParams: { resolver: resolverName, location: locationName },
+  params: params,
+  searchParams: searchParams,
 }): Promise<ReactElement> => {
-  if (locationName && !resolverName) {
+  const { domain } = await params;
+  const { resolver: resolverData, location } = await searchParams;
+
+  if (location && !resolverData) {
     return redirect(
       `/lookup/${encodeURIComponent(domain)}/dns`,
       RedirectType.replace
     );
   }
 
-  const resolver = getResolver(resolverName, locationName);
+  const resolver = getResolver(resolverData, location);
   const records = await resolver.resolveAllRecords(domain);
   const ipsInfo = await getIpsInfo(
     records.A.map((r) => r.data).concat(records.AAAA.map((r) => r.data))
@@ -106,15 +111,12 @@ const LookupDomain: FC<LookupDomainProps> = async ({
     <>
       <div className="flex flex-col justify-between gap-4 sm:flex-row">
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-          <ResolverSelector initialValue={resolverName} />
-          <LocationSelector
-            initialValue={locationName}
-            disabled={!resolverName}
-          />
+          <ResolverSelector initialValue={resolverData} />
+          <LocationSelector initialValue={location} disabled={!resolverData} />
         </div>
         <div className="flex flex-col gap-2 sm:gap-4 md:flex-row">
-          {resolverName === 'google' && <FlushGoogleDnsCacheButton />}
-          {resolverName === 'cloudflare' && <FlushCloudflareDnsCacheButton />}
+          {resolverData === 'google' && <FlushGoogleDnsCacheButton />}
+          {resolverData === 'cloudflare' && <FlushCloudflareDnsCacheButton />}
           <DnsHistoryButton domain={domain} />
         </div>
       </div>

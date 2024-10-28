@@ -12,8 +12,8 @@ import DomainlabelWidget from '@/app/lookup/[domain]/(overview)/_components/Doma
 import DomainOwnerInfoWidget from '@/app/lookup/[domain]/(overview)/_components/DomainOwnerInfoWidget';
 import NameserverWidget from '@/app/lookup/[domain]/(overview)/_components/NameserverWidget';
 import TechnologiesWidget from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
+import { bigquery } from '@/lib/bigquery';
 import { env } from '@/env';
-import bigQuery from '@/lib/bigQuery';
 import { isDomainAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../../components/DomainNotRegistered';
@@ -21,14 +21,15 @@ import DomainNotRegistered from '../../../../components/DomainNotRegistered';
 export const fetchCache = 'default-no-store';
 
 interface LookupDomainProps {
-  params: {
+  params: Promise<{
     domain: string;
-  };
+  }>;
 }
 
-export const generateMetadata = ({
-  params: { domain },
-}: LookupDomainProps): Metadata => {
+export const generateMetadata = async ({
+  params: params,
+}: LookupDomainProps): Promise<Metadata> => {
+  const { domain } = await params;
   return {
     openGraph: {
       url: `/lookup/${domain}`,
@@ -40,15 +41,16 @@ export const generateMetadata = ({
 };
 
 const LookupDomain: FC<LookupDomainProps> = async ({
-  params: { domain },
+  params: params,
 }): Promise<ReactElement> => {
+  const { domain } = await params;
   const baseDomain = getDomain(domain);
   const publicSuffix = getPublicSuffix(domain);
 
   if (!baseDomain) return notFound();
 
-  if (bigQuery) {
-    bigQuery
+  if (bigquery) {
+    bigquery
       .insertRows({
         datasetName: env.BIGQUERY_DATASET!,
         tableName: 'domain_lookups',

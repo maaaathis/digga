@@ -21,3 +21,12 @@ export const REGIONS: Record<
   sin: { lat: 1.356944, lng: 103.988611, name: '🇸🇬 Singapore, Singapore' },
   syd: { lat: -33.946111, lng: 151.177222, name: '🇦🇺 Sydney, Australia' },
 };
+
+export const EXAMPLE_DOMAINS = [
+  'google.com',
+  'wikipedia.org',
+  'microsoft.com',
+  'tiktok.com',
+  'reddit.com',
+  'discord.com',
+];
