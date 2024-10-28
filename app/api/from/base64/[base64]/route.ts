@@ -4,9 +4,9 @@ import { cleanDomain } from '@/lib/domain';
 
 export async function GET(
   request: Request,
-  context: { params: { base64: string } }
+  context: { params: Promise<{ base64: string }> }
 ) {
-  const base64 = context.params.base64;
+  const { base64 } = await context.params;
 
   if (!base64) {
     return NextResponse.json(

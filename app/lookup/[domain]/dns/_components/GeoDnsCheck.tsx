@@ -16,7 +16,8 @@ interface Props {
 export const GeoDnsCheck: FC<Props> = async ({
   domain,
 }): Promise<ReactElement> => {
-  const userAgent = headers().get('user-agent');
+  const header = await headers();
+  const userAgent = header.get('user-agent');
   const isBotRequest = !userAgent || isbot(userAgent);
 
   if (isBotRequest) return <></>;

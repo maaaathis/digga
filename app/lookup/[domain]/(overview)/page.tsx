@@ -20,14 +20,15 @@ import DomainNotRegistered from '../../../../components/DomainNotRegistered';
 export const fetchCache = 'default-no-store';
 
 interface LookupDomainProps {
-  params: {
+  params: Promise<{
     domain: string;
-  };
+  }>;
 }
 
-export const generateMetadata = ({
-  params: { domain },
-}: LookupDomainProps): Metadata => {
+export const generateMetadata = async ({
+  params: params,
+}: LookupDomainProps): Promise<Metadata> => {
+  const { domain } = await params;
   return {
     openGraph: {
       url: `/lookup/${domain}`,
@@ -39,8 +40,9 @@ export const generateMetadata = ({
 };
 
 const LookupDomain: FC<LookupDomainProps> = async ({
-  params: { domain },
+  params: params,
 }): Promise<ReactElement> => {
+  const { domain } = await params;
   const baseDomain = getDomain(domain);
   const publicSuffix = getPublicSuffix(domain);
 

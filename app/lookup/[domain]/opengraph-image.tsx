@@ -18,8 +18,9 @@ const kanitRegularFontP = fetch(
 export const handler = async ({
   params,
 }: {
-  params: { domain: string };
+  params: Promise<{ domain: string }>;
 }): Promise<ImageResponse> => {
+  const { domain } = await params;
   const [interRegularFont, interBoldFont, kanitRegularFont] = await Promise.all(
     [interRegularFontP, interBoldFontP, kanitRegularFontP]
   );
@@ -49,7 +50,7 @@ export const handler = async ({
           digga
         </span>
         <span style={{ fontSize: 48, fontWeight: 700 }}>
-          Results for {params.domain}
+          Results for {domain}
         </span>
         <span
           style={{

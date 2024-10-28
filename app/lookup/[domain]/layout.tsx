@@ -13,26 +13,31 @@ import SearchForm from '@/components/SearchForm';
 
 type LookupLayoutProps = {
   children: ReactNode;
-  params: {
+  params: Promise<{
     domain: string;
+  }>;
+};
+
+export const generateMetadata = async ({
+  params: params,
+}: LookupLayoutProps): Promise<Metadata> => {
+  const propParams = await params;
+
+  return {
+    title: `Results for ${propParams.domain} · digga`,
+    openGraph: {
+      type: 'website',
+      title: `Results for ${propParams.domain} · digga`,
+      description: `Find DNS records, WHOIS data, SSL/TLS certificate history and more for ${propParams.domain}`,
+    },
   };
 };
 
-export const generateMetadata = ({
-  params: { domain },
-}: LookupLayoutProps): Metadata => ({
-  title: `Results for ${domain} · digga`,
-  openGraph: {
-    type: 'website',
-    title: `Results for ${domain} · digga`,
-    description: `Find DNS records, WHOIS data, SSL/TLS certificate history and more for ${domain}`,
-  },
-});
-
-const LookupLayout: FC<LookupLayoutProps> = ({
+const LookupLayout: FC<LookupLayoutProps> = async ({
   children,
-  params: { domain },
-}): ReactElement => {
+  params: params,
+}): Promise<ReactElement> => {
+  const { domain } = await params;
   if (!isValidDomain(domain)) {
     return notFound();
   }
