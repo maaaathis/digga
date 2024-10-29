@@ -4,6 +4,7 @@ import { Rubik } from 'next/font/google';
 import localFont from 'next/font/local';
 import type { FC, ReactElement, ReactNode } from 'react';
 
+import { Analytics } from '@/components/Analytics';
 import Header from '@/components/Header';
 
 import './globals.css';
@@ -92,6 +93,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }): ReactElement => {
             </main>
           </div>
         </Providers>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
