@@ -62,7 +62,7 @@ const TechnologiesWidget: React.FC<Props> = async ({
             return (
               <TooltipProvider key={technology.index}>
                 <Tooltip>
-                  <TooltipTrigger asChild>
+                  <TooltipTrigger asChild data-umami-event="modal-technologies">
                     <Link
                       href={
                         filterWhatRunsDirectUrl(technology.website) ??

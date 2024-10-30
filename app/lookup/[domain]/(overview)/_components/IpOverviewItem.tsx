@@ -28,7 +28,11 @@ const IpOverviewItem: FC<IpOverviewItemProps> = ({
     <>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger asChild onClick={open}>
+          <TooltipTrigger
+            asChild
+            onClick={open}
+            data-umami-event="modal-ipoverview"
+          >
             <div className="flex cursor-pointer select-none flex-row gap-2 rounded-lg p-2 px-2.5 pr-3 hover:bg-accent">
               <Dot className="my-auto inline-block h-7 w-7 shrink-0" />
               <div className="flex flex-col">

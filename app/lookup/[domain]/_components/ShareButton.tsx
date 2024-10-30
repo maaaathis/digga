@@ -29,6 +29,7 @@ export const ShareButton: FC = () => {
       variant="secondary"
       className="flex h-6 shrink-0 flex-row gap-2 rounded-lg p-2 text-xs"
       onClick={handleShareCall}
+      data-umami-event="share"
     >
       {isCopied ? (
         <>

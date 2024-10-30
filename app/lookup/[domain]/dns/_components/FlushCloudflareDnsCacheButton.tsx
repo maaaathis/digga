@@ -14,7 +14,11 @@ export const FlushCloudflareDnsCacheButton: FC = () => {
       rel="noopener"
       className="my-auto"
     >
-      <Button variant="outline" className="rounded-lg text-sm font-medium">
+      <Button
+        variant="outline"
+        className="rounded-lg text-sm font-medium"
+        data-umami-event="goto-flush-cloudflare"
+      >
         Flush Cloudflare DNS Cache
         <ExternalLink className="ml-2 h-3 w-3" />
       </Button>

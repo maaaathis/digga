@@ -164,7 +164,10 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
               <TableCell className="pr-0">
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger
+                      asChild
+                      data-umami-event="goto-certsh-details"
+                    >
                       <Link
                         href={`https://crt.sh/?id=${cert.id}`}
                         target="_blank"
@@ -192,6 +195,7 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
           }
           target="_blank"
           rel="noreferrer noopener"
+          data-umami-event="goto-certsh-overview"
           className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
         >
           Sectigo&apos;s crt.sh

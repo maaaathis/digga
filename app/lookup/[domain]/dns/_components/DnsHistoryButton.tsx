@@ -20,7 +20,11 @@ export const DnsHistoryButton: FC<Props> = (props) => {
       rel="noopener nofollow"
       className="my-auto"
     >
-      <Button variant="outline" className="rounded-lg text-sm font-medium">
+      <Button
+        variant="outline"
+        className="rounded-lg text-sm font-medium"
+        data-umami-event="goto-dnshistory"
+      >
         DNS History
         <ExternalLink className="ml-2 h-3 w-3" />
       </Button>

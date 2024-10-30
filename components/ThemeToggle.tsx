@@ -29,6 +29,7 @@ export default function ThemeToggle() {
         size="icon"
         className="w-full rounded-2xl"
         onClick={() => setTheme('dark')}
+        data-umami-event="theme-select-dark"
       >
         <Moon className="h-5 w-5" />
       </Button>
@@ -37,6 +38,7 @@ export default function ThemeToggle() {
         size="icon"
         className="w-full rounded-2xl"
         onClick={() => setTheme('light')}
+        data-umami-event="theme-select-light"
       >
         <Sun className="h-5 w-5" />
       </Button>
@@ -45,6 +47,7 @@ export default function ThemeToggle() {
         size="icon"
         className="w-full rounded-2xl"
         onClick={() => setTheme('system')}
+        data-umami-event="theme-select-auto"
       >
         <Monitor className="h-5 w-5" />
       </Button>
