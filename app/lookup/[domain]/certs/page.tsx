@@ -164,7 +164,10 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
               <TableCell className="pr-0">
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger
+                      asChild
+                      data-umami-event="goto-certsh-details"
+                    >
                       <Link
                         href={`https://crt.sh/?id=${cert.id}`}
                         target="_blank"

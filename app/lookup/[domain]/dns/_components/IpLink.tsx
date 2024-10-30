@@ -24,7 +24,11 @@ const IpLink: FC<IpLinkProps> = ({ value }): ReactElement => {
     <>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger asChild onClick={open}>
+          <TooltipTrigger
+            asChild
+            onClick={open}
+            data-umami-event="modal-iplink"
+          >
             <a className="cursor-pointer select-none underline decoration-dotted underline-offset-4 hover:decoration-dashed">
               <span className="select-none">{value}</span>
               <InfoIcon

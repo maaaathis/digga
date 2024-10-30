@@ -31,7 +31,7 @@ const CopyButton: FC<CopyButton> = ({ value }): ReactElement => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger asChild data-umami-event="copied-value">
           <ClipboardIcon
             role="button"
             className="mx-1 inline-block h-4 w-4 -translate-y-0.5 cursor-pointer"
