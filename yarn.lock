@@ -7026,7 +7026,7 @@ __metadata:
     tailwind-merge: "npm:^2.5.4"
     tailwindcss: "npm:^3.4.14"
     tailwindcss-animate: "npm:^1.0.7"
-    tldts: "npm:^6.1.56"
+    tldts: "npm:^6.1.60"
     typescript: "npm:^5.6.3"
     validator: "npm:^13.12.0"
     vaul: "npm:^1.1.0"
@@ -11386,21 +11386,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tldts-core@npm:^6.1.56":
-  version: 6.1.56
-  resolution: "tldts-core@npm:6.1.56"
-  checksum: 10c0/d3924a9704f71c04ecfc4b53b3d6e7f633a2e7c8a0a6d62776cc35958a934d45f10610d03b1385ade3ddde7feccdec2a8d2eb270dd9ce2714472e149a559d400
+"tldts-core@npm:^6.1.60":
+  version: 6.1.60
+  resolution: "tldts-core@npm:6.1.60"
+  checksum: 10c0/fece0a6c6297e45323e4e4f9602e5e8378bb31f36b99ce26a60b7985ba0f175de992435b3de6c0e9526afeea3ce8090bc5426b99627c890731053892fe0e0266
   languageName: node
   linkType: hard
 
-"tldts@npm:^6.1.56":
-  version: 6.1.56
-  resolution: "tldts@npm:6.1.56"
+"tldts@npm:^6.1.60":
+  version: 6.1.60
+  resolution: "tldts@npm:6.1.60"
   dependencies:
-    tldts-core: "npm:^6.1.56"
+    tldts-core: "npm:^6.1.60"
   bin:
     tldts: bin/cli.js
-  checksum: 10c0/a6c09b7a49089853a1bb48e24aa2f95e388f9ab3d4dc7bb253db9df562a2119b279278703b944c8ad3a177f482f3898afb0ca09227265f8fb831064cc177a5ac
+  checksum: 10c0/7b8609cd2017099dbbb0747f8f4e762e2feb88806674275acfa83dacdaced34b8cc6623174159d28a3fbc186be58b3cdd2cd1c79cab903ac11b33e1022c05ad6
   languageName: node
   linkType: hard
 
