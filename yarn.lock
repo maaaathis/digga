@@ -7007,7 +7007,7 @@ __metadata:
     isbot: "npm:^5.1.17"
     leaflet: "npm:^1.9.4"
     leaflet-defaulticon-compatibility: "npm:^0.1.2"
-    lucide-react: "npm:^0.453.0"
+    lucide-react: "npm:^0.460.0"
     natural-compare-lite: "npm:^1.4.0"
     next: "npm:^15.0.1"
     next-plausible: "npm:^3.12.2"
@@ -9250,12 +9250,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.453.0":
-  version: 0.453.0
-  resolution: "lucide-react@npm:0.453.0"
+"lucide-react@npm:^0.460.0":
+  version: 0.460.0
+  resolution: "lucide-react@npm:0.460.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
-  checksum: 10c0/eec257049609eff958329943da6e129c8db1969aa789c6e922f59418d7b6f6913c22e971ac7885efc80eeb3e41e180c48afdee92738a63a31ef5a39836037b7e
+  checksum: 10c0/7f54cbc1ab88276f79cfb8c3ac440de9db013d76e386abc68deda4b04ea51e826f1ad5df22983619b970adff7430d892d4e990dbdf6eceb7243eb2e9a2762704
   languageName: node
   linkType: hard
 
