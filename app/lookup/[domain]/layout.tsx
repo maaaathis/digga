@@ -65,6 +65,7 @@ const LookupLayout: FC<LookupLayoutProps> = async ({
             <Link
               className="block font-clash text-4xl font-bold tracking-wider decoration-muted-foreground underline-offset-4 hover:underline"
               href={`https://${domain}`}
+              prefetch={false}
               target="_blank"
               rel="noreferrer noopener"
             >

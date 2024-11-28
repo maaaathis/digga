@@ -33,7 +33,9 @@ const RelatedDomains: FC<RelatedDomainsProps> = ({
           variant="secondary"
           className="h-6 rounded-lg p-2 text-xs"
         >
-          <Link href={`/lookup/${domain}`}>{domain}</Link>
+          <Link href={`/lookup/${domain}`} prefetch={false}>
+            {domain}
+          </Link>
         </Button>
       ))}
     </div>

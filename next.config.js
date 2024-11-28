@@ -13,6 +13,12 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    staleTimes: {
+      dynamic: 60,
+      static: 300,
+    },
+  },
 };
 
 module.exports = nextConfig;

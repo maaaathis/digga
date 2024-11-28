@@ -15,12 +15,15 @@ const kanitRegularFontP = fetch(
   new URL('https://fonts.bunny.net/kanit/files/kanit-latin-500-normal.woff')
 ).then((res) => res.arrayBuffer());
 
-export const handler = async ({
-  params,
-}: {
-  params: Promise<{ domain: string }>;
-}): Promise<ImageResponse> => {
+type OGImageProps = {
+  params: Promise<{
+    domain: string;
+  }>;
+};
+export const handler = async ({ params: paramsPromise }: OGImageProps) => {
+  const params = await paramsPromise;
   const { domain } = await params;
+
   const [interRegularFont, interBoldFont, kanitRegularFont] = await Promise.all(
     [interRegularFontP, interBoldFontP, kanitRegularFontP]
   );

@@ -43,29 +43,33 @@ class AuthoritativeResolver extends DnsResolver {
       case 'TXT':
         if (Array.isArray(record.data)) {
           return record.data
-            .map((item) => (item instanceof Buffer ? item.toString() : item))
+            .map((item) =>
+              item instanceof Buffer ? item.toString() : String(item)
+            )
             .join(' ');
         } else if (record.data instanceof Buffer) {
           return record.data.toString();
         } else {
-          return record.data;
+          return String(record.data);
         }
       case 'CAA':
         return `${record.data.flags} ${record.data.tag} "${record.data.value}"`;
       case 'DNSKEY':
         return `${record.data.flags} ${
           record.data.algorithm
-        } ${record.data.key.toString('hex')}`;
+        } ${record.data.key.toString('base64')}`;
       case 'DS':
         return `${record.data.keyTag} ${record.data.algorithm} ${
           record.data.digestType
-        } ${record.data.digest.toString('hex')}`;
+        } ${record.data.digest.toString('hex').toUpperCase()}`;
       case 'MX':
         return `${record.data.preference} ${record.data.exchange}`;
       case 'NAPTR':
         return `${record.data.order} ${record.data.preference} "${record.data.flags}" "${record.data.services}" "${record.data.regexp}" ${record.data.replacement}`;
       case 'NS':
         return record.data;
+      case 'RRSIG':
+        return `${record.data.typeCovered} ${record.data.algorithm} ${record.data.labels} ${record.data.originalTTL} ${record.data.expiration} ${record.data.inception} ${record.data.keyTag} ${record.data.signersName} ${record.data.signature.toString('base64')}`;
       case 'SOA':
         return `${record.data.mname} ${record.data.rname} ${record.data.serial} ${record.data.refresh} ${record.data.retry} ${record.data.expire} ${record.data.minimum}`;
       case 'SRV':
