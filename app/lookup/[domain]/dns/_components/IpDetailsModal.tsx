@@ -35,7 +35,10 @@ import DomainLink from '@/components/DomainLink';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
 const LocationMap = dynamic(
-  () => import('@/app/lookup/[domain]/dns/_components/LocationMap'),
+  () =>
+    import('./LocationMap').then((m) => ({
+      default: m.LocationMap,
+    })),
   {
     ssr: false,
   }
