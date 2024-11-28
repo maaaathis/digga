@@ -7037,7 +7037,6 @@ __metadata:
     lucide-react: "npm:^0.462.0"
     natural-compare-lite: "npm:^1.4.0"
     next: "npm:^15.0.3"
-    next-plausible: "npm:^3.12.4"
     next-themes: "npm:^0.4.3"
     postcss: "npm:^8.4.49"
     prettier: "npm:^3.4.1"
@@ -9514,17 +9513,6 @@ __metadata:
   version: 0.6.4
   resolution: "negotiator@npm:0.6.4"
   checksum: 10c0/3e677139c7fb7628a6f36335bf11a885a62c21d5390204590a1a214a5631fcbe5ea74ef6a610b60afe84b4d975cbe0566a23f20ee17c77c73e74b80032108dea
-  languageName: node
-  linkType: hard
-
-"next-plausible@npm:^3.12.4":
-  version: 3.12.4
-  resolution: "next-plausible@npm:3.12.4"
-  peerDependencies:
-    next: "^11.1.0 || ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 "
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/70f1efd90ed5dc63089cd916e630883a62a03ec3319fde0b3a2a2303704a5e60b1843cf9f821e1b918514e3a9d5b0594eb8af6925a01132cb8705219db3bc99a
   languageName: node
   linkType: hard
 
