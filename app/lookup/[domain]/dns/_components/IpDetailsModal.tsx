@@ -102,30 +102,25 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
       <Spinner />
     </div>
   ) : (
-      <Table>
-        <TableBody>
-          {mappedEntries.map((el) => (
-            <TableRow
-              key={el.label + el.value}
-              className="hover:bg-transparent"
-            >
-              <TableCell className="pl-0">{el.label}</TableCell>
-              <TableCell className="pr-0">
-                {el.type === EntryTypes.Reverse ? (
-                  <DomainLink domain={el.value} />
-                ) : (
-                  <>
-                    <span>{el.value}</span>
-                    {el.type === EntryTypes.IP && (
-                      <CopyButton value={el.value} />
-                    )}
-                  </>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <Table>
+      <TableBody>
+        {mappedEntries.map((el) => (
+          <TableRow key={el.label + el.value} className="hover:bg-transparent">
+            <TableCell className="pl-0">{el.label}</TableCell>
+            <TableCell className="pr-0">
+              {el.type === EntryTypes.Reverse ? (
+                <DomainLink domain={el.value} />
+              ) : (
+                <>
+                  <span>{el.value}</span>
+                  {el.type === EntryTypes.IP && <CopyButton value={el.value} />}
+                </>
+              )}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 
   if (windowWidth && windowWidth < 640) {
