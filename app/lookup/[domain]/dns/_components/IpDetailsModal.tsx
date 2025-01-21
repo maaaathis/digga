@@ -1,6 +1,5 @@
 import type { DialogProps } from '@radix-ui/react-dialog';
 import { useWindowSize } from '@uidotdev/usehooks';
-import type { LatLngExpression } from 'leaflet';
 import naturalCompare from 'natural-compare-lite';
 import { type FC } from 'react';
 import useSWRImmutable from 'swr/immutable';
@@ -52,7 +51,6 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
   );
 
   let mappedEntries: { label: string; value: string; type: EntryTypes }[] = [];
-  let location: LatLngExpression = [0, 0];
 
   if (data) {
     mappedEntries = [
