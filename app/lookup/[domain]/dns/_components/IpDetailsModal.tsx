@@ -88,8 +88,6 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({
         value: data.timezone,
       },
     ];
-
-    location = [data.lat, data.lon];
   }
 
   const title = `IP Details for ${ip}`;
