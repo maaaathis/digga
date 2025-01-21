@@ -138,17 +138,17 @@ const IpDetailsContent: FC<IpDetailsContentProps> = ({ ip, data, error }) => {
           ))}
         </TableBody>
       </Table>
-
-      <div className="my-4 flex flex-col gap-1">
-        <div className="[&_.leaflet-container]:h-24 [&_.leaflet-container]:w-full sm:[&_.leaflet-container]:h-48">
-          <LocationMap location={location} />
-        </div>
-        <p className="text-center text-xs text-muted-foreground">
-          Latitude: {data.lat} - Longitude: {data.lon}
-        </p>
-      </div>
     </>
   );
+
+  /*return (<div className="my-4 flex flex-col gap-1">
+    <div className="[&_.leaflet-container]:h-24 [&_.leaflet-container]:w-full sm:[&_.leaflet-container]:h-48">
+      <LocationMap location={location} />
+    </div>
+    <p className="text-center text-xs text-muted-foreground">
+      Latitude: {data.lat} - Longitude: {data.lon}
+    </p>
+  </div>)*/
 };
 
 type IpDetailsModalProps = {

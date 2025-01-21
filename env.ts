@@ -15,12 +15,12 @@ export const env = createEnv({
     BIGQUERY_LOCATION: z.string().optional(),
   },
   client: {
-    NEXT_PUBLIC_PLAUSIBLE_DOMAIN: z.string().optional(),
-    NEXT_PUBLIC_PLAUSIBLE_HOST: z.string().optional(),
+    NEXT_PUBLIC_ANALYTICS_SCRIPT: z.string().optional(),
+    NEXT_PUBLIC_ANALYTICS_ID: z.string().optional(),
   },
   experimental__runtimeEnv: {
-    NEXT_PUBLIC_PLAUSIBLE_DOMAIN: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
-    NEXT_PUBLIC_PLAUSIBLE_HOST: process.env.NEXT_PUBLIC_PLAUSIBLE_HOST,
+    NEXT_PUBLIC_ANALYTICS_SCRIPT: process.env.NEXT_PUBLIC_ANALYTICS_SCRIPT,
+    NEXT_PUBLIC_ANALYTICS_ID: process.env.NEXT_PUBLIC_ANALYTICS_ID,
   },
   emptyStringAsUndefined: true,
 });
