@@ -13,7 +13,15 @@ const nextConfig = {
       },
     ],
   },
+  redirects: async () => [
+    {
+      source: '/lookup',
+      destination: '/',
+      permanent: true,
+    },
+  ],
   experimental: {
+    webpackBuildWorker: true,
     staleTimes: {
       dynamic: 60,
       static: 300,
