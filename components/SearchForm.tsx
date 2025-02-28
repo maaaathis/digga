@@ -99,7 +99,7 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   return (
     <>
       <form className="flex gap-3" onSubmit={handleSubmit}>
-        <div className="relative flex-[4]">
+        <div className="relative flex-4">
           <Input
             ref={inputRef}
             className={cn('font-wider', props.className)}
@@ -128,7 +128,7 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
           </kbd>
         </div>
         <Button
-          className="h-12 flex-[1]"
+          className="h-12 flex-1"
           type="submit"
           disabled={state !== FormStates.Initial}
           aria-label="Lookup Domain"
