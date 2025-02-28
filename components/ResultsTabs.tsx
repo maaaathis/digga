@@ -31,13 +31,13 @@ const Tab: FC<{
       href={href}
       className={
         selected
-          ? 'relative inline-block w-max rounded-t-lg border-b-2 border-primary p-4 text-primary'
+          ? 'border-primary text-primary relative inline-block w-max rounded-t-lg border-b-2 p-4'
           : 'relative inline-block w-max rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
       }
     >
       {label}
       {!hideShortcut && (
-        <span className="pointer-events-none absolute bottom-0 left-1/2 block w-full -translate-x-1/2 translate-y-4 text-xs text-muted-foreground opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
+        <span className="text-muted-foreground pointer-events-none absolute bottom-0 left-1/2 block w-full -translate-x-1/2 translate-y-4 text-xs opacity-0 transition-all group-hover:translate-y-6 group-hover:opacity-100">
           {isAppleDevice() ? (
             <>
               <OptionIcon className="inline-block h-3 w-3" strokeWidth={3} />
@@ -64,7 +64,7 @@ const ResultsTabs: FC<ResultsTabsProps> = ({ domain }): ReactElement => {
   useHotkeys('alt+4', () => router.push(`/lookup/${domain}/certs`), [router]);
 
   return (
-    <div className="group mb-7 mt-6 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
+    <div className="group mt-6 mb-7 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
       <ul className="-mb-px flex flex-wrap">
         <Tab
           label="Overview"

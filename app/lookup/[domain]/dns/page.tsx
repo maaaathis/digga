@@ -128,7 +128,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
           <DnsTable records={records} ipsInfo={ipsInfo} />
         </>
       ) : (
-        <p className="mt-24 text-center text-muted-foreground">
+        <p className="text-muted-foreground mt-24 text-center">
           No DNS records found!
         </p>
       )}

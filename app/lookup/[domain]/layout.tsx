@@ -59,11 +59,11 @@ const LookupLayout: FC<LookupLayoutProps> = async ({
       </div>
       <div className="container">
         <h1 className="mb-2">
-          <span className="block text-muted-foreground">Results for</span>
+          <span className="text-muted-foreground block">Results for</span>
           <span className="flex flex-row gap-2">
             <ExternalFavicon url={domain} />
             <Link
-              className="block font-clash text-4xl font-bold tracking-wider decoration-muted-foreground underline-offset-4 hover:underline"
+              className="font-clash decoration-muted-foreground block text-4xl font-bold tracking-wider underline-offset-4 hover:underline"
               href={`https://${domain}`}
               prefetch={false}
               target="_blank"
@@ -73,9 +73,9 @@ const LookupLayout: FC<LookupLayoutProps> = async ({
             </Link>
           </span>
         </h1>
-        <div className="mb-4 mt-2 flex flex-row gap-2">
+        <div className="mt-2 mb-4 flex flex-row gap-2">
           <ShareButton />
-          <div className="my-auto inline-block h-full min-h-[1em] w-0.5 self-stretch rounded bg-secondary-foreground" />
+          <div className="bg-secondary-foreground my-auto inline-block h-full min-h-[1em] w-0.5 self-stretch rounded" />
           <RelatedDomains domain={domain} />
         </div>
         <ResultsTabs domain={domain} />

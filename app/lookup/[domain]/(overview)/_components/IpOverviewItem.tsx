@@ -33,12 +33,12 @@ const IpOverviewItem: FC<IpOverviewItemProps> = ({
             onClick={open}
             data-umami-event="modal-ipoverview"
           >
-            <div className="flex cursor-pointer select-none flex-row gap-2 rounded-lg p-2 px-2.5 pr-3 hover:bg-accent">
+            <div className="hover:bg-accent flex cursor-pointer flex-row gap-2 rounded-lg p-2 px-2.5 pr-3 select-none">
               <Dot className="my-auto inline-block h-7 w-7 shrink-0" />
               <div className="flex flex-col">
                 <span className="select-none">{value}</span>
                 {subvalue && (
-                  <span className="block select-none text-xs text-muted-foreground">
+                  <span className="text-muted-foreground block text-xs select-none">
                     {subvalue}
                   </span>
                 )}

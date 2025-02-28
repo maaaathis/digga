@@ -20,7 +20,7 @@ const Header: FC = (): ReactElement => (
     <div className="flex flex-row items-center justify-between pb-4">
       <Link
         href="/"
-        className="rounded-xl py-1.5 pl-3 pr-1.5 hover:bg-gray-200/80 dark:hover:bg-gray-800/50"
+        className="rounded-xl py-1.5 pr-1.5 pl-3 hover:bg-gray-200/80 dark:hover:bg-gray-800/50"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +67,7 @@ const Header: FC = (): ReactElement => (
               <ArrowUpRight className="h-5 w-5" />
             </Link>
           </DropdownMenuItem>
-          <p className="mx-4 mt-2 text-xs text-muted-foreground">
+          <p className="text-muted-foreground mx-4 mt-2 text-xs">
             Built by{' '}
             <Link
               href="https://github.com/maaaathis"

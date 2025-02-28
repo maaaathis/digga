@@ -74,7 +74,7 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
                         </TableCell>
                         <TableCell>
                           <Link
-                            className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                            className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 select-none hover:underline dark:decoration-slate-300"
                             href={
                               filterWhatRunsDirectUrl(technology.website) ??
                               technology.website ??
@@ -94,13 +94,13 @@ const TechnologiesDetailsModal: FC<TechnologiesDetailsProps> = ({
               </Table>
 
               <div className="mt-4">
-                <p className="text-xs text-opacity-80">
+                <p className="text-opacity-80 text-xs">
                   Data provided by{' '}
                   <Link
                     href="https://www.whatruns.com/"
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                    className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 select-none hover:underline dark:decoration-slate-300"
                   >
                     WhatRuns.com
                   </Link>

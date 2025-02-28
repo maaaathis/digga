@@ -63,7 +63,7 @@ const RecordRow: FC<RecordRowProps> = ({
       <TableCell className={cn('pr-0', { ['py-1']: subvalue })}>
         {interpolatedValue}
         {subvalue && (
-          <span className="mt-1 block text-xs text-muted-foreground">
+          <span className="text-muted-foreground mt-1 block text-xs">
             {subvalue}
           </span>
         )}

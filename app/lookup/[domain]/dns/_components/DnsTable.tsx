@@ -31,7 +31,7 @@ const DnsTable: FC<DnsTableProps> = ({ records, ipsInfo }): ReactElement => (
 
       return (
         <Fragment key={recordType}>
-          <h2 className="mb-4 mt-8 text-xl font-semibold tracking-tight sm:text-2xl">
+          <h2 className="mt-8 mb-4 text-xl font-semibold tracking-tight sm:text-2xl">
             {recordType}
           </h2>
 

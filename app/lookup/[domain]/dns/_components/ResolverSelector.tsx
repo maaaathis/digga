@@ -38,7 +38,7 @@ const ResolverSelector: FC<ResolverSelectorProps> = ({ initialValue }) => {
 
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-sm text-muted-foreground">Resolver</span>
+      <span className="text-muted-foreground text-sm">Resolver</span>
 
       <Select
         defaultValue={initialValue || 'authoritative'}

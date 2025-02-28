@@ -9,7 +9,7 @@ const DomainNotRegistered: FC = (): ReactElement => (
     <h2 className="mt-4 text-2xl font-bold">
       This Domain is currently not registered!
     </h2>
-    <p className="mt-2 text-center text-lg text-muted-foreground">
+    <p className="text-muted-foreground mt-2 text-center text-lg">
       Please try again with a different domain.
     </p>
   </div>

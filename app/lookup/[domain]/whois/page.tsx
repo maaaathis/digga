@@ -54,7 +54,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
         href={`https://lookup.icann.org/whois/en?q=${baseDomain}&t=a`}
         target="_blank"
         rel="noreferrer noopener"
-        className="cursor-pointer select-none underline decoration-muted-foreground decoration-dotted underline-offset-4 hover:underline hover:decoration-dashed"
+        className="decoration-muted-foreground cursor-pointer underline decoration-dotted underline-offset-4 select-none hover:underline hover:decoration-dashed"
       >
         ICANN
       </Link>
@@ -83,7 +83,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
               }
               target="_blank"
               rel="noreferrer noopener"
-              className="cursor-pointer select-none underline decoration-muted-foreground decoration-dotted underline-offset-4 hover:underline hover:decoration-dashed"
+              className="decoration-muted-foreground cursor-pointer underline decoration-dotted underline-offset-4 select-none hover:underline hover:decoration-dashed"
             >
               SWITCH
             </Link>
@@ -128,7 +128,7 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
     <>
       {Object.keys(data).map((key) => (
         <Fragment key={key}>
-          <h2 className="mb-4 mt-8 text-3xl font-bold tracking-tight">{key}</h2>
+          <h2 className="mt-8 mb-4 text-3xl font-bold tracking-tight">{key}</h2>
           {data[key] !== undefined ? (
             <code className="break-words">
               {data[key].split('\n').map((line, index) => (
@@ -140,13 +140,13 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
           )}
         </Fragment>
       ))}
-      <p className="mt-5 text-xs italic text-opacity-80">
+      <p className="text-opacity-80 mt-5 text-xs italic">
         Make a direct whois request at the{' '}
         <Link
           href={`https://lookup.icann.org/whois/en?q=${baseDomain}&t=a`}
           target="_blank"
           rel="noreferrer noopener"
-          className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+          className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 select-none hover:underline dark:decoration-slate-300"
         >
           ICANN
         </Link>

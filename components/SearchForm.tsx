@@ -99,7 +99,7 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
   return (
     <>
       <form className="flex gap-3" onSubmit={handleSubmit}>
-        <div className="relative flex-[4]">
+        <div className="relative flex-4">
           <Input
             ref={inputRef}
             className={cn('font-wider', props.className)}
@@ -117,7 +117,7 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
             autoComplete="url"
             autoCorrect="off"
           />
-          <kbd className="pointer-events-none absolute right-3 top-1/2 hidden h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+          <kbd className="bg-muted pointer-events-none absolute top-1/2 right-3 hidden h-5 -translate-y-1/2 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none sm:flex">
             {isAppleDevice() ? (
               <>
                 <span className="text-xs">⌘</span>K
@@ -128,7 +128,7 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
           </kbd>
         </div>
         <Button
-          className="h-12 flex-[1]"
+          className="h-12 flex-1"
           type="submit"
           disabled={state !== FormStates.Initial}
           aria-label="Lookup Domain"
@@ -150,7 +150,7 @@ const SearchForm: FC<SearchFormProps> = (props): ReactElement => {
           An error occured! Please check your input or try again later.
         </p>
       ) : (
-        <p className="mt-3 text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-3 text-center text-sm">
           It can be anything! An apex, subdomain, or even a URL.
         </p>
       )}
