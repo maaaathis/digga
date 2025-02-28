@@ -45,7 +45,7 @@ const LocationSelector: FC<LocationSelectorProps> = ({
 
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-sm text-muted-foreground">Location</span>
+      <span className="text-muted-foreground text-sm">Location</span>
 
       <Select
         defaultValue={initialValue || 'auto'}

@@ -27,8 +27,8 @@ const DashboardItem: React.FC<Props> = ({
         className
       )}
     >
-      <div className="flex flex-col justify-between gap-1 xxs:flex-row">
-        <span className="rounded-lg bg-slate-200 px-2 py-1 font-clash text-sm font-extrabold uppercase tracking-wider text-slate-950 dark:bg-secondary dark:text-slate-50">
+      <div className="xxs:flex-row flex flex-col justify-between gap-1">
+        <span className="font-clash dark:bg-secondary rounded-lg bg-slate-200 px-2 py-1 text-sm font-extrabold tracking-wider text-slate-950 uppercase dark:text-slate-50">
           {title}
         </span>
         {secondaryElement}

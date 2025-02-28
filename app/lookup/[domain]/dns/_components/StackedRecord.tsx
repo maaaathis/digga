@@ -60,7 +60,7 @@ const StackedRecord: FC<StackedRecordProps> = async ({
       </div>
       <p className="break-words">{interpolatedValue}</p>
       {subvalue && (
-        <span className="mt-1 block break-words text-xs text-muted-foreground">
+        <span className="text-muted-foreground mt-1 block text-xs break-words">
           {subvalue}
         </span>
       )}

@@ -21,7 +21,7 @@ export const metadata = {
 const Home: FC = (): ReactElement => {
   return (
     <div className="flex h-full w-full flex-col justify-center">
-      <div className="mb-8 mt-6 flex w-full flex-row justify-center">
+      <div className="mt-6 mb-8 flex w-full flex-row justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlSpace="preserve"
@@ -43,7 +43,7 @@ const Home: FC = (): ReactElement => {
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
             <Link
               href="https://github.com/maaaathis/digga"
-              className="relative overflow-hidden rounded-full bg-background px-4 py-1.5 text-sm leading-6 text-zinc-500 ring-1 ring-zinc-800/30 duration-150 hover:ring-zinc-800/80 dark:text-zinc-400 dark:ring-zinc-100/30 dark:hover:ring-zinc-100/80"
+              className="bg-background relative overflow-hidden rounded-full px-4 py-1.5 text-sm leading-6 text-zinc-500 ring-1 ring-zinc-800/30 duration-150 hover:ring-zinc-800/80 dark:text-zinc-400 dark:ring-zinc-100/30 dark:hover:ring-zinc-100/80"
               target="_blank"
               rel="noopener"
             >
@@ -53,14 +53,14 @@ const Home: FC = (): ReactElement => {
               </span>
             </Link>
           </div>
-          <h1 className="mb-7 text-center font-clash text-2xl font-medium tracking-wider md:text-3xl md:font-bold">
+          <h1 className="font-clash mb-7 text-center text-2xl font-medium tracking-wider md:text-3xl md:font-bold">
             Simple DNS Lookup, WHOIS, SSL History, and More
           </h1>
           <SearchForm autofocus={true} className="bg-background p-5 text-2xl" />
           <h2 className="mt-5 text-center">
             Effortlessly perform DNS lookup, WHOIS check, SSL history, and more.
           </h2>
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-center text-sm">
             Take a look at one of the examples below:
           </p>
           <div className="mx-auto flex flex-wrap justify-around gap-2 p-5 text-sm sm:flex-row sm:gap-0">
@@ -78,27 +78,27 @@ const Home: FC = (): ReactElement => {
       </div>
 
       <div className="my-12 flex flex-col justify-center gap-8 px-2 lg:flex-row">
-        <Card className="max-w-lg p-5 text-foreground">
-          <h2 className="mb-4 flex flex-row justify-center gap-2 text-center font-clash text-xl font-semibold tracking-wide sm:text-2xl">
+        <Card className="text-foreground max-w-lg p-5">
+          <h2 className="font-clash mb-4 flex flex-row justify-center gap-2 text-center text-xl font-semibold tracking-wide sm:text-2xl">
             iOS Shortcut
             <Badge variant="secondary" className="my-auto text-xs font-light">
               New 🎉
             </Badge>
           </h2>
 
-          <p className="mb-4 mt-2 text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-2 mb-4 text-center text-sm">
             Add this shortcut to your iOS/iPadOS fixed shortcuts for quick,
             one-click access to the comprehensive digga research anytime.
           </p>
 
           <IOSShortcutLink />
         </Card>
-        <Card className="max-w-lg p-5 text-foreground">
-          <h2 className="mb-4 text-center font-clash text-xl font-semibold tracking-wide sm:text-2xl">
+        <Card className="text-foreground max-w-lg p-5">
+          <h2 className="font-clash mb-4 text-center text-xl font-semibold tracking-wide sm:text-2xl">
             Quick Inspect Bookmarklet
           </h2>
 
-          <p className="mb-4 mt-2 text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-2 mb-4 text-center text-sm">
             Drag this link to your bookmarks bar to quickly go to the results
             page for the site you are currently on!
           </p>

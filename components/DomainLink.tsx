@@ -19,7 +19,7 @@ const DomainLink: FC<DomainLinkProps> = ({ domain }): ReactElement => (
       <Tooltip>
         <TooltipTrigger asChild>
           <Link
-            className="select-none underline decoration-dotted underline-offset-4 hover:decoration-dashed"
+            className="underline decoration-dotted underline-offset-4 select-none hover:decoration-dashed"
             href={`/lookup/${domain}`}
             rel="nofollow"
           >

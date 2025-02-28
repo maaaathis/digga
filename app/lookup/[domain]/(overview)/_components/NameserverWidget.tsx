@@ -51,7 +51,7 @@ const NameserverWidget: React.FC<Props> = ({
           {nsList.map((ns) => (
             <li key={ns}>
               <a
-                className="flex cursor-pointer select-none flex-row gap-2 decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+                className="flex cursor-pointer flex-row gap-2 decoration-slate-700 decoration-dotted underline-offset-4 select-none hover:underline dark:decoration-slate-300"
                 href={`/lookup/${cutLastDot(ns)}`}
                 rel="nofollow"
               >

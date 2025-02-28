@@ -115,7 +115,7 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
 
   if (!certs.length) {
     return (
-      <p className="mt-8 text-center text-muted-foreground">
+      <p className="text-muted-foreground mt-8 text-center">
         No issued certificates found!
       </p>
     );
@@ -124,7 +124,7 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
   return (
     <>
       {hasParentDomain && (
-        <p className="my-2 text-sm text-muted-foreground">
+        <p className="text-muted-foreground my-2 text-sm">
           <span className="font-bold">Note:</span> This domain has a parent
           domain. The following certificates were issued for both this domain
           and its parent domain.
@@ -185,7 +185,7 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
           ))}
         </TableBody>
       </Table>
-      <p className="mt-5 text-xs text-opacity-80">
+      <p className="text-opacity-80 mt-5 text-xs">
         Data provided by{' '}
         <Link
           href={
@@ -196,7 +196,7 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
           target="_blank"
           rel="noreferrer noopener"
           data-umami-event="goto-certsh-overview"
-          className="cursor-pointer select-none decoration-slate-700 decoration-dotted underline-offset-4 hover:underline dark:decoration-slate-300"
+          className="cursor-pointer decoration-slate-700 decoration-dotted underline-offset-4 select-none hover:underline dark:decoration-slate-300"
         >
           Sectigo&apos;s crt.sh
         </Link>

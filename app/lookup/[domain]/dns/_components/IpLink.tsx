@@ -29,7 +29,7 @@ const IpLink: FC<IpLinkProps> = ({ value }): ReactElement => {
             onClick={open}
             data-umami-event="modal-iplink"
           >
-            <a className="cursor-pointer select-none underline decoration-dotted underline-offset-4 hover:decoration-dashed">
+            <a className="cursor-pointer underline decoration-dotted underline-offset-4 select-none hover:decoration-dashed">
               <span className="select-none">{value}</span>
               <InfoIcon
                 role="button"
