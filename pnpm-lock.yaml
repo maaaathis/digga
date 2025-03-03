@@ -105,8 +105,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.0.9)
       tldts:
-        specifier: ^6.1.79
-        version: 6.1.79
+        specifier: ^6.1.82
+        version: 6.1.82
       validator:
         specifier: ^13.12.0
         version: 13.12.0
@@ -3087,11 +3087,11 @@ packages:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
 
-  tldts-core@6.1.79:
-    resolution: {integrity: sha512-HM+Ud/2oQuHt4I43Nvjc213Zji/z25NSH5OkJskJwHXNtYh9DTRlHMDFhms9dFMP7qyve/yVaXFIxmcJ7TdOjw==}
+  tldts-core@6.1.82:
+    resolution: {integrity: sha512-Jabl32m21tt/d/PbDO88R43F8aY98Piiz6BVH9ShUlOAiiAELhEqwrAmBocjAqnCfoUeIsRU+h3IEzZd318F3w==}
 
-  tldts@6.1.79:
-    resolution: {integrity: sha512-wjlYwK8lC/WcywLWf3A7qbK07SexezXjTRVwuPWXHvcjD7MnpPS2RXY5rLO3g12a8CNc7Y7jQRQsV7XyuBZjig==}
+  tldts@6.1.82:
+    resolution: {integrity: sha512-KCTjNL9F7j8MzxgfTgjT+v21oYH38OidFty7dH00maWANAI2IsLw2AnThtTJi9HKALHZKQQWnNebYheadacD+g==}
     hasBin: true
 
   to-regex-range@5.0.1:
@@ -6453,11 +6453,11 @@ snapshots:
 
   tapable@2.2.1: {}
 
-  tldts-core@6.1.79: {}
+  tldts-core@6.1.82: {}
 
-  tldts@6.1.79:
+  tldts@6.1.82:
     dependencies:
-      tldts-core: 6.1.79
+      tldts-core: 6.1.82
 
   to-regex-range@5.0.1:
     dependencies:
