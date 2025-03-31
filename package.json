@@ -44,7 +44,7 @@
     "react-string-replace": "^1.1.1",
     "swr": "^2.3.3",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss": "^4.0.16",
+    "tailwindcss": "^4.0.17",
     "tailwindcss-animate": "^1.0.7",
     "tldts": "^6.1.85",
     "validator": "^13.15.0",
