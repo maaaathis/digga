@@ -57,7 +57,7 @@
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/dns-packet": "^5.6.5",
     "@types/natural-compare-lite": "^1.4.2",
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.13.14",
     "@types/punycode": "^2.1.4",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
