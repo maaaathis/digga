@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { FC, ReactElement } from 'react';
 
-import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
 import BookmarkletLink from '@/components/BookmarkletLink';
