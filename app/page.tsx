@@ -81,9 +81,6 @@ const Home: FC = (): ReactElement => {
         <Card className="text-foreground max-w-lg p-5">
           <h2 className="font-clash mb-4 flex flex-row justify-center gap-2 text-center text-xl font-semibold tracking-wide sm:text-2xl">
             iOS Shortcut
-            <Badge variant="secondary" className="my-auto text-xs font-light">
-              New 🎉
-            </Badge>
           </h2>
 
           <p className="text-muted-foreground mt-2 mb-4 text-center text-sm">
