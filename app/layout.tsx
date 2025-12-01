@@ -1,4 +1,3 @@
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Metadata } from 'next';
 import { Rubik } from 'next/font/google';
 import localFont from 'next/font/local';
@@ -94,7 +93,6 @@ const RootLayout: FC<RootLayoutProps> = ({ children }): ReactElement => {
           </div>
         </Providers>
         <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );
