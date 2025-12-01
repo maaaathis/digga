@@ -95,23 +95,35 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
     );
   }
 
-  const certRequests = [await lookupCerts(domain)];
-
+  let certRequests: CertsData[] = [];
+  let certs: CertsData = [];
+  let fetchError: boolean = false;
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
-  if (hasParentDomain) {
-    const parentDomain = domain.split('.').slice(1).join('.');
-    certRequests.push(await lookupCerts(`*.${parentDomain}`));
-  }
 
-  const certs = await Promise.all(certRequests).then((responses) =>
-    responses
+  try {
+    certRequests = [await lookupCerts(domain)];
+    if (hasParentDomain) {
+      const parentDomain = domain.split('.').slice(1).join('.');
+      certRequests.push(await lookupCerts(`*.${parentDomain}`));
+    }
+    certs = certRequests
       .flat()
       .sort(
         (a, b) =>
           new Date(b.entry_timestamp).getTime() -
           new Date(a.entry_timestamp).getTime()
-      )
-  );
+      );
+  } catch (err) {
+    fetchError = true;
+  }
+
+  if (fetchError) {
+    return (
+      <p className="text-destructive mt-8 text-center">
+        Could not fetch certificate data for this domain at the moment.
+      </p>
+    );
+  }
 
   if (!certs.length) {
     return (
