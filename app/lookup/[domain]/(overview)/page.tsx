@@ -4,6 +4,8 @@ import { FC, ReactElement } from 'react';
 import { getDomain, getPublicSuffix } from 'tldts';
 import whoiser from 'whoiser';
 
+import { Alert, AlertTitle } from '@/components/ui/alert';
+
 import DnsRecordsWidget, {
   DnsRecordType,
 } from '@/app/lookup/[domain]/(overview)/_components/DnsRecordsWidget';
@@ -74,6 +76,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   }
 
   let whoisResult;
+  let whoisError: string | null = null;
   try {
     // @ts-ignore
     whoisResult = whoiser.firstResult(
@@ -81,8 +84,17 @@ const LookupDomain: FC<LookupDomainProps> = async ({
         timeout: 3000,
       })
     );
-  } catch (error) {
-    console.error('Error fetching whois data:', error);
+  } catch (error: any) {
+    if (
+      typeof error?.message === 'string' &&
+      error.message.includes('TLD for') &&
+      error.message.includes('not supported')
+    ) {
+      whoisResult = null;
+      whoisError = 'WHOIS data is not available for this TLD!';
+    } else {
+      console.error('Error fetching whois data:', error);
+    }
   }
 
   if (await isDomainAvailable(baseDomain)) {
@@ -91,6 +103,14 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 
   return (
     <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+      {whoisError && (
+        <div className="col-span-full">
+          <Alert variant="default">
+            <AlertTitle>WHOIS Information</AlertTitle>
+            <span>{whoisError}</span>
+          </Alert>
+        </div>
+      )}
       {whoisResult && (
         <>
           <DomainDatesWidget whoisData={whoisResult} />

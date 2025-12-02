@@ -11,8 +11,21 @@ export enum DomainAvailability {
 
 export default async function whois(
   domain: string
-): Promise<WhoisSearchResult> {
-  return await whoiser(domain);
+): Promise<WhoisSearchResult | null> {
+  try {
+    return await whoiser(domain);
+  } catch (error: any) {
+    if (
+      typeof error?.message === 'string' &&
+      error.message.includes('TLD for') &&
+      error.message.includes('not supported')
+    ) {
+      // TLD not supported
+      return null;
+    }
+    console.error('Error in whois():', error);
+    return null;
+  }
 }
 
 async function isAvailable(domain: string): Promise<string> {
@@ -23,10 +36,26 @@ async function isAvailable(domain: string): Promise<string> {
     domain = domain.split('.').slice(-2).join('.');
   }
 
-  const domainWhois = await whoiser(domain, { follow: 1 });
+  let domainWhois;
+  try {
+    domainWhois = await whoiser(domain, { follow: 1 });
+  } catch (error: any) {
+    if (
+      typeof error?.message === 'string' &&
+      error.message.includes('TLD for') &&
+      error.message.includes('not supported')
+    ) {
+      return DomainAvailability.UNKNOWN;
+    } else {
+      console.error('Error in isAvailable:', error);
+      return DomainAvailability.UNKNOWN;
+    }
+  }
 
   // @ts-ignore
-  const firstDomainWhois = whoiser.firstResult(domainWhois);
+  const firstDomainWhois = domainWhois ? firstResult(domainWhois) : null;
+  if (!firstDomainWhois) return DomainAvailability.UNKNOWN;
+
   const firstTextLine = (
     (firstDomainWhois.text && firstDomainWhois.text[0]) ||
     ''
@@ -39,7 +68,7 @@ async function isAvailable(domain: string): Promise<string> {
   } else if (
     firstDomainWhois['Domain Name'] &&
     firstDomainWhois['Domain Name'].toLowerCase() === domain &&
-    !firstDomainWhois['Domain Status'].includes('free')
+    !firstDomainWhois['Domain Status']?.includes('free')
   ) {
     domainAvailability = DomainAvailability.REGISTERED;
   } else if (firstTextLine.includes(`no match for "${domain}"`)) {
@@ -66,5 +95,10 @@ export async function isDomainAvailable(domain: string): Promise<boolean> {
   // .ch & .li registry does not support whois :c
   if (tld === 'ch' || tld === 'li') return false;
 
-  return (await isAvailable(domain)) === DomainAvailability.AVAILABLE;
+  try {
+    return (await isAvailable(domain)) === DomainAvailability.AVAILABLE;
+  } catch (error) {
+    console.error('Error in isDomainAvailable:', error);
+    return false;
+  }
 }

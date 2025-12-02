@@ -49,25 +49,41 @@ export const generateMetadata = async ({
   };
 };
 
-const lookupCerts = async (domain: string): Promise<CertsData> => {
-  const response = await fetch(
-    'https://crt.sh?' +
-      new URLSearchParams({
-        Identity: domain,
-        output: 'json',
-      }),
-    {
-      next: {
-        revalidate: 60 * 60,
-      },
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch certs');
+const lookupCerts = async (
+  domain: string
+): Promise<{ certs: CertsData; usedFallback: boolean }> => {
+  let response: Response | null = null;
+  let usedFallback = false;
+  try {
+    response = await fetch(
+      'https://crt.sh?' +
+        new URLSearchParams({
+          Identity: domain,
+          output: 'json',
+        }),
+      {
+        next: {
+          revalidate: 60 * 60,
+        },
+      }
+    );
+    if (!response.ok) throw new Error('Failed to fetch certs');
+    const text = await response.text();
+    if (text.length > 2_000_000) throw new Error('Response too large');
+    return { certs: JSON.parse(text), usedFallback };
+  } catch (err) {
+    response = await fetch(
+      'https://crt.sh?' +
+        new URLSearchParams({
+          Identity: domain,
+          output: 'json',
+        })
+    );
+    if (!response.ok) throw new Error('Failed to fetch certs');
+    const text = await response.text();
+    usedFallback = true;
+    return { certs: JSON.parse(text), usedFallback };
   }
-
-  return await response.json();
 };
 
 type CertsResultsPageProps = {
@@ -95,7 +111,7 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
     );
   }
 
-  let certRequests: CertsData[] = [];
+  let certRequests: { certs: CertsData; usedFallback: boolean }[] = [];
   let certs: CertsData = [];
   let fetchError: boolean = false;
   const hasParentDomain = domain.split('.').filter(Boolean).length > 2;
@@ -107,6 +123,7 @@ const CertsResultsPage: FC<CertsResultsPageProps> = async ({
       certRequests.push(await lookupCerts(`*.${parentDomain}`));
     }
     certs = certRequests
+      .map((r) => r.certs)
       .flat()
       .sort(
         (a, b) =>
