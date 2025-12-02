@@ -28,6 +28,13 @@ export default async function whois(
   }
 }
 
+function firstResult(obj: any) {
+  if (!obj || typeof obj !== 'object') return null;
+  const keys = Object.keys(obj);
+  if (keys.length === 0) return null;
+  return obj[keys[0]];
+}
+
 async function isAvailable(domain: string): Promise<string> {
   domain = domain.toLowerCase();
 
@@ -52,7 +59,6 @@ async function isAvailable(domain: string): Promise<string> {
     }
   }
 
-  // @ts-ignore
   const firstDomainWhois = domainWhois ? firstResult(domainWhois) : null;
   if (!firstDomainWhois) return DomainAvailability.UNKNOWN;
 
