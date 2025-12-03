@@ -15,14 +15,42 @@ export default async function whois(
   try {
     return await whoiser(domain);
   } catch (error: any) {
+    const errorMessage = error?.message || String(error);
+
+    // TLD not supported
     if (
-      typeof error?.message === 'string' &&
-      error.message.includes('TLD for') &&
-      error.message.includes('not supported')
+      errorMessage.includes('TLD for') &&
+      errorMessage.includes('not supported')
     ) {
-      // TLD not supported
+      console.warn(`WHOIS: TLD not supported for ${domain}`);
       return null;
     }
+
+    // whoiser stream/transform algorithm error (Node.js internal error)
+    if (
+      errorMessage.includes('transformAlgorithm') ||
+      errorMessage.includes('kState')
+    ) {
+      console.warn(`WHOIS: Stream processing error for ${domain}`);
+      return null;
+    }
+
+    // Connection timeouts
+    if (
+      errorMessage.includes('timeout') ||
+      errorMessage.includes('ECONNREFUSED') ||
+      errorMessage.includes('ETIMEDOUT')
+    ) {
+      console.warn(`WHOIS: Connection timeout for ${domain}`);
+      return null;
+    }
+
+    // Generic stream errors
+    if (errorMessage.includes('stream') || errorMessage.includes('Transform')) {
+      console.warn(`WHOIS: Stream error for ${domain}`);
+      return null;
+    }
+
     console.error('Error in whois():', error);
     return null;
   }
@@ -47,16 +75,44 @@ async function isAvailable(domain: string): Promise<string> {
   try {
     domainWhois = await whoiser(domain, { follow: 1 });
   } catch (error: any) {
+    const errorMessage = error?.message || String(error);
+
+    // TLD not supported
     if (
-      typeof error?.message === 'string' &&
-      error.message.includes('TLD for') &&
-      error.message.includes('not supported')
+      errorMessage.includes('TLD for') &&
+      errorMessage.includes('not supported')
     ) {
-      return DomainAvailability.UNKNOWN;
-    } else {
-      console.error('Error in isAvailable:', error);
+      console.warn(`WHOIS: TLD not supported for ${domain}`);
       return DomainAvailability.UNKNOWN;
     }
+
+    // Stream errors including transformAlgorithm
+    if (
+      errorMessage.includes('transformAlgorithm') ||
+      errorMessage.includes('kState') ||
+      errorMessage.includes('stream') ||
+      errorMessage.includes('Transform')
+    ) {
+      console.warn(
+        `WHOIS: Stream error while checking availability for ${domain}`
+      );
+      return DomainAvailability.UNKNOWN;
+    }
+
+    // Connection errors
+    if (
+      errorMessage.includes('timeout') ||
+      errorMessage.includes('ECONNREFUSED') ||
+      errorMessage.includes('ETIMEDOUT')
+    ) {
+      console.warn(
+        `WHOIS: Connection timeout while checking availability for ${domain}`
+      );
+      return DomainAvailability.UNKNOWN;
+    }
+
+    console.error('Error in isAvailable:', error);
+    return DomainAvailability.UNKNOWN;
   }
 
   const firstDomainWhois = domainWhois ? firstResult(domainWhois) : null;

@@ -21,17 +21,58 @@ export const generateMetadata = async ({
 };
 
 const lookupWhois = async (domain: string) => {
-  const result = await whoiser(domain, {
-    raw: true,
-    timeout: 3000,
-  });
+  try {
+    const result = await whoiser(domain, {
+      raw: true,
+      timeout: 3000,
+    });
 
-  const mappedResults: Record<string, string> = {};
-  for (const key in result) {
-    mappedResults[key] = (result[key] as WhoisSearchResult).__raw as string;
+    const mappedResults: Record<string, string> = {};
+    for (const key in result) {
+      mappedResults[key] = (result[key] as WhoisSearchResult).__raw as string;
+    }
+
+    return mappedResults;
+  } catch (error: any) {
+    const errorMessage = error?.message || String(error);
+
+    // TLD not supported
+    if (
+      errorMessage.includes('TLD for') &&
+      errorMessage.includes('not supported')
+    ) {
+      console.warn(
+        `WHOIS lookup skipped: TLD not supported for domain ${domain}`
+      );
+      return {};
+    }
+
+    // whoiser stream/transform algorithm error (Node.js internal error)
+    if (
+      errorMessage.includes('transformAlgorithm') ||
+      errorMessage.includes('kState')
+    ) {
+      console.warn(
+        `WHOIS lookup failed: Stream processing error for domain ${domain}`,
+        error
+      );
+      return {};
+    }
+
+    // Timeout or connection errors
+    if (
+      errorMessage.includes('timeout') ||
+      errorMessage.includes('ECONNREFUSED')
+    ) {
+      console.warn(
+        `WHOIS lookup failed: Connection timeout/refused for domain ${domain}`
+      );
+      return {};
+    }
+
+    console.error(`WHOIS lookup error for domain ${domain}:`, error);
+    return {};
   }
-
-  return mappedResults;
 };
 
 type WhoisResultsPageProps = {

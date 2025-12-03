@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { redirect, RedirectType } from 'next/navigation';
 import React, { FC, ReactElement } from 'react';
 
 import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryButton';
@@ -12,6 +11,7 @@ import { getIpsInfo } from '@/lib/ips';
 import AlibabaDoHResolver from '@/lib/resolvers/AlibabaDoHResolver';
 import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
+import { type RawRecord } from '@/lib/resolvers/DnsResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
 import { isDomainAvailable } from '@/lib/whois';
 
@@ -67,18 +67,69 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   const { resolver: resolverData } = await searchParams;
 
   const resolver = getResolver(resolverData);
-  const records = await resolver.resolveAllRecords(domain);
-  const ipsInfo = await getIpsInfo(
-    records.A.map((r) => r.data).concat(records.AAAA.map((r) => r.data))
-  );
+
+  let records: Record<string, RawRecord[]>;
+  let ipsInfo: Record<string, string> = {};
+  let resolverError = false;
+
+  try {
+    records = await resolver.resolveAllRecords(domain);
+    ipsInfo = await getIpsInfo(
+      records.A.map((r: RawRecord) => r.data).concat(
+        records.AAAA.map((r: RawRecord) => r.data)
+      )
+    );
+  } catch (error) {
+    console.error(
+      `DNS resolution failed for ${domain} with resolver ${resolverData || 'authoritative'}:`,
+      error
+    );
+    resolverError = true;
+    records = {
+      A: [],
+      AAAA: [],
+      CAA: [],
+      CNAME: [],
+      DNSKEY: [],
+      DS: [],
+      MX: [],
+      NAPTR: [],
+      NS: [],
+      PTR: [],
+      SOA: [],
+      SRV: [],
+      TXT: [],
+    };
+  }
 
   const hasResults =
     Object.values(records)
-      .map((r) => r.length)
-      .reduce((prev, curr) => prev + curr, 0) > 0;
+      .map((r: RawRecord[]) => r.length)
+      .reduce((prev: number, curr: number) => prev + curr, 0) > 0;
 
   if (await isDomainAvailable(domain)) {
     return <DomainNotRegistered />;
+  }
+
+  if (resolverError && !hasResults) {
+    return (
+      <div>
+        <div className="flex flex-col justify-between gap-4 sm:flex-row">
+          <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+            <ResolverSelector initialValue={resolverData} />
+          </div>
+          <div className="flex flex-col gap-2 sm:gap-4 md:flex-row">
+            {resolverData === 'google' && <FlushGoogleDnsCacheButton />}
+            {resolverData === 'cloudflare' && <FlushCloudflareDnsCacheButton />}
+            <DnsHistoryButton domain={domain} />
+          </div>
+        </div>
+        <p className="text-muted-foreground mt-24 text-center">
+          DNS resolution failed. Please try with a different resolver or try
+          again later.
+        </p>
+      </div>
+    );
   }
 
   return (
