@@ -4,7 +4,7 @@ import { EXAMPLE_DOMAINS } from '@/lib/data';
 import { getTopDomains } from '@/lib/search';
 import { deduplicate } from '@/lib/utils';
 
-const RESULTS_SUBPATHS = ['', '/dns', '/certs', '/whois'];
+const RESULTS_SUBPATHS = ['', '/dns', '/whois'];
 
 const compareDomains = (a: string | null, b: string | null): number => {
   if (a === null) return b === null ? 0 : -1;
