@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { FC, ReactElement } from 'react';
 import { getDomain, getPublicSuffix } from 'tldts';
@@ -21,6 +22,19 @@ import { isDomainAvailable } from '@/lib/whois';
 import DomainNotRegistered from '../../../../components/DomainNotRegistered';
 
 export const fetchCache = 'default-no-store';
+
+const maskIpLastOctet = (ip: string | null): string | null => {
+  if (!ip) return null;
+  const trimmedIp = ip.trim();
+  const ipv4Pattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+  if (!ipv4Pattern.test(trimmedIp)) return null;
+
+  const octets = trimmedIp.split('.').map((part) => Number(part));
+  if (octets.some((octet) => Number.isNaN(octet) || octet < 0 || octet > 255))
+    return null;
+
+  return `${octets[0]}.${octets[1]}.${octets[2]}.0`;
+};
 
 interface LookupDomainProps {
   params: Promise<{
@@ -48,6 +62,13 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   const { domain } = await params;
   const baseDomain = getDomain(domain);
   const publicSuffix = getPublicSuffix(domain);
+  const requestHeaders = await headers();
+  const clientIp =
+    requestHeaders.get('cf-connecting-ip') ||
+    requestHeaders.get('x-real-ip') ||
+    requestHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    null;
+  const clientIpMasked = maskIpLastOctet(clientIp);
 
   if (!baseDomain || !isValidLookupDomain(baseDomain)) return notFound();
 
@@ -61,6 +82,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
             domain: domain,
             baseDomain: baseDomain,
             publicSuffix: publicSuffix,
+            ip: clientIpMasked,
             timestamp: '' + new Date().toISOString(),
           },
         ],
