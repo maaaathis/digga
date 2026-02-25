@@ -7,8 +7,9 @@ import dnsPacket, {
 } from 'dns-packet';
 import dgram from 'node:dgram';
 
-import { retry } from '../utils';
 import { isValidLookupDomain } from '@/lib/utils';
+
+import { retry } from '../utils';
 import DnsResolver, { type RawRecord, type RecordType } from './DnsResolver';
 
 class AuthoritativeResolver extends DnsResolver {

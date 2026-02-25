@@ -1,10 +1,11 @@
+import { isValidLookupDomain } from '@/lib/utils';
+
 import DnsResolver, {
   DoHResponse,
   type RawRecord,
   RECORD_TYPES_BY_DECIMAL,
   type RecordType,
 } from './DnsResolver';
-import { isValidLookupDomain } from '@/lib/utils';
 
 export default class GoogleDoHResolver extends DnsResolver {
   public async resolveRecordType(

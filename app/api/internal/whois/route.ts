@@ -1,4 +1,5 @@
 import whoiser, { WhoisSearchResult } from 'whoiser';
+
 import { isValidLookupDomain, normalizeDomain } from '@/lib/utils';
 
 export type WhoisDataResponse = {
