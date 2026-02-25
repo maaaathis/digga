@@ -1,6 +1,6 @@
 import whoiser, { WhoisSearchResult } from 'whoiser';
 
-import { getTLD } from '@/lib/utils';
+import { getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/utils';
 
 export enum DomainAvailability {
   UNKNOWN = 'unknown',
@@ -12,6 +12,9 @@ export enum DomainAvailability {
 export default async function whois(
   domain: string
 ): Promise<WhoisSearchResult | null> {
+  domain = normalizeDomain(domain);
+  if (!isValidLookupDomain(domain)) return null;
+
   try {
     return await whoiser(domain);
   } catch (error: any) {
@@ -64,7 +67,8 @@ function firstResult(obj: any) {
 }
 
 async function isAvailable(domain: string): Promise<string> {
-  domain = domain.toLowerCase();
+  domain = normalizeDomain(domain);
+  if (!isValidLookupDomain(domain)) return DomainAvailability.UNKNOWN;
 
   // accept also subdomains
   if (domain.includes('.')) {
@@ -150,6 +154,8 @@ async function isAvailable(domain: string): Promise<string> {
 
 export async function isDomainAvailable(domain: string): Promise<boolean> {
   if (!domain) return true;
+  domain = normalizeDomain(domain);
+  if (!isValidLookupDomain(domain)) return false;
 
   const tld = getTLD(domain);
   if (!tld) return true;

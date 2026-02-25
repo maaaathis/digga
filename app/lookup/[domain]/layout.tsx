@@ -1,4 +1,3 @@
-import isValidDomain from 'is-valid-domain';
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -10,6 +9,7 @@ import ExternalFavicon from '@/components/ExternalFavicon';
 import RelatedDomains from '@/components/RelatedDomains';
 import ResultsTabs from '@/components/ResultsTabs';
 import SearchForm from '@/components/SearchForm';
+import { isValidLookupDomain, normalizeDomain } from '@/lib/utils';
 
 type LookupLayoutProps = {
   children: ReactNode;
@@ -37,8 +37,10 @@ const LookupLayout: FC<LookupLayoutProps> = async ({
   children,
   params: params,
 }): Promise<ReactElement> => {
-  const { domain } = await params;
-  if (!isValidDomain(domain)) {
+  const { domain: rawDomain } = await params;
+  const domain = normalizeDomain(rawDomain);
+
+  if (!isValidLookupDomain(domain)) {
     return notFound();
   }
 

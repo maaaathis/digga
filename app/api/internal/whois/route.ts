@@ -1,5 +1,5 @@
-import isValidDomain from 'is-valid-domain';
 import whoiser, { WhoisSearchResult } from 'whoiser';
+import { isValidLookupDomain, normalizeDomain } from '@/lib/utils';
 
 export type WhoisDataResponse = {
   registrar: string | null;
@@ -11,8 +11,10 @@ export type WhoisDataResponse = {
 export type WhoisSummaryErrorResponse = { error: true; message: string };
 
 const getWhoisData = async (domain: string): Promise<WhoisDataResponse> => {
+  domain = normalizeDomain(domain);
+
   //TODO: Add more return values
-  if (!isValidDomain(domain)) {
+  if (!isValidLookupDomain(domain)) {
     return {
       registrar: null,
       createdAt: null,

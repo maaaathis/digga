@@ -8,6 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 export const deduplicate = <T>(array: T[]): T[] => Array.from(new Set(array));
 
 export const DOMAIN_REGEX = /^([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*\.)+[a-z]+\.?$/i;
+const MAX_DOMAIN_LENGTH = 253;
+const MAX_LABEL_LENGTH = 63;
+const MAX_LABELS = 12;
 export const IPV4_REGEX = /(\d{1,3}\.){3}\d{1,3}/g;
 export const IPV6_REGEX =
   /((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?/gi;
@@ -39,6 +42,28 @@ export function cutLastDot(input: string): string {
   }
 
   return input;
+}
+
+export function normalizeDomain(input: string): string {
+  return cutLastDot(input.trim().toLowerCase());
+}
+
+export function isValidLookupDomain(input: string): boolean {
+  const domain = normalizeDomain(input);
+  if (!domain || domain.length > MAX_DOMAIN_LENGTH || domain.includes('..'))
+    return false;
+
+  const labels = domain.split('.');
+  if (labels.length < 2 || labels.length > MAX_LABELS) return false;
+
+  return labels.every(
+    (label) =>
+      label.length > 0 &&
+      label.length <= MAX_LABEL_LENGTH &&
+      /^[a-z0-9-]+$/i.test(label) &&
+      !label.startsWith('-') &&
+      !label.endsWith('-')
+  );
 }
 
 // From https://stackoverflow.com/a/30471209/12475254

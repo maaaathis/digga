@@ -15,6 +15,7 @@ import DomainOwnerInfoWidget from '@/app/lookup/[domain]/(overview)/_components/
 import NameserverWidget from '@/app/lookup/[domain]/(overview)/_components/NameserverWidget';
 import TechnologiesWidget from '@/app/lookup/[domain]/(overview)/_components/TechnologiesWidget';
 import { bigquery } from '@/lib/bigquery';
+import { isValidLookupDomain } from '@/lib/utils';
 import { isDomainAvailable } from '@/lib/whois';
 
 import DomainNotRegistered from '../../../../components/DomainNotRegistered';
@@ -48,7 +49,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
   const baseDomain = getDomain(domain);
   const publicSuffix = getPublicSuffix(domain);
 
-  if (!baseDomain) return notFound();
+  if (!baseDomain || !isValidLookupDomain(baseDomain)) return notFound();
 
   if (bigquery) {
     bigquery

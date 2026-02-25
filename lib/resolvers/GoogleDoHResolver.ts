@@ -4,12 +4,15 @@ import DnsResolver, {
   RECORD_TYPES_BY_DECIMAL,
   type RecordType,
 } from './DnsResolver';
+import { isValidLookupDomain } from '@/lib/utils';
 
 export default class GoogleDoHResolver extends DnsResolver {
   public async resolveRecordType(
     domain: string,
     type: RecordType
   ): Promise<RawRecord[]> {
+    if (!isValidLookupDomain(domain)) return [];
+
     try {
       const response = await fetch(
         `https://dns.google/resolve?name=${domain}&type=${type}`,

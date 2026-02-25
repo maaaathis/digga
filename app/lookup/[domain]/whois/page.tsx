@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import React, { type FC, Fragment, ReactElement } from 'react';
 import whoiser, { type WhoisSearchResult } from 'whoiser';
 
 import StyledError from '@/components/StyledError';
-import { getBaseDomain, getTLD } from '@/lib/utils';
+import { getBaseDomain, getTLD, isValidLookupDomain } from '@/lib/utils';
 
 export const generateMetadata = async ({
   params: params,
@@ -86,6 +87,8 @@ const WhoisResultsPage: FC<WhoisResultsPageProps> = async ({
 }): Promise<ReactElement> => {
   const { domain } = await params;
   const baseDomain = getBaseDomain(domain);
+  if (!isValidLookupDomain(baseDomain)) return notFound();
+
   const data = await lookupWhois(baseDomain);
 
   const tryAtICANN = (

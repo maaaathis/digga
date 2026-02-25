@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import React, { FC, ReactElement } from 'react';
 
 import DnsHistoryButton from '@/app/lookup/[domain]/dns/_components/DnsHistoryButton';
@@ -13,6 +14,7 @@ import AuthoritativeResolver from '@/lib/resolvers/AuthoritativeResolver';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
 import { type RawRecord } from '@/lib/resolvers/DnsResolver';
 import GoogleDoHResolver from '@/lib/resolvers/GoogleDoHResolver';
+import { isValidLookupDomain } from '@/lib/utils';
 import { isDomainAvailable } from '@/lib/whois';
 
 const getResolver = (resolverName: string | undefined) => {
@@ -65,6 +67,7 @@ const LookupDomain: FC<LookupDomainProps> = async ({
 }): Promise<ReactElement> => {
   const { domain } = await params;
   const { resolver: resolverData } = await searchParams;
+  if (!isValidLookupDomain(domain)) return notFound();
 
   const resolver = getResolver(resolverData);
 

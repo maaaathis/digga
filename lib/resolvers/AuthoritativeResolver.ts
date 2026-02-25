@@ -8,6 +8,7 @@ import dnsPacket, {
 import dgram from 'node:dgram';
 
 import { retry } from '../utils';
+import { isValidLookupDomain } from '@/lib/utils';
 import DnsResolver, { type RawRecord, type RecordType } from './DnsResolver';
 
 class AuthoritativeResolver extends DnsResolver {
@@ -115,6 +116,8 @@ class AuthoritativeResolver extends DnsResolver {
     nameserver?: string,
     depth: number = 0
   ): Promise<RawRecord[]> {
+    if (!isValidLookupDomain(domain)) return [];
+
     if (depth > 5) {
       console.warn(`DNS recursion depth exceeded for domain ${domain}`);
       return [];

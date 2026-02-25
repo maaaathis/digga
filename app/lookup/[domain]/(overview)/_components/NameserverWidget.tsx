@@ -4,7 +4,7 @@ import React, { use } from 'react';
 import { DnsRecordType } from '@/app/lookup/[domain]/(overview)/_components/DnsRecordsWidget';
 import DNSSECinfo from '@/app/lookup/[domain]/(overview)/_components/DNSSECinfo';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
-import { cutLastDot } from '@/lib/utils';
+import { cutLastDot, isValidLookupDomain } from '@/lib/utils';
 
 import DashboardItem from './DashboardItem';
 
@@ -15,6 +15,7 @@ interface Props {
 }
 
 async function fetchRecords(domain: string, type: DnsRecordType) {
+  if (!isValidLookupDomain(domain)) return [];
   const resolver = new CloudflareDoHResolver();
   return await resolver.resolveRecordType(domain, type);
 }

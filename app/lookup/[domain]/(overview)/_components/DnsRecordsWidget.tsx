@@ -5,7 +5,7 @@ import DashboardItem from '@/app/lookup/[domain]/(overview)/_components/Dashboar
 import IpOverviewItem from '@/app/lookup/[domain]/(overview)/_components/IpOverviewItem';
 import { getIpsInfo } from '@/lib/ips';
 import CloudflareDoHResolver from '@/lib/resolvers/CloudflareDoHResolver';
-import { cutLastDot } from '@/lib/utils';
+import { cutLastDot, isValidLookupDomain } from '@/lib/utils';
 
 export enum DnsRecordType {
   A = 'A',
@@ -29,6 +29,7 @@ interface DnsRecordsWidgetProps {
 }
 
 async function fetchRecords(domain: string, type: DnsRecordType) {
+  if (!isValidLookupDomain(domain)) return [];
   const resolver = new CloudflareDoHResolver();
   return await resolver.resolveRecordType(domain, type);
 }
