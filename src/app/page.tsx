@@ -1,4 +1,4 @@
-import { Activity, Database, Globe2, Layers, ScrollText, ShieldCheck } from 'lucide-react';
+import { Activity, Database, Globe2, Layers, MailCheck, ScrollText } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { FC, ReactNode } from 'react';
@@ -50,9 +50,9 @@ const FEATURES: Feature[] = [
 	},
 	{
 		number: '05',
-		icon: <ShieldCheck className="size-4" />,
-		title: 'Built to last',
-		body: 'Heavy lookups run inside your browser. Server endpoints are rate limited, bot filtered, and aggressively cached.',
+		icon: <MailCheck className="size-4" />,
+		title: 'Email authentication',
+		body: 'SPF, DKIM, DMARC, MTA-STS, TLS-RPT, and BIMI in one view. See how well a domain resists spoofing, with the SPF lookup limit checked for you.',
 	},
 	{
 		number: '06',
@@ -105,6 +105,15 @@ const CONCEPTS: Concept[] = [
 			href: 'https://certificate.transparency.dev/',
 		},
 	},
+	{
+		term: 'Email authentication (SPF, DKIM, DMARC)',
+		definition:
+			'Three DNS based standards that stop attackers from spoofing a domain. SPF lists the servers allowed to send mail, DKIM signs each message with a cryptographic key, and DMARC ties the two together and tells receivers whether to quarantine or reject mail that fails. digga checks all three, plus MTA-STS, TLS-RPT, and BIMI, and validates the SPF ten lookup limit.',
+		link: {
+			label: 'RFC 7489',
+			href: 'https://www.rfc-editor.org/rfc/rfc7489',
+		},
+	},
 ];
 
 const STEPS = [
@@ -118,7 +127,7 @@ const STEPS = [
 	},
 	{
 		title: 'Drill into specifics',
-		body: 'DNS tab for every record type with a resolver switch. WHOIS tab for RDAP JSON and raw WHOIS. Subdomains tab to kick off a passive scan.',
+		body: 'DNS tab for every record type with a resolver switch. WHOIS tab for RDAP JSON and raw WHOIS. Subdomains tab to kick off a passive scan. Email tab for SPF, DKIM, and DMARC.',
 	},
 ];
 
@@ -138,6 +147,10 @@ const FAQ = [
 	{
 		q: 'How does subdomain discovery work?',
 		a: 'When you click Run scan, our server gathers subdomains from passive public sources like Certificate Transparency logs. It is purely passive: no traffic is ever sent to the target domain itself.',
+	},
+	{
+		q: 'Can digga check SPF, DKIM, and DMARC?',
+		a: 'Yes. The Email tab analyzes SPF, DKIM, DMARC, MTA-STS, TLS-RPT, and BIMI for any domain. It validates the SPF record against the ten DNS lookup limit, reports whether DMARC is enforcing, and flags common misconfigurations that leave a domain open to email spoofing.',
 	},
 	{
 		q: 'Can I look up subdomains and IP records too?',

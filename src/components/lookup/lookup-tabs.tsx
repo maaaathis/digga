@@ -24,6 +24,7 @@ const TABS: TabWithIndex[] = [
 	{ key: 'dns', label: 'DNS', segment: 'dns', index: '02' },
 	{ key: 'whois', label: 'WHOIS', segment: 'whois', index: '03' },
 	{ key: 'subdomains', label: 'Subdomains', segment: 'subdomains', index: '04' },
+	{ key: 'email', label: 'Email', segment: 'email', index: '05' },
 ];
 
 const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
@@ -47,6 +48,10 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 		router,
 	]);
 	useHotkeys('alt+4', () => router.push(hrefFor(TABS[3].segment)), { preventDefault: true }, [
+		domain,
+		router,
+	]);
+	useHotkeys('alt+5', () => router.push(hrefFor(TABS[4].segment)), { preventDefault: true }, [
 		domain,
 		router,
 	]);

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	}
 	return buildMetadata({
 		title: `${normalized} · Lookup`,
-		description: `DNS records, RDAP, WHOIS, and subdomains for ${normalized}.`,
+		description: `DNS records, RDAP, WHOIS, subdomains, and email security for ${normalized}.`,
 		path: `/lookup/${normalized}`,
 	});
 }
@@ -64,7 +64,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 				'@type': 'WebPage',
 				'name': `${normalized} · Domain report`,
 				'url': lookupUrl,
-				'description': `DNS records, RDAP, WHOIS, and subdomains for ${normalized}.`,
+				'description': `DNS records, RDAP, WHOIS, subdomains, and email security for ${normalized}.`,
 				'about': {
 					'@type': 'Thing',
 					'name': normalized,

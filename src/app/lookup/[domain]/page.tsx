@@ -5,6 +5,7 @@ import type { FC } from 'react';
 
 import DnsSummaryWidget from '@/components/lookup/dns-summary-widget';
 import DomainNotRegistered from '@/components/lookup/domain-not-registered';
+import EmailPostureWidget from '@/components/lookup/email-posture-widget';
 import QuickFacts, { buildQuickFacts } from '@/components/lookup/quick-facts';
 import {
 	DomainDatesWidget,
@@ -15,6 +16,7 @@ import {
 import { logDomainLookup } from '@/lib/bigquery';
 import { resolveRecordType } from '@/lib/dns/doh';
 import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
+import { analyzeEmailEssentials } from '@/lib/email-security';
 import { getIpsOrgMap } from '@/lib/ip';
 import { persistIpMetadata } from '@/lib/ip-metadata';
 import { persistObservations } from '@/lib/observations';
@@ -67,12 +69,13 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 		return <DomainNotRegistered domain={base} />;
 	}
 
-	const [registration, aRecords, aaaaRecords, mxRecords, nsRecords] = await Promise.all([
+	const [registration, aRecords, aaaaRecords, mxRecords, nsRecords, email] = await Promise.all([
 		getRegistrationInfo(domain),
 		resolveRecordType('cloudflare', domain, 'A'),
 		resolveRecordType('cloudflare', domain, 'AAAA'),
 		resolveRecordType('cloudflare', domain, 'MX'),
 		resolveRecordType('cloudflare', domain, 'NS'),
+		analyzeEmailEssentials(domain),
 	]);
 
 	const resolvedIps = [
@@ -136,6 +139,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						icon={<Mail className="size-3.5" />}
 						emptyText="No MX records. This domain probably does not receive mail."
 					/>
+					{registration ? <NameserverWidget registration={registration} /> : null}
 				</div>
 
 				<div className="space-y-10">
@@ -143,10 +147,10 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						<>
 							<RegistrantWidget registration={registration} />
 							<DomainDatesWidget registration={registration} />
-							<NameserverWidget registration={registration} />
 							<StatusWidget registration={registration} />
 						</>
 					) : null}
+					<EmailPostureWidget domain={domain} spf={email.spf} dmarc={email.dmarc} />
 				</div>
 			</div>
 		</div>
