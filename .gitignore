@@ -40,3 +40,7 @@ yarn-error.log*
 next-env.d.ts
 
 .idea/material_theme_project_new.xml
+
+/v1
+/bin
+/bigquery
