@@ -125,7 +125,7 @@ const STEPS = [
 const FAQ = [
 	{
 		q: 'Is digga free?',
-		a: 'Yes. digga is open source under AGPL 3.0, hosted at digga.dev, and free for everyone with no signup. Aggregate analytics power the sitemap; individual lookups are not logged.',
+		a: 'Yes, completely free for everyone — no signup, no accounts, no paywalls. digga is open source under AGPL 3.0.',
 	},
 	{
 		q: 'What is the difference between RDAP and WHOIS?',
@@ -401,7 +401,9 @@ const Home: FC = () => (
 								+
 							</span>
 						</summary>
-						<div className="text-muted-foreground px-6 pb-6 text-sm leading-relaxed">{entry.a}</div>
+						<div data-nosnippet className="text-muted-foreground px-6 pb-6 text-sm leading-relaxed">
+							{entry.a}
+						</div>
 					</details>
 				))}
 			</div>
