@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 import { isAppleDevice } from '@/lib/utils';
 
+const noopSubscribe = () => () => {};
+
 export function useIsApple(): boolean {
-	const [isApple, setIsApple] = useState(false);
-
-	useEffect(() => {
-		setIsApple(isAppleDevice());
-	}, []);
-
-	return isApple;
+	return useSyncExternalStore(
+		noopSubscribe,
+		() => isAppleDevice(),
+		() => false,
+	);
 }

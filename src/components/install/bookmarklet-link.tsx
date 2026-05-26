@@ -29,6 +29,9 @@ const BookmarkletLink: FC = () => {
 			.split('\n')
 			.map(line => line.trim())
 			.join('');
+		// Built from window.location on mount; deferring to render would cause a
+		// hydration mismatch, so the effect is the correct place for this.
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setTarget(`javascript:${minified}`);
 	}, []);
 

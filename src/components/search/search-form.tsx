@@ -2,7 +2,7 @@
 
 import { Loader2, Search } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { type ChangeEvent, type FC, type FormEvent, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent, type FC, type FormEvent, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { Button } from '@/components/ui/button';
@@ -28,10 +28,17 @@ const SearchForm: FC<SearchFormProps> = ({
 	const pathname = usePathname();
 
 	const [value, setValue] = useState(initialValue ?? '');
+	const [lastInitial, setLastInitial] = useState(initialValue);
 	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const isApple = useIsApple();
+
+	// Sync the field when the route-provided domain changes, without an effect.
+	if (initialValue !== lastInitial) {
+		setLastInitial(initialValue);
+		setValue(initialValue ?? '');
+	}
 
 	useHotkeys(
 		isAppleDevice() ? ['meta+k', '/'] : ['ctrl+k', '/'],
@@ -41,10 +48,6 @@ const SearchForm: FC<SearchFormProps> = ({
 		},
 		{ preventDefault: true },
 	);
-
-	useEffect(() => {
-		if (initialValue !== undefined) setValue(initialValue);
-	}, [initialValue]);
 
 	const onSubmit = (event: FormEvent) => {
 		event.preventDefault();

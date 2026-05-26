@@ -37,6 +37,9 @@ const StarPrompt: FC<StarPromptProps> = ({ domain }) => {
 		const next = Number(localStorage.getItem(COUNT_KEY) ?? '0') + 1;
 		localStorage.setItem(COUNT_KEY, String(next));
 
+		// Opening the dialog reacts to a localStorage-backed counter that only
+		// exists on the client; this is a legitimate effect, not derived state.
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		if (next >= THRESHOLD) setOpen(true);
 	}, [domain]);
 

@@ -20,6 +20,7 @@ const DomainMark: FC<DomainMarkProps> = ({ domain }) => {
 
 	return (
 		<span className="bg-card ring-border/60 inline-flex size-14 shrink-0 items-center justify-center rounded-2xl ring-1 sm:size-16">
+			{/* eslint-disable-next-line @next/next/no-img-element */}
 			<img
 				src={`https://icons.duckduckgo.com/ip3/${encodeURIComponent(domain)}.ico`}
 				alt=""

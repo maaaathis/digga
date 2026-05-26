@@ -24,6 +24,8 @@ const ExternalFavicon: FC<ExternalFaviconProps> = ({ url, size = 32, className }
 	if (imageError || hasIcon === false) return null;
 
 	return (
+		// Remote favicon with an onError fallback; next/image adds no value here.
+		// eslint-disable-next-line @next/next/no-img-element
 		<img
 			src={`https://icons.duckduckgo.com/ip3/${encodeURIComponent(url)}.ico`}
 			alt={`Favicon for ${url}`}

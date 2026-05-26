@@ -60,7 +60,7 @@ export function cleanForLookup(input: string): string | null {
 	if (!input) return null;
 
 	let candidate = input.trim().toLowerCase();
-	candidate = candidate.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+	candidate = candidate.replace(/^https?:\/\//, '').split('/')[0];
 	candidate = candidate.replace(/^www\./, '');
 	candidate = stripTrailingDot(candidate);
 

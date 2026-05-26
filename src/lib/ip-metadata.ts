@@ -25,9 +25,11 @@ function splitAsn(value: string | null | undefined): {
 	name: string | null;
 } {
 	if (!value) return { asn: null, name: null };
-	const match = value.trim().match(/^(AS\d+)\s*(.*)$/i);
-	if (!match) return { asn: null, name: value.trim() || null };
-	return { asn: match[1].toUpperCase(), name: match[2].trim() || null };
+	const trimmed = value.trim();
+	const match = /^(AS\d+)\b/i.exec(trimmed);
+	if (!match) return { asn: null, name: trimmed || null };
+	const name = trimmed.slice(match[0].length).trim();
+	return { asn: match[1].toUpperCase(), name: name || null };
 }
 
 function toRow(details: IpDetails): IpMetadataRow {

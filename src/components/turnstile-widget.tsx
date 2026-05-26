@@ -88,7 +88,9 @@ const TurnstileWidget: FC<TurnstileWidgetProps> = ({
 	const callbacksRef = useRef({ onVerify, onExpire });
 	const { resolvedTheme } = useTheme();
 
-	callbacksRef.current = { onVerify, onExpire };
+	useEffect(() => {
+		callbacksRef.current = { onVerify, onExpire };
+	});
 
 	useEffect(() => {
 		let cancelled = false;

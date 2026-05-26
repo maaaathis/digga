@@ -52,7 +52,7 @@ const SOURCES: Record<string, Source> = {
 		url: 'https://securitytrails.com/',
 	},
 	shodan: { label: 'Shodan', url: 'https://www.shodan.io/' },
-	sitedossier: { label: 'SiteDossier', url: 'http://www.sitedossier.com/' },
+	sitedossier: { label: 'SiteDossier', url: 'https://www.sitedossier.com/' },
 	submd: { label: 'Subdomain Center', url: 'https://www.subdomain.center/' },
 	thc: { label: 'THC', url: 'https://ip.thc.org/' },
 	threatbook: { label: 'ThreatBook', url: 'https://threatbook.io/' },

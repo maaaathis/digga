@@ -26,12 +26,13 @@ function parseMxLike(type: string, raw: string): { value: string; priority: numb
 	if (type !== 'MX' && type !== 'SRV') {
 		return { value: normalizeValue(type, raw), priority: null };
 	}
-	const match = raw.trim().match(/^(\d+)\s+(.+)$/);
+	const trimmed = raw.trim();
+	const match = /^(\d+)\s/.exec(trimmed);
 	if (!match) {
 		return { value: normalizeValue(type, raw), priority: null };
 	}
 	return {
-		value: normalizeValue(type, match[2]),
+		value: normalizeValue(type, trimmed.slice(match[0].length)),
 		priority: Number.parseInt(match[1], 10),
 	};
 }

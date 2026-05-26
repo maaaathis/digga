@@ -31,21 +31,24 @@ type IpDetailsModalProps = {
 
 const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, open, onOpenChange }) => {
 	const isDesktop = useMediaQuery('(min-width: 640px)');
-	const [result, setResult] = useState<IpDetailsResult | null>(null);
+	const [loaded, setLoaded] = useState<{ ip: string; result: IpDetailsResult } | null>(
+		null,
+	);
 
 	useEffect(() => {
-		if (!open) {
-			setResult(null);
-			return;
-		}
+		if (!open) return;
 		let cancelled = false;
 		void fetchIpDetails(ip).then(next => {
-			if (!cancelled) setResult(next);
+			if (!cancelled) setLoaded({ ip, result: next });
 		});
 		return () => {
 			cancelled = true;
 		};
 	}, [open, ip]);
+
+	// Only treat data as ready when it belongs to the current IP, so we show a
+	// loading state on open without a synchronous reset in the effect.
+	const result = loaded && loaded.ip === ip ? loaded.result : null;
 
 	const title = (
 		<span className="flex items-center gap-2 font-mono text-base">
