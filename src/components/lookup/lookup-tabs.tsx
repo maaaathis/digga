@@ -1,121 +1,107 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter, useSelectedLayoutSegment } from "next/navigation";
-import type { FC } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import Link from 'next/link';
+import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
+import type { FC } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useIsApple } from "@/hooks/use-is-apple";
-import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useIsApple } from '@/hooks/use-is-apple';
+import { cn } from '@/lib/utils';
 
 type LookupTabsProps = { domain: string };
 
 type TabDef = {
-  key: string;
-  label: string;
-  segment: string | null;
+	key: string;
+	label: string;
+	segment: string | null;
 };
 
 type TabWithIndex = TabDef & { index: string };
 
 const TABS: TabWithIndex[] = [
-  { key: "overview", label: "Overview", segment: null, index: "01" },
-  { key: "dns", label: "DNS", segment: "dns", index: "02" },
-  { key: "whois", label: "WHOIS", segment: "whois", index: "03" },
-  { key: "subdomains", label: "Subdomains", segment: "subdomains", index: "04" },
+	{ key: 'overview', label: 'Overview', segment: null, index: '01' },
+	{ key: 'dns', label: 'DNS', segment: 'dns', index: '02' },
+	{ key: 'whois', label: 'WHOIS', segment: 'whois', index: '03' },
+	{ key: 'subdomains', label: 'Subdomains', segment: 'subdomains', index: '04' },
 ];
 
 const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
-  const router = useRouter();
-  const active = useSelectedLayoutSegment();
-  const isApple = useIsApple();
+	const router = useRouter();
+	const active = useSelectedLayoutSegment();
+	const isApple = useIsApple();
 
-  const hrefFor = (segment: string | null) =>
-    segment === null ? `/lookup/${domain}` : `/lookup/${domain}/${segment}`;
+	const hrefFor = (segment: string | null) =>
+		segment === null ? `/lookup/${domain}` : `/lookup/${domain}/${segment}`;
 
-  useHotkeys(
-    "alt+1",
-    () => router.push(hrefFor(TABS[0].segment)),
-    { preventDefault: true },
-    [domain, router],
-  );
-  useHotkeys(
-    "alt+2",
-    () => router.push(hrefFor(TABS[1].segment)),
-    { preventDefault: true },
-    [domain, router],
-  );
-  useHotkeys(
-    "alt+3",
-    () => router.push(hrefFor(TABS[2].segment)),
-    { preventDefault: true },
-    [domain, router],
-  );
-  useHotkeys(
-    "alt+4",
-    () => router.push(hrefFor(TABS[3].segment)),
-    { preventDefault: true },
-    [domain, router],
-  );
+	useHotkeys('alt+1', () => router.push(hrefFor(TABS[0].segment)), { preventDefault: true }, [
+		domain,
+		router,
+	]);
+	useHotkeys('alt+2', () => router.push(hrefFor(TABS[1].segment)), { preventDefault: true }, [
+		domain,
+		router,
+	]);
+	useHotkeys('alt+3', () => router.push(hrefFor(TABS[2].segment)), { preventDefault: true }, [
+		domain,
+		router,
+	]);
+	useHotkeys('alt+4', () => router.push(hrefFor(TABS[3].segment)), { preventDefault: true }, [
+		domain,
+		router,
+	]);
 
-  const hint = isApple ? "⌥" : "Alt";
+	const hint = isApple ? '⌥' : 'Alt';
 
-  return (
-    <nav
-      aria-label="Result sections"
-      className="border-border/50 flex w-full items-end gap-7 overflow-x-auto border-b"
-    >
-      {TABS.map((tab, position) => {
-        const href = hrefFor(tab.segment);
-        const isActive = (active ?? null) === tab.segment;
-        return (
-          <Tooltip key={tab.key}>
-            <TooltipTrigger asChild>
-              <Link
-                href={href}
-                prefetch
-                className={cn(
-                  "group relative inline-flex items-baseline gap-2 py-3 text-sm font-medium tracking-tight whitespace-nowrap transition-colors",
-                  isActive
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                <span
-                  className={cn(
-                    "font-mono text-[10px] tabular-nums",
-                    isActive
-                      ? "text-foreground/70"
-                      : "text-muted-foreground/60 group-hover:text-foreground/70",
-                  )}
-                >
-                  {tab.index}
-                </span>
-                {tab.label}
-                <span
-                  aria-hidden
-                  className={cn(
-                    "absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 transition-transform",
-                    isActive
-                      ? "bg-foreground scale-x-100"
-                      : "bg-foreground/40 group-hover:scale-x-100",
-                  )}
-                />
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="font-mono text-[11px]">
-              {hint} + {position + 1}
-            </TooltipContent>
-          </Tooltip>
-        );
-      })}
-    </nav>
-  );
+	return (
+		<nav
+			aria-label="Result sections"
+			className="border-border/50 flex w-full items-end gap-7 overflow-x-auto border-b"
+		>
+			{TABS.map((tab, position) => {
+				const href = hrefFor(tab.segment);
+				const isActive = (active ?? null) === tab.segment;
+				return (
+					<Tooltip key={tab.key}>
+						<TooltipTrigger asChild>
+							<Link
+								href={href}
+								prefetch
+								className={cn(
+									'group relative inline-flex items-baseline gap-2 py-3 text-sm font-medium tracking-tight whitespace-nowrap transition-colors',
+									isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
+								)}
+							>
+								<span
+									className={cn(
+										'font-mono text-[10px] tabular-nums',
+										isActive
+											? 'text-foreground/70'
+											: 'text-muted-foreground/60 group-hover:text-foreground/70',
+									)}
+								>
+									{tab.index}
+								</span>
+								{tab.label}
+								<span
+									aria-hidden
+									className={cn(
+										'absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 transition-transform',
+										isActive
+											? 'bg-foreground scale-x-100'
+											: 'bg-foreground/40 group-hover:scale-x-100',
+									)}
+								/>
+							</Link>
+						</TooltipTrigger>
+						<TooltipContent side="bottom" className="font-mono text-[11px]">
+							{hint} + {position + 1}
+						</TooltipContent>
+					</Tooltip>
+				);
+			})}
+		</nav>
+	);
 };
 
 export default LookupTabs;

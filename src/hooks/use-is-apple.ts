@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { isAppleDevice } from "@/lib/utils";
+import { isAppleDevice } from '@/lib/utils';
 
 export function useIsApple(): boolean {
-  const [isApple, setIsApple] = useState(false);
+	const [isApple, setIsApple] = useState(false);
 
-  useEffect(() => {
-    setIsApple(isAppleDevice());
-  }, []);
+	useEffect(() => {
+		setIsApple(isAppleDevice());
+	}, []);
 
-  return isApple;
+	return isApple;
 }
