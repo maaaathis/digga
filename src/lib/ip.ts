@@ -61,7 +61,9 @@ export async function getIpDetails(ip: string): Promise<IpDetails> {
 }
 
 export function normalizeIpForCache(ip: string): string {
-	return ip.replace(/\.[0-9]+$/, '.0').replace(/:([0-9a-fA-F]+)$/, ':');
+	if (isIP(ip) === 4) return ip.replace(/\.\d+$/, '.0');
+	if (isIP(ip) === 6) return ip.replace(/:[0-9a-fA-F]+$/, ':0');
+	return ip;
 }
 
 const detailsLoader = new DataLoader<string, IpDetails>(
@@ -76,6 +78,7 @@ const detailsLoader = new DataLoader<string, IpDetails>(
 );
 
 export async function getIpOrg(ip: string): Promise<string | null> {
+	if (isIP(ip) === 0) return null;
 	try {
 		const details = await detailsLoader.load(ip);
 		if (details.org && details.org === details.isp) return details.org;
