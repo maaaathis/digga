@@ -1,7 +1,7 @@
 'use client';
 
 import naturalCompare from 'natural-compare-lite';
-import { ArrowUpDown, ArrowUpRight, Download, Radio, Search } from 'lucide-react';
+import { ArrowUpDown, ArrowUpRight, Download, Radio, ScanSearch, Search } from 'lucide-react';
 import Link from 'next/link';
 import { type FC, useMemo, useState } from 'react';
 
@@ -181,17 +181,34 @@ const SubdomainResults: FC<SubdomainResultsProps> = ({ domain, subdomains, tookM
 							className="group bg-card/40 hover:bg-card flex items-center gap-3 px-4 py-2.5 transition-colors"
 						>
 							<StatusDot state={state} />
-							<Link href={`/lookup/${sub}`} className="min-w-0 flex-1 truncate font-mono text-sm">
+							<a
+								href={`https://${sub}`}
+								target="_blank"
+								rel="noreferrer noopener"
+								title={`Open https://${sub}`}
+								className="min-w-0 flex-1 truncate font-mono text-sm"
+							>
 								<span className="text-foreground font-medium">{prefix}</span>
 								<span className="text-muted-foreground">{rest}</span>
-							</Link>
+							</a>
 							<CopyButton value={sub} className="opacity-0 group-hover:opacity-100" />
-							<Link
-								href={`/lookup/${sub}`}
+							<a
+								href={`https://${sub}`}
+								target="_blank"
+								rel="noreferrer noopener"
+								title={`Open https://${sub}`}
+								aria-label={`Open ${sub} in a new tab`}
 								className="text-muted-foreground hover:text-foreground shrink-0 transition-colors"
-								aria-label={`Look up ${sub}`}
 							>
 								<ArrowUpRight className="size-4" />
+							</a>
+							<Link
+								href={`/lookup/${sub}`}
+								title="Open digga report"
+								aria-label={`Inspect ${sub} on digga`}
+								className="text-muted-foreground hover:text-foreground shrink-0 transition-colors"
+							>
+								<ScanSearch className="size-4" />
 							</Link>
 						</li>
 					);
