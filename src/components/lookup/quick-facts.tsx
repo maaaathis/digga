@@ -1,4 +1,14 @@
-import { Activity, Calendar, Globe2, Mail, ShieldCheck, ShieldOff } from 'lucide-react';
+import {
+	Activity,
+	Building2,
+	Calendar,
+	Globe2,
+	Mail,
+	MailCheck,
+	Server,
+	ShieldCheck,
+	ShieldOff,
+} from 'lucide-react';
 import type { FC, ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -21,28 +31,27 @@ const TONE_CLASSES = {
 };
 
 const QuickFacts: FC<QuickFactsProps> = ({ facts }) => (
-	<ul className="border-border/60 grid grid-cols-2 overflow-hidden rounded-2xl border md:grid-cols-4">
-		{facts.map((fact, index) => (
+	<ul className="border-border/60 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] overflow-hidden rounded-2xl border">
+		{facts.map(fact => (
 			<li
 				key={fact.label}
-				className={cn(
-					'border-border/60 bg-card/40 flex flex-col gap-1.5 p-4',
-					index < facts.length - 1 ? 'border-r' : '',
-					'max-md:[&:nth-child(2n)]:border-r-0 max-md:[&:nth-child(n+3)]:border-t',
-					'md:border-r md:last:border-r-0',
-				)}
+				className="border-border/60 bg-card/40 flex flex-col gap-1.5 border-r border-b p-4"
 			>
 				<span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs">
 					{fact.icon}
 					{fact.label}
 				</span>
-				<span className={cn('text-sm font-semibold', TONE_CLASSES[fact.tone ?? 'default'])}>
+				<span
+					className={cn('truncate text-sm font-semibold', TONE_CLASSES[fact.tone ?? 'default'])}
+				>
 					{fact.value}
 				</span>
 			</li>
 		))}
 	</ul>
 );
+
+export type EmailPosture = 'full' | 'partial' | 'none';
 
 export function buildQuickFacts(input: {
 	registeredAt?: string | null;
@@ -51,6 +60,8 @@ export function buildQuickFacts(input: {
 	nameserverCount: number;
 	hasMx: boolean;
 	registrar?: string | null;
+	hostingOrg?: string | null;
+	emailPosture?: EmailPosture | null;
 }): Fact[] {
 	const facts: Fact[] = [];
 
@@ -98,11 +109,13 @@ export function buildQuickFacts(input: {
 		tone: input.dnssec ? 'good' : 'muted',
 	});
 
-	facts.push({
-		icon: <Globe2 className="size-3.5" />,
-		label: 'Nameservers',
-		value: input.nameserverCount.toString(),
-	});
+	if (input.hostingOrg) {
+		facts.push({
+			icon: <Server className="size-3.5" />,
+			label: 'Hosting',
+			value: input.hostingOrg,
+		});
+	}
 
 	facts.push({
 		icon: <Mail className="size-3.5" />,
@@ -110,6 +123,36 @@ export function buildQuickFacts(input: {
 		value: input.hasMx ? 'configured' : 'no MX records',
 		tone: input.hasMx ? 'default' : 'muted',
 	});
+
+	if (input.emailPosture) {
+		const map: Record<EmailPosture, { value: string; tone: Fact['tone'] }> = {
+			full: { value: 'SPF + DMARC', tone: 'good' },
+			partial: { value: 'Partial', tone: 'default' },
+			none: { value: 'Not set', tone: 'muted' },
+		};
+		facts.push({
+			icon: <MailCheck className="size-3.5" />,
+			label: 'Email auth',
+			value: map[input.emailPosture].value,
+			tone: map[input.emailPosture].tone,
+		});
+	}
+
+	if (input.nameserverCount > 0) {
+		facts.push({
+			icon: <Globe2 className="size-3.5" />,
+			label: 'Nameservers',
+			value: input.nameserverCount.toString(),
+		});
+	}
+
+	if (input.registrar) {
+		facts.push({
+			icon: <Building2 className="size-3.5" />,
+			label: 'Registrar',
+			value: input.registrar,
+		});
+	}
 
 	return facts.slice(0, 4);
 }

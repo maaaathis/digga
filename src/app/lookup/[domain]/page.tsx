@@ -6,7 +6,7 @@ import type { FC } from 'react';
 import DnsSummaryWidget from '@/components/lookup/dns-summary-widget';
 import DomainNotRegistered from '@/components/lookup/domain-not-registered';
 import EmailPostureWidget from '@/components/lookup/email-posture-widget';
-import QuickFacts, { buildQuickFacts } from '@/components/lookup/quick-facts';
+import QuickFacts, { buildQuickFacts, type EmailPosture } from '@/components/lookup/quick-facts';
 import {
 	DomainDatesWidget,
 	NameserverWidget,
@@ -98,16 +98,28 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 		void persistIpMetadata(resolvedIps);
 	}
 
-	const facts = registration
-		? buildQuickFacts({
-				registeredAt: findEventDate(registration.events, ['registration', 'created']),
-				expiresAt: findEventDate(registration.events, ['expir']),
-				dnssec: registration.dnssec,
-				nameserverCount: registration.nameservers.length,
-				hasMx: mxRecords.length > 0,
-				registrar: registration.registrar ?? null,
-			})
-		: [];
+	const primaryIp = aRecords[0]?.data ?? aaaaRecords[0]?.data ?? null;
+	const hostingOrg = primaryIp ? (ipOrgMap[primaryIp]?.split(' / ')[0] ?? null) : null;
+
+	const emailStatuses = [email.spf.status, email.dmarc.status];
+	const emailPosture: EmailPosture = emailStatuses.every(status => status === 'pass')
+		? 'full'
+		: emailStatuses.every(status => status === 'fail')
+			? 'none'
+			: 'partial';
+
+	const facts = buildQuickFacts({
+		registeredAt: registration
+			? findEventDate(registration.events, ['registration', 'created'])
+			: null,
+		expiresAt: registration ? findEventDate(registration.events, ['expir']) : null,
+		dnssec: registration?.dnssec ?? null,
+		nameserverCount: registration?.nameservers.length ?? 0,
+		hasMx: mxRecords.length > 0,
+		registrar: registration?.registrar ?? null,
+		hostingOrg,
+		emailPosture,
+	});
 
 	return (
 		<div className="space-y-12">
