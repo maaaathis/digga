@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { promises as dnsPromises } from 'node:dns';
+import { isIP } from 'node:net';
 
 import DataLoader from 'dataloader';
 
@@ -33,9 +34,18 @@ export async function getReverseDns(ip: string): Promise<string | null> {
 	}
 }
 
+function assertValidIp(ip: string): void {
+	if (isIP(ip) === 0) {
+		throw new Error('Invalid IP address');
+	}
+}
+
 export async function getIpDetails(ip: string): Promise<IpDetails> {
+	assertValidIp(ip);
+	const requestUrl = new URL(`http://ip-api.com/json/${encodeURIComponent(ip)}`);
+
 	const [response, reverse] = await Promise.all([
-		fetch(`http://ip-api.com/json/${ip}`, {
+		fetch(requestUrl, {
 			next: { revalidate: 86_400 },
 		}),
 		getReverseDns(ip),
