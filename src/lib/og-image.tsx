@@ -17,6 +17,109 @@ function fitFontSize(length: number): number {
 	return 38;
 }
 
+export function renderHomeOgImage(): ImageResponse {
+	const chips = ['DNS', 'RDAP', 'WHOIS', 'Subdomains'];
+
+	return new ImageResponse(
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				height: '100%',
+				backgroundColor: '#0a0a0a',
+				backgroundImage:
+					'radial-gradient(900px circle at 80% -10%, rgba(255,255,255,0.10), transparent 55%), linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)',
+				backgroundSize: '100% 100%, 48px 48px, 48px 48px',
+				color: '#fafafa',
+				padding: '72px',
+				justifyContent: 'space-between',
+				fontFamily: 'system-ui, sans-serif',
+			}}
+		>
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+				}}
+			>
+				<svg width={150} height={64} viewBox="0 0 700 300" fill="#fafafa">
+					<path d={LOGO_PATH} />
+				</svg>
+				<span
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: '10px',
+						fontSize: 20,
+						color: '#a1a1aa',
+					}}
+				>
+					<span
+						style={{
+							width: 10,
+							height: 10,
+							borderRadius: 9999,
+							backgroundColor: '#34d399',
+						}}
+					/>
+					Free and open source
+				</span>
+			</div>
+
+			<div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						fontSize: 76,
+						fontWeight: 700,
+						letterSpacing: '-0.03em',
+						lineHeight: 1.05,
+					}}
+				>
+					<span>Domain research that</span>
+					<span>tells you everything.</span>
+				</div>
+				<div style={{ display: 'flex', gap: '12px', marginTop: '6px' }}>
+					{chips.map(chip => (
+						<span
+							key={chip}
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								fontSize: 22,
+								color: '#d4d4d8',
+								padding: '8px 18px',
+								borderRadius: 9999,
+								border: '1px solid rgba(255,255,255,0.14)',
+								backgroundColor: 'rgba(255,255,255,0.04)',
+							}}
+						>
+							{chip}
+						</span>
+					))}
+				</div>
+			</div>
+
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					color: '#71717a',
+					fontSize: 24,
+				}}
+			>
+				<span>Domain and infrastructure research</span>
+				<span style={{ fontFamily: 'monospace', color: '#a1a1aa' }}>digga.dev</span>
+			</div>
+		</div>,
+		ogImageSize,
+	);
+}
+
 export function renderDomainOgImage(rawDomain: string): ImageResponse {
 	const normalized = normalizeDomain(decodeURIComponent(rawDomain));
 	const display = isValidLookupDomain(normalized) ? toUnicodeDomain(normalized) : normalized;
