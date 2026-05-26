@@ -61,7 +61,7 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 	return (
 		<nav
 			aria-label="Result sections"
-			className="border-border/50 flex w-full items-end gap-7 overflow-x-auto border-b"
+			className="border-border/50 flex w-full items-end gap-7 overflow-x-auto overflow-y-hidden border-b"
 		>
 			{TABS.map((tab, position) => {
 				const href = hrefFor(tab.segment);
@@ -91,7 +91,7 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 								<span
 									aria-hidden
 									className={cn(
-										'absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 transition-transform',
+										'absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 transition-transform',
 										isActive
 											? 'bg-foreground scale-x-100'
 											: 'bg-foreground/40 group-hover:scale-x-100',
