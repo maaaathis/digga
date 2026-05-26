@@ -31,9 +31,7 @@ type IpDetailsModalProps = {
 
 const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, open, onOpenChange }) => {
 	const isDesktop = useMediaQuery('(min-width: 640px)');
-	const [loaded, setLoaded] = useState<{ ip: string; result: IpDetailsResult } | null>(
-		null,
-	);
+	const [loaded, setLoaded] = useState<{ ip: string; result: IpDetailsResult } | null>(null);
 
 	useEffect(() => {
 		if (!open) return;
