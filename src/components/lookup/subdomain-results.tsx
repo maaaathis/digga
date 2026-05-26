@@ -8,7 +8,6 @@ import { type FC, useMemo, useState } from 'react';
 import CopyButton from '@/components/copy-button';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { resolveRecordType } from '@/lib/dns/doh';
 import { cn } from '@/lib/utils';
 
 type LiveStatus = 'unknown' | 'checking' | 'live' | 'dead';
@@ -50,6 +49,25 @@ async function pool<T>(
 	await Promise.all(runners);
 }
 
+// Fire a real request at the host from the browser. Cross-origin responses are
+// opaque (mode: 'no-cors'), so we cannot read the status code — but a resolved
+// promise means a server answered, while a throw means DNS/connection/TLS
+// failure or a timeout. That is enough to tell reachable hosts from dead ones.
+async function probeHost(host: string): Promise<boolean> {
+	try {
+		await fetch(`https://${host}/`, {
+			method: 'HEAD',
+			mode: 'no-cors',
+			cache: 'no-store',
+			redirect: 'follow',
+			signal: AbortSignal.timeout(5000),
+		});
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 const SubdomainResults: FC<SubdomainResultsProps> = ({ domain, subdomains, tookMs }) => {
 	const [filter, setFilter] = useState('');
 	const [sort, setSort] = useState<SortMode>('name');
@@ -76,12 +94,8 @@ const SubdomainResults: FC<SubdomainResultsProps> = ({ domain, subdomains, tookM
 	const onCheckLive = async () => {
 		setChecking(true);
 		setStatus(Object.fromEntries(subdomains.map(sub => [sub, 'checking' as LiveStatus])));
-		await pool(subdomains, 8, async sub => {
-			const [a, aaaa] = await Promise.all([
-				resolveRecordType('cloudflare', sub, 'A'),
-				resolveRecordType('cloudflare', sub, 'AAAA'),
-			]);
-			const live = a.length > 0 || aaaa.length > 0;
+		await pool(subdomains, 10, async sub => {
+			const live = await probeHost(sub);
 			setStatus(prev => ({ ...prev, [sub]: live ? 'live' : 'dead' }));
 		});
 		setChecking(false);
@@ -202,8 +216,8 @@ const StatusDot: FC<{ state: LiveStatus }> = ({ state }) => {
 	const label: Record<LiveStatus, string> = {
 		unknown: 'not checked',
 		checking: 'checking',
-		live: 'resolves',
-		dead: 'no address',
+		live: 'responds over HTTPS',
+		dead: 'no response',
 	};
 	return (
 		<span
