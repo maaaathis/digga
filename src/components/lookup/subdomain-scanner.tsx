@@ -9,6 +9,8 @@ import StateNotice from '@/components/lookup/state-notice';
 import SubdomainResults from '@/components/lookup/subdomain-results';
 import TurnstileWidget from '@/components/turnstile-widget';
 import { Button } from '@/components/ui/button';
+import { trackEvent } from '@/lib/analytics';
+import { getTLD } from '@/lib/domain';
 
 type SubdomainScannerProps = {
 	domain: string;
@@ -29,6 +31,8 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain }) => {
 			toast.error('Please complete the verification first.');
 			return;
 		}
+
+		trackEvent('subdomain-scan', { domain, tld: getTLD(domain) ?? undefined });
 
 		const tokenForScan = captchaToken;
 		setResult(null);

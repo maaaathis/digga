@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 
 import StateNotice from '@/components/lookup/state-notice';
 import { Button } from '@/components/ui/button';
+import { getTLD } from '@/lib/domain';
 
 type DomainNotRegisteredProps = {
 	domain: string;
@@ -26,6 +27,7 @@ const buildRegistrarUrl = (href: string, domain: string): string =>
 
 const DomainNotRegistered: FC<DomainNotRegisteredProps> = ({ domain }) => {
 	const [primary, ...secondary] = REGISTRARS;
+	const tld = getTLD(domain) ?? undefined;
 
 	return (
 		<StateNotice
@@ -60,6 +62,10 @@ const DomainNotRegistered: FC<DomainNotRegisteredProps> = ({ domain }) => {
 							href={buildRegistrarUrl(primary.href, domain)}
 							target="_blank"
 							rel="nofollow sponsored noopener"
+							data-umami-event="register-domain"
+							data-umami-event-registrar={primary.name}
+							data-umami-event-domain={domain}
+							data-umami-event-tld={tld}
 						>
 							Register at {primary.name}
 							<ArrowUpRight
@@ -83,6 +89,10 @@ const DomainNotRegistered: FC<DomainNotRegisteredProps> = ({ domain }) => {
 											href={buildRegistrarUrl(registrar.href, domain)}
 											target="_blank"
 											rel="nofollow sponsored noopener"
+											data-umami-event="register-domain"
+											data-umami-event-registrar={registrar.name}
+											data-umami-event-domain={domain}
+											data-umami-event-tld={tld}
 										>
 											{registrar.name}
 											<ArrowUpRight data-icon="inline-end" />

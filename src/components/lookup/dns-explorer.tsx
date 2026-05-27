@@ -9,8 +9,10 @@ import FlushCacheButtons from '@/components/lookup/flush-cache-buttons';
 import ResolverTabs from '@/components/lookup/resolver-tabs';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { trackEvent } from '@/lib/analytics';
 import { resolveAllRecords } from '@/lib/dns/doh';
 import { EMPTY_RECORDS, type ResolvedRecords, type ResolverId } from '@/lib/dns/types';
+import { getTLD } from '@/lib/domain';
 
 type DnsExplorerProps = {
 	domain: string;
@@ -24,6 +26,11 @@ const fetcher = async ([, domain, resolver]: SwrKey) => resolveAllRecords(resolv
 
 const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRecords }) => {
 	const [resolver, setResolver] = useState<ResolverId>(initialResolver);
+
+	const onResolverChange = (next: ResolverId) => {
+		trackEvent('dns-resolver', { resolver: next, domain, tld: getTLD(domain) ?? undefined });
+		setResolver(next);
+	};
 
 	const { data, error, isLoading, isValidating, mutate } = useSWR<ResolvedRecords, Error, SwrKey>(
 		['dns', domain, resolver],
@@ -42,7 +49,7 @@ const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRec
 	return (
 		<div className="space-y-4">
 			<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-				<ResolverTabs value={resolver} onChange={setResolver} />
+				<ResolverTabs value={resolver} onChange={onResolverChange} />
 				<div className="text-muted-foreground flex items-center gap-2 text-xs">
 					{isValidating && !showSkeleton ? (
 						<span className="mr-1 flex items-center gap-1.5">

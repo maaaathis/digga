@@ -5,6 +5,7 @@ import { type FC, useState } from 'react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
+import { trackEvent } from '@/lib/analytics';
 
 const ShareButton: FC = () => {
 	const [copied, setCopied] = useState(false);
@@ -13,7 +14,10 @@ const ShareButton: FC = () => {
 		const url = typeof window !== 'undefined' ? window.location.href : '';
 		if (!url) return;
 
-		if (navigator.share) {
+		const canNativeShare = typeof navigator.share === 'function';
+		trackEvent('share', { method: canNativeShare ? 'native' : 'clipboard' });
+
+		if (canNativeShare) {
 			try {
 				await navigator.share({ title: document.title, url });
 				return;

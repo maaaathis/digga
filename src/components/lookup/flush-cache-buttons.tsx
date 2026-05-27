@@ -13,12 +13,14 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getTLD } from '@/lib/domain';
 
 type FlushCacheButtonsProps = {
 	domain: string;
 };
 
 const FlushCacheButtons: FC<FlushCacheButtonsProps> = ({ domain }) => {
+	const tld = getTLD(domain) ?? undefined;
 	const targets = [
 		{
 			label: 'Cloudflare (1.1.1.1)',
@@ -49,6 +51,10 @@ const FlushCacheButtons: FC<FlushCacheButtonsProps> = ({ domain }) => {
 							target="_blank"
 							rel="noreferrer noopener"
 							className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2"
+							data-umami-event="flush-cache"
+							data-umami-event-resolver={target.label}
+							data-umami-event-domain={domain}
+							data-umami-event-tld={tld}
 						>
 							<span className="text-sm">{target.label}</span>
 							<ExternalLink className="size-3.5 opacity-60" />

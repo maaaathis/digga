@@ -11,7 +11,7 @@ import SearchForm from '@/components/search/search-form';
 import StarPrompt from '@/components/star-prompt';
 import { Button } from '@/components/ui/button';
 import { SITE_NAME } from '@/lib/data';
-import { isValidLookupDomain, normalizeDomain, toUnicodeDomain } from '@/lib/domain';
+import { getTLD, isValidLookupDomain, normalizeDomain, toUnicodeDomain } from '@/lib/domain';
 import { absoluteUrl, buildMetadata } from '@/lib/seo';
 
 type Props = LayoutProps<'/lookup/[domain]'>;
@@ -56,6 +56,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 
 	const display = toUnicodeDomain(normalized);
 	const lookupUrl = absoluteUrl(`/lookup/${normalized}`);
+	const tld = getTLD(normalized) ?? undefined;
 
 	const structuredData = {
 		'@context': 'https://schema.org',
@@ -121,6 +122,9 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 										target="_blank"
 										rel="noreferrer noopener"
 										className="group inline-flex min-w-0 items-center gap-2"
+										data-umami-event="visit-site"
+										data-umami-event-domain={normalized}
+										data-umami-event-tld={tld}
 									>
 										<span className="font-display text-foreground min-w-0 truncate pb-1 text-3xl leading-[1.15] font-semibold sm:text-4xl md:text-5xl">
 											{display}

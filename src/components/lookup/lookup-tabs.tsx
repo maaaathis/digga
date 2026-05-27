@@ -7,6 +7,8 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useIsApple } from '@/hooks/use-is-apple';
+import { trackEvent } from '@/lib/analytics';
+import { getTLD } from '@/lib/domain';
 import { cn } from '@/lib/utils';
 
 type LookupTabsProps = { domain: string };
@@ -35,26 +37,19 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 	const hrefFor = (segment: string | null) =>
 		segment === null ? `/lookup/${domain}` : `/lookup/${domain}/${segment}`;
 
-	useHotkeys('alt+1', () => router.push(hrefFor(TABS[0].segment)), { preventDefault: true }, [
-		domain,
-		router,
-	]);
-	useHotkeys('alt+2', () => router.push(hrefFor(TABS[1].segment)), { preventDefault: true }, [
-		domain,
-		router,
-	]);
-	useHotkeys('alt+3', () => router.push(hrefFor(TABS[2].segment)), { preventDefault: true }, [
-		domain,
-		router,
-	]);
-	useHotkeys('alt+4', () => router.push(hrefFor(TABS[3].segment)), { preventDefault: true }, [
-		domain,
-		router,
-	]);
-	useHotkeys('alt+5', () => router.push(hrefFor(TABS[4].segment)), { preventDefault: true }, [
-		domain,
-		router,
-	]);
+	const trackTab = (key: string) =>
+		trackEvent('lookup-tab', { tab: key, domain, tld: getTLD(domain) ?? undefined });
+
+	const goToTab = (tab: TabWithIndex) => {
+		trackTab(tab.key);
+		router.push(hrefFor(tab.segment));
+	};
+
+	useHotkeys('alt+1', () => goToTab(TABS[0]), { preventDefault: true }, [domain, router]);
+	useHotkeys('alt+2', () => goToTab(TABS[1]), { preventDefault: true }, [domain, router]);
+	useHotkeys('alt+3', () => goToTab(TABS[2]), { preventDefault: true }, [domain, router]);
+	useHotkeys('alt+4', () => goToTab(TABS[3]), { preventDefault: true }, [domain, router]);
+	useHotkeys('alt+5', () => goToTab(TABS[4]), { preventDefault: true }, [domain, router]);
 
 	const hint = isApple ? '⌥' : 'Alt';
 
@@ -72,6 +67,7 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 							<Link
 								href={href}
 								prefetch
+								onClick={() => trackTab(tab.key)}
 								className={cn(
 									'group relative inline-flex items-baseline gap-2 py-3 text-sm font-medium tracking-tight whitespace-nowrap transition-colors',
 									isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',

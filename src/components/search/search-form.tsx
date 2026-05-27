@@ -8,7 +8,8 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useIsApple } from '@/hooks/use-is-apple';
-import { cleanForLookup } from '@/lib/domain';
+import { trackEvent } from '@/lib/analytics';
+import { cleanForLookup, getTLD } from '@/lib/domain';
 import { cn, isAppleDevice } from '@/lib/utils';
 
 type SearchFormProps = {
@@ -60,6 +61,8 @@ const SearchForm: FC<SearchFormProps> = ({
 			setSubmitting(false);
 			return;
 		}
+
+		trackEvent('lookup', { domain: cleaned, tld: getTLD(cleaned) ?? undefined });
 
 		const target = `/lookup/${cleaned}`;
 		if (pathname === target) {
