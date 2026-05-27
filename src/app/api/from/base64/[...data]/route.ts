@@ -35,5 +35,5 @@ export async function GET(request: Request, { params }: { params: Promise<{ data
 	const domain = cleanForLookup(candidate);
 	if (!domain) return NextResponse.redirect(home, 307);
 
-	return NextResponse.redirect(new URL(`/lookup/${domain}`, request.url), 307);
+	return NextResponse.redirect(`https://digga.dev/lookup/${domain}`, 307);
 }
