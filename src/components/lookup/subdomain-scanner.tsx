@@ -95,22 +95,19 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain }) => {
 	return (
 		<div className="border-border/60 bg-card/40 mx-auto flex max-w-xl flex-col items-center rounded-3xl border border-dashed px-6 py-14 text-center">
 			<span className="bg-muted text-foreground mb-5 inline-flex size-14 items-center justify-center rounded-2xl">
-				{pending ? <Loader2 className="size-6 animate-spin" /> : <Layers className="size-6" />}
+				<Layers className="size-6" />
 			</span>
 
-			<h2 className="text-foreground text-xl font-semibold tracking-tight">
-				{pending ? 'Scanning sources' : 'Discover subdomains'}
-			</h2>
+			<h2 className="text-foreground text-xl font-semibold tracking-tight">Discover subdomains</h2>
 			<p className="text-muted-foreground mt-2 max-w-sm text-sm leading-relaxed">
-				{pending
-					? 'Querying passive sources like Certificate Transparency and friends. This usually takes a few seconds.'
-					: 'Passive enumeration from public sources. No active probes hit the target, results come from public records only.'}
+				Passive enumeration from public sources. No active probes hit the target, results come from
+				public records only.
 			</p>
 
 			<div className="mt-7 flex flex-col items-center gap-3">
 				<Button onClick={onScan} disabled={pending} size="lg" className="gap-2 rounded-xl">
 					{pending ? <Loader2 className="size-4 animate-spin" /> : <Play className="size-4" />}
-					{pending ? 'Scanning' : 'Run scan'}
+					Run scan
 				</Button>
 
 				{captchaRequired && TURNSTILE_SITE_KEY ? (
