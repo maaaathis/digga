@@ -31,6 +31,16 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'AnonAddy', domain: 'addy.io', match: ['anonaddy.me', 'addy.io'] },
 	{ name: 'mailbox.org', domain: 'mailbox.org', match: ['mailbox.org'] },
 	{ name: 'T-Online', domain: 't-online.de', match: ['t-online.de'] },
+	{ name: 'netcup', domain: 'netcup.net', match: ['netcup.net'] },
+	{ name: 'STRATO', domain: 'strato.de', match: ['rzone.de'] },
+	{ name: 'Hetzner', domain: 'hetzner.com', match: ['your-server.de'] },
+	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
+	{ name: 'DomainFactory', domain: 'df.eu', match: ['ispgateway.de'] },
+	{ name: 'Host Europe', domain: 'hosteurope.de', match: ['hosteurope.de'] },
+	{ name: 'Infomaniak', domain: 'infomaniak.com', match: ['infomaniak.ch', 'infomaniak.com'] },
+	{ name: 'OVHcloud', domain: 'ovhcloud.com', match: ['ovh.net'] },
+	{ name: 'Namecheap Private Email', domain: 'namecheap.com', match: ['privateemail.com'] },
+	{ name: 'Titan Email', domain: 'titan.email', match: ['titan.email'] },
 ];
 
 function mxHost(data: string): string {

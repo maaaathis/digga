@@ -20,13 +20,17 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'DigitalOcean', domain: 'digitalocean.com', match: ['digitalocean.com'] },
 	{ name: 'Vercel', domain: 'vercel.com', match: ['vercel-dns.com'] },
 	{ name: 'GoDaddy', domain: 'godaddy.com', match: ['domaincontrol.com'] },
-	{ name: 'Namecheap', domain: 'namecheap.com', match: ['registrar-servers.com'] },
+	{
+		name: 'Namecheap',
+		domain: 'namecheap.com',
+		match: ['registrar-servers.com', 'namecheaphosting.com'],
+	},
 	{
 		name: 'IONOS',
 		domain: 'ionos.com',
 		match: ['ui-dns.com', 'ui-dns.de', 'ui-dns.org', 'ui-dns.biz'],
 	},
-	{ name: 'OVHcloud', domain: 'ovhcloud.com', match: ['ovh.net'] },
+	{ name: 'OVHcloud', domain: 'ovhcloud.com', match: ['ovh.net', 'anycast.me'] },
 	{
 		name: 'Hetzner',
 		domain: 'hetzner.com',
@@ -37,11 +41,23 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'deSEC', domain: 'desec.io', match: ['desec.io', 'desec.org'] },
 	{ name: 'ClouDNS', domain: 'cloudns.net', match: ['cloudns.net'] },
 	{ name: 'DNS Made Easy', domain: 'dnsmadeeasy.com', match: ['dnsmadeeasy.com'] },
-	{ name: 'DNSimple', domain: 'dnsimple.com', match: ['dnsimple.com'] },
-	{ name: 'NS1', domain: 'ns1.com', match: ['nsone.net'] },
+	{
+		name: 'DNSimple',
+		domain: 'dnsimple.com',
+		match: [
+			'dnsimple.com',
+			'dnsimple-edge.com',
+			'dnsimple-edge.net',
+			'dnsimple-edge.io',
+			'dnsimple-edge.org',
+		],
+	},
+	{ name: 'IBM NS1 Connect', domain: 'ns1.com', match: ['nsone.net'] },
 	{ name: 'Bunny', domain: 'bunny.net', match: ['bunny.net'] },
 	{ name: 'mittwald', domain: 'mittwald.de', match: ['agenturserver.de'] },
 	{ name: 'T-Online', domain: 't-online.de', match: ['t-online.de'] },
+	{ name: 'netcup', domain: 'netcup.net', match: ['netcup.net'] },
+	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
 ];
 
 function nsHost(host: string): string {
