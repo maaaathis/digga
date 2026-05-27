@@ -18,6 +18,8 @@ const COMMON_DKIM_SELECTORS = [
 	'k1',
 	'mail',
 	'dkim',
+	'dk1',
+	'dk2',
 	'smtp',
 	'resend',
 	'mandrill',
