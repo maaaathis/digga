@@ -5,6 +5,7 @@ import { type FC, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
 import { type SubdomainScanResult, scanSubdomains } from '@/app/lookup/[domain]/subdomains/actions';
+import StateNotice from '@/components/lookup/state-notice';
 import SubdomainResults from '@/components/lookup/subdomain-results';
 import TurnstileWidget from '@/components/turnstile-widget';
 import { Button } from '@/components/ui/button';
@@ -93,43 +94,45 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain }) => {
 	}
 
 	return (
-		<div className="border-border/60 bg-card/40 mx-auto flex max-w-xl flex-col items-center rounded-3xl border border-dashed px-6 py-14 text-center">
-			<span className="bg-muted text-foreground mb-5 inline-flex size-14 items-center justify-center rounded-2xl">
-				<Layers className="size-6" />
-			</span>
+		<StateNotice
+			tone="neutral"
+			icon={<Layers className="size-9" />}
+			title="Discover subdomains"
+			description="Passive enumeration from public sources. No active probes hit the target, results come from public records only."
+		>
+			<Button
+				onClick={onScan}
+				disabled={pending}
+				size="lg"
+				className="h-12 px-7 text-base font-semibold"
+			>
+				{pending ? (
+					<Loader2 data-icon="inline-start" className="size-4 animate-spin" />
+				) : (
+					<Play data-icon="inline-start" className="size-4" />
+				)}
+				Run scan
+			</Button>
 
-			<h2 className="text-foreground text-xl font-semibold tracking-tight">Discover subdomains</h2>
-			<p className="text-muted-foreground mt-2 max-w-sm text-sm leading-relaxed">
-				Passive enumeration from public sources. No active probes hit the target, results come from
-				public records only.
-			</p>
-
-			<div className="mt-7 flex flex-col items-center gap-3">
-				<Button onClick={onScan} disabled={pending} size="lg" className="gap-2 rounded-xl">
-					{pending ? <Loader2 className="size-4 animate-spin" /> : <Play className="size-4" />}
-					Run scan
-				</Button>
-
-				{captchaRequired && TURNSTILE_SITE_KEY ? (
-					<div className="flex flex-col items-center gap-2">
-						<TurnstileWidget
-							siteKey={TURNSTILE_SITE_KEY}
-							onVerify={setCaptchaToken}
-							onExpire={() => setCaptchaToken(null)}
-							resetSignal={captchaReset}
-						/>
-						<p className="text-muted-foreground flex items-center gap-1.5 text-xs">
-							<ShieldCheck className="size-3.5" />A quick human check keeps the scanner free for
-							everyone.
-						</p>
-					</div>
-				) : null}
-			</div>
+			{captchaRequired && TURNSTILE_SITE_KEY ? (
+				<div className="flex flex-col items-center gap-2">
+					<TurnstileWidget
+						siteKey={TURNSTILE_SITE_KEY}
+						onVerify={setCaptchaToken}
+						onExpire={() => setCaptchaToken(null)}
+						resetSignal={captchaReset}
+					/>
+					<p className="text-muted-foreground flex items-center gap-1.5 text-xs">
+						<ShieldCheck className="size-3.5" />A quick human check keeps the scanner free for
+						everyone.
+					</p>
+				</div>
+			) : null}
 
 			{errorMessage ? (
-				<p className="text-destructive mt-6 max-w-sm text-sm">{errorMessage}</p>
+				<p className="text-destructive mt-2 max-w-sm text-sm">{errorMessage}</p>
 			) : null}
-		</div>
+		</StateNotice>
 	);
 };
 

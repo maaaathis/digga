@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { type FC, Fragment } from 'react';
 
+import StateNotice from '@/components/lookup/state-notice';
 import WhoisTabs from '@/components/lookup/whois-tabs';
 import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { lookupRdap } from '@/lib/rdap/client';
@@ -73,26 +74,25 @@ const WhoisPage: FC<PageProps<'/lookup/[domain]/whois'>> = async ({ params }) =>
 
 	if (!hasRdap && !hasWhois) {
 		return (
-			<div className="bg-card border-border/60 mx-auto max-w-xl rounded-2xl border p-8 text-center shadow-sm">
-				<div className="bg-muted text-muted-foreground mx-auto mb-4 inline-flex size-12 items-center justify-center rounded-xl">
-					<AlertOctagon className="size-6" />
-				</div>
-				<h2 className="text-foreground text-xl font-semibold tracking-tight">
-					Registration data unavailable
-				</h2>
-				<p className="text-muted-foreground mt-2 text-sm">
-					Neither RDAP nor WHOIS returned data for this domain. Try{' '}
-					<Link
-						href={`https://lookup.icann.org/whois/en?q=${data.base}&t=a`}
-						target="_blank"
-						rel="noreferrer noopener"
-						className="hover:text-foreground underline underline-offset-4"
-					>
-						ICANN
-					</Link>
-					.
-				</p>
-			</div>
+			<StateNotice
+				tone="neutral"
+				icon={<AlertOctagon className="size-9" />}
+				title="Registration data unavailable"
+				description={
+					<>
+						Neither RDAP nor WHOIS returned data for this domain. Try{' '}
+						<Link
+							href={`https://lookup.icann.org/whois/en?q=${data.base}&t=a`}
+							target="_blank"
+							rel="noreferrer noopener"
+							className="hover:text-foreground underline underline-offset-4"
+						>
+							ICANN
+						</Link>
+						.
+					</>
+				}
+			/>
 		);
 	}
 
@@ -112,27 +112,26 @@ const RegistryNotice: FC<{
 	registryUrl: string;
 	base: string;
 }> = ({ tld, registryUrl, base }) => (
-	<div className="bg-card border-border/60 mx-auto max-w-xl rounded-2xl border p-8 text-center shadow-sm">
-		<div className="bg-muted text-muted-foreground mx-auto mb-4 inline-flex size-12 items-center justify-center rounded-xl">
-			<ScrollText className="size-6" />
-		</div>
-		<h2 className="text-foreground text-xl font-semibold tracking-tight">
-			Registry does not allow automated lookups
-		</h2>
-		<p className="text-muted-foreground mt-2 text-sm">
-			SWITCH, the registry for {`.${tld}`} domains, blocks automated WHOIS and RDAP queries. Try a
-			manual lookup at{' '}
-			<Link
-				href={registryUrl}
-				target="_blank"
-				rel="noreferrer noopener"
-				className="hover:text-foreground underline underline-offset-4"
-			>
-				SWITCH
-			</Link>{' '}
-			for <span className="font-mono">{base}</span>.
-		</p>
-	</div>
+	<StateNotice
+		tone="neutral"
+		icon={<ScrollText className="size-9" />}
+		title="Registry does not allow automated lookups"
+		description={
+			<>
+				SWITCH, the registry for {`.${tld}`} domains, blocks automated WHOIS and RDAP queries. Try a
+				manual lookup at{' '}
+				<Link
+					href={registryUrl}
+					target="_blank"
+					rel="noreferrer noopener"
+					className="hover:text-foreground underline underline-offset-4"
+				>
+					SWITCH
+				</Link>{' '}
+				for <span className="font-mono">{base}</span>.
+			</>
+		}
+	/>
 );
 
 const RdapPanel: FC<{ data: NormalizedRdap }> = ({ data }) => (

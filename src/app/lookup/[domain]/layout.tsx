@@ -1,14 +1,15 @@
-import { ExternalLink } from 'lucide-react';
+import { AlertTriangle, ExternalLink } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import type { FC } from 'react';
 
 import DomainMark from '@/components/lookup/domain-mark';
 import LookupTabs from '@/components/lookup/lookup-tabs';
 import ShareButton from '@/components/lookup/share-button';
+import StateNotice from '@/components/lookup/state-notice';
 import SearchForm from '@/components/search/search-form';
 import StarPrompt from '@/components/star-prompt';
+import { Button } from '@/components/ui/button';
 import { SITE_NAME } from '@/lib/data';
 import { isValidLookupDomain, normalizeDomain, toUnicodeDomain } from '@/lib/domain';
 import { absoluteUrl, buildMetadata } from '@/lib/seo';
@@ -35,7 +36,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const LookupLayout: FC<Props> = async ({ children, params }) => {
 	const { domain } = await params;
 	const normalized = normalizeDomain(decodeURIComponent(domain));
-	if (!isValidLookupDomain(normalized)) notFound();
+	if (!isValidLookupDomain(normalized)) {
+		return (
+			<div className="mx-auto w-full max-w-6xl px-5 pt-6 pb-16">
+				<StateNotice
+					tone="warning"
+					titleAs="h1"
+					icon={<AlertTriangle className="size-9" />}
+					title="Not a valid domain"
+					description="The thing you typed does not look like a domain we can look up. Try an apex, subdomain, or full URL."
+				>
+					<Button asChild size="lg" className="h-12 px-7 text-base font-semibold">
+						<Link href="/">Back to search</Link>
+					</Button>
+				</StateNotice>
+			</div>
+		);
+	}
 
 	const display = toUnicodeDomain(normalized);
 	const lookupUrl = absoluteUrl(`/lookup/${normalized}`);
