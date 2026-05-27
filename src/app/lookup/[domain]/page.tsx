@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Globe, Mail } from 'lucide-react';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
@@ -21,12 +22,50 @@ import { getIpsOrgMap } from '@/lib/ip';
 import { persistIpMetadata } from '@/lib/ip-metadata';
 import { persistObservations } from '@/lib/observations';
 import { getRegistrationInfo } from '@/lib/registration';
+import { buildMetadata } from '@/lib/seo';
 import { maskIpLastOctet } from '@/lib/utils';
 import { isDomainAvailable } from '@/lib/whois';
 
 export const fetchCache = 'default-no-store';
 
 type Props = PageProps<'/lookup/[domain]'>;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const { domain } = await params;
+	const normalized = normalizeDomain(decodeURIComponent(domain));
+	if (!isValidLookupDomain(normalized)) {
+		return buildMetadata({ title: 'Lookup', path: `/lookup/${domain}`, noIndex: true });
+	}
+
+	const registration = await getRegistrationInfo(normalized).catch(() => null);
+	const facts: string[] = [];
+	if (registration?.registrar) facts.push(`registered with ${registration.registrar}`);
+	const created = registration
+		? findEventDate(registration.events, ['registration', 'created'])
+		: null;
+	if (created) {
+		const year = new Date(created).getFullYear();
+		if (!Number.isNaN(year)) facts.push(`live since ${year}`);
+	}
+	if (registration?.dnssec === true) facts.push('DNSSEC signed');
+	else if (registration?.dnssec === false) facts.push('no DNSSEC');
+	if (registration && registration.nameservers.length > 0) {
+		facts.push(`${registration.nameservers.length} nameservers`);
+	}
+
+	const lead = facts.length > 0 ? `${facts.join(', ')}. ` : '';
+	const description =
+		`${normalized}: ${lead}DNS records, RDAP and WHOIS registration, subdomains, and email security (SPF, DKIM, DMARC) in one report.`.slice(
+			0,
+			300,
+		);
+
+	return buildMetadata({
+		title: `${normalized} · Domain report`,
+		description,
+		path: `/lookup/${normalized}`,
+	});
+}
 
 function findEventDate(
 	events: { action: string; date: string }[] | undefined,
