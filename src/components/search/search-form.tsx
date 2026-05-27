@@ -77,7 +77,7 @@ const SearchForm: FC<SearchFormProps> = ({
 				<div
 					className={cn(
 						'bg-background/80 ring-border/60 supports-[backdrop-filter]:bg-background/60 group-focus-within:ring-foreground/30 relative flex w-full items-center gap-2 rounded-2xl p-1.5 shadow-sm ring-1 backdrop-blur transition-shadow',
-						size === 'lg' && 'rounded-3xl p-2',
+						size === 'lg' && 'ring-foreground/15 rounded-3xl p-2 shadow-lg ring-2',
 					)}
 				>
 					<Search
@@ -103,7 +103,7 @@ const SearchForm: FC<SearchFormProps> = ({
 						onChange={(event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value)}
 						className={cn(
 							'h-10 flex-1 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent',
-							size === 'lg' && 'h-12 text-lg',
+							size === 'lg' && 'h-12 text-3xl font-semibold tracking-tight',
 						)}
 					/>
 					<kbd className="bg-background text-muted-foreground ring-border/70 pointer-events-none mr-1 hidden h-6 items-center gap-0.5 rounded-md px-2 font-mono text-[11px] font-medium tracking-tight ring-1 select-none sm:inline-flex">
