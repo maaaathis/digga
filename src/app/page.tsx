@@ -235,9 +235,9 @@ const Home: FC = () => (
 		/>
 
 		<section className="mx-auto flex w-full max-w-5xl flex-col items-center px-5 pt-16 pb-16 text-center md:pt-24">
-			<LogoMark className="text-foreground mb-10 h-28 w-auto md:h-36" aria-hidden />
+			<LogoMark className="text-foreground mb-8 h-24 w-auto md:mb-10 md:h-36" aria-hidden />
 
-			<h1 className="font-display text-foreground text-balance text-5xl leading-[1.05] font-semibold md:text-7xl">
+			<h1 className="font-display text-foreground text-balance text-4xl leading-[1.07] font-semibold md:text-7xl md:leading-[1.05]">
 				Domain research that actually
 				<br />
 				tells you what is going on.

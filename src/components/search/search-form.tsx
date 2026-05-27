@@ -109,7 +109,7 @@ const SearchForm: FC<SearchFormProps> = ({
 						className={cn(
 							'h-10 flex-1 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent',
 							size === 'md' && 'h-11 text-base font-medium sm:text-lg',
-							size === 'lg' && 'h-12 text-3xl font-semibold tracking-tight',
+							size === 'lg' && 'h-12 text-2xl font-semibold tracking-tight sm:text-3xl',
 						)}
 					/>
 					<kbd className="bg-background text-muted-foreground ring-border/70 pointer-events-none mr-1 hidden h-6 items-center gap-0.5 rounded-md px-2 font-mono text-[11px] font-medium tracking-tight ring-1 select-none sm:inline-flex">
