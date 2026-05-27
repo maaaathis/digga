@@ -430,7 +430,7 @@ const Home: FC = () => (
 				Start with one of the example domains or paste your own.
 			</p>
 			<div className="mt-8">
-				<SearchForm size="lg" />
+				<SearchForm size="md" />
 			</div>
 		</section>
 	</div>

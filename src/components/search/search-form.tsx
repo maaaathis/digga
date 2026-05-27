@@ -16,7 +16,7 @@ type SearchFormProps = {
 	initialValue?: string;
 	autofocus?: boolean;
 	className?: string;
-	size?: 'default' | 'lg';
+	size?: 'default' | 'md' | 'lg';
 };
 
 const SearchForm: FC<SearchFormProps> = ({
@@ -80,12 +80,14 @@ const SearchForm: FC<SearchFormProps> = ({
 				<div
 					className={cn(
 						'bg-background/80 ring-border/60 supports-[backdrop-filter]:bg-background/60 group-focus-within:ring-foreground/30 relative flex w-full items-center gap-2 rounded-2xl p-1.5 shadow-sm ring-1 backdrop-blur transition-shadow',
+						size === 'md' && 'rounded-2xl p-2',
 						size === 'lg' && 'ring-foreground/15 rounded-3xl p-2 shadow-lg ring-2',
 					)}
 				>
 					<Search
 						className={cn(
 							'text-muted-foreground ml-2 size-4 shrink-0',
+							size === 'md' && 'ml-2.5 sm:size-5',
 							size === 'lg' && 'ml-3 size-5',
 						)}
 					/>
@@ -106,6 +108,7 @@ const SearchForm: FC<SearchFormProps> = ({
 						onChange={(event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value)}
 						className={cn(
 							'h-10 flex-1 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent',
+							size === 'md' && 'h-11 text-base font-medium sm:text-lg',
 							size === 'lg' && 'h-12 text-3xl font-semibold tracking-tight',
 						)}
 					/>
@@ -121,6 +124,7 @@ const SearchForm: FC<SearchFormProps> = ({
 						disabled={submitting}
 						className={cn(
 							'h-10 rounded-xl px-5',
+							size === 'md' && 'h-11 rounded-xl px-5',
 							size === 'lg' && 'h-12 rounded-2xl px-6 text-base',
 						)}
 						aria-label="Lookup domain"

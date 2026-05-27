@@ -103,7 +103,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 			/>
 			<div className="mx-auto mb-12 max-w-xl">
-				<SearchForm initialValue={normalized} size="lg" />
+				<SearchForm initialValue={normalized} size="md" />
 			</div>
 
 			<div className="border-border/60 mb-8 border-b pb-8">
