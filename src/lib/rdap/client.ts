@@ -1,5 +1,7 @@
 import 'server-only';
 
+import { unstable_cache } from 'next/cache';
+
 import { getBaseDomain, getTLD, isValidLookupDomain } from '@/lib/domain';
 
 import { getRdapServersForTld } from './bootstrap';
@@ -7,6 +9,7 @@ import { normalizeRdap } from './normalize';
 import type { NormalizedRdap, RdapDomain } from './types';
 
 const FETCH_TIMEOUT_MS = 5_000;
+const CACHE_TTL_SECONDS = 3_600;
 
 export type RdapLookupResult =
 	| { kind: 'ok'; data: NormalizedRdap }
@@ -14,7 +17,28 @@ export type RdapLookupResult =
 	| { kind: 'not-found' }
 	| { kind: 'error'; status?: number; message: string };
 
+const cachedLookupRdap = unstable_cache(
+	async (input: string): Promise<RdapLookupResult> => {
+		const result = await lookupRdapImpl(input);
+		if (result.kind === 'error') throw result;
+		return result;
+	},
+	['rdap-domain'],
+	{ revalidate: CACHE_TTL_SECONDS },
+);
+
 export async function lookupRdap(input: string): Promise<RdapLookupResult> {
+	try {
+		return await cachedLookupRdap(input);
+	} catch (thrown) {
+		if (thrown && typeof thrown === 'object' && 'kind' in thrown) {
+			return thrown as RdapLookupResult;
+		}
+		return { kind: 'error', message: 'RDAP lookup failed' };
+	}
+}
+
+async function lookupRdapImpl(input: string): Promise<RdapLookupResult> {
 	const base = getBaseDomain(input);
 	if (!base || !isValidLookupDomain(base)) {
 		return { kind: 'error', message: 'Invalid domain' };
