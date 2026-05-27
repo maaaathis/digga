@@ -20,6 +20,7 @@ import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/l
 import { analyzeEmailEssentials } from '@/lib/email-security';
 import { getIpsOrgMap } from '@/lib/ip';
 import { persistIpMetadata } from '@/lib/ip-metadata';
+import { detectMailProvider } from '@/lib/mail-provider';
 import { persistObservations } from '@/lib/observations';
 import { getRegistrationInfo } from '@/lib/registration';
 import { buildMetadata } from '@/lib/seo';
@@ -189,6 +190,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						records={mxRecords}
 						icon={<Mail className="size-3.5" />}
 						emptyText="No MX records. This domain probably does not receive mail."
+						provider={detectMailProvider(mxRecords)}
 					/>
 					{registration ? <NameserverWidget registration={registration} /> : null}
 				</div>

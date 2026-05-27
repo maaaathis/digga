@@ -2,8 +2,10 @@ import { Building2, CalendarClock, KeyRound, Server, ShieldCheck } from 'lucide-
 import type { FC } from 'react';
 
 import CopyButton from '@/components/copy-button';
+import ProviderBadge from '@/components/lookup/provider-badge';
 import Widget from '@/components/lookup/widget';
 import { Badge } from '@/components/ui/badge';
+import { detectDnsProvider } from '@/lib/dns-provider';
 import type { RegistrationInfo } from '@/lib/registration';
 
 type RegistrationProps = { registration: RegistrationInfo };
@@ -122,6 +124,8 @@ export const StatusWidget: FC<RegistrationProps> = ({ registration }) => {
 export const NameserverWidget: FC<RegistrationProps> = ({ registration }) => {
 	if (registration.nameservers.length === 0) return null;
 
+	const provider = detectDnsProvider(registration.nameservers);
+
 	return (
 		<Widget
 			variant="section"
@@ -129,6 +133,9 @@ export const NameserverWidget: FC<RegistrationProps> = ({ registration }) => {
 			icon={<Server className="size-3.5" />}
 			subtitle={`${registration.nameservers.length} delegated`}
 		>
+			{provider ? (
+				<ProviderBadge name={provider.name} domain={provider.domain} label="DNS provider" />
+			) : null}
 			<ul className="space-y-1.5">
 				{registration.nameservers.map(ns => (
 					<li
