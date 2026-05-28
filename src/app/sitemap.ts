@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const base = siteUrl();
 	if (!base) return [];
 
-	const topDomains = await getTopDomains(1500).catch(() => []);
+	const topDomains = await getTopDomains(2200).catch(() => []);
 	const domains = deduplicate([...EXAMPLE_DOMAINS, ...topDomains]).sort(compareLengthThenAlpha);
 
 	const lookupEntries = domains.flatMap(domain =>
