@@ -11,6 +11,7 @@ Disallow: /lookup/*/subdomains
 Content-Signal: ai-train=yes, search=yes, ai-input=yes
 
 Sitemap: ${base}/sitemap.xml
+Sitemap: ${base}/sitemap-common.xml
 Host: ${base}
 `;
 
