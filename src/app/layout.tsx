@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import Analytics from '@/components/analytics';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/data';
+import { SEO_KEYWORDS, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/data';
 import { siteUrl } from '@/lib/seo';
 import { cn } from '@/lib/utils';
 
@@ -38,19 +38,7 @@ export const metadata: Metadata = {
 	},
 	description: SITE_DESCRIPTION,
 	applicationName: SITE_NAME,
-	keywords: [
-		'digga',
-		'domain lookup',
-		'dns lookup',
-		'rdap',
-		'whois',
-		'dns records',
-		'subdomain finder',
-		'domain research',
-		'infrastructure research',
-		'dig online',
-	],
-	authors: [{ name: 'maaaathis', url: 'https://github.com/maaaathis' }],
+	keywords: [...SEO_KEYWORDS],
 	openGraph: {
 		type: 'website',
 		siteName: SITE_NAME,

@@ -13,7 +13,7 @@ export async function generateMetadata({
 	const normalized = normalizeDomain(decodeURIComponent(domain));
 	return buildMetadata({
 		title: `Subdomains for ${normalized}`,
-		description: `Passive subdomain discovery for ${normalized}.`,
+		description: `Passive subdomain finder for ${normalized}. Discover public subdomains from Certificate Transparency and other passive sources.`,
 		path: `/lookup/${normalized}/subdomains`,
 	});
 }

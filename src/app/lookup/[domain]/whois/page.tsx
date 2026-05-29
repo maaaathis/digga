@@ -21,7 +21,7 @@ export async function generateMetadata({
 	const normalized = normalizeDomain(decodeURIComponent(domain));
 	return buildMetadata({
 		title: `RDAP and WHOIS for ${normalized}`,
-		description: `Registration data for ${normalized}. RDAP first with WHOIS fallback.`,
+		description: `WHOIS and RDAP lookup for ${normalized}. Check registrar, nameservers, domain status, creation dates, expiration dates, and DNSSEC data.`,
 		path: `/lookup/${normalized}/whois`,
 	});
 }

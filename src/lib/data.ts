@@ -10,4 +10,25 @@ export const EXAMPLE_DOMAINS = [
 export const SITE_NAME = 'digga';
 export const SITE_TAGLINE = 'Domain & Infrastructure research';
 export const SITE_DESCRIPTION =
-	'All in one toolkit for DNS, RDAP, WHOIS, and subdomain research. Enter any domain to dig into its infrastructure.';
+	'Free domain lookup for DNS records, RDAP, WHOIS, subdomains, IPs, and email security. Research any domain in one fast report.';
+export const SEO_KEYWORDS = [
+	'digga',
+	'domain dig',
+	'google dig',
+	'domain lookup',
+	'domain checker',
+	'dns lookup',
+	'dns records',
+	'whois lookup',
+	'rdap lookup',
+	'subdomain finder',
+	'subdomain lookup',
+	'email security check',
+	'spf lookup',
+	'dkim lookup',
+	'dmarc lookup',
+	'dnssec lookup',
+	'ip lookup',
+	'asn lookup',
+	'infrastructure research',
+] as const;

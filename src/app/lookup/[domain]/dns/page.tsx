@@ -16,7 +16,7 @@ export async function generateMetadata({
 	const normalized = normalizeDomain(decodeURIComponent(domain));
 	return buildMetadata({
 		title: `DNS records for ${normalized}`,
-		description: `Live DNS records for ${normalized}: A, AAAA, MX, NS, TXT, CAA, and more. Switch between Cloudflare, Google, and Alibaba resolvers.`,
+		description: `Live DNS lookup for ${normalized}. Check A, AAAA, MX, NS, TXT, CAA, DNSSEC, and more across Cloudflare, Google, and Alibaba resolvers.`,
 		path: `/lookup/${normalized}/dns`,
 	});
 }

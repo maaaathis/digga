@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/data';
+import { SEO_KEYWORDS, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/data';
 
 export function siteUrl(): string {
 	return process.env.SITE_URL ?? 'http://localhost:3000';
@@ -27,6 +27,7 @@ export function buildMetadata({
 	return {
 		title,
 		description,
+		keywords: [...SEO_KEYWORDS],
 		alternates: { canonical: url },
 		openGraph: {
 			type: 'website',

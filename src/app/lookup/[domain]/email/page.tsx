@@ -16,7 +16,7 @@ export async function generateMetadata({
 	const normalized = normalizeDomain(decodeURIComponent(domain));
 	return buildMetadata({
 		title: `Email security for ${normalized}`,
-		description: `SPF, DKIM, DMARC, MTA-STS, TLS-RPT, and BIMI checks for ${normalized}. See how well the domain is protected against email spoofing.`,
+		description: `Email security check for ${normalized}. Analyze SPF, DKIM, DMARC, MTA-STS, TLS-RPT, and BIMI to spot spoofing and deliverability risks.`,
 		path: `/lookup/${normalized}/email`,
 	});
 }
