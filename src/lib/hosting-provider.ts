@@ -16,7 +16,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'OVHcloud', domain: 'ovhcloud.com', match: ['ovh'] },
 	{ name: 'DigitalOcean', domain: 'digitalocean.com', match: ['digitalocean'] },
 	{ name: 'IONOS', domain: 'ionos.com', match: ['ionos', '1&1', '1und1'] },
-	{ name: 'netcup', domain: 'netcup.net', match: ['netcup'] },
+	{ name: 'netcup', domain: 'netcup.com', match: ['netcup'] },
 	{ name: 'mittwald', domain: 'mittwald.de', match: ['mittwald'] },
 	{ name: 'Vercel', domain: 'vercel.com', match: ['vercel'] },
 	{ name: 'Akamai', domain: 'akamai.com', match: ['akamai', 'linode'] },
