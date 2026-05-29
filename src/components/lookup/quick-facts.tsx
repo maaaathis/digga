@@ -11,7 +11,10 @@ import {
 } from 'lucide-react';
 import type { FC, ReactNode } from 'react';
 
+import type { HostingProvider } from '@/lib/hosting-provider';
 import { cn } from '@/lib/utils';
+
+import HostingLogo from './hosting-logo';
 
 type Fact = {
 	icon: ReactNode;
@@ -61,6 +64,7 @@ export function buildQuickFacts(input: {
 	hasMx: boolean;
 	registrar?: string | null;
 	hostingOrg?: string | null;
+	hostingProvider?: HostingProvider | null;
 	emailPosture?: EmailPosture | null;
 }): Fact[] {
 	const facts: Fact[] = [];
@@ -109,11 +113,16 @@ export function buildQuickFacts(input: {
 		tone: input.dnssec ? 'good' : 'muted',
 	});
 
-	if (input.hostingOrg) {
+	if (input.hostingOrg || input.hostingProvider) {
+		const provider = input.hostingProvider;
 		facts.push({
 			icon: <Server className="size-3.5" />,
 			label: 'Hosting',
-			value: input.hostingOrg,
+			value: provider ? (
+				<HostingLogo domain={provider.domain} name={provider.name} />
+			) : (
+				input.hostingOrg
+			),
 		});
 	}
 

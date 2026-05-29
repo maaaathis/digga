@@ -18,6 +18,7 @@ import { logDomainLookup } from '@/lib/bigquery';
 import { resolveRecordType } from '@/lib/dns/doh';
 import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { analyzeEmailEssentials } from '@/lib/email-security';
+import { detectHostingProvider } from '@/lib/hosting-provider';
 import { getIpsOrgMap } from '@/lib/ip';
 import { persistIpMetadata } from '@/lib/ip-metadata';
 import { detectMailProvider } from '@/lib/mail-provider';
@@ -140,6 +141,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 
 	const primaryIp = aRecords[0]?.data ?? aaaaRecords[0]?.data ?? null;
 	const hostingOrg = primaryIp ? (ipOrgMap[primaryIp]?.split(' / ')[0] ?? null) : null;
+	const hostingProvider = detectHostingProvider(hostingOrg);
 
 	const emailStatuses = [email.spf.status, email.dmarc.status];
 	const emailPosture: EmailPosture = emailStatuses.every(status => status === 'pass')
@@ -158,6 +160,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 		hasMx: mxRecords.length > 0,
 		registrar: registration?.registrar ?? null,
 		hostingOrg,
+		hostingProvider,
 		emailPosture,
 	});
 
