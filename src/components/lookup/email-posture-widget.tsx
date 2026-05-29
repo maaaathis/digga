@@ -42,7 +42,6 @@ const EmailPostureWidget: FC<{ domain: string; spf: EmailCheck; dmarc: EmailChec
 		variant="section"
 		title="Email security"
 		icon={<ShieldCheck className="size-3.5" />}
-		subtitle="Spoofing protection"
 		action={
 			<Link
 				href={`/lookup/${domain}/email`}

@@ -29,12 +29,7 @@ export const DomainDatesWidget: FC<RegistrationProps> = ({ registration }) => {
 	if (interesting.length === 0) return null;
 
 	return (
-		<Widget
-			variant="section"
-			title="Important dates"
-			icon={<CalendarClock className="size-3.5" />}
-			subtitle={registration.source === 'rdap' ? 'via RDAP' : 'via WHOIS'}
-		>
+		<Widget variant="section" title="Important dates" icon={<CalendarClock className="size-3.5" />}>
 			<dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 				{interesting.map(event => (
 					<div key={`${event.action}-${event.date}`} className="bg-muted/40 rounded-lg p-3">
@@ -56,12 +51,7 @@ export const RegistrantWidget: FC<RegistrationProps> = ({ registration }) => {
 	if (!hasContent) return null;
 
 	return (
-		<Widget
-			variant="section"
-			title="Registration"
-			icon={<Building2 className="size-3.5" />}
-			subtitle={registration.source === 'rdap' ? 'via RDAP' : 'via WHOIS'}
-		>
+		<Widget variant="section" title="Registration" icon={<Building2 className="size-3.5" />}>
 			<dl className="space-y-3 text-sm">
 				{registration.registrar ? (
 					<div>
@@ -127,12 +117,7 @@ export const NameserverWidget: FC<RegistrationProps> = ({ registration }) => {
 	const provider = detectDnsProvider(registration.nameservers);
 
 	return (
-		<Widget
-			variant="section"
-			title="Nameservers"
-			icon={<Server className="size-3.5" />}
-			subtitle={`${registration.nameservers.length} delegated`}
-		>
+		<Widget variant="section" title="Nameservers" icon={<Server className="size-3.5" />}>
 			{provider ? (
 				<ProviderBadge name={provider.name} domain={provider.domain} label="DNS provider" />
 			) : null}
