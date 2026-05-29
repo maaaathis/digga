@@ -25,6 +25,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Strato', domain: 'strato.de', match: ['strato'] },
 	{ name: 'GoDaddy', domain: 'godaddy.com', match: ['godaddy'] },
 	{ name: 'Hostinger', domain: 'hostinger.com', match: ['hostinger'] },
+	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['medien muennich', 'all-inkl', 'kasserver'] },
 ];
 
 export function detectHostingProvider(org: string | null | undefined): HostingProvider | null {

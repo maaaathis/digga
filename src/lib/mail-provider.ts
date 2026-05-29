@@ -31,7 +31,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'AnonAddy', domain: 'addy.io', match: ['anonaddy.me', 'addy.io'] },
 	{ name: 'mailbox.org', domain: 'mailbox.org', match: ['mailbox.org'] },
 	{ name: 'T-Online', domain: 't-online.de', match: ['t-online.de'] },
-	{ name: 'netcup', domain: 'netcup.net', match: ['netcup.net'] },
+	{ name: 'netcup', domain: 'netcup.com', match: ['netcup.net'] },
 	{ name: 'STRATO', domain: 'strato.de', match: ['rzone.de'] },
 	{ name: 'Hetzner', domain: 'hetzner.com', match: ['your-server.de'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
@@ -41,6 +41,14 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'OVHcloud', domain: 'ovhcloud.com', match: ['ovh.net'] },
 	{ name: 'Namecheap Private Email', domain: 'namecheap.com', match: ['privateemail.com'] },
 	{ name: 'Titan Email', domain: 'titan.email', match: ['titan.email'] },
+	{ name: 'United Domains', domain: 'united-domains.de', match: ['udag.de'] },
+	{ name: 'Yandex Mail', domain: 'yandex.com', match: ['mx.yandex.net', 'yandex.ru'] },
+	{ name: 'Rackspace Email', domain: 'rackspace.com', match: ['emailsrvr.com'] },
+	{ name: 'Migadu', domain: 'migadu.com', match: ['migadu.com'] },
+	{ name: 'Tuta', domain: 'tuta.com', match: ['tutanota.de'] },
+	{ name: 'Mailgun', domain: 'mailgun.com', match: ['mailgun.org'] },
+	{ name: 'SendGrid', domain: 'sendgrid.com', match: ['sendgrid.net'] },
+	{ name: 'Barracuda', domain: 'barracuda.com', match: ['barracudanetworks.com'] },
 ];
 
 function mxHost(data: string): string {
