@@ -24,6 +24,7 @@ const HostingLogo: FC<HostingLogoProps> = ({ domain, name }) => {
 					decoding="async"
 					onError={() => setFailed(true)}
 					className="size-4 shrink-0 rounded-sm"
+					draggable={false}
 				/>
 			)}
 			<span className="truncate">{name}</span>

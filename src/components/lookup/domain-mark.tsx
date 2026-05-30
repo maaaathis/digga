@@ -29,6 +29,7 @@ const DomainMark: FC<DomainMarkProps> = ({ domain }) => {
 				loading="eager"
 				decoding="async"
 				className="size-8 rounded-lg"
+				draggable={false}
 			/>
 		</span>
 	);

@@ -19,6 +19,7 @@ const ProviderBadge: FC<ProviderBadgeProps> = ({ name, domain, label }) => (
 			loading="lazy"
 			decoding="async"
 			className="size-5 shrink-0 rounded"
+			draggable={false}
 		/>
 		<span className="text-foreground truncate text-sm font-medium">{name}</span>
 		<span className="text-muted-foreground ml-auto shrink-0 text-[11px] tracking-wide uppercase">

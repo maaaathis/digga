@@ -36,6 +36,7 @@ const ExternalFavicon: FC<ExternalFaviconProps> = ({ url, size = 32, className }
 			onError={() => setImageError(true)}
 			className={cn('shrink-0 rounded-md', className)}
 			style={{ width: size, height: size }}
+			draggable={false}
 		/>
 	);
 };
