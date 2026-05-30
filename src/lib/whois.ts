@@ -14,6 +14,7 @@ type DomainWhoisData = {
 type DomainWhois = Record<string, DomainWhoisData>;
 
 import { getBaseDomain, getTLD, isValidLookupDomain } from '@/lib/domain';
+import { lookupRdap } from '@/lib/rdap/client';
 
 export enum DomainAvailability {
 	UNKNOWN = 'unknown',
@@ -126,6 +127,14 @@ async function isDomainAvailableImpl(input: string): Promise<boolean> {
 	if (!tld) return false;
 	if (tld === 'ch' || tld === 'li') return false;
 
+	const rdap = await lookupRdap(base);
+	if (rdap.kind === 'ok') return false;
+	if (rdap.kind === 'not-found') return true;
+
+	return whoisSaysAvailable(base);
+}
+
+async function whoisSaysAvailable(base: string): Promise<boolean> {
 	let result: DomainWhois | null;
 	try {
 		result = await whoisDomain(base, { follow: 1, timeout: 5_000 });
