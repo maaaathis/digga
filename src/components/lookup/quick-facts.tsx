@@ -73,12 +73,23 @@ export function buildQuickFacts(input: {
 		const date = new Date(input.registeredAt);
 		if (!Number.isNaN(date.getTime())) {
 			const now = new Date();
-			const years = now.getFullYear() - date.getFullYear();
-			const monthsRaw = years * 12 + (now.getMonth() - date.getMonth());
-			const age =
-				years >= 1
-					? `${years} year${years === 1 ? '' : 's'}`
-					: `${Math.max(monthsRaw, 1)} month${monthsRaw === 1 ? '' : 's'}`;
+			const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+			let age: string;
+			if (diffDays < 1) {
+				age = 'today';
+			} else if (diffDays < 30) {
+				age = `${diffDays} day${diffDays === 1 ? '' : 's'}`;
+			} else {
+				const monthsRaw =
+					(now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
+				if (monthsRaw >= 12) {
+					const years = Math.floor(monthsRaw / 12);
+					age = `${years} year${years === 1 ? '' : 's'}`;
+				} else {
+					const months = Math.max(monthsRaw, 1);
+					age = `${months} month${months === 1 ? '' : 's'}`;
+				}
+			}
 			facts.push({
 				icon: <Calendar className="size-3.5" />,
 				label: 'Age',
