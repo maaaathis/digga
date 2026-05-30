@@ -34,6 +34,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'netcup', domain: 'netcup.com', match: ['netcup.net'] },
 	{ name: 'STRATO', domain: 'strato.de', match: ['rzone.de'] },
 	{ name: 'Hetzner', domain: 'hetzner.com', match: ['your-server.de'] },
+	{ name: 'Hostinger', domain: 'hostinger.com', match: ['hostinger.com'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
 	{ name: 'DomainFactory', domain: 'df.eu', match: ['ispgateway.de'] },
 	{ name: 'Host Europe', domain: 'hosteurope.de', match: ['hosteurope.de'] },
