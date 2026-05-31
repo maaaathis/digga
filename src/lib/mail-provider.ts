@@ -41,6 +41,11 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Infomaniak', domain: 'infomaniak.com', match: ['infomaniak.ch', 'infomaniak.com'] },
 	{ name: 'OVHcloud', domain: 'ovhcloud.com', match: ['ovh.net'] },
 	{ name: 'Namecheap Private Email', domain: 'namecheap.com', match: ['privateemail.com'] },
+	{
+		name: 'Namecheap',
+		domain: 'namecheap.com',
+		match: ['registrar-servers.com'],
+	},
 	{ name: 'Titan Email', domain: 'titan.email', match: ['titan.email'] },
 	{ name: 'United Domains', domain: 'united-domains.de', match: ['udag.de'] },
 	{ name: 'Yandex Mail', domain: 'yandex.com', match: ['mx.yandex.net', 'yandex.ru'] },
