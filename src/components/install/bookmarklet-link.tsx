@@ -18,9 +18,10 @@ const BookmarkletLink: FC = () => {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
+		const base = JSON.stringify(`${location.origin}/lookup/`);
 		const raw = `
       (function(){
-        var tab = window.open('${location.origin}/lookup/'+location.hostname, '_blank');
+        var tab = window.open(${base} + encodeURIComponent(location.hostname), '_blank');
         if (!tab) { alert('Could not open results in new tab.'); return; }
         tab.focus();
       })();
