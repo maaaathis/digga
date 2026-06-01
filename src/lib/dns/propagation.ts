@@ -76,8 +76,7 @@ export type PropagationReport = {
  * regardless of that formatting, while the raw values are still shown as-is.
  */
 function normalizeForCompare(type: RecordType, values: string[]): string {
-	const normalized =
-		type === 'TXT' ? values.map(value => value.replace(/"/g, '').trim()) : values;
+	const normalized = type === 'TXT' ? values.map(value => value.replace(/"/g, '').trim()) : values;
 	return JSON.stringify([...normalized].sort());
 }
 

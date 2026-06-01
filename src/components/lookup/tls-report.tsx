@@ -30,23 +30,25 @@ function formatDate(input: string): string {
 }
 
 const ERROR_COPY: Record<TlsErrorReason, { title: string; description: string }> = {
-	timeout: {
+	'timeout': {
 		title: 'No response on port 443',
-		description: 'The host did not complete a TLS handshake in time. It may be down or blocking us.',
+		description:
+			'The host did not complete a TLS handshake in time. It may be down or blocking us.',
 	},
-	refused: {
+	'refused': {
 		title: 'Connection refused',
 		description: 'Nothing accepted an HTTPS connection on port 443 for this host.',
 	},
-	dns: {
+	'dns': {
 		title: 'Host did not resolve',
-		description: 'We could not resolve this domain to an address, so there was nothing to connect to.',
+		description:
+			'We could not resolve this domain to an address, so there was nothing to connect to.',
 	},
 	'no-tls': {
 		title: 'No TLS on port 443',
 		description: 'The host answered but did not present a TLS certificate.',
 	},
-	unknown: {
+	'unknown': {
 		title: 'Could not read the certificate',
 		description: 'The TLS handshake failed for an unexpected reason.',
 	},
@@ -145,11 +147,18 @@ const TlsReport: FC<TlsReportProps> = ({ domain, result }) => {
 		<div className="space-y-10">
 			<div className="border-border/60 bg-card/40 flex flex-col gap-4 rounded-2xl border p-5 sm:flex-row sm:items-center sm:justify-between">
 				<div className="flex items-center gap-3">
-					<span className={cn('inline-flex size-9 items-center justify-center rounded-xl', TONE_BADGE[verdict.tone])}>
+					<span
+						className={cn(
+							'inline-flex size-9 items-center justify-center rounded-xl',
+							TONE_BADGE[verdict.tone],
+						)}
+					>
 						<VerdictIcon className="size-5" />
 					</span>
 					<div>
-						<p className="text-muted-foreground text-xs tracking-wider uppercase">TLS certificate</p>
+						<p className="text-muted-foreground text-xs tracking-wider uppercase">
+							TLS certificate
+						</p>
 						<p className="text-foreground mt-1 text-sm font-medium">{verdict.headline}</p>
 					</div>
 				</div>
@@ -237,7 +246,9 @@ const TlsReport: FC<TlsReportProps> = ({ domain, result }) => {
 								<div className="min-w-0">
 									<p className="text-foreground truncate text-sm">{entry.subject ?? 'Unknown'}</p>
 									{entry.issuer && entry.issuer !== entry.subject ? (
-										<p className="text-muted-foreground truncate text-xs">issued by {entry.issuer}</p>
+										<p className="text-muted-foreground truncate text-xs">
+											issued by {entry.issuer}
+										</p>
 									) : (
 										<p className="text-muted-foreground text-xs">root</p>
 									)}
