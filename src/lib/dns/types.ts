@@ -58,7 +58,7 @@ export const EMPTY_RECORDS: ResolvedRecords = RECORD_TYPES.reduce((acc, type) =>
 	return acc;
 }, {} as ResolvedRecords);
 
-export type ResolverId = 'cloudflare' | 'google' | 'adguard' | 'alibaba';
+export type ResolverId = 'cloudflare' | 'google' | 'alibaba';
 
 export const RESOLVERS: { id: ResolverId; label: string; endpoint: string }[] = [
 	{
@@ -70,11 +70,6 @@ export const RESOLVERS: { id: ResolverId; label: string; endpoint: string }[] = 
 		id: 'google',
 		label: 'Google',
 		endpoint: 'https://dns.google/resolve',
-	},
-	{
-		id: 'adguard',
-		label: 'AdGuard',
-		endpoint: 'https://dns.adguard-dns.com/resolve',
 	},
 	{
 		id: 'alibaba',
