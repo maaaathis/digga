@@ -27,6 +27,7 @@ const TABS: TabWithIndex[] = [
 	{ key: 'whois', label: 'WHOIS', segment: 'whois', index: '03' },
 	{ key: 'subdomains', label: 'Subdomains', segment: 'subdomains', index: '04' },
 	{ key: 'email', label: 'Email', segment: 'email', index: '05' },
+	{ key: 'tls', label: 'TLS', segment: 'tls', index: '06' },
 ];
 
 const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
@@ -50,6 +51,7 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 	useHotkeys('alt+3', () => goToTab(TABS[2]), { preventDefault: true }, [domain, router]);
 	useHotkeys('alt+4', () => goToTab(TABS[3]), { preventDefault: true }, [domain, router]);
 	useHotkeys('alt+5', () => goToTab(TABS[4]), { preventDefault: true }, [domain, router]);
+	useHotkeys('alt+6', () => goToTab(TABS[5]), { preventDefault: true }, [domain, router]);
 
 	const hint = isApple ? '⌥' : 'Alt';
 

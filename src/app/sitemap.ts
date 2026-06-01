@@ -5,7 +5,7 @@ import { EXAMPLE_DOMAINS } from '@/lib/data';
 import { siteUrl } from '@/lib/seo';
 import { compareLengthThenAlpha, deduplicate } from '@/lib/utils';
 
-const SUBPATHS = ['', '/dns', '/whois', '/subdomains', '/email'];
+const SUBPATHS = ['', '/dns', '/whois', '/subdomains', '/email', '/tls'];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const base = siteUrl();

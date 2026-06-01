@@ -27,6 +27,7 @@ digga is a free, open source domain and infrastructure research tool. Enter any 
 - [RDAP and WHOIS](${absoluteUrl('/lookup/{domain}/whois')}): registration data, RDAP first with WHOIS fallback.
 - [Subdomains](${absoluteUrl('/lookup/{domain}/subdomains')}): passive subdomain discovery.
 - [Email security](${absoluteUrl('/lookup/{domain}/email')}): SPF, DKIM, DMARC, MTA-STS, TLS-RPT, and BIMI posture.
+- [TLS certificate](${absoluteUrl('/lookup/{domain}/tls')}): live certificate issuer, validity window, expiry countdown, protocol, cipher, SANs, and chain.
 
 Replace {domain} with any domain name, for example ${absoluteUrl('/lookup/example.com')}.
 

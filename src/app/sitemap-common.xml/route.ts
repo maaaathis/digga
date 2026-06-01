@@ -4,7 +4,7 @@ import { compareLengthThenAlpha, deduplicate } from '@/lib/utils';
 
 export const dynamic = 'force-static';
 
-const SUBPATHS = ['', '/dns', '/whois', '/subdomains', '/email'];
+const SUBPATHS = ['', '/dns', '/whois', '/subdomains', '/email', '/tls'];
 
 const escapeXml = (value: string): string =>
 	value
