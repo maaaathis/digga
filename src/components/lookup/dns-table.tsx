@@ -59,7 +59,7 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 										<TableCell className="pl-5 font-mono text-xs">
 											<span className="bg-muted rounded-md px-1.5 py-0.5">{type}</span>
 										</TableCell>
-										<TableCell className="font-mono text-xs break-all whitespace-normal">
+										<TableCell className="font-mono text-xs whitespace-nowrap">
 											{record.name}
 										</TableCell>
 										<TableCell className="font-mono text-xs whitespace-normal">
