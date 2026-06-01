@@ -59,8 +59,10 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 										<TableCell className="pl-5 font-mono text-xs">
 											<span className="bg-muted rounded-md px-1.5 py-0.5">{type}</span>
 										</TableCell>
-										<TableCell className="font-mono text-xs">{record.name}</TableCell>
-										<TableCell className="font-mono text-xs">
+										<TableCell className="font-mono text-xs break-all whitespace-normal">
+											{record.name}
+										</TableCell>
+										<TableCell className="font-mono text-xs whitespace-normal">
 											<div className="group flex items-center gap-2">
 												{type === 'A' || type === 'AAAA' ? (
 													<IpLink ip={record.data} className="break-all" />
