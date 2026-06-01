@@ -58,22 +58,31 @@ export const EMPTY_RECORDS: ResolvedRecords = RECORD_TYPES.reduce((acc, type) =>
 	return acc;
 }, {} as ResolvedRecords);
 
-export type ResolverId = 'cloudflare' | 'google' | 'alibaba';
+export type ResolverId = 'cloudflare' | 'google' | 'alibaba' | 'dnssb';
 
-export const RESOLVERS: { id: ResolverId; label: string; endpoint: string }[] = [
+export const RESOLVERS: { id: ResolverId; label: string; endpoint: string; accept: string }[] = [
 	{
 		id: 'cloudflare',
 		label: 'Cloudflare',
 		endpoint: 'https://cloudflare-dns.com/dns-query',
+		accept: 'application/dns-json',
 	},
 	{
 		id: 'google',
 		label: 'Google',
 		endpoint: 'https://dns.google/resolve',
+		accept: 'application/json',
 	},
 	{
 		id: 'alibaba',
 		label: 'Alibaba',
 		endpoint: 'https://dns.alidns.com/resolve',
+		accept: 'application/json',
+	},
+	{
+		id: 'dnssb',
+		label: 'DNS.SB',
+		endpoint: 'https://doh.dns.sb/dns-query',
+		accept: 'application/dns-json',
 	},
 ];

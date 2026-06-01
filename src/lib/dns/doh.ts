@@ -17,10 +17,10 @@ type FetchOptions = {
 	fetchInit?: RequestInit;
 };
 
-function endpointFor(resolver: ResolverId): string {
+function resolverConfig(resolver: ResolverId) {
 	const found = RESOLVERS.find(r => r.id === resolver);
 	if (!found) throw new Error(`Unknown resolver: ${resolver}`);
-	return found.endpoint;
+	return found;
 }
 
 export async function resolveRecordType(
@@ -31,14 +31,15 @@ export async function resolveRecordType(
 ): Promise<RawRecord[]> {
 	if (!isValidLookupDomain(domain)) return [];
 
-	const url = `${endpointFor(resolver)}?name=${encodeURIComponent(domain)}&type=${type}`;
+	const config = resolverConfig(resolver);
+	const url = `${config.endpoint}?name=${encodeURIComponent(domain)}&type=${type}`;
 
 	let response: Response;
 	try {
 		response = await fetch(url, {
 			method: 'GET',
 			headers: {
-				Accept: resolver === 'cloudflare' ? 'application/dns-json' : 'application/json',
+				Accept: config.accept,
 			},
 			signal: options.signal,
 			...options.fetchInit,
