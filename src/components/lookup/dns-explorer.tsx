@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { type FC, useState } from 'react';
 import useSWR from 'swr';
 
+import DnsPropagation from '@/components/lookup/dns-propagation';
 import DnsTable from '@/components/lookup/dns-table';
 import FlushCacheButtons from '@/components/lookup/flush-cache-buttons';
 import ResolverTabs from '@/components/lookup/resolver-tabs';
+import SegmentedTabs from '@/components/lookup/segmented-tabs';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trackEvent } from '@/lib/analytics';
@@ -25,8 +27,16 @@ type SwrKey = readonly [string, string, ResolverId];
 
 const fetcher = async ([, domain, resolver]: SwrKey) => resolveAllRecords(resolver, domain);
 
+type DnsView = 'records' | 'propagation';
+
 const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRecords }) => {
+	const [view, setView] = useState<DnsView>('records');
 	const [resolver, setResolver] = useState<ResolverId>(initialResolver);
+
+	const onViewChange = (next: DnsView) => {
+		trackEvent('dns-view', { view: next, domain, tld: getTLD(domain) ?? undefined });
+		setView(next);
+	};
 
 	const onResolverChange = (next: ResolverId) => {
 		trackEvent('dns-resolver', { resolver: next, domain, tld: getTLD(domain) ?? undefined });
@@ -49,54 +59,70 @@ const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRec
 
 	return (
 		<div className="space-y-4">
-			<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-				<ResolverTabs value={resolver} onChange={onResolverChange} />
-				<div className="text-muted-foreground flex items-center gap-2 text-xs">
-					{isValidating && !showSkeleton ? (
-						<span className="mr-1 flex items-center gap-1.5">
-							<Loader2 className="size-3 animate-spin" />
-							Resolving
-						</span>
-					) : null}
-					<FlushCacheButtons domain={domain} />
-					<Button asChild variant="outline" size="sm" className="gap-2 rounded-lg">
-						<Link
-							href={`https://dnshistory.org/dns-records/${encodeURIComponent(domain)}`}
-							target="_blank"
-							rel="noreferrer noopener"
-							data-umami-event="dns-history"
-							data-umami-event-domain={domain}
-							data-umami-event-tld={getTLD(domain) ?? undefined}
-						>
-							DNS history
-							<ExternalLink className="size-4" />
-						</Link>
-					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => mutate()}
-						disabled={isLoading || isValidating}
-						className="gap-2 rounded-lg"
-					>
-						<RefreshCw className="size-4" />
-						Refresh
-					</Button>
-				</div>
-			</div>
+			<SegmentedTabs
+				ariaLabel="DNS view"
+				value={view}
+				onChange={onViewChange}
+				options={[
+					{ value: 'records', label: 'Records' },
+					{ value: 'propagation', label: 'Propagation' },
+				]}
+			/>
 
-			{showSkeleton ? (
-				<div className="space-y-2">
-					{Array.from({ length: 6 }).map((_, index) => (
-						<Skeleton key={index} className="h-10 w-full rounded-lg" />
-					))}
-				</div>
-			) : error ? (
-				<p className="text-destructive py-12 text-center text-sm">
-					Resolver failed. Switch resolver or retry.
-				</p>
+			{view === 'propagation' ? (
+				<DnsPropagation domain={domain} />
 			) : (
-				<DnsTable records={records} />
+				<>
+					<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+						<ResolverTabs value={resolver} onChange={onResolverChange} />
+						<div className="text-muted-foreground flex items-center gap-2 text-xs">
+							{isValidating && !showSkeleton ? (
+								<span className="mr-1 flex items-center gap-1.5">
+									<Loader2 className="size-3 animate-spin" />
+									Resolving
+								</span>
+							) : null}
+							<FlushCacheButtons domain={domain} />
+							<Button asChild variant="outline" size="sm" className="gap-2 rounded-lg">
+								<Link
+									href={`https://dnshistory.org/dns-records/${encodeURIComponent(domain)}`}
+									target="_blank"
+									rel="noreferrer noopener"
+									data-umami-event="dns-history"
+									data-umami-event-domain={domain}
+									data-umami-event-tld={getTLD(domain) ?? undefined}
+								>
+									DNS history
+									<ExternalLink className="size-4" />
+								</Link>
+							</Button>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => mutate()}
+								disabled={isLoading || isValidating}
+								className="gap-2 rounded-lg"
+							>
+								<RefreshCw className="size-4" />
+								Refresh
+							</Button>
+						</div>
+					</div>
+
+					{showSkeleton ? (
+						<div className="space-y-2">
+							{Array.from({ length: 6 }).map((_, index) => (
+								<Skeleton key={index} className="h-10 w-full rounded-lg" />
+							))}
+						</div>
+					) : error ? (
+						<p className="text-destructive py-12 text-center text-sm">
+							Resolver failed. Switch resolver or retry.
+						</p>
+					) : (
+						<DnsTable records={records} />
+					)}
+				</>
 			)}
 		</div>
 	);
