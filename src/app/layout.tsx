@@ -53,14 +53,6 @@ export const metadata: Metadata = {
 	},
 	alternates: { canonical: '/' },
 	robots: 'index, follow',
-	icons: {
-		icon: '/favicon-32x32.png',
-		apple: '/apple-touch-icon.png',
-		other: [
-			{ url: '/android-chrome-192x192.png', rel: 'icon', sizes: '192x192' },
-			{ url: '/android-chrome-256x256.png', rel: 'icon', sizes: '256x256' },
-		],
-	},
 };
 
 export const viewport: Viewport = {
