@@ -1,6 +1,7 @@
 'use client';
 
-import { Loader2, RefreshCw } from 'lucide-react';
+import { ExternalLink, Loader2, RefreshCw } from 'lucide-react';
+import Link from 'next/link';
 import { type FC, useState } from 'react';
 import useSWR from 'swr';
 
@@ -58,6 +59,19 @@ const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRec
 						</span>
 					) : null}
 					<FlushCacheButtons domain={domain} />
+					<Button asChild variant="outline" size="sm" className="gap-2 rounded-lg">
+						<Link
+							href={`https://dnshistory.org/dns-records/${encodeURIComponent(domain)}`}
+							target="_blank"
+							rel="noreferrer noopener"
+							data-umami-event="dns-history"
+							data-umami-event-domain={domain}
+							data-umami-event-tld={getTLD(domain) ?? undefined}
+						>
+							DNS history
+							<ExternalLink className="size-4" />
+						</Link>
+					</Button>
 					<Button
 						variant="outline"
 						size="sm"
