@@ -20,7 +20,7 @@ type Fact = {
 	icon: ReactNode;
 	label: string;
 	value: ReactNode;
-	tone?: 'default' | 'good' | 'muted';
+	tone?: 'default' | 'good' | 'warn' | 'bad' | 'muted';
 };
 
 type QuickFactsProps = {
@@ -30,6 +30,8 @@ type QuickFactsProps = {
 const TONE_CLASSES = {
 	default: 'text-foreground',
 	good: 'text-emerald-700 dark:text-emerald-400',
+	warn: 'text-amber-700 dark:text-amber-400',
+	bad: 'text-red-700 dark:text-red-400',
 	muted: 'text-muted-foreground',
 };
 
@@ -112,7 +114,8 @@ export function buildQuickFacts(input: {
 				icon: <Activity className="size-3.5" />,
 				label: 'Expires in',
 				value,
-				tone: diffDays < 30 ? 'good' : 'default',
+				// Closer expiry is more urgent: red under 30 days, amber under 90, green beyond.
+				tone: diffDays < 30 ? 'bad' : diffDays < 90 ? 'warn' : 'good',
 			});
 		}
 	}
