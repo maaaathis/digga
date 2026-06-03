@@ -24,7 +24,7 @@
 		"dns-packet": "^5.6.1",
 		"is-valid-domain": "^0.1.6",
 		"isbot": "^5.1.40",
-		"lucide-react": "^1.16.0",
+		"lucide-react": "^1.17.0",
 		"mathisch": "^0.4.1",
 		"motion": "^12.40.0",
 		"natural-compare-lite": "^1.4.0",
