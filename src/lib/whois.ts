@@ -119,45 +119,78 @@ function firstResult(obj: DomainWhois | null): DomainWhoisData | null {
 	return block && typeof block === 'object' ? block : null;
 }
 
-export const isDomainAvailable = unstable_cache(isDomainAvailableImpl, ['domain-available'], {
-	revalidate: CACHE_TTL_SECONDS,
-});
+export const getDomainAvailability = unstable_cache(
+	getDomainAvailabilityImpl,
+	['domain-availability'],
+	{ revalidate: CACHE_TTL_SECONDS },
+);
 
-async function isDomainAvailableImpl(input: string): Promise<boolean> {
+async function getDomainAvailabilityImpl(input: string): Promise<DomainAvailability> {
 	const base = getBaseDomain(input);
-	if (!base || !isValidLookupDomain(base)) return false;
+	if (!base || !isValidLookupDomain(base)) return DomainAvailability.UNKNOWN;
 
 	const tld = getTLD(base);
-	if (!tld) return false;
-	if (tld === 'ch' || tld === 'li') return false;
+	if (!tld) return DomainAvailability.UNKNOWN;
+	// .ch/.li don't expose availability reliably; treat as registered so the normal report renders.
+	if (tld === 'ch' || tld === 'li') return DomainAvailability.REGISTERED;
 
 	const rdap = await lookupRdap(base);
-	if (rdap.kind === 'ok') return false;
-	if (rdap.kind === 'not-found') return true;
+	if (rdap.kind === 'ok') return DomainAvailability.REGISTERED;
 
-	return whoisSaysAvailable(base);
+	const whois = await classifyWhois(base);
+
+	if (rdap.kind === 'not-found') {
+		return whois === 'reserved' ? DomainAvailability.RESERVED : DomainAvailability.AVAILABLE;
+	}
+
+	if (whois === 'reserved') return DomainAvailability.RESERVED;
+	if (whois === 'available') return DomainAvailability.AVAILABLE;
+	return DomainAvailability.REGISTERED;
 }
 
-async function whoisSaysAvailable(base: string): Promise<boolean> {
+const RESERVED_PATTERNS = [
+	'not available for registration',
+	'registry reserved',
+	'reserved name',
+	'reserved domain',
+	'name is reserved',
+];
+
+type WhoisClassification = 'reserved' | 'available' | 'registered';
+
+async function classifyWhois(base: string): Promise<WhoisClassification> {
 	let result: DomainWhois | null;
 	try {
 		result = await whoisDomain(base, { follow: 1, timeout: 5_000 });
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
-		if (isUnsupportedTld(message) || isSoftError(message)) return false;
-		console.error('Availability check error:', error);
-		return false;
+		if (!isUnsupportedTld(message) && !isSoftError(message)) {
+			console.error('Availability check error:', error);
+		}
+		return 'registered';
 	}
 
 	const first = firstResult(result);
-	if (!first) return false;
+	if (!first) return 'registered';
 
-	const textArr = first.text as string[] | undefined;
+	if (blockSaysReserved(first)) return 'reserved';
+	if (blockSaysAvailable(first, base)) return 'available';
+	return 'registered';
+}
+
+function blockSaysReserved(block: DomainWhoisData): boolean {
+	const textArr = block.text as string[] | undefined;
+	const text = (textArr ?? []).join(' ').toLowerCase();
+	return RESERVED_PATTERNS.some(pattern => text.includes(pattern));
+}
+
+function blockSaysAvailable(block: DomainWhoisData, base: string): boolean {
+	const textArr = block.text as string[] | undefined;
 	const text = textArr?.[0]?.toLowerCase() ?? '';
 	if (text.includes(`no match for "${base}"`)) return true;
 
-	const domainName = (first['Domain Name'] as string | undefined)?.toLowerCase();
-	const statusArr = first['Domain Status'] as string[] | undefined;
+	const domainName = (block['Domain Name'] as string | undefined)?.toLowerCase();
+	const statusArr = block['Domain Status'] as string[] | undefined;
 
 	if (statusArr) {
 		const flat = statusArr.join(' ').toLowerCase();
@@ -166,7 +199,6 @@ async function whoisSaysAvailable(base: string): Promise<boolean> {
 	}
 
 	if (domainName === base && statusArr && statusArr.length > 0) return false;
-	if (text.includes('reserved')) return false;
 
 	return false;
 }

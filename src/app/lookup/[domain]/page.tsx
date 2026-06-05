@@ -6,6 +6,7 @@ import type { FC } from 'react';
 
 import DnsSummaryWidget from '@/components/lookup/dns-summary-widget';
 import DomainNotRegistered from '@/components/lookup/domain-not-registered';
+import DomainReserved from '@/components/lookup/domain-reserved';
 import EmailPostureWidget from '@/components/lookup/email-posture-widget';
 import QuickFacts, { buildQuickFacts, type EmailPosture } from '@/components/lookup/quick-facts';
 import {
@@ -26,7 +27,7 @@ import { persistObservations } from '@/lib/observations';
 import { getRegistrationInfo } from '@/lib/registration';
 import { buildMetadata } from '@/lib/seo';
 import { maskIpLastOctet } from '@/lib/utils';
-import { isDomainAvailable } from '@/lib/whois';
+import { DomainAvailability, getDomainAvailability } from '@/lib/whois';
 
 export const fetchCache = 'default-no-store';
 
@@ -106,8 +107,12 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 		ip: maskIpLastOctet(clientIp),
 	});
 
-	if (await isDomainAvailable(base)) {
+	const availability = await getDomainAvailability(base);
+	if (availability === DomainAvailability.AVAILABLE) {
 		return <DomainNotRegistered domain={base} />;
+	}
+	if (availability === DomainAvailability.RESERVED) {
+		return <DomainReserved domain={base} />;
 	}
 
 	const [registration, aRecords, aaaaRecords, mxRecords, nsRecords, email] = await Promise.all([
