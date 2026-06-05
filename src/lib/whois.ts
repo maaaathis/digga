@@ -38,7 +38,11 @@ function isSoftError(message: string): boolean {
 }
 
 function isUnsupportedTld(message: string): boolean {
-	return message.includes('TLD for') && message.includes('not supported');
+	return (
+		(message.includes('TLD for') && message.includes('not supported')) ||
+		/^TLD ".+" not found$/.test(message) ||
+		/^Invalid TLD ".+"$/.test(message)
+	);
 }
 
 export type WhoisRawByServer = Record<string, string>;
