@@ -26,7 +26,7 @@ export default function LookupError({
 			description="We could not complete the lookup. This is usually transient, so try again in a moment."
 		>
 			<Button onClick={reset} size="lg" className="h-12 px-7 text-base font-semibold">
-				<RotateCcw data-icon="inline-start" className="size-4" />
+				<RotateCcw className="size-4" />
 				Retry
 			</Button>
 		</StateNotice>

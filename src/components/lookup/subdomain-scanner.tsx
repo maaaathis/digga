@@ -110,11 +110,7 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain }) => {
 				size="lg"
 				className="h-12 px-7 text-base font-semibold"
 			>
-				{pending ? (
-					<Loader2 data-icon="inline-start" className="size-4 animate-spin" />
-				) : (
-					<Play data-icon="inline-start" className="size-4" />
-				)}
+				{pending ? <Loader2 className="size-4 animate-spin" /> : <Play className="size-4" />}
 				Run scan
 			</Button>
 

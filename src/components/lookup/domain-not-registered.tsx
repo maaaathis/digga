@@ -68,10 +68,7 @@ const DomainNotRegistered: FC<DomainNotRegisteredProps> = ({ domain }) => {
 							data-umami-event-tld={tld}
 						>
 							Register at {primary.name}
-							<ArrowUpRight
-								data-icon="inline-end"
-								className="transition-transform group-hover/button:-translate-y-0.5 group-hover/button:translate-x-0.5"
-							/>
+							<ArrowUpRight className="transition-transform group-hover/button:-translate-y-0.5 group-hover/button:translate-x-0.5" />
 						</a>
 					</Button>
 
