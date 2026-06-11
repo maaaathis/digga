@@ -15,7 +15,7 @@
 		"bigquery:setup": "node --env-file=.env --experimental-strip-types scripts/setup-bigquery.ts",
 		"postinstall": "bash scripts/install-subfinder.sh"
 	},
-	"packageManager": "pnpm@11.3.0",
+	"packageManager": "pnpm@11.5.3",
 	"dependencies": {
 		"@uidotdev/usehooks": "^2.4.1",
 		"class-variance-authority": "^0.7.1",
