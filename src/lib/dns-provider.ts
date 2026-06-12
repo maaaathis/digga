@@ -95,6 +95,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'netcup', domain: 'netcup.com', match: ['netcup.net'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
 	{ name: 'Alfahosting', domain: 'alfahosting.de', match: ['alfahosting.info'] },
+	{ name: 'Infomaniak', domain: 'infomaniak.com', match: ['infomaniak.ch', 'infomaniak.com'] },
 	{
 		name: 'United Domains',
 		domain: 'united-domains.de',

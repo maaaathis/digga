@@ -26,6 +26,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Fastly', domain: 'fastly.com', match: ['fastly'] },
 	{ name: 'Oracle Cloud', domain: 'oracle.com', match: ['oracle'] },
 	{ name: 'Strato', domain: 'strato.de', match: ['strato'] },
+	{ name: 'Infomaniak', domain: 'infomaniak.com', match: ['infomaniak'] },
 	{ name: 'GoDaddy', domain: 'godaddy.com', match: ['godaddy'] },
 	{ name: 'Hostinger', domain: 'hostinger.com', match: ['hostinger'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['medien muennich', 'all-inkl', 'kasserver'] },
