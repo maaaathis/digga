@@ -12,7 +12,13 @@ import SearchForm from '@/components/search/search-form';
 import StarPrompt from '@/components/star-prompt';
 import { Button } from '@/components/ui/button';
 import { SITE_NAME } from '@/lib/data';
-import { getTLD, isKnownTld, isValidLookupDomain, normalizeDomain, toUnicodeDomain } from '@/lib/domain';
+import {
+	getTLD,
+	isKnownTld,
+	isValidLookupDomain,
+	normalizeDomain,
+	toUnicodeDomain,
+} from '@/lib/domain';
 import { absoluteUrl, buildMetadata } from '@/lib/seo';
 
 type Props = LayoutProps<'/lookup/[domain]'>;

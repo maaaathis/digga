@@ -65,9 +65,7 @@ const SearchForm: FC<SearchFormProps> = ({
 		if (!isKnownTld(cleaned)) {
 			const tld = getTLD(cleaned);
 			setError(
-				tld
-					? `.${tld} is not a real top level domain.`
-					: 'That is not a real top level domain.',
+				tld ? `.${tld} is not a real top level domain.` : 'That is not a real top level domain.',
 			);
 			setSubmitting(false);
 			return;
