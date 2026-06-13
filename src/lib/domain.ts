@@ -51,6 +51,10 @@ export function getTLD(input: string): string | null {
 	return getPublicSuffix(input);
 }
 
+export function isKnownTld(input: string): boolean {
+	return parse(input).isIcann === true;
+}
+
 export function isSubdomain(input: string): boolean {
 	const parsed = parse(input);
 	return Boolean(parsed.subdomain) && parsed.subdomain !== 'www';

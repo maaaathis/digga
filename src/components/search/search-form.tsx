@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useIsApple } from '@/hooks/use-is-apple';
 import { trackEvent } from '@/lib/analytics';
-import { cleanForLookup, getTLD } from '@/lib/domain';
+import { cleanForLookup, getTLD, isKnownTld } from '@/lib/domain';
 import { cn, isAppleDevice } from '@/lib/utils';
 
 type SearchFormProps = {
@@ -58,6 +58,17 @@ const SearchForm: FC<SearchFormProps> = ({
 		const cleaned = cleanForLookup(value);
 		if (!cleaned) {
 			setError('Please enter a valid domain or URL.');
+			setSubmitting(false);
+			return;
+		}
+
+		if (!isKnownTld(cleaned)) {
+			const tld = getTLD(cleaned);
+			setError(
+				tld
+					? `.${tld} is not a real top level domain.`
+					: 'That is not a real top level domain.',
+			);
 			setSubmitting(false);
 			return;
 		}
