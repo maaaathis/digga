@@ -156,6 +156,15 @@ const RESERVED_PATTERNS = [
 	'name is reserved',
 ];
 
+const AVAILABLE_PATTERNS = [
+	'no match for',
+	'domain not found',
+	'does not exist',
+	'no object found',
+	'no entries found',
+	'not been registered',
+];
+
 type WhoisClassification = 'reserved' | 'available' | 'registered';
 
 async function classifyWhois(base: string): Promise<WhoisClassification> {
@@ -174,7 +183,7 @@ async function classifyWhois(base: string): Promise<WhoisClassification> {
 	if (!first) return 'registered';
 
 	if (blockSaysReserved(first)) return 'reserved';
-	if (blockSaysAvailable(first, base)) return 'available';
+	if (blockSaysAvailable(first)) return 'available';
 	return 'registered';
 }
 
@@ -184,21 +193,17 @@ function blockSaysReserved(block: DomainWhoisData): boolean {
 	return RESERVED_PATTERNS.some(pattern => text.includes(pattern));
 }
 
-function blockSaysAvailable(block: DomainWhoisData, base: string): boolean {
+function blockSaysAvailable(block: DomainWhoisData): boolean {
 	const textArr = block.text as string[] | undefined;
-	const text = textArr?.[0]?.toLowerCase() ?? '';
-	if (text.includes(`no match for "${base}"`)) return true;
+	const text = (textArr ?? []).join(' ').toLowerCase();
+	if (AVAILABLE_PATTERNS.some(pattern => text.includes(pattern))) return true;
 
-	const domainName = (block['Domain Name'] as string | undefined)?.toLowerCase();
 	const statusArr = block['Domain Status'] as string[] | undefined;
-
 	if (statusArr) {
 		const flat = statusArr.join(' ').toLowerCase();
 		if (flat.includes('available') || flat.includes('free') || flat.includes('no object found'))
 			return true;
 	}
-
-	if (domainName === base && statusArr && statusArr.length > 0) return false;
 
 	return false;
 }
