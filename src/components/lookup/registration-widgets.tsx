@@ -5,7 +5,9 @@ import CopyButton from '@/components/copy-button';
 import ProviderBadge from '@/components/lookup/provider-badge';
 import Widget from '@/components/lookup/widget';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { detectDnsProvider } from '@/lib/dns-provider';
+import { describeStatus } from '@/lib/rdap/status-codes';
 import type { RegistrationInfo } from '@/lib/registration';
 
 type RegistrationProps = { registration: RegistrationInfo };
@@ -99,13 +101,33 @@ export const StatusWidget: FC<RegistrationProps> = ({ registration }) => {
 	return (
 		<Widget variant="section" title="Domain status" icon={<KeyRound className="size-3.5" />}>
 			<ul className="flex flex-wrap gap-1.5">
-				{registration.status.map(status => (
-					<li key={status}>
-						<Badge variant="secondary" className="font-mono text-xs">
-							{status}
-						</Badge>
-					</li>
-				))}
+				{registration.status.map(status => {
+					const described = describeStatus(status);
+					if (!described.description) {
+						return (
+							<li key={status}>
+								<Badge variant="secondary" className="font-mono text-xs">
+									{described.label}
+								</Badge>
+							</li>
+						);
+					}
+					return (
+						<li key={status}>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Badge
+										variant="secondary"
+										className="decoration-muted-foreground/40 cursor-help font-mono text-xs underline decoration-dotted underline-offset-2"
+									>
+										{described.label}
+									</Badge>
+								</TooltipTrigger>
+								<TooltipContent className="max-w-xs">{described.description}</TooltipContent>
+							</Tooltip>
+						</li>
+					);
+				})}
 			</ul>
 		</Widget>
 	);
