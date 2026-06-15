@@ -44,8 +44,7 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 			<Table>
 				<TableHeader>
 					<TableRow className="hover:bg-transparent">
-						<TableHead className="w-20 pl-5">Type</TableHead>
-						<TableHead>Name</TableHead>
+						<TableHead className="pl-5">Name</TableHead>
 						<TableHead>Value</TableHead>
 						<TableHead className="w-24 pr-5 text-right">TTL</TableHead>
 					</TableRow>
@@ -55,12 +54,21 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 						const items = [...records[type]].sort((a, b) => naturalCompare(a.data, b.data));
 						return (
 							<Fragment key={type}>
+								<TableRow className="hover:bg-transparent">
+									<TableCell colSpan={3} className="bg-muted/30 px-5 py-2">
+										<div className="flex items-center justify-between">
+											<span className="bg-muted text-foreground rounded-md px-1.5 py-0.5 font-mono text-xs">
+												{type}
+											</span>
+											<span className="text-muted-foreground text-[11px] tracking-wide uppercase">
+												{items.length} {items.length === 1 ? 'record' : 'records'}
+											</span>
+										</div>
+									</TableCell>
+								</TableRow>
 								{items.map((record, index) => (
 									<TableRow key={`${type}-${record.name}-${record.data}-${index}`}>
-										<TableCell className="pl-5 font-mono text-xs">
-											<span className="bg-muted rounded-md px-1.5 py-0.5">{type}</span>
-										</TableCell>
-										<TableCell className="font-mono text-xs whitespace-nowrap">
+										<TableCell className="text-muted-foreground pl-5 font-mono text-xs whitespace-nowrap">
 											{record.name}
 										</TableCell>
 										<TableCell className="font-mono text-xs whitespace-normal">
