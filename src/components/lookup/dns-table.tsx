@@ -13,6 +13,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { ResolvedRecords } from '@/lib/dns/types';
 import { RECORD_TYPES } from '@/lib/dns/types';
 
@@ -76,7 +77,17 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 											</div>
 										</TableCell>
 										<TableCell className="text-muted-foreground pr-5 text-right font-mono text-xs">
-											{formatTtl(record.TTL)}
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<span className="decoration-muted-foreground/40 cursor-help underline decoration-dotted underline-offset-2">
+														{formatTtl(record.TTL)}
+													</span>
+												</TooltipTrigger>
+												<TooltipContent side="left" className="font-mono">
+													{record.TTL.toLocaleString('en-US')}{' '}
+													{record.TTL === 1 ? 'second' : 'seconds'}
+												</TooltipContent>
+											</Tooltip>
 										</TableCell>
 									</TableRow>
 								))}
