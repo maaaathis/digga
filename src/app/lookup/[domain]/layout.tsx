@@ -1,4 +1,4 @@
-import { AlertTriangle, ExternalLink } from 'lucide-react';
+import { AlertTriangle, CornerLeftUp, ExternalLink } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { FC } from 'react';
@@ -13,8 +13,10 @@ import StarPrompt from '@/components/star-prompt';
 import { Button } from '@/components/ui/button';
 import { SITE_NAME } from '@/lib/data';
 import {
+	getBaseDomain,
 	getTLD,
 	isKnownTld,
+	isSubdomain,
 	isValidLookupDomain,
 	normalizeDomain,
 	toUnicodeDomain,
@@ -72,6 +74,8 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 	const display = toUnicodeDomain(normalized);
 	const lookupUrl = absoluteUrl(`/lookup/${normalized}`);
 	const tld = getTLD(normalized) ?? undefined;
+	const baseDomain = getBaseDomain(normalized);
+	const parentDomain = isSubdomain(normalized) && baseDomain !== normalized ? baseDomain : null;
 
 	const structuredData = {
 		'@context': 'https://schema.org',
@@ -127,9 +131,25 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 						<div className="flex min-w-0 items-center gap-4">
 							<DomainMark domain={normalized} />
 							<div className="min-w-0">
-								<p className="text-muted-foreground mb-1.5 text-xs tracking-wider uppercase">
-									Results for
-								</p>
+								{parentDomain ? (
+									<Link
+										href={`/lookup/${parentDomain}`}
+										prefetch
+										title={`View the main domain ${parentDomain}`}
+										aria-label={`View the main domain ${parentDomain}`}
+										className="group/parent text-muted-foreground hover:text-foreground -ml-1 mb-1.5 inline-flex max-w-full items-center gap-1.5 rounded px-1 py-0.5 text-xs tracking-wider uppercase transition-colors"
+										data-umami-event="visit-parent-domain"
+										data-umami-event-domain={parentDomain}
+										data-umami-event-tld={tld}
+									>
+										<CornerLeftUp className="size-3.5 shrink-0 transition-transform group-hover/parent:-translate-y-px" />
+										<span className="truncate normal-case">{toUnicodeDomain(parentDomain)}</span>
+									</Link>
+								) : (
+									<p className="text-muted-foreground mb-1.5 text-xs tracking-wider uppercase">
+										Results for
+									</p>
+								)}
 								<h1>
 									<Link
 										href={`https://${normalized}`}
