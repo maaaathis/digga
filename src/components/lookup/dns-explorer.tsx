@@ -1,14 +1,13 @@
 'use client';
 
-import { ExternalLink, Loader2, RefreshCw } from 'lucide-react';
-import Link from 'next/link';
+import { Loader2, RefreshCw } from 'lucide-react';
 import { type FC, useState } from 'react';
 import useSWR from 'swr';
 
+import DnsActionsMenu from '@/components/lookup/dns-actions-menu';
 import DnsPropagation from '@/components/lookup/dns-propagation';
 import DnsTable from '@/components/lookup/dns-table';
-import FlushCacheButtons from '@/components/lookup/flush-cache-buttons';
-import ResolverTabs from '@/components/lookup/resolver-tabs';
+import ResolverSelect from '@/components/lookup/resolver-select';
 import SegmentedTabs from '@/components/lookup/segmented-tabs';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -59,70 +58,55 @@ const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRec
 
 	return (
 		<div className="space-y-4">
-			<SegmentedTabs
-				ariaLabel="DNS view"
-				value={view}
-				onChange={onViewChange}
-				options={[
-					{ value: 'records', label: 'Records' },
-					{ value: 'propagation', label: 'Propagation' },
-				]}
-			/>
+			<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+				<SegmentedTabs
+					ariaLabel="DNS view"
+					value={view}
+					onChange={onViewChange}
+					options={[
+						{ value: 'records', label: 'Records' },
+						{ value: 'propagation', label: 'Propagation' },
+					]}
+				/>
+
+				{view === 'records' && (
+					<div className="flex flex-wrap items-center gap-2">
+						{isValidating && !showSkeleton ? (
+							<span className="text-muted-foreground mr-1 flex items-center gap-1.5 text-xs">
+								<Loader2 className="size-3 animate-spin" />
+								Resolving
+							</span>
+						) : null}
+						<ResolverSelect value={resolver} onChange={onResolverChange} />
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => mutate()}
+							disabled={isLoading || isValidating}
+							className="gap-2 rounded-lg"
+						>
+							<RefreshCw className="size-4" />
+							Refresh
+						</Button>
+						<DnsActionsMenu domain={domain} />
+					</div>
+				)}
+			</div>
 
 			{view === 'propagation' ? (
 				<DnsPropagation domain={domain} />
+			) : showSkeleton ? (
+				<div className="space-y-2">
+					{Array.from({ length: 6 }).map((_, index) => (
+						<Skeleton key={index} className="h-10 w-full rounded-lg" />
+					))}
+				</div>
+			) : error ? (
+				<p className="text-destructive py-12 text-center text-sm">
+					Resolver failed. Switch resolver or retry.
+				</p>
 			) : (
-				<>
-					<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-						<ResolverTabs value={resolver} onChange={onResolverChange} />
-						<div className="text-muted-foreground flex items-center gap-2 text-xs">
-							{isValidating && !showSkeleton ? (
-								<span className="mr-1 flex items-center gap-1.5">
-									<Loader2 className="size-3 animate-spin" />
-									Resolving
-								</span>
-							) : null}
-							<FlushCacheButtons domain={domain} />
-							<Button asChild variant="outline" size="sm" className="gap-2 rounded-lg">
-								<Link
-									href={`https://dnshistory.org/dns-records/${encodeURIComponent(domain)}`}
-									target="_blank"
-									rel="noreferrer noopener"
-									data-umami-event="dns-history"
-									data-umami-event-domain={domain}
-									data-umami-event-tld={getTLD(domain) ?? undefined}
-								>
-									DNS history
-									<ExternalLink className="size-4" />
-								</Link>
-							</Button>
-							<Button
-								variant="outline"
-								size="sm"
-								onClick={() => mutate()}
-								disabled={isLoading || isValidating}
-								className="gap-2 rounded-lg"
-							>
-								<RefreshCw className="size-4" />
-								Refresh
-							</Button>
-						</div>
-					</div>
-
-					{showSkeleton ? (
-						<div className="space-y-2">
-							{Array.from({ length: 6 }).map((_, index) => (
-								<Skeleton key={index} className="h-10 w-full rounded-lg" />
-							))}
-						</div>
-					) : error ? (
-						<p className="text-destructive py-12 text-center text-sm">
-							Resolver failed. Switch resolver or retry.
-						</p>
-					) : (
-						<DnsTable records={records} />
-					)}
-				</>
+				<DnsTable records={records} />
 			)}
 		</div>
 	);
