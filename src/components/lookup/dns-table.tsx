@@ -67,6 +67,18 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 											<div className="group flex items-center gap-2">
 												{type === 'A' || type === 'AAAA' ? (
 													<IpLink ip={record.data} className="break-all" />
+												) : record.raw ? (
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<span className="decoration-muted-foreground/40 cursor-help break-all underline decoration-dotted underline-offset-2">
+																{record.data}
+															</span>
+														</TooltipTrigger>
+														<TooltipContent side="bottom" className="max-w-xs font-mono">
+															<span className="text-background/60">Raw</span>
+															<span className="break-all">{record.raw}</span>
+														</TooltipContent>
+													</Tooltip>
 												) : (
 													<span className="break-all">{record.data}</span>
 												)}
@@ -74,6 +86,14 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 													value={record.data}
 													className="opacity-0 group-hover:opacity-100"
 												/>
+												{record.raw && (
+													<CopyButton
+														value={record.raw}
+														size="sm"
+														label="raw"
+														className="text-muted-foreground h-7 px-2 opacity-0 group-hover:opacity-100"
+													/>
+												)}
 											</div>
 										</TableCell>
 										<TableCell className="text-muted-foreground pr-5 text-right font-mono text-xs">

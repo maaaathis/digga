@@ -1,5 +1,6 @@
 import { isValidLookupDomain } from '@/lib/domain';
 
+import { formatCaaData } from './caa';
 import {
 	type DoHResponse,
 	EMPTY_RECORDS,
@@ -60,12 +61,18 @@ export async function resolveRecordType(
 
 	return json.Answer.filter(
 		answer => answer.type in RECORD_TYPE_BY_DECIMAL && RECORD_TYPE_BY_DECIMAL[answer.type] === type,
-	).map(answer => ({
-		name: answer.name,
-		type,
-		TTL: answer.TTL,
-		data: answer.data,
-	}));
+	).map(answer => {
+		const base = { name: answer.name, type, TTL: answer.TTL };
+
+		if (type === 'CAA') {
+			const formatted = formatCaaData(answer.data);
+			if (formatted !== answer.data) {
+				return { ...base, data: formatted, raw: answer.data };
+			}
+		}
+
+		return { ...base, data: answer.data };
+	});
 }
 
 export async function resolveAllRecords(

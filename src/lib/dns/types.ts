@@ -49,6 +49,7 @@ export type RawRecord = {
 	type: RecordType;
 	TTL: number;
 	data: string;
+	raw?: string;
 };
 
 export type ResolvedRecords = Record<RecordType, RawRecord[]>;
