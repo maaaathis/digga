@@ -2,15 +2,21 @@ import { AlertOctagon, ScrollText } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { type FC, Fragment } from 'react';
+import type { FC } from 'react';
 
+import RegistrationRecord, {
+	rdapToRecord,
+	whoisBlockToRecord,
+} from '@/components/lookup/registration-record';
 import StateNotice from '@/components/lookup/state-notice';
 import WhoisTabs from '@/components/lookup/whois-tabs';
 import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { lookupRdap } from '@/lib/rdap/client';
 import type { NormalizedRdap } from '@/lib/rdap/types';
 import { buildMetadata } from '@/lib/seo';
-import { lookupWhoisRaw, type WhoisRawByServer } from '@/lib/whois';
+import { lookupWhoisParsed, lookupWhoisRaw, type WhoisRawByServer } from '@/lib/whois';
+
+type WhoisParsed = Awaited<ReturnType<typeof lookupWhoisParsed>>;
 
 export const fetchCache = 'default-no-store';
 
@@ -30,6 +36,7 @@ type Loaded = {
 	rdap: NormalizedRdap | null;
 	rdapUnsupported: boolean;
 	whois: WhoisRawByServer | null;
+	whoisParsed: WhoisParsed;
 	base: string;
 	tld: string | null;
 };
@@ -37,16 +44,28 @@ type Loaded = {
 async function load(domain: string): Promise<Loaded> {
 	const base = getBaseDomain(domain);
 	if (!base) {
-		return { rdap: null, rdapUnsupported: true, whois: null, base: '', tld: null };
+		return {
+			rdap: null,
+			rdapUnsupported: true,
+			whois: null,
+			whoisParsed: null,
+			base: '',
+			tld: null,
+		};
 	}
 
 	const tld = getTLD(base);
-	const [rdapResult, whois] = await Promise.all([lookupRdap(domain), lookupWhoisRaw(domain)]);
+	const [rdapResult, whois, whoisParsed] = await Promise.all([
+		lookupRdap(domain),
+		lookupWhoisRaw(domain),
+		lookupWhoisParsed(domain),
+	]);
 
 	return {
 		rdap: rdapResult.kind === 'ok' ? rdapResult.data : null,
 		rdapUnsupported: rdapResult.kind === 'unsupported' || rdapResult.kind === 'not-found',
 		whois,
+		whoisParsed,
 		base,
 		tld,
 	};
@@ -102,7 +121,11 @@ const WhoisPage: FC<PageProps<'/lookup/[domain]/whois'>> = async ({ params }) =>
 			hasRdap={hasRdap}
 			hasWhois={hasWhois}
 			rdapPanel={data.rdap ? <RdapPanel data={data.rdap} /> : null}
-			whoisPanel={data.whois ? <WhoisPanel data={data.whois} base={data.base} /> : null}
+			whoisPanel={
+				data.whois ? (
+					<WhoisPanel data={data.whois} parsed={data.whoisParsed} base={data.base} />
+				) : null
+			}
 		/>
 	);
 };
@@ -135,38 +158,48 @@ const RegistryNotice: FC<{
 );
 
 const RdapPanel: FC<{ data: NormalizedRdap }> = ({ data }) => (
-	<div className="border-border/60 bg-card overflow-hidden rounded-2xl border shadow-sm">
-		<header className="border-border/60 border-b px-5 py-4">
-			<p className="text-muted-foreground text-xs uppercase tracking-wider">RDAP source</p>
-			<p className="text-foreground mt-0.5 font-mono text-sm">{data.server}</p>
-		</header>
-		<pre className="overflow-x-auto px-5 py-4 font-mono text-xs leading-relaxed">
-			{JSON.stringify(data.raw, null, 2)}
-		</pre>
-	</div>
+	<RegistrationRecord data={rdapToRecord(data)} />
 );
 
-const WhoisPanel: FC<{ data: WhoisRawByServer; base: string }> = ({ data, base }) => (
+const WhoisPanel: FC<{ data: WhoisRawByServer; parsed: WhoisParsed; base: string }> = ({
+	data,
+	parsed,
+	base,
+}) => (
 	<div className="space-y-6">
-		{Object.entries(data).map(([server, raw]) => (
-			<Fragment key={server}>
-				<section className="border-border/60 bg-card overflow-hidden rounded-2xl border shadow-sm">
-					<header className="border-border/60 border-b px-5 py-4">
-						<p className="text-muted-foreground text-xs uppercase tracking-wider">WHOIS server</p>
-						<p className="text-foreground mt-0.5 font-mono text-sm">{server}</p>
-					</header>
-					{raw ? (
-						<pre className="overflow-x-auto px-5 py-4 font-mono text-xs leading-relaxed whitespace-pre-wrap">
-							{raw}
-						</pre>
-					) : (
+		{Object.entries(data).map(([server, raw]) => {
+			const block = parsed?.[server] ?? {};
+			const record = whoisBlockToRecord(server, block, raw ?? '');
+			const hasContent =
+				Boolean(
+					record.registrar?.name || record.registrar?.ianaId || record.registrar?.abuseEmail,
+				) ||
+				Boolean(record.registrant?.organization || record.registrant?.name) ||
+				record.events.length > 0 ||
+				record.status.length > 0 ||
+				record.nameservers.length > 0 ||
+				record.dnssec !== null ||
+				Boolean(raw);
+
+			if (!hasContent) {
+				return (
+					<section
+						key={server}
+						className="border-border/60 bg-card overflow-hidden rounded-2xl border shadow-sm"
+					>
+						<header className="border-border/60 border-b px-5 py-4">
+							<p className="text-muted-foreground text-xs tracking-wider uppercase">WHOIS server</p>
+							<p className="text-foreground mt-0.5 font-mono text-sm">{server}</p>
+						</header>
 						<p className="text-muted-foreground px-5 py-4 text-sm">
 							No data returned by this server.
 						</p>
-					)}
-				</section>
-			</Fragment>
-		))}
+					</section>
+				);
+			}
+
+			return <RegistrationRecord key={server} data={record} />;
+		})}
 		<p className="text-muted-foreground text-xs">
 			Make a direct request at{' '}
 			<Link
