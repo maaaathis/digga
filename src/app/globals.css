@@ -181,3 +181,23 @@
 			0 1px 2px color-mix(in oklab, var(--foreground) 4%, transparent);
 	}
 }
+
+@keyframes avatar-float {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-3px);
+	}
+}
+
+.avatar-float {
+	animation: avatar-float 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.avatar-float {
+		animation: none;
+	}
+}
