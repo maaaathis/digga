@@ -20,6 +20,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Fly.io', domain: 'fly.io', match: ['fly.io'] },
 	{ name: 'IONOS', domain: 'ionos.com', match: ['ionos', '1&1', '1und1'] },
 	{ name: 'netcup', domain: 'netcup.com', match: ['netcup'] },
+	{ name: 'Contabo', domain: 'contabo.com', match: ['contabo'] },
 	{ name: 'mittwald', domain: 'mittwald.de', match: ['mittwald'] },
 	{ name: 'Vercel', domain: 'vercel.com', match: ['vercel'] },
 	{ name: 'Akamai', domain: 'akamai.com', match: ['akamai', 'linode'] },
