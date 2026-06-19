@@ -72,6 +72,7 @@ const PROVIDERS: ProviderRule[] = [
 		domain: 'vercara.com',
 		match: ['ultradns.net', 'ultradns.com', 'ultradns.org', 'ultradns.biz', 'ultradns.info'],
 	},
+	{ name: 'Jimdo', domain: 'jimdo.com', match: ['jimdo.com'] },
 	{ name: 'Oracle Dyn', domain: 'oracle.com', match: ['dynect.net'] },
 	{ name: 'Hurricane Electric', domain: 'he.net', match: ['he.net'] },
 	{ name: 'Name.com', domain: 'name.com', match: ['name.com'] },
