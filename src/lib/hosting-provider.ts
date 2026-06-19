@@ -32,6 +32,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Hostinger', domain: 'hostinger.com', match: ['hostinger'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['medien muennich', 'all-inkl', 'kasserver'] },
 	{ name: 'Wix', domain: 'wix.com', match: ['wix'] },
+	{ name: 'Shopify', domain: 'shopify.com', match: ['shopify'] },
 ];
 
 export function detectHostingProvider(org: string | null | undefined): HostingProvider | null {
