@@ -17,6 +17,7 @@ type SearchFormProps = {
 	autofocus?: boolean;
 	className?: string;
 	size?: 'default' | 'md' | 'lg';
+	tool?: string;
 };
 
 const SearchForm: FC<SearchFormProps> = ({
@@ -24,6 +25,7 @@ const SearchForm: FC<SearchFormProps> = ({
 	autofocus,
 	className,
 	size = 'default',
+	tool,
 }) => {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -71,9 +73,9 @@ const SearchForm: FC<SearchFormProps> = ({
 			return;
 		}
 
-		trackEvent('lookup', { domain: cleaned, tld: getTLD(cleaned) ?? undefined });
+		trackEvent('lookup', { domain: cleaned, tld: getTLD(cleaned) ?? undefined, tool });
 
-		const target = `/lookup/${cleaned}`;
+		const target = tool ? `/lookup/${cleaned}/${tool}` : `/lookup/${cleaned}`;
 		if (pathname === target) {
 			router.refresh();
 			setTimeout(() => setSubmitting(false), 200);

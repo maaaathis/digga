@@ -31,6 +31,15 @@ digga is a free, open source domain and infrastructure research tool. Enter any 
 
 Replace {domain} with any domain name, for example ${absoluteUrl('/lookup/example.com')}.
 
+## Tool landing pages
+
+- [DNS Lookup](${absoluteUrl('/dns')}): free DNS lookup for A, AAAA, MX, NS, TXT, CAA, SOA, SRV, and DNSSEC records.
+- [WHOIS Lookup](${absoluteUrl('/whois')}): free WHOIS lookup for registrar, owner, dates, status, and nameservers.
+- [RDAP Lookup](${absoluteUrl('/rdap')}): free RDAP lookup for structured domain registration data.
+- [Subdomain Finder](${absoluteUrl('/subdomains')}): free passive subdomain discovery from Certificate Transparency logs.
+- [Email Security Check](${absoluteUrl('/email')}): free SPF, DKIM, DMARC, MTA-STS, TLS-RPT, and BIMI analysis.
+- [SSL and TLS Certificate Checker](${absoluteUrl('/tls')}): free certificate issuer, expiry, protocol, cipher, and chain check.
+
 ## Facts
 
 - License: AGPL 3.0, open source.

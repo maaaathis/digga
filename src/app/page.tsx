@@ -7,8 +7,10 @@ import LogoMark from '@/components/brand/logo';
 import BookmarkletLink from '@/components/install/bookmarklet-link';
 import IOSShortcutLink from '@/components/install/ios-shortcut-link';
 import SearchForm from '@/components/search/search-form';
+import ToolIcon from '@/components/tool/tool-icon';
 import { EXAMPLE_DOMAINS, SITE_DESCRIPTION, SITE_NAME } from '@/lib/data';
 import { absoluteUrl, buildMetadata } from '@/lib/seo';
+import { TOOL_LIST } from '@/lib/tools';
 
 export const metadata: Metadata = buildMetadata({
 	title: 'digga · Domain & Infrastructure research',
@@ -294,6 +296,34 @@ const Home: FC = () => (
 							<h3 className="text-foreground text-base font-semibold">{feature.title}</h3>
 							<p className="text-muted-foreground mt-2 text-sm leading-relaxed">{feature.body}</p>
 						</div>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section id="tools" className="mx-auto w-full max-w-6xl px-5 pt-8 pb-16">
+			<div className="mb-10">
+				<p className="text-muted-foreground text-xs tracking-wider uppercase">Explore each tool</p>
+				<h2 className="text-foreground mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
+					A dedicated page for every lookup.
+				</h2>
+			</div>
+
+			<ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{TOOL_LIST.map(tool => (
+					<li key={tool.slug}>
+						<Link
+							href={`/${tool.slug}`}
+							className="group border-border/60 bg-card/50 hover:bg-card flex h-full flex-col gap-3 rounded-2xl border p-6 transition-colors"
+						>
+							<div className="flex items-center gap-3">
+								<span className="ring-border/60 bg-background text-foreground inline-flex size-9 items-center justify-center rounded-xl ring-1">
+									<ToolIcon iconKey={tool.iconKey} className="size-4" />
+								</span>
+								<h3 className="text-foreground text-base font-semibold">{tool.name}</h3>
+							</div>
+							<p className="text-muted-foreground text-sm leading-relaxed">{tool.description}</p>
+						</Link>
 					</li>
 				))}
 			</ul>
