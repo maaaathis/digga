@@ -33,6 +33,10 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['medien muennich', 'all-inkl', 'kasserver'] },
 	{ name: 'Wix', domain: 'wix.com', match: ['wix'] },
 	{ name: 'Shopify', domain: 'shopify.com', match: ['shopify'] },
+	{ name: 'Jimdo', domain: 'jimdo.com', match: ['jimdo'] },
+	{ name: 'Onepage', domain: 'onepage.io', match: ['onepage'] },
+	{ name: 'Squarespace', domain: 'squarespace.com', match: ['squarespace'] },
+	{ name: 'Webflow', domain: 'webflow.com', match: ['webflow'] },
 ];
 
 export function detectHostingProvider(org: string | null | undefined): HostingProvider | null {
