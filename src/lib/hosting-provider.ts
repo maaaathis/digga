@@ -37,6 +37,8 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Onepage', domain: 'onepage.io', match: ['onepage'] },
 	{ name: 'Squarespace', domain: 'squarespace.com', match: ['squarespace'] },
 	{ name: 'Webflow', domain: 'webflow.com', match: ['webflow'] },
+	{ name: 'Framer', domain: 'framer.com', match: ['framer'] },
+	{ name: 'goneo', domain: 'goneo.de', match: ['goneo'] },
 ];
 
 export function detectHostingProvider(org: string | null | undefined): HostingProvider | null {

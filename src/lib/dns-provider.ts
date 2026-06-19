@@ -102,6 +102,7 @@ const PROVIDERS: ProviderRule[] = [
 		domain: 'united-domains.de',
 		match: ['udag.de', 'udag.net', 'udag.org'],
 	},
+	{ name: 'goneo', domain: 'goneo.de', match: ['goneo.de'] },
 ];
 
 function nsHost(host: string): string {
