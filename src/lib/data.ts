@@ -7,6 +7,9 @@ export const EXAMPLE_DOMAINS = [
 	'openai.com',
 ] as const;
 
+export const CHROME_EXTENSION_URL =
+	'https://chromewebstore.google.com/detail/digga-domain-lookup/aimciocoeonneikgpcmbdlgkkcpmbabd';
+
 export const SITE_NAME = 'digga';
 export const SITE_TAGLINE = 'Domain & Infrastructure research';
 export const SITE_DESCRIPTION =

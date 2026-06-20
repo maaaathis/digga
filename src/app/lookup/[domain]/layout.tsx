@@ -5,6 +5,7 @@ import type { FC } from 'react';
 
 import DomainMark from '@/components/lookup/domain-mark';
 import DomainTldNotFound from '@/components/lookup/domain-tld-not-found';
+import ExtensionTip from '@/components/lookup/extension-tip';
 import LookupTabs from '@/components/lookup/lookup-tabs';
 import ShareButton from '@/components/lookup/share-button';
 import StateNotice from '@/components/lookup/state-notice';
@@ -177,6 +178,8 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 			<div className="mb-8">
 				<LookupTabs domain={normalized} />
 			</div>
+
+			<ExtensionTip />
 
 			<div>{children}</div>
 			<StarPrompt domain={normalized} />

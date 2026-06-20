@@ -3,12 +3,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { FC, ReactNode } from 'react';
 
+import ChromeIcon from '@/components/brand/chrome-icon';
 import LogoMark from '@/components/brand/logo';
 import BookmarkletLink from '@/components/install/bookmarklet-link';
+import ExtensionLink from '@/components/install/extension-link';
 import IOSShortcutLink from '@/components/install/ios-shortcut-link';
 import SearchForm from '@/components/search/search-form';
 import ToolIcon from '@/components/tool/tool-icon';
-import { EXAMPLE_DOMAINS, SITE_DESCRIPTION, SITE_NAME } from '@/lib/data';
+import { CHROME_EXTENSION_URL, EXAMPLE_DOMAINS, SITE_DESCRIPTION, SITE_NAME } from '@/lib/data';
 import { absoluteUrl, buildMetadata } from '@/lib/seo';
 import { TOOL_LIST } from '@/lib/tools';
 
@@ -265,6 +267,30 @@ const Home: FC = () => (
 					</Link>
 				))}
 			</div>
+
+			<div className="ring-border/60 bg-card/50 mt-10 flex w-full max-w-2xl items-center gap-3 rounded-2xl p-3 text-left ring-1 sm:gap-4 sm:p-4">
+				<span className="ring-border/60 bg-background inline-flex size-10 shrink-0 items-center justify-center rounded-xl ring-1">
+					<ChromeIcon className="size-6" />
+				</span>
+				<div className="min-w-0 flex-1">
+					<p className="text-foreground text-sm font-medium">New: the digga Chrome extension</p>
+					<p className="text-muted-foreground text-sm leading-snug">
+						Right click any page to dig its domain. No copy paste, no typing.
+					</p>
+				</div>
+				<Link
+					href={CHROME_EXTENSION_URL}
+					target="_blank"
+					rel="noreferrer noopener"
+					data-umami-event="install-extension"
+					data-umami-event-source="home-hero"
+					className="bg-foreground text-background hover:bg-foreground/90 inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors"
+				>
+					<ChromeIcon className="size-4" />
+					<span className="hidden sm:inline">Add to Chrome</span>
+					<span className="sm:hidden">Add</span>
+				</Link>
+			</div>
 		</section>
 
 		<section id="features" className="mx-auto w-full max-w-6xl px-5 pt-8 pb-16">
@@ -393,6 +419,29 @@ const Home: FC = () => (
 				<h2 className="text-foreground mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
 					Keep digga one tap away.
 				</h2>
+			</div>
+
+			<div className="border-border/60 bg-card/50 mb-4 flex flex-col gap-5 rounded-2xl border p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+				<div className="flex items-start gap-4">
+					<span className="ring-border/60 bg-background text-foreground inline-flex size-11 shrink-0 items-center justify-center rounded-xl ring-1">
+						<ChromeIcon className="size-6" />
+					</span>
+					<div>
+						<div className="flex items-center gap-2">
+							<h3 className="text-foreground text-base font-semibold">Chrome extension</h3>
+							<span className="bg-foreground text-background rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase">
+								New
+							</span>
+						</div>
+						<p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+							Right click any page and jump straight to the digga report for that domain. No copy
+							paste, no typing.
+						</p>
+					</div>
+				</div>
+				<div className="shrink-0">
+					<ExtensionLink />
+				</div>
 			</div>
 
 			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
