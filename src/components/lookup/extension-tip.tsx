@@ -58,6 +58,7 @@ const ExtensionTip: FC = () => {
 				type="button"
 				onClick={dismiss}
 				aria-label="Dismiss tip"
+				data-umami-event="dismiss-extension"
 				className="text-muted-foreground hover:text-foreground hover:bg-muted absolute top-2.5 right-2.5 rounded-md p-1 transition-colors"
 			>
 				<X className="size-4" />
