@@ -33,6 +33,13 @@ function depthOf(sub: string): number {
 	return sub.split('.').length;
 }
 
+const STATUS_RANK: Record<LiveStatus, number> = {
+	live: 0,
+	checking: 1,
+	unknown: 1,
+	dead: 2,
+};
+
 async function pool<T>(
 	items: T[],
 	limit: number,
@@ -75,10 +82,13 @@ const SubdomainResults: FC<SubdomainResultsProps> = ({ domain, subdomains, tookM
 	const [checking, setChecking] = useState(false);
 
 	const sorted = useMemo(() => {
-		const list = [...subdomains];
-		if (sort === 'name') return list.sort(naturalCompare);
-		return list.sort((a, b) => depthOf(a) - depthOf(b) || naturalCompare(a, b));
-	}, [subdomains, sort]);
+		const byMode = (a: string, b: string) =>
+			sort === 'name' ? naturalCompare(a, b) : depthOf(a) - depthOf(b) || naturalCompare(a, b);
+		return [...subdomains].sort((a, b) => {
+			const rank = STATUS_RANK[status[a] ?? 'unknown'] - STATUS_RANK[status[b] ?? 'unknown'];
+			return rank || byMode(a, b);
+		});
+	}, [subdomains, sort, status]);
 
 	const filtered = useMemo(() => {
 		const needle = filter.trim().toLowerCase();
