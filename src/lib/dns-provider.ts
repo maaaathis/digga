@@ -104,6 +104,8 @@ const PROVIDERS: ProviderRule[] = [
 		match: ['udag.de', 'udag.net', 'udag.org'],
 	},
 	{ name: 'goneo', domain: 'goneo.de', match: ['goneo.de'] },
+	{ name: 'ZAP-Hosting', domain: 'zap-hosting.com', match: ['zap-hosting.com'] },
+	{ name: 'MC-HOST24', domain: 'mc-host24.de', match: ['mc-host24.de'] },
 ];
 
 function nsHost(host: string): string {

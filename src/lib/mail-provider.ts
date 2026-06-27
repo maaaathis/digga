@@ -56,6 +56,8 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'SendGrid', domain: 'sendgrid.com', match: ['sendgrid.net'] },
 	{ name: 'Barracuda', domain: 'barracuda.com', match: ['barracudanetworks.com'] },
 	{ name: 'goneo', domain: 'goneo.de', match: ['goneo.de'] },
+	{ name: 'ZAP-Hosting', domain: 'zap-hosting.com', match: ['zap-hosting.com'] },
+	{ name: 'MC-HOST24', domain: 'mc-host24.de', match: ['mc-host24.de'] },
 ];
 
 function mxHost(data: string): string {

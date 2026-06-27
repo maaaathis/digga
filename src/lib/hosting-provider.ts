@@ -39,6 +39,8 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Webflow', domain: 'webflow.com', match: ['webflow'] },
 	{ name: 'Framer', domain: 'framer.com', match: ['framer'] },
 	{ name: 'goneo', domain: 'goneo.de', match: ['goneo'] },
+	{ name: 'ZAP-Hosting', domain: 'zap-hosting.com', match: ['zap-hosting', 'zaphosting'] },
+	{ name: 'MC-HOST24', domain: 'mc-host24.de', match: ['mc-host24', 'mchost24'] },
 ];
 
 export function detectHostingProvider(org: string | null | undefined): HostingProvider | null {
