@@ -18,18 +18,15 @@ const Page: FC = () => (
 		<p className="text-muted-foreground mt-3 text-sm">Last updated: June 19, 2026</p>
 
 		<div className="text-muted-foreground mt-8 space-y-5 text-base leading-relaxed">
+			<p>{SITE_NAME} Domain Lookup does not collect, store, sell, or share personal information.</p>
 			<p>
-				{SITE_NAME} Domain Lookup does not collect, store, sell, or share personal
-				information.
+				The extension does not monitor browsing activity, read page content, or maintain browsing
+				history.
 			</p>
 			<p>
-				The extension does not monitor browsing activity, read page content, or maintain
-				browsing history.
-			</p>
-			<p>
-				When the user explicitly activates the extension through the browser menu or toolbar
-				icon, the extension extracts the relevant hostname and opens the corresponding public
-				page on digga.dev.
+				When the user explicitly activates the extension through the browser menu or toolbar icon,
+				the extension extracts the relevant hostname and opens the corresponding public page on
+				digga.dev.
 			</p>
 			<p>No extension analytics or advertising trackers are included.</p>
 			<p>Questions can be directed to the contact address published on digga.dev.</p>
