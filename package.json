@@ -13,6 +13,7 @@
 		"test:format": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss}\"",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\"",
 		"bigquery:setup": "node --env-file=.env --experimental-strip-types scripts/setup-bigquery.ts",
+		"indexnow:submit": "node --env-file=.env --experimental-strip-types scripts/submit-indexnow.ts",
 		"postinstall": "bash scripts/install-subfinder.sh"
 	},
 	"packageManager": "pnpm@11.6.0",
