@@ -8,6 +8,15 @@ const MAX_URLS_PER_REQUEST = 10_000;
 
 const TOOL_SLUGS = ['dns', 'whois', 'rdap', 'subdomains', 'email', 'tls'];
 
+function sanitizeForLog(value: string): string {
+	let result = '';
+	for (const char of value) {
+		const code = char.codePointAt(0) ?? 0;
+		result += code < 0x20 || code === 0x7f ? ' ' : char;
+	}
+	return result.trim();
+}
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function loadCommonLookupUrls(base: string): string[] {
@@ -72,7 +81,7 @@ async function main(): Promise<void> {
 
 	if (!response.ok) {
 		const body = await response.text();
-		console.error(`IndexNow rejected the submission: ${response.status} ${body}`);
+		console.error(`IndexNow rejected the submission: ${response.status} ${sanitizeForLog(body)}`);
 		process.exit(1);
 	}
 
