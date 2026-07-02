@@ -238,20 +238,20 @@ const Home: FC = () => (
 			dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
 		/>
 
-		<section className="mx-auto flex w-full max-w-5xl flex-col items-center px-5 pt-16 pb-16 text-center md:pt-24">
-			<LogoMark className="text-foreground mb-8 h-24 w-auto md:mb-10 md:h-36" aria-hidden />
+		<section className="mx-auto flex w-full max-w-5xl flex-col items-center px-5 pt-10 pb-16 text-center md:pt-14">
+			<LogoMark className="text-foreground mb-6 h-16 w-auto md:mb-8 md:h-24" aria-hidden />
 
-			<h1 className="font-display text-foreground text-balance text-4xl leading-[1.07] font-semibold md:text-7xl md:leading-[1.05]">
+			<h1 className="font-display text-foreground text-balance text-4xl leading-[1.07] font-semibold md:text-6xl md:leading-[1.05]">
 				Domain research that actually
 				<br />
 				tells you what is going on.
 			</h1>
 
-			<p className="text-muted-foreground text-balance mt-6 max-w-xl text-base md:text-lg">
+			<p className="text-muted-foreground text-balance mt-4 max-w-xl text-base md:text-lg">
 				DNS, RDAP, WHOIS, subdomains. One search, every angle. Free for everyone.
 			</p>
 
-			<div className="mt-10 w-full max-w-2xl">
+			<div className="mt-8 w-full max-w-2xl">
 				<SearchForm size="lg" autofocus />
 			</div>
 
