@@ -109,8 +109,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2
       '@types/node':
-        specifier: ^24.13.3
-        version: 24.13.3
+        specifier: ^26.1.1
+        version: 26.1.1
       '@types/punycode':
         specifier: ^2.1.4
         version: 2.1.4
@@ -1637,8 +1637,8 @@ packages:
   '@types/natural-compare-lite@1.4.2':
     resolution: {integrity: sha512-kk1ie31cI6AUm17qOi72lEOBfpRhcknJPsJQoKBulaZC9y00MHUWqxGTk/luWEnenLB+lHoNThrKAKdYVydlew==}
 
-  '@types/node@24.13.3':
-    resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+  '@types/node@26.1.1':
+    resolution: {integrity: sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw==}
 
   '@types/punycode@2.1.4':
     resolution: {integrity: sha512-trzh6NzBnq8yw5e35f8xe8VTYjqM3NE7bohBtvDVf/dtUer3zYTLK1Ka3DG3p7bdtoaOHZucma6FfVKlQ134pQ==}
@@ -3977,8 +3977,8 @@ packages:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
     engines: {node: '>= 0.4'}
 
-  undici-types@7.18.2:
-    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
+  undici-types@8.3.0:
+    resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
   undici@7.28.0:
     resolution: {integrity: sha512-cRZYrTDwWznlnRiPjggAGxZXanty6M8RV1ff8Wm4LWXBp7/IG8v5DnOm74DtUBp9OONpK75YlPnIjQqX0dBDtA==}
@@ -5626,7 +5626,7 @@ snapshots:
 
   '@types/dns-packet@5.6.5':
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.1.1
 
   '@types/estree@1.0.9': {}
 
@@ -5636,9 +5636,9 @@ snapshots:
 
   '@types/natural-compare-lite@1.4.2': {}
 
-  '@types/node@24.13.3':
+  '@types/node@26.1.1':
     dependencies:
-      undici-types: 7.18.2
+      undici-types: 8.3.0
 
   '@types/punycode@2.1.4': {}
 
@@ -8172,7 +8172,7 @@ snapshots:
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
-  undici-types@7.18.2: {}
+  undici-types@8.3.0: {}
 
   undici@7.28.0: {}
 
