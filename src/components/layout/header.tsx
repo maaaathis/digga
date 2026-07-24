@@ -15,9 +15,6 @@ const Header: FC = () => (
 				aria-label="digga home"
 			>
 				<LogoMark className="text-foreground h-7 w-auto" />
-				<span className="bg-foreground text-background rounded-md px-1.5 py-0.5 text-[10px] font-medium tracking-wider uppercase">
-					v2
-				</span>
 				<span className="sr-only">digga</span>
 			</Link>
 			<div className="flex items-center gap-1">
