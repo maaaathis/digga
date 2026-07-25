@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import type { FC } from 'react';
 
 import SubdomainScanner from '@/components/lookup/subdomain-scanner';
-import { isValidLookupDomain, normalizeDomain } from '@/lib/domain';
+import { getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { buildMetadata } from '@/lib/seo';
 
 export async function generateMetadata({
@@ -23,7 +23,7 @@ const SubdomainsPage: FC<PageProps<'/lookup/[domain]/subdomains'>> = async ({ pa
 	const domain = normalizeDomain(decodeURIComponent(raw));
 	if (!isValidLookupDomain(domain)) notFound();
 
-	return <SubdomainScanner domain={domain} />;
+	return <SubdomainScanner domain={domain} tld={getTLD(domain) ?? undefined} />;
 };
 
 export default SubdomainsPage;

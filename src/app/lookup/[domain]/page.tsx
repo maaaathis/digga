@@ -70,6 +70,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	});
 }
 
+function started<T>(promise: Promise<T>): Promise<T> {
+	promise.catch(() => {});
+	return promise;
+}
+
 function findEventDate(
 	events: { action: string; date: string }[] | undefined,
 	needles: string[],
@@ -107,6 +112,23 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 		ip: maskIpLastOctet(clientIp),
 	});
 
+	// Every one of these is an independent network round trip, so they all start
+	// now. Awaiting availability first held the DNS and registry work back by the
+	// length of a WHOIS query for no benefit. The IP-org lookup still chains off
+	// A/AAAA, but it now starts the moment those land rather than after
+	// everything else has finished too.
+	const registrationPromise = started(getRegistrationInfo(domain));
+	const aPromise = started(resolveRecordType('cloudflare', domain, 'A'));
+	const aaaaPromise = started(resolveRecordType('cloudflare', domain, 'AAAA'));
+	const mxPromise = started(resolveRecordType('cloudflare', domain, 'MX'));
+	const nsPromise = started(resolveRecordType('cloudflare', domain, 'NS'));
+	const emailPromise = started(analyzeEmailEssentials(domain));
+	const ipOrgMapPromise = started(
+		Promise.all([aPromise, aaaaPromise]).then(([a, aaaa]) =>
+			getIpsOrgMap([...a, ...aaaa].map(record => record.data)),
+		),
+	);
+
 	const availability = await getDomainAvailability(base);
 	if (availability === DomainAvailability.AVAILABLE) {
 		return <DomainNotRegistered domain={base} />;
@@ -116,19 +138,19 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 	}
 
 	const [registration, aRecords, aaaaRecords, mxRecords, nsRecords, email] = await Promise.all([
-		getRegistrationInfo(domain),
-		resolveRecordType('cloudflare', domain, 'A'),
-		resolveRecordType('cloudflare', domain, 'AAAA'),
-		resolveRecordType('cloudflare', domain, 'MX'),
-		resolveRecordType('cloudflare', domain, 'NS'),
-		analyzeEmailEssentials(domain),
+		registrationPromise,
+		aPromise,
+		aaaaPromise,
+		mxPromise,
+		nsPromise,
+		emailPromise,
 	]);
 
 	const resolvedIps = [
 		...aRecords.map(record => record.data),
 		...aaaaRecords.map(record => record.data),
 	];
-	const ipOrgMap = await getIpsOrgMap(resolvedIps);
+	const ipOrgMap = await ipOrgMapPromise;
 
 	void persistObservations({
 		domain,

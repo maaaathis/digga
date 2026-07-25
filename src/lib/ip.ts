@@ -66,6 +66,28 @@ export function normalizeIpForCache(ip: string): string {
 	return ip;
 }
 
+const MAX_CACHED_IPS = 2_000;
+
+function boundedCacheMap<K, V>(limit: number) {
+	const entries = new Map<K, V>();
+	return {
+		get: (key: K) => entries.get(key),
+		set: (key: K, value: V) => {
+			if (entries.size >= limit) {
+				const oldest = entries.keys().next();
+				if (!oldest.done) entries.delete(oldest.value);
+			}
+			entries.set(key, value);
+		},
+		delete: (key: K) => {
+			entries.delete(key);
+		},
+		clear: () => {
+			entries.clear();
+		},
+	};
+}
+
 const detailsLoader = new DataLoader<string, IpDetails>(
 	async ips =>
 		Promise.all(
@@ -74,7 +96,10 @@ const detailsLoader = new DataLoader<string, IpDetails>(
 				return getIpDetails(normal);
 			}),
 		),
-	{ cacheKeyFn: normalizeIpForCache },
+	{
+		cacheKeyFn: normalizeIpForCache,
+		cacheMap: boundedCacheMap<string, Promise<IpDetails>>(MAX_CACHED_IPS),
+	},
 );
 
 export async function getIpOrg(ip: string): Promise<string | null> {

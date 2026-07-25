@@ -1,4 +1,4 @@
-import { isValidLookupDomain } from '@/lib/domain';
+import { isValidLookupDomain } from '@/lib/domain-core';
 
 import { formatCaaData } from './caa';
 import {

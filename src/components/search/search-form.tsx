@@ -9,8 +9,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useIsApple } from '@/hooks/use-is-apple';
 import { trackEvent } from '@/lib/analytics';
-import { cleanForLookup, getTLD, isKnownTld } from '@/lib/domain';
 import { cn, isAppleDevice } from '@/lib/utils';
+
+let domainToolsPromise: Promise<typeof import('@/lib/domain')> | null = null;
+
+const loadDomainTools = () => (domainToolsPromise ??= import('@/lib/domain'));
 
 type SearchFormProps = {
 	initialValue?: string;
@@ -37,7 +40,6 @@ const SearchForm: FC<SearchFormProps> = ({
 	const inputRef = useRef<HTMLInputElement>(null);
 	const isApple = useIsApple();
 
-	// Sync the field when the route-provided domain changes, without an effect.
 	if (initialValue !== lastInitial) {
 		setLastInitial(initialValue);
 		setValue(initialValue ?? '');
@@ -52,10 +54,12 @@ const SearchForm: FC<SearchFormProps> = ({
 		{ preventDefault: true },
 	);
 
-	const onSubmit = (event: FormEvent) => {
+	const onSubmit = async (event: FormEvent) => {
 		event.preventDefault();
 		setError(null);
 		setSubmitting(true);
+
+		const { cleanForLookup, getTLD, isKnownTld } = await loadDomainTools();
 
 		const cleaned = cleanForLookup(value);
 		if (!cleaned) {
@@ -116,7 +120,11 @@ const SearchForm: FC<SearchFormProps> = ({
 						value={value}
 						disabled={submitting}
 						autoFocus={autofocus}
-						onChange={(event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value)}
+						onFocus={() => void loadDomainTools()}
+						onChange={(event: ChangeEvent<HTMLInputElement>) => {
+							void loadDomainTools();
+							setValue(event.target.value);
+						}}
 						className={cn(
 							'h-10 flex-1 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent',
 							size === 'md' && 'h-11 text-base font-medium sm:text-lg',

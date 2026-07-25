@@ -14,12 +14,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { trackEvent } from '@/lib/analytics';
 import { resolveAllRecords } from '@/lib/dns/doh';
 import { EMPTY_RECORDS, type ResolvedRecords, type ResolverId } from '@/lib/dns/types';
-import { getTLD } from '@/lib/domain';
 
 type DnsExplorerProps = {
 	domain: string;
 	initialResolver: ResolverId;
 	initialRecords: ResolvedRecords;
+	tld?: string;
 };
 
 type SwrKey = readonly [string, string, ResolverId];
@@ -28,17 +28,17 @@ const fetcher = async ([, domain, resolver]: SwrKey) => resolveAllRecords(resolv
 
 type DnsView = 'records' | 'propagation';
 
-const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRecords }) => {
+const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRecords, tld }) => {
 	const [view, setView] = useState<DnsView>('records');
 	const [resolver, setResolver] = useState<ResolverId>(initialResolver);
 
 	const onViewChange = (next: DnsView) => {
-		trackEvent('dns-view', { view: next, domain, tld: getTLD(domain) ?? undefined });
+		trackEvent('dns-view', { view: next, domain, tld });
 		setView(next);
 	};
 
 	const onResolverChange = (next: ResolverId) => {
-		trackEvent('dns-resolver', { resolver: next, domain, tld: getTLD(domain) ?? undefined });
+		trackEvent('dns-resolver', { resolver: next, domain, tld });
 		setResolver(next);
 	};
 
@@ -88,13 +88,13 @@ const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRec
 							<RefreshCw className="size-4" />
 							Refresh
 						</Button>
-						<DnsActionsMenu domain={domain} />
+						<DnsActionsMenu domain={domain} tld={tld} />
 					</div>
 				)}
 			</div>
 
 			{view === 'propagation' ? (
-				<DnsPropagation domain={domain} />
+				<DnsPropagation domain={domain} tld={tld} />
 			) : showSkeleton ? (
 				<div className="space-y-2">
 					{Array.from({ length: 6 }).map((_, index) => (

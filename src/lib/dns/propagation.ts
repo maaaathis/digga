@@ -1,4 +1,4 @@
-import { isValidLookupDomain } from '@/lib/domain';
+import { isValidLookupDomain } from '@/lib/domain-core';
 
 import { type DoHResponse, RECORD_TYPE_BY_DECIMAL, type RecordType } from './types';
 

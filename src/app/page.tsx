@@ -261,6 +261,7 @@ const Home: FC = () => (
 					<Link
 						key={domain}
 						href={`/lookup/${domain}`}
+						prefetch={false}
 						className="bg-muted/60 hover:bg-muted text-foreground rounded-full px-2.5 py-1 font-mono text-xs transition-colors"
 					>
 						{domain}

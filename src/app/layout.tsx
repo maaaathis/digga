@@ -14,6 +14,7 @@ import Providers from './providers';
 
 const spaceGrotesk = Space_Grotesk({
 	subsets: ['latin'],
+	weight: ['600'],
 	variable: '--font-heading',
 	display: 'swap',
 });

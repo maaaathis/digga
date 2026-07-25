@@ -16,11 +16,11 @@ import {
 	type PropagationType,
 	type ResolverOutcome,
 } from '@/lib/dns/propagation';
-import { getTLD } from '@/lib/domain';
 import { cn } from '@/lib/utils';
 
 type DnsPropagationProps = {
 	domain: string;
+	tld?: string;
 };
 
 type SwrKey = readonly ['dns-propagation', string, PropagationType];
@@ -34,7 +34,7 @@ function formatTtl(ttl: number): string {
 	return `${Math.round(ttl / 86_400)}d`;
 }
 
-const DnsPropagation: FC<DnsPropagationProps> = ({ domain }) => {
+const DnsPropagation: FC<DnsPropagationProps> = ({ domain, tld }) => {
 	const [type, setType] = useState<PropagationType>('A');
 
 	const { data, isLoading, isValidating, mutate } = useSWR<PropagationReport, Error, SwrKey>(
@@ -44,7 +44,7 @@ const DnsPropagation: FC<DnsPropagationProps> = ({ domain }) => {
 	);
 
 	const onTypeChange = (next: PropagationType) => {
-		trackEvent('dns-propagation', { type: next, domain, tld: getTLD(domain) ?? undefined });
+		trackEvent('dns-propagation', { type: next, domain, tld });
 		setType(next);
 	};
 

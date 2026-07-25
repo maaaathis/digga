@@ -4,7 +4,7 @@ import type { FC } from 'react';
 
 import DnsExplorer from '@/components/lookup/dns-explorer';
 import { resolveAllRecords } from '@/lib/dns/doh';
-import { isValidLookupDomain, normalizeDomain } from '@/lib/domain';
+import { getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { buildMetadata } from '@/lib/seo';
 
 export const fetchCache = 'default-no-store';
@@ -29,7 +29,12 @@ const DnsPage: FC<PageProps<'/lookup/[domain]/dns'>> = async ({ params }) => {
 	const initialRecords = await resolveAllRecords('cloudflare', domain);
 
 	return (
-		<DnsExplorer domain={domain} initialResolver="cloudflare" initialRecords={initialRecords} />
+		<DnsExplorer
+			domain={domain}
+			initialResolver="cloudflare"
+			initialRecords={initialRecords}
+			tld={getTLD(domain) ?? undefined}
+		/>
 	);
 };
 

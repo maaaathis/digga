@@ -16,15 +16,13 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { getTLD } from '@/lib/domain';
 
 type DnsActionsMenuProps = {
 	domain: string;
+	tld?: string;
 };
 
-const DnsActionsMenu: FC<DnsActionsMenuProps> = ({ domain }) => {
-	const tld = getTLD(domain) ?? undefined;
-
+const DnsActionsMenu: FC<DnsActionsMenuProps> = ({ domain, tld }) => {
 	const flushTargets = [
 		{
 			label: 'Cloudflare (1.1.1.1)',

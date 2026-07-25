@@ -1,12 +1,16 @@
 'use client';
 
 import { ScanSearch } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { type FC, type ReactNode, useState } from 'react';
 
-import IpDetailsModal from '@/components/lookup/ip-details-modal';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { trackEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
+
+const IpDetailsModal = dynamic(() => import('@/components/lookup/ip-details-modal'), {
+	ssr: false,
+});
 
 type IpLinkProps = {
 	ip: string;
@@ -16,6 +20,8 @@ type IpLinkProps = {
 
 const IpLink: FC<IpLinkProps> = ({ ip, children, className }) => {
 	const [open, setOpen] = useState(false);
+	const [mounted, setMounted] = useState(false);
+
 	return (
 		<>
 			<Tooltip>
@@ -24,6 +30,7 @@ const IpLink: FC<IpLinkProps> = ({ ip, children, className }) => {
 						type="button"
 						onClick={() => {
 							trackEvent('ip-inspect', { ip });
+							setMounted(true);
 							setOpen(true);
 						}}
 						className={cn(
@@ -37,7 +44,7 @@ const IpLink: FC<IpLinkProps> = ({ ip, children, className }) => {
 				</TooltipTrigger>
 				<TooltipContent side="top">Inspect IP · ASN, org & location</TooltipContent>
 			</Tooltip>
-			<IpDetailsModal ip={ip} open={open} onOpenChange={setOpen} />
+			{mounted ? <IpDetailsModal ip={ip} open={open} onOpenChange={setOpen} /> : null}
 		</>
 	);
 };

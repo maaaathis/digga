@@ -10,15 +10,15 @@ import SubdomainResults from '@/components/lookup/subdomain-results';
 import TurnstileWidget from '@/components/turnstile-widget';
 import { Button } from '@/components/ui/button';
 import { trackEvent } from '@/lib/analytics';
-import { getTLD } from '@/lib/domain';
 
 type SubdomainScannerProps = {
 	domain: string;
+	tld?: string;
 };
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain }) => {
+const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain, tld }) => {
 	const [result, setResult] = useState<SubdomainScanResult | null>(null);
 	const [pending, startTransition] = useTransition();
 	const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -32,7 +32,7 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain }) => {
 			return;
 		}
 
-		trackEvent('subdomain-scan', { domain, tld: getTLD(domain) ?? undefined });
+		trackEvent('subdomain-scan', { domain, tld });
 
 		const tokenForScan = captchaToken;
 		setResult(null);

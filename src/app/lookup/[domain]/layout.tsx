@@ -135,7 +135,6 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 								{parentDomain ? (
 									<Link
 										href={`/lookup/${parentDomain}`}
-										prefetch
 										title={`View the main domain ${parentDomain}`}
 										aria-label={`View the main domain ${parentDomain}`}
 										className="group/parent text-muted-foreground hover:text-foreground -ml-1 mb-1.5 inline-flex max-w-full items-center gap-1.5 rounded px-1 py-0.5 text-xs tracking-wider uppercase transition-colors"
@@ -176,7 +175,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 			</div>
 
 			<div className="mb-8">
-				<LookupTabs domain={normalized} />
+				<LookupTabs domain={normalized} tld={tld} />
 			</div>
 
 			<ExtensionTip />

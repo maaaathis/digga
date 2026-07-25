@@ -8,10 +8,9 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useIsApple } from '@/hooks/use-is-apple';
 import { trackEvent } from '@/lib/analytics';
-import { getTLD } from '@/lib/domain';
 import { cn } from '@/lib/utils';
 
-type LookupTabsProps = { domain: string };
+type LookupTabsProps = { domain: string; tld?: string };
 
 type TabDef = {
 	key: string;
@@ -30,7 +29,7 @@ const TABS: TabWithIndex[] = [
 	{ key: 'tls', label: 'TLS', segment: 'tls', index: '06' },
 ];
 
-const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
+const LookupTabs: FC<LookupTabsProps> = ({ domain, tld }) => {
 	const router = useRouter();
 	const active = useSelectedLayoutSegment();
 	const isApple = useIsApple();
@@ -38,8 +37,7 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 	const hrefFor = (segment: string | null) =>
 		segment === null ? `/lookup/${domain}` : `/lookup/${domain}/${segment}`;
 
-	const trackTab = (key: string) =>
-		trackEvent('lookup-tab', { tab: key, domain, tld: getTLD(domain) ?? undefined });
+	const trackTab = (key: string) => trackEvent('lookup-tab', { tab: key, domain, tld });
 
 	const goToTab = (tab: TabWithIndex) => {
 		trackTab(tab.key);
@@ -68,7 +66,6 @@ const LookupTabs: FC<LookupTabsProps> = ({ domain }) => {
 						<TooltipTrigger asChild>
 							<Link
 								href={href}
-								prefetch
 								onClick={() => trackTab(tab.key)}
 								className={cn(
 									'group relative inline-flex items-baseline gap-2 py-3 text-sm font-medium tracking-tight whitespace-nowrap transition-colors',
