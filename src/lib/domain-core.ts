@@ -1,7 +1,7 @@
 const MAX_DOMAIN_LENGTH = 253;
 const MAX_LABEL_LENGTH = 63;
 const MAX_LABELS = 12;
-const LABEL_PATTERN = /^[a-z0-9-]+$/i;
+const LABEL_PATTERN = /^(?=.*[a-z0-9])[a-z0-9_-]+$/i;
 const TLD_PATTERN = /^(?:xn--)?(?!\d+$)[a-z0-9]+$/i;
 
 export function normalizeDomain(input: string): string {
