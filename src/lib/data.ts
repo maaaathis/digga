@@ -9,6 +9,7 @@ export const EXAMPLE_DOMAINS = [
 
 export const CHROME_EXTENSION_URL =
 	'https://chromewebstore.google.com/detail/digga-domain-lookup/aimciocoeonneikgpcmbdlgkkcpmbabd';
+export const FIREFOX_EXTENSION_URL = 'https://addons.mozilla.org/firefox/addon/digga/';
 
 export const SITE_NAME = 'digga';
 export const SITE_TAGLINE = 'Domain & Infrastructure research';

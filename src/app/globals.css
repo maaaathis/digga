@@ -181,6 +181,10 @@
 			0 0 0 1px color-mix(in oklab, var(--border) 80%, transparent),
 			0 1px 2px color-mix(in oklab, var(--foreground) 4%, transparent);
 	}
+	html[data-browser='firefox'] .browser-only-chrome,
+	html:not([data-browser='firefox']) .browser-only-firefox {
+		display: none;
+	}
 }
 
 @keyframes avatar-float {

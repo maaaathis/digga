@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import Analytics from '@/components/analytics';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { BROWSER_TARGET_SCRIPT } from '@/lib/browser';
 import { SEO_KEYWORDS, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from '@/lib/data';
 import { siteUrl } from '@/lib/seo';
 import { cn } from '@/lib/utils';
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			)}
 		>
 			<body className="bg-background text-foreground flex min-h-full flex-col font-sans">
+				<script dangerouslySetInnerHTML={{ __html: BROWSER_TARGET_SCRIPT }} />
 				<Providers>
 					<div className="surface-blur relative flex min-h-screen flex-col">
 						<Header />
