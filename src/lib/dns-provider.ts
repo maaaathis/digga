@@ -97,6 +97,11 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
 	{ name: 'Alfahosting', domain: 'alfahosting.de', match: ['alfahosting.info'] },
 	{ name: 'InternetX', domain: 'internetx.com', match: ['ns14.net', 'ns15.net'] },
+	{
+		name: 'INWX',
+		domain: 'inwx.com',
+		match: ['inwx.de', 'inwx.eu', 'inwx.com', 'inwx.net'],
+	},
 	{ name: 'Infomaniak', domain: 'infomaniak.com', match: ['infomaniak.ch', 'infomaniak.com'] },
 	{
 		name: 'United Domains',
