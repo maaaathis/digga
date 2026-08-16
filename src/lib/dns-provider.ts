@@ -96,6 +96,11 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'netcup', domain: 'netcup.com', match: ['netcup.net'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
 	{ name: 'Alfahosting', domain: 'alfahosting.de', match: ['alfahosting.info'] },
+	{
+		name: 'Aruba',
+		domain: 'aruba.it',
+		match: ['arubadns.net', 'arubadns.cz', 'arubadns.com', 'technorail.com'],
+	},
 	{ name: 'InternetX', domain: 'internetx.com', match: ['ns14.net', 'ns15.net'] },
 	{
 		name: 'INWX',

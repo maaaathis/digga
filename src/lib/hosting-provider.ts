@@ -31,6 +31,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'GoDaddy', domain: 'godaddy.com', match: ['godaddy'] },
 	{ name: 'Hostinger', domain: 'hostinger.com', match: ['hostinger'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['medien muennich', 'all-inkl', 'kasserver'] },
+	{ name: 'Aruba', domain: 'aruba.it', match: ['aruba'] },
 	{ name: 'Wix', domain: 'wix.com', match: ['wix'] },
 	{ name: 'Shopify', domain: 'shopify.com', match: ['shopify'] },
 	{ name: 'Jimdo', domain: 'jimdo.com', match: ['jimdo'] },
