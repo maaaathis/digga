@@ -82,7 +82,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Squarespace', domain: 'squarespace.com', match: ['squarespacedns.com'] },
 	{ name: 'Hostinger', domain: 'hostinger.com', match: ['dns-parking.com'] },
 	{ name: 'Bluehost', domain: 'bluehost.com', match: ['bluehost.com'] },
-	{ name: 'Dynadot', domain: 'dynadot.com', match: ['dynadot.com'] },
+	{ name: 'Dynadot', domain: 'dynadot.com', match: ['dynadot.com', 'dyna-ns.net'] },
 	{ name: 'Hover', domain: 'hover.com', match: ['hover.com'] },
 	{ name: 'Linode', domain: 'linode.com', match: ['linode.com'] },
 	{ name: 'WordPress.com', domain: 'wordpress.com', match: ['wordpress.com'] },
