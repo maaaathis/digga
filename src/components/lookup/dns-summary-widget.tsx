@@ -7,7 +7,6 @@ import IpLink from '@/components/lookup/ip-link';
 import ProviderBadge from '@/components/lookup/provider-badge';
 import Widget from '@/components/lookup/widget';
 import type { RawRecord } from '@/lib/dns/types';
-import type { MailProvider } from '@/lib/mail-provider';
 
 type DnsSummaryWidgetProps = {
 	title: string;
@@ -17,7 +16,8 @@ type DnsSummaryWidgetProps = {
 	icon?: ReactNode;
 	emptyText?: string;
 	ipOrgMap?: Record<string, string>;
-	provider?: MailProvider | null;
+	provider?: { name: string; domain: string } | null;
+	providerLabel?: string;
 };
 
 const DnsSummaryWidget: FC<DnsSummaryWidgetProps> = ({
@@ -29,6 +29,7 @@ const DnsSummaryWidget: FC<DnsSummaryWidgetProps> = ({
 	emptyText,
 	ipOrgMap,
 	provider,
+	providerLabel,
 }) => {
 	return (
 		<Widget
@@ -45,7 +46,11 @@ const DnsSummaryWidget: FC<DnsSummaryWidgetProps> = ({
 			}
 		>
 			{provider ? (
-				<ProviderBadge name={provider.name} domain={provider.domain} label="Mail provider" />
+				<ProviderBadge
+					name={provider.name}
+					domain={provider.domain}
+					label={providerLabel ?? 'Provider'}
+				/>
 			) : null}
 			{records.length === 0 ? (
 				<p className="text-muted-foreground text-sm">{emptyText ?? 'No records found.'}</p>

@@ -166,9 +166,14 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 		void persistIpMetadata(resolvedIps);
 	}
 
+	const orgOf = (ip: string | null | undefined) =>
+		ip ? (ipOrgMap[ip]?.split(' / ')[0] ?? null) : null;
+
 	const primaryIp = aRecords[0]?.data ?? aaaaRecords[0]?.data ?? null;
-	const hostingOrg = primaryIp ? (ipOrgMap[primaryIp]?.split(' / ')[0] ?? null) : null;
+	const hostingOrg = orgOf(primaryIp);
 	const hostingProvider = detectHostingProvider(hostingOrg);
+	const ipv4Provider = detectHostingProvider(orgOf(aRecords[0]?.data));
+	const ipv6Provider = detectHostingProvider(orgOf(aaaaRecords[0]?.data));
 
 	const emailStatuses = [email.spf.status, email.dmarc.status];
 	const emailPosture: EmailPosture = emailStatuses.every(status => status === 'pass')
@@ -204,6 +209,8 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						records={aRecords}
 						icon={<Globe className="size-3.5" />}
 						ipOrgMap={ipOrgMap}
+						provider={ipv4Provider}
+						providerLabel="Hosting provider"
 					/>
 					<DnsSummaryWidget
 						domain={domain}
@@ -212,6 +219,8 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						records={aaaaRecords}
 						icon={<Globe className="size-3.5" />}
 						ipOrgMap={ipOrgMap}
+						provider={ipv6Provider}
+						providerLabel="Hosting provider"
 					/>
 					<DnsSummaryWidget
 						domain={domain}
@@ -221,6 +230,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						icon={<Mail className="size-3.5" />}
 						emptyText="No MX records. This domain probably does not receive mail."
 						provider={detectMailProvider(mxRecords)}
+						providerLabel="Mail provider"
 					/>
 					{registration ? <NameserverWidget registration={registration} /> : null}
 				</div>
