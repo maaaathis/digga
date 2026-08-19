@@ -6,13 +6,15 @@ type ProviderBadgeProps = {
 	domain: string;
 	/** Short caption on the right, e.g. "Mail provider". */
 	label: string;
+	/** Bundled logo to use instead of the favicon service. */
+	logo?: string;
 };
 
-const ProviderBadge: FC<ProviderBadgeProps> = ({ name, domain, label }) => (
+const ProviderBadge: FC<ProviderBadgeProps> = ({ name, domain, label, logo }) => (
 	<div className="border-border/60 bg-muted/30 mb-2.5 flex items-center gap-2.5 rounded-lg border px-3 py-2">
 		{/* eslint-disable-next-line @next/next/no-img-element */}
 		<img
-			src={`https://icons.duckduckgo.com/ip3/${domain}.ico`}
+			src={logo ?? `https://icons.duckduckgo.com/ip3/${domain}.ico`}
 			alt=""
 			width={20}
 			height={20}

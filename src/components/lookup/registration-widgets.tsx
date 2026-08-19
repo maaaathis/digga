@@ -141,7 +141,12 @@ export const NameserverWidget: FC<RegistrationProps> = ({ registration }) => {
 	return (
 		<Widget variant="section" title="Nameservers" icon={<Server className="size-3.5" />}>
 			{provider ? (
-				<ProviderBadge name={provider.name} domain={provider.domain} label="DNS provider" />
+				<ProviderBadge
+					name={provider.name}
+					domain={provider.domain}
+					logo={provider.logo}
+					label="DNS provider"
+				/>
 			) : null}
 			<ul className="space-y-1.5">
 				{registration.nameservers.map(ns => (

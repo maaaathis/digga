@@ -1,6 +1,9 @@
+import { detectDomainTakeover } from '@/lib/domain-takeover';
+
 export type DnsProvider = {
 	name: string;
 	domain: string;
+	logo?: string;
 };
 
 type ProviderRule = DnsProvider & {
@@ -125,6 +128,16 @@ function nsHost(host: string): string {
 export function detectDnsProvider(nameservers: string[]): DnsProvider | null {
 	const hosts = nameservers.map(nsHost).filter(Boolean);
 	if (hosts.length === 0) return null;
+
+	const takeover = detectDomainTakeover(hosts);
+	if (takeover) {
+		const suffix = takeover.kind === 'seizure' ? 'seized domain' : 'sinkhole';
+		return {
+			name: `${takeover.operator} (${suffix})`,
+			domain: takeover.domain,
+			logo: takeover.logo,
+		};
+	}
 
 	for (const provider of PROVIDERS) {
 		const isMatch = hosts.some(

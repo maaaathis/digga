@@ -261,7 +261,12 @@ const RegistrationRecord: FC<{ data: RegistrationRecordData }> = ({ data }) => {
 					<Row icon={<Server className="size-3.5" />} label="Nameservers">
 						<div className="space-y-2">
 							{provider ? (
-								<ProviderBadge name={provider.name} domain={provider.domain} label="DNS provider" />
+								<ProviderBadge
+									name={provider.name}
+									domain={provider.domain}
+									logo={provider.logo}
+									label="DNS provider"
+								/>
 							) : null}
 							<ul className="space-y-1.5">
 								{data.nameservers.map(ns => (

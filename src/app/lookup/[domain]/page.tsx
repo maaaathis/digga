@@ -15,10 +15,12 @@ import {
 	RegistrantWidget,
 	StatusWidget,
 } from '@/components/lookup/registration-widgets';
+import TakeoverBanner from '@/components/lookup/takeover-banner';
 import { logDomainLookup } from '@/lib/bigquery';
 import { resolveRecordType } from '@/lib/dns/doh';
 import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { analyzeEmailEssentials } from '@/lib/email-security';
+import { detectDomainTakeover } from '@/lib/domain-takeover';
 import { detectHostingProvider } from '@/lib/hosting-provider';
 import { getIpsOrgMap } from '@/lib/ip';
 import { persistIpMetadata } from '@/lib/ip-metadata';
@@ -182,6 +184,11 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 			? 'none'
 			: 'partial';
 
+	const takeover = detectDomainTakeover([
+		...(registration?.nameservers ?? []),
+		...nsRecords.map(record => record.data),
+	]);
+
 	const facts = buildQuickFacts({
 		registeredAt: registration
 			? findEventDate(registration.events, ['registration', 'created'])
@@ -198,6 +205,8 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 
 	return (
 		<div className="space-y-12">
+			{takeover ? <TakeoverBanner domain={domain} takeover={takeover} /> : null}
+
 			{facts.length > 0 ? <QuickFacts facts={facts} /> : null}
 
 			<div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-[1.1fr_1fr]">
