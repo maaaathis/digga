@@ -6,11 +6,9 @@ import commonDomains from '@/data/common-domains.json';
 import { getTopDomains } from '@/lib/bigquery';
 import { compareLengthThenAlpha, deduplicate } from '@/lib/utils';
 
-export const LOOKUP_SUBPATHS = ['', '/dns', '/whois', '/subdomains', '/email', '/tls'] as const;
+export const DATA_DOMAINS_PER_SITEMAP = 10_000;
 
-export const DATA_DOMAINS_PER_SITEMAP = 7000;
-
-const MAX_DATA_DOMAINS = 50_000;
+const MAX_DATA_DOMAINS = 10_000;
 
 export const XML_RESPONSE_HEADERS = {
 	'Content-Type': 'application/xml',
@@ -75,9 +73,7 @@ export function chunk<T>(items: T[], size: number): T[][] {
 }
 
 export function lookupUrls(base: string, domains: string[]): string[] {
-	return domains.flatMap(domain =>
-		LOOKUP_SUBPATHS.map(suffix => `${base}/lookup/${domain}${suffix}`),
-	);
+	return domains.map(domain => `${base}/lookup/${domain}`);
 }
 
 export const getDataDomains = unstable_cache(
