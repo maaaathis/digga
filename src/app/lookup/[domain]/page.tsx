@@ -184,6 +184,12 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 			? 'none'
 			: 'partial';
 
+	const registryNameservers = registration?.nameservers ?? [];
+	const liveNameservers = [
+		...new Set(nsRecords.map(record => record.data.replace(/\.$/, '').toLowerCase())),
+	];
+	const nameservers = registryNameservers.length > 0 ? registryNameservers : liveNameservers;
+
 	const takeover = detectDomainTakeover([
 		...(registration?.nameservers ?? []),
 		...nsRecords.map(record => record.data),
@@ -195,7 +201,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 			: null,
 		expiresAt: registration ? findEventDate(registration.events, ['expir']) : null,
 		dnssec: registration?.dnssec ?? null,
-		nameserverCount: registration?.nameservers.length ?? 0,
+		nameserverCount: nameservers.length,
 		hasMx: mxRecords.length > 0,
 		registrar: registration?.registrar ?? null,
 		hostingOrg,
@@ -241,7 +247,10 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						provider={detectMailProvider(mxRecords)}
 						providerLabel="Mail provider"
 					/>
-					{registration ? <NameserverWidget registration={registration} /> : null}
+					<NameserverWidget
+						nameservers={nameservers}
+						source={registryNameservers.length > 0 ? 'registry' : 'dns'}
+					/>
 				</div>
 
 				<div className="space-y-10">

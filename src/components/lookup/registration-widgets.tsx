@@ -133,13 +133,22 @@ export const StatusWidget: FC<RegistrationProps> = ({ registration }) => {
 	);
 };
 
-export const NameserverWidget: FC<RegistrationProps> = ({ registration }) => {
-	if (registration.nameservers.length === 0) return null;
+type NameserverProps = { nameservers: string[]; source?: 'registry' | 'dns' };
 
-	const provider = detectDnsProvider(registration.nameservers);
+export const NameserverWidget: FC<NameserverProps> = ({ nameservers, source = 'registry' }) => {
+	if (nameservers.length === 0) return null;
+
+	const provider = detectDnsProvider(nameservers);
 
 	return (
-		<Widget variant="section" title="Nameservers" icon={<Server className="size-3.5" />}>
+		<Widget
+			variant="section"
+			title="Nameservers"
+			subtitle={
+				source === 'dns' ? 'Resolved from live DNS, the registry published none' : undefined
+			}
+			icon={<Server className="size-3.5" />}
+		>
 			{provider ? (
 				<ProviderBadge
 					name={provider.name}
@@ -149,7 +158,7 @@ export const NameserverWidget: FC<RegistrationProps> = ({ registration }) => {
 				/>
 			) : null}
 			<ul className="space-y-1.5">
-				{registration.nameservers.map(ns => (
+				{nameservers.map(ns => (
 					<li
 						key={ns}
 						className="bg-muted/40 hover:bg-muted/60 flex items-center justify-between gap-2 rounded-lg px-3 py-2 font-mono text-xs transition-colors"
