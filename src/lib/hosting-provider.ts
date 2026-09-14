@@ -38,6 +38,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'Onepage', domain: 'onepage.io', match: ['onepage'] },
 	{ name: 'Squarespace', domain: 'squarespace.com', match: ['squarespace'] },
 	{ name: 'Webflow', domain: 'webflow.com', match: ['webflow'] },
+	{ name: 'Automattic', domain: 'automattic.com', match: ['automattic', 'wordpress.com', 'wpvip'] },
 	{ name: 'Framer', domain: 'framer.com', match: ['framer'] },
 	{ name: 'goneo', domain: 'goneo.de', match: ['goneo'] },
 	{ name: 'ZAP-Hosting', domain: 'zap-hosting.com', match: ['zap-hosting', 'zaphosting'] },
