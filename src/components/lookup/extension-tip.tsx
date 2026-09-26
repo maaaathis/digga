@@ -13,7 +13,7 @@ const ExtensionTip: FC = () => (
 			<aside
 				key={browser}
 				className={cn(
-					'extension-tip ring-foreground/10 bg-card relative mb-8 flex flex-col gap-3 rounded-xl p-4 ring-1 sm:flex-row sm:items-center sm:gap-4 sm:pr-11',
+					'extension-tip ring-foreground/10 bg-card relative mb-8 hidden items-center gap-4 rounded-xl p-4 pr-11 ring-1 sm:flex',
 					browserOnlyClass(browser),
 				)}
 			>
