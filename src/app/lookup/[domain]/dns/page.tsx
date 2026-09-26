@@ -18,6 +18,8 @@ export async function generateMetadata({
 		title: `DNS records for ${normalized}`,
 		description: `Live DNS lookup for ${normalized}. Check A, AAAA, MX, NS, TXT, CAA, DNSSEC, and more across Cloudflare, Google, and Alibaba resolvers.`,
 		path: `/lookup/${normalized}/dns`,
+		// Every tab shares the overview's domain image, so it renders once per domain.
+		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }
 

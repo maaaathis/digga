@@ -9,6 +9,11 @@ export const ogImageSize = { width: 1200, height: 630 };
 export const ogImageContentType = 'image/png';
 export const ogImageAlt = 'Domain report on digga';
 
+// Domain images are rendered on demand and only depend on the domain, so let
+// browsers, social crawlers, and the CDN keep them instead of re-rendering.
+const DOMAIN_OG_CACHE_CONTROL =
+	'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=86400';
+
 function fitFontSize(length: number): number {
 	if (length <= 14) return 104;
 	if (length <= 22) return 84;
@@ -320,6 +325,6 @@ export function renderDomainOgImage(rawDomain: string): ImageResponse {
 				<span style={{ fontFamily: 'monospace', color: '#a1a1aa' }}>digga.dev</span>
 			</div>
 		</div>,
-		ogImageSize,
+		{ ...ogImageSize, headers: { 'Cache-Control': DOMAIN_OG_CACHE_CONTROL } },
 	);
 }

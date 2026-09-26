@@ -19,12 +19,14 @@ export function buildMetadata({
 	path,
 	keywords,
 	noIndex,
+	image,
 }: {
 	title: string;
 	description?: string;
 	path: string;
 	keywords?: readonly string[];
 	noIndex?: boolean;
+	image?: string;
 }): Metadata {
 	const url = absoluteUrl(path);
 	return {
@@ -38,11 +40,13 @@ export function buildMetadata({
 			description,
 			url,
 			siteName: SITE_NAME,
+			...(image ? { images: absoluteUrl(image) } : {}),
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title,
 			description,
+			...(image ? { images: absoluteUrl(image) } : {}),
 		},
 		robots: noIndex ? 'noindex, nofollow' : 'index, follow',
 	};

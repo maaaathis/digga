@@ -29,6 +29,8 @@ export async function generateMetadata({
 		title: `RDAP and WHOIS for ${normalized}`,
 		description: `WHOIS and RDAP lookup for ${normalized}. Check registrar, nameservers, domain status, creation dates, expiration dates, and DNSSEC data.`,
 		path: `/lookup/${normalized}/whois`,
+		// Every tab shares the overview's domain image, so it renders once per domain.
+		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }
 

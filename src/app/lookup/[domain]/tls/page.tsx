@@ -18,6 +18,8 @@ export async function generateMetadata({
 		title: `TLS certificate for ${normalized}`,
 		description: `Live TLS/SSL certificate check for ${normalized}. See the issuer, validity window, expiry countdown, protocol, cipher, SANs, and chain.`,
 		path: `/lookup/${normalized}/tls`,
+		// Every tab shares the overview's domain image, so it renders once per domain.
+		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }
 

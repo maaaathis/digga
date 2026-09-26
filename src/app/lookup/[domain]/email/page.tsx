@@ -18,6 +18,8 @@ export async function generateMetadata({
 		title: `Email security for ${normalized}`,
 		description: `Email security check for ${normalized}. Analyze SPF, DKIM, DMARC, MTA-STS, TLS-RPT, and BIMI to spot spoofing and deliverability risks.`,
 		path: `/lookup/${normalized}/email`,
+		// Every tab shares the overview's domain image, so it renders once per domain.
+		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }
 

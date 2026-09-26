@@ -15,6 +15,8 @@ export async function generateMetadata({
 		title: `Subdomains for ${normalized}`,
 		description: `Passive subdomain finder for ${normalized}. Discover public subdomains from Certificate Transparency and other passive sources.`,
 		path: `/lookup/${normalized}/subdomains`,
+		// Every tab shares the overview's domain image, so it renders once per domain.
+		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }
 
