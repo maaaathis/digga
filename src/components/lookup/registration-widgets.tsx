@@ -1,4 +1,5 @@
 import { Building2, CalendarClock, KeyRound, Server, ShieldCheck } from 'lucide-react';
+import naturalCompare from 'natural-compare-lite';
 import type { FC } from 'react';
 
 import CopyButton from '@/components/copy-button';
@@ -158,7 +159,7 @@ export const NameserverWidget: FC<NameserverProps> = ({ nameservers, source = 'r
 				/>
 			) : null}
 			<ul className="space-y-1.5">
-				{nameservers.map(ns => (
+				{[...nameservers].sort(naturalCompare).map(ns => (
 					<li
 						key={ns}
 						className="bg-muted/40 hover:bg-muted/60 flex items-center justify-between gap-2 rounded-lg px-3 py-2 font-mono text-xs transition-colors"

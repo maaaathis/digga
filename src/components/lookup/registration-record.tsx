@@ -1,4 +1,5 @@
 import { Building2, CalendarClock, KeyRound, Server, ShieldCheck, UserRound } from 'lucide-react';
+import naturalCompare from 'natural-compare-lite';
 import type { FC, ReactNode } from 'react';
 
 import CopyButton from '@/components/copy-button';
@@ -269,7 +270,7 @@ const RegistrationRecord: FC<{ data: RegistrationRecordData }> = ({ data }) => {
 								/>
 							) : null}
 							<ul className="space-y-1.5">
-								{data.nameservers.map(ns => (
+								{[...data.nameservers].sort(naturalCompare).map(ns => (
 									<li
 										key={ns}
 										className="bg-muted/40 hover:bg-muted/60 group flex items-center justify-between gap-2 rounded-lg px-3 py-2 font-mono text-xs transition-colors"
