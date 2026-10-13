@@ -8,5 +8,5 @@
 </p>
 
 <p align="center">
-  AGPL 3.0
+  AGPL 3.0 with additional attribution terms, see <a href="./LICENSE">LICENSE</a>
 </p>

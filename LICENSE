@@ -659,3 +659,34 @@ specific requirements.
 if any, to sign a "copyright disclaimer" for the program, if necessary.
 For more information on this, and how to apply and follow the GNU AGPL, see
 <https://www.gnu.org/licenses/>.
+
+------------------------------------------------------------------------
+
+                ADDITIONAL TERMS UNDER SECTION 7
+
+  Copyright (C) https://github.com/maaaathis
+
+  The following additional terms apply to digga version 2 and later in
+accordance with section 7(b) of the GNU Affero General Public License
+version 3. They do not apply to the earlier version in the v1
+directory, which remains licensed under the GNU Affero General Public
+License version 3 without additional terms. They require the
+preservation of reasonable author attributions and are not "further
+restrictions" within the meaning of section 7.
+
+  1. Attribution. Any covered work, modified or not, that users can
+interact with remotely through a computer network must preserve the
+author attributions in its user interface. This includes the links to
+the original project at https://digga.dev shown in the page footer, on
+tool pages and on domain report pages.
+
+  2. Form. Each attribution must stay visible and readable, and must be
+a regular hyperlink to https://digga.dev or to the corresponding page
+on https://digga.dev. It must not be hidden, removed or made
+inaccessible, and must not carry rel attributes such as "nofollow",
+"ugc" or "sponsored" that tell search engines to disregard it.
+
+  3. Modified interfaces. If you change the user interface, you must
+keep an equivalent attribution with a link to https://digga.dev in the
+Appropriate Legal Notices of the work, displayed in a place reachable
+from every page, such as a shared footer.

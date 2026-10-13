@@ -1,3 +1,5 @@
+// The links to digga.dev in this file are author attributions required by the
+// additional terms in LICENSE (AGPL 3.0 section 7(b)). Keep them when modifying.
 import { AlertTriangle, CornerLeftUp, ExternalLink } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -112,6 +114,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 					'name': SITE_NAME,
 					'url': absoluteUrl('/'),
 				},
+				'isBasedOn': `https://digga.dev/lookup/${normalized}`,
 			},
 		],
 	};
@@ -181,6 +184,14 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 			<ExtensionTip />
 
 			<div>{children}</div>
+			<p className="text-muted-foreground mt-12 text-center text-xs">
+				<a
+					href={`https://digga.dev/lookup/${normalized}`}
+					className="hover:text-foreground underline-offset-2 hover:underline"
+				>
+					{display} domain report on digga.dev
+				</a>
+			</p>
 			<StarPrompt domain={normalized} />
 		</div>
 	);

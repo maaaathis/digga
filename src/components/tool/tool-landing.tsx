@@ -1,3 +1,5 @@
+// The links to digga.dev in this file are author attributions required by the
+// additional terms in LICENSE (AGPL 3.0 section 7(b)). Keep them when modifying.
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import type { FC } from 'react';
@@ -33,6 +35,7 @@ const ToolLanding: FC<ToolLandingProps> = ({ slug }) => {
 		'operatingSystem': 'Any',
 		'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
 		'isPartOf': { '@type': 'WebSite', 'name': SITE_NAME, 'url': absoluteUrl('/') },
+		'isBasedOn': `https://digga.dev/${tool.slug}`,
 	};
 
 	const faqSchema = {
@@ -208,6 +211,14 @@ const ToolLanding: FC<ToolLandingProps> = ({ slug }) => {
 				<div className="mt-8">
 					<SearchForm size="md" tool={tool.lookupSegment} />
 				</div>
+				<p className="text-muted-foreground mt-8 text-xs">
+					<a
+						href={`https://digga.dev/${tool.slug}`}
+						className="hover:text-foreground underline-offset-2 hover:underline"
+					>
+						Free {tool.name} by digga.dev
+					</a>
+				</p>
 			</section>
 		</div>
 	);
