@@ -1,15 +1,5 @@
 import 'server-only';
 
-import { unstable_cache } from 'next/cache';
-
-import commonDomains from '@/data/common-domains.json';
-import { getTopDomains } from '@/lib/bigquery';
-import { compareLengthThenAlpha, deduplicate } from '@/lib/utils';
-
-export const DATA_DOMAINS_PER_SITEMAP = 10_000;
-
-const MAX_DATA_DOMAINS = 10_000;
-
 export const XML_RESPONSE_HEADERS = {
 	'Content-Type': 'application/xml',
 	'Cache-Control': 'public, max-age=86400',
@@ -64,26 +54,6 @@ ${entries}
 `;
 }
 
-export function chunk<T>(items: T[], size: number): T[][] {
-	const chunks: T[][] = [];
-	for (let i = 0; i < items.length; i += size) {
-		chunks.push(items.slice(i, i + size));
-	}
-	return chunks;
-}
-
 export function lookupUrls(base: string, domains: string[]): string[] {
 	return domains.map(domain => `${base}/lookup/${domain}`);
 }
-
-export const getDataDomains = unstable_cache(
-	async (): Promise<string[]> => {
-		const common = new Set(deduplicate(commonDomains as string[]));
-		const top = await getTopDomains(MAX_DATA_DOMAINS).catch(() => []);
-		return deduplicate(top)
-			.filter(domain => !common.has(domain))
-			.sort(compareLengthThenAlpha);
-	},
-	['sitemap-data-domains'],
-	{ revalidate: 86400 },
-);
