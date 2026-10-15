@@ -38,11 +38,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			noIndex: true,
 		});
 	}
-	return buildMetadata({
-		title: `${normalized} · Lookup`,
-		description: `DNS records, RDAP, WHOIS, subdomains, and email security for ${normalized}.`,
-		path: `/lookup/${normalized}`,
-	});
+	return {
+		...buildMetadata({
+			title: `${normalized} · Lookup`,
+			description: `DNS records, RDAP, WHOIS, subdomains, and email security for ${normalized}.`,
+			path: `/lookup/${normalized}`,
+		}),
+		title: { default: `${normalized} · Lookup`, template: `%s · ${SITE_NAME}` },
+	};
 }
 
 const LookupLayout: FC<Props> = async ({ children, params }) => {

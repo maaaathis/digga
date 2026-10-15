@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import DnsExplorer from '@/components/lookup/dns-explorer';
 import { resolveAllRecords } from '@/lib/dns/doh';
 import { getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
+import { shouldIndexLookup } from '@/lib/lookup-indexing';
 import { buildMetadata } from '@/lib/seo';
 
 export const fetchCache = 'default-no-store';
@@ -18,7 +19,7 @@ export async function generateMetadata({
 		title: `DNS records for ${normalized}`,
 		description: `Live DNS lookup for ${normalized}. Check A, AAAA, MX, NS, TXT, CAA, DNSSEC, and more across Cloudflare, Google, and Alibaba resolvers.`,
 		path: `/lookup/${normalized}/dns`,
-		// Every tab shares the overview's domain image, so it renders once per domain.
+		noIndex: !(await shouldIndexLookup(normalized)),
 		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }

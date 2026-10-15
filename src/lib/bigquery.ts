@@ -167,12 +167,19 @@ export async function logDomainLookup(args: {
 export async function getTopDomains(count: number): Promise<string[]> {
 	if (!bigquery || !process.env.BIGQUERY_DATASET) return [];
 
-	const tableName = `\`${bigquery.projectId}.${process.env.BIGQUERY_DATASET}.domain_lookups\``;
+	const dataset = `${bigquery.projectId}.${process.env.BIGQUERY_DATASET}`;
+	const tableName = `\`${dataset}.domain_lookups\``;
+	const observationsTable = `\`${dataset}.dns_observations\``;
 	const rows = await bigquery.query({
 		query: `
       SELECT baseDomain
       FROM ${tableName}
       WHERE baseDomain IS NOT NULL
+        AND baseDomain IN (
+          SELECT DISTINCT base_domain
+          FROM ${observationsTable}
+          WHERE record_type = 'NS' AND domain = base_domain
+        )
       GROUP BY baseDomain
       ORDER BY COUNT(*) DESC
       LIMIT ${count}
