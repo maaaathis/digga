@@ -1,7 +1,6 @@
 // The links to digga.dev in this file are author attributions required by the
 // additional terms in LICENSE (AGPL 3.0 section 7(b)). Keep them when modifying.
 import { AlertTriangle, CornerLeftUp, ExternalLink } from 'lucide-react';
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { FC } from 'react';
 
@@ -24,29 +23,9 @@ import {
 	normalizeDomain,
 	toUnicodeDomain,
 } from '@/lib/domain';
-import { absoluteUrl, buildMetadata } from '@/lib/seo';
+import { absoluteUrl } from '@/lib/seo';
 
 type Props = LayoutProps<'/lookup/[domain]'>;
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const { domain } = await params;
-	const normalized = normalizeDomain(decodeURIComponent(domain));
-	if (!isValidLookupDomain(normalized) || !isKnownTld(normalized)) {
-		return buildMetadata({
-			title: 'Lookup',
-			path: `/lookup/${domain}`,
-			noIndex: true,
-		});
-	}
-	return {
-		...buildMetadata({
-			title: `${normalized} · Lookup`,
-			description: `DNS records, RDAP, WHOIS, subdomains, and email security for ${normalized}.`,
-			path: `/lookup/${normalized}`,
-		}),
-		title: { default: `${normalized} · Lookup`, template: `%s · ${SITE_NAME}` },
-	};
-}
 
 const LookupLayout: FC<Props> = async ({ children, params }) => {
 	const { domain } = await params;
