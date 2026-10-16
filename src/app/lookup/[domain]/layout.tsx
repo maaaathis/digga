@@ -140,7 +140,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 										href={`https://${normalized}`}
 										prefetch={false}
 										target="_blank"
-										rel="noreferrer noopener"
+										rel="nofollow ugc noreferrer noopener"
 										className="group inline-flex min-w-0 items-center gap-2"
 										data-umami-event="visit-site"
 										data-umami-event-domain={normalized}

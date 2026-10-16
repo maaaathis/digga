@@ -194,7 +194,7 @@ const SubdomainResults: FC<SubdomainResultsProps> = ({ domain, subdomains, tookM
 							<a
 								href={`https://${sub}`}
 								target="_blank"
-								rel="noreferrer noopener"
+								rel="nofollow ugc noreferrer noopener"
 								title={`Open https://${sub}`}
 								className="min-w-0 flex-1 truncate font-mono text-sm"
 							>
@@ -205,7 +205,7 @@ const SubdomainResults: FC<SubdomainResultsProps> = ({ domain, subdomains, tookM
 							<a
 								href={`https://${sub}`}
 								target="_blank"
-								rel="noreferrer noopener"
+								rel="nofollow ugc noreferrer noopener"
 								title={`Open https://${sub}`}
 								aria-label={`Open ${sub} in a new tab`}
 								className="text-muted-foreground hover:text-foreground shrink-0 transition-colors"

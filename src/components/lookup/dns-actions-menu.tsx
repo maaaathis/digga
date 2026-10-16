@@ -51,7 +51,7 @@ const DnsActionsMenu: FC<DnsActionsMenuProps> = ({ domain, tld }) => {
 					<Link
 						href={`https://dnshistory.org/dns-records/${encodeURIComponent(domain)}`}
 						target="_blank"
-						rel="noreferrer noopener"
+						rel="nofollow noreferrer noopener"
 						className="cursor-pointer justify-between"
 						data-umami-event="dns-history"
 						data-umami-event-domain={domain}
@@ -73,7 +73,7 @@ const DnsActionsMenu: FC<DnsActionsMenuProps> = ({ domain, tld }) => {
 								<Link
 									href={target.href}
 									target="_blank"
-									rel="noreferrer noopener"
+									rel="nofollow noreferrer noopener"
 									className="cursor-pointer justify-between"
 									data-umami-event="flush-cache"
 									data-umami-event-resolver={target.label}

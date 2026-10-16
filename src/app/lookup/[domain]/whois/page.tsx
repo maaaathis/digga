@@ -106,7 +106,7 @@ const WhoisPage: FC<PageProps<'/lookup/[domain]/whois'>> = async ({ params }) =>
 						<Link
 							href={`https://lookup.icann.org/whois/en?q=${data.base}&t=a`}
 							target="_blank"
-							rel="noreferrer noopener"
+							rel="nofollow noreferrer noopener"
 							className="hover:text-foreground underline underline-offset-4"
 						>
 							ICANN
@@ -149,7 +149,7 @@ const RegistryNotice: FC<{
 				<Link
 					href={registryUrl}
 					target="_blank"
-					rel="noreferrer noopener"
+					rel="nofollow noreferrer noopener"
 					className="hover:text-foreground underline underline-offset-4"
 				>
 					SWITCH
@@ -208,7 +208,7 @@ const WhoisPanel: FC<{ data: WhoisRawByServer; parsed: WhoisParsed; base: string
 			<Link
 				href={`https://lookup.icann.org/whois/en?q=${base}&t=a`}
 				target="_blank"
-				rel="noreferrer noopener"
+				rel="nofollow noreferrer noopener"
 				className="hover:text-foreground underline underline-offset-4"
 			>
 				ICANN
