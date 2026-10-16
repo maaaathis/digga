@@ -48,7 +48,7 @@ export function buildMetadata({
 			description,
 			...(image ? { images: absoluteUrl(image) } : {}),
 		},
-		robots: noIndex ? 'noindex, nofollow' : 'index, follow',
+		robots: noIndex ? 'noindex, follow' : 'index, follow',
 	};
 }
 

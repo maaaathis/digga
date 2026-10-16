@@ -10,7 +10,6 @@ Disallow: /api/
 Content-Signal: ai-train=yes, search=yes, ai-input=yes
 
 Sitemap: ${base}/sitemap.xml
-Host: ${base}
 `;
 
 	return new Response(body, {
