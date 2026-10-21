@@ -14,7 +14,7 @@ on:
 jobs:
   formatting:
     name: Code Formatting
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Checkout Repository
@@ -27,6 +27,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
+          check-latest: true
           cache: pnpm
 
       - name: Install Dependencies
