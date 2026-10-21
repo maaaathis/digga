@@ -25,6 +25,10 @@ export function isKnownTld(input: string): boolean {
 	return parse(input).isIcann === true;
 }
 
+export function isIndexableLookupDomain(input: string): boolean {
+	return isValidLookupDomain(input) && isKnownTld(input);
+}
+
 export function isSubdomain(input: string): boolean {
 	const parsed = parse(input);
 	return Boolean(parsed.subdomain) && parsed.subdomain !== 'www';

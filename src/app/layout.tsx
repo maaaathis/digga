@@ -53,8 +53,6 @@ export const metadata: Metadata = {
 		title: `${SITE_NAME} · ${SITE_TAGLINE}`,
 		description: SITE_DESCRIPTION,
 	},
-	alternates: { canonical: '/' },
-	robots: 'index, follow',
 };
 
 export const viewport: Viewport = {

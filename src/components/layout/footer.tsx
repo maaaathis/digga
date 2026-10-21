@@ -1,3 +1,5 @@
+// The links to digga.dev in this file are author attributions required by the
+// additional terms in LICENSE (AGPL 3.0 section 7(b)). Keep them when modifying.
 import Link from 'next/link';
 import type { FC } from 'react';
 
@@ -25,8 +27,19 @@ const Footer: FC = () => (
 			</nav>
 
 			<div className="text-muted-foreground mt-8 flex flex-col items-center justify-between gap-3 text-xs sm:flex-row">
-				<p>digga is open source under AGPL 3.0.</p>
+				<p>
+					<a
+						href="https://digga.dev"
+						className="hover:text-foreground underline-offset-2 hover:underline"
+					>
+						digga
+					</a>{' '}
+					is open source under AGPL 3.0.
+				</p>
 				<div className="flex items-center gap-5">
+					<a href="https://digga.dev" className="hover:text-foreground transition-colors">
+						digga.dev
+					</a>
 					<Link
 						href="https://github.com/maaaathis/digga"
 						target="_blank"

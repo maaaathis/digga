@@ -13,7 +13,6 @@ export function GET() {
 		...TOOL_LIST.map(tool => ({
 			loc: `${base}/${tool.slug}`,
 		})),
-		{ loc: `${base}/extension/privacy` },
 	];
 
 	return new Response(renderUrlset(entries), { headers: XML_RESPONSE_HEADERS });

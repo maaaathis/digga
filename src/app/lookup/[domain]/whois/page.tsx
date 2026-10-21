@@ -13,6 +13,7 @@ import WhoisTabs from '@/components/lookup/whois-tabs';
 import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { lookupRdap } from '@/lib/rdap/client';
 import type { NormalizedRdap } from '@/lib/rdap/types';
+import { shouldIndexLookup } from '@/lib/lookup-indexing';
 import { buildMetadata } from '@/lib/seo';
 import { lookupWhoisParsed, lookupWhoisRaw, type WhoisRawByServer } from '@/lib/whois';
 
@@ -29,6 +30,8 @@ export async function generateMetadata({
 		title: `RDAP and WHOIS for ${normalized}`,
 		description: `WHOIS and RDAP lookup for ${normalized}. Check registrar, nameservers, domain status, creation dates, expiration dates, and DNSSEC data.`,
 		path: `/lookup/${normalized}/whois`,
+		noIndex: !(await shouldIndexLookup(normalized)),
+		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }
 
@@ -103,7 +106,7 @@ const WhoisPage: FC<PageProps<'/lookup/[domain]/whois'>> = async ({ params }) =>
 						<Link
 							href={`https://lookup.icann.org/whois/en?q=${data.base}&t=a`}
 							target="_blank"
-							rel="noreferrer noopener"
+							rel="nofollow noreferrer noopener"
 							className="hover:text-foreground underline underline-offset-4"
 						>
 							ICANN
@@ -146,7 +149,7 @@ const RegistryNotice: FC<{
 				<Link
 					href={registryUrl}
 					target="_blank"
-					rel="noreferrer noopener"
+					rel="nofollow noreferrer noopener"
 					className="hover:text-foreground underline underline-offset-4"
 				>
 					SWITCH
@@ -205,7 +208,7 @@ const WhoisPanel: FC<{ data: WhoisRawByServer; parsed: WhoisParsed; base: string
 			<Link
 				href={`https://lookup.icann.org/whois/en?q=${base}&t=a`}
 				target="_blank"
-				rel="noreferrer noopener"
+				rel="nofollow noreferrer noopener"
 				className="hover:text-foreground underline underline-offset-4"
 			>
 				ICANN

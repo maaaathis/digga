@@ -1,5 +1,6 @@
+// The links to digga.dev in this file are author attributions required by the
+// additional terms in LICENSE (AGPL 3.0 section 7(b)). Keep them when modifying.
 import { AlertTriangle, CornerLeftUp, ExternalLink } from 'lucide-react';
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { FC } from 'react';
 
@@ -22,26 +23,9 @@ import {
 	normalizeDomain,
 	toUnicodeDomain,
 } from '@/lib/domain';
-import { absoluteUrl, buildMetadata } from '@/lib/seo';
+import { absoluteUrl } from '@/lib/seo';
 
 type Props = LayoutProps<'/lookup/[domain]'>;
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const { domain } = await params;
-	const normalized = normalizeDomain(decodeURIComponent(domain));
-	if (!isValidLookupDomain(normalized) || !isKnownTld(normalized)) {
-		return buildMetadata({
-			title: 'Lookup',
-			path: `/lookup/${domain}`,
-			noIndex: true,
-		});
-	}
-	return buildMetadata({
-		title: `${normalized} · Lookup`,
-		description: `DNS records, RDAP, WHOIS, subdomains, and email security for ${normalized}.`,
-		path: `/lookup/${normalized}`,
-	});
-}
 
 const LookupLayout: FC<Props> = async ({ children, params }) => {
 	const { domain } = await params;
@@ -112,6 +96,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 					'name': SITE_NAME,
 					'url': absoluteUrl('/'),
 				},
+				'isBasedOn': `https://digga.dev/lookup/${normalized}`,
 			},
 		],
 	};
@@ -155,7 +140,7 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 										href={`https://${normalized}`}
 										prefetch={false}
 										target="_blank"
-										rel="noreferrer noopener"
+										rel="nofollow ugc noreferrer noopener"
 										className="group inline-flex min-w-0 items-center gap-2"
 										data-umami-event="visit-site"
 										data-umami-event-domain={normalized}
@@ -181,6 +166,14 @@ const LookupLayout: FC<Props> = async ({ children, params }) => {
 			<ExtensionTip />
 
 			<div>{children}</div>
+			<p className="text-muted-foreground mt-12 text-center text-xs">
+				<a
+					href={`https://digga.dev/lookup/${normalized}`}
+					className="hover:text-foreground underline-offset-2 hover:underline"
+				>
+					{display} domain report on digga.dev
+				</a>
+			</p>
 			<StarPrompt domain={normalized} />
 		</div>
 	);

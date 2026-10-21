@@ -255,7 +255,7 @@ const DetailsView: FC<{ details: IpDetails }> = ({ details }) => {
 						<a
 							href={mapUrl}
 							target="_blank"
-							rel="noreferrer noopener"
+							rel="nofollow noreferrer noopener"
 							className="hover:text-foreground inline-flex items-center gap-1 font-mono underline-offset-2 hover:underline"
 						>
 							{details.lat}, {details.lon}

@@ -163,21 +163,3 @@ export async function logDomainLookup(args: {
 		}
 	}
 }
-
-export async function getTopDomains(count: number): Promise<string[]> {
-	if (!bigquery || !process.env.BIGQUERY_DATASET) return [];
-
-	const tableName = `\`${bigquery.projectId}.${process.env.BIGQUERY_DATASET}.domain_lookups\``;
-	const rows = await bigquery.query({
-		query: `
-      SELECT baseDomain
-      FROM ${tableName}
-      WHERE baseDomain IS NOT NULL
-      GROUP BY baseDomain
-      ORDER BY COUNT(*) DESC
-      LIMIT ${count}
-    `,
-	});
-
-	return rows.map(row => row.baseDomain).filter((d): d is string => typeof d === 'string');
-}

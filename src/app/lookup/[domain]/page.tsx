@@ -18,13 +18,20 @@ import {
 import TakeoverBanner from '@/components/lookup/takeover-banner';
 import { logDomainLookup } from '@/lib/bigquery';
 import { resolveRecordType } from '@/lib/dns/doh';
-import { getBaseDomain, getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
+import {
+	getBaseDomain,
+	getTLD,
+	isIndexableLookupDomain,
+	isValidLookupDomain,
+	normalizeDomain,
+} from '@/lib/domain';
 import { analyzeEmailEssentials } from '@/lib/email-security';
 import { detectDomainTakeover } from '@/lib/domain-takeover';
 import { detectHostingProvider } from '@/lib/hosting-provider';
 import { getIpsOrgMap } from '@/lib/ip';
 import { persistIpMetadata } from '@/lib/ip-metadata';
 import { detectMailProvider } from '@/lib/mail-provider';
+import { shouldIndexLookup } from '@/lib/lookup-indexing';
 import { persistObservations } from '@/lib/observations';
 import { getRegistrationInfo } from '@/lib/registration';
 import { buildMetadata } from '@/lib/seo';
@@ -38,11 +45,14 @@ type Props = PageProps<'/lookup/[domain]'>;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { domain } = await params;
 	const normalized = normalizeDomain(decodeURIComponent(domain));
-	if (!isValidLookupDomain(normalized)) {
+	if (!isIndexableLookupDomain(normalized)) {
 		return buildMetadata({ title: 'Lookup', path: `/lookup/${domain}`, noIndex: true });
 	}
 
-	const registration = await getRegistrationInfo(normalized).catch(() => null);
+	const [registration, indexable] = await Promise.all([
+		getRegistrationInfo(normalized).catch(() => null),
+		shouldIndexLookup(normalized),
+	]);
 	const facts: string[] = [];
 	if (registration?.registrar) facts.push(`registered with ${registration.registrar}`);
 	const created = registration
@@ -69,6 +79,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		title: `${normalized} · Domain report`,
 		description,
 		path: `/lookup/${normalized}`,
+		noIndex: !indexable,
 	});
 }
 
@@ -184,6 +195,12 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 			? 'none'
 			: 'partial';
 
+	const registryNameservers = registration?.nameservers ?? [];
+	const liveNameservers = [
+		...new Set(nsRecords.map(record => record.data.replace(/\.$/, '').toLowerCase())),
+	];
+	const nameservers = registryNameservers.length > 0 ? registryNameservers : liveNameservers;
+
 	const takeover = detectDomainTakeover([
 		...(registration?.nameservers ?? []),
 		...nsRecords.map(record => record.data),
@@ -195,7 +212,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 			: null,
 		expiresAt: registration ? findEventDate(registration.events, ['expir']) : null,
 		dnssec: registration?.dnssec ?? null,
-		nameserverCount: registration?.nameservers.length ?? 0,
+		nameserverCount: nameservers.length,
 		hasMx: mxRecords.length > 0,
 		registrar: registration?.registrar ?? null,
 		hostingOrg,
@@ -241,7 +258,10 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						provider={detectMailProvider(mxRecords)}
 						providerLabel="Mail provider"
 					/>
-					{registration ? <NameserverWidget registration={registration} /> : null}
+					<NameserverWidget
+						nameservers={nameservers}
+						source={registryNameservers.length > 0 ? 'registry' : 'dns'}
+					/>
 				</div>
 
 				<div className="space-y-10">

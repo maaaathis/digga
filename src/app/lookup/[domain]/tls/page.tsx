@@ -4,6 +4,7 @@ import type { FC } from 'react';
 
 import TlsReport from '@/components/lookup/tls-report';
 import { isValidLookupDomain, normalizeDomain } from '@/lib/domain';
+import { shouldIndexLookup } from '@/lib/lookup-indexing';
 import { buildMetadata } from '@/lib/seo';
 import { getTlsCertificate } from '@/lib/tls';
 
@@ -18,6 +19,8 @@ export async function generateMetadata({
 		title: `TLS certificate for ${normalized}`,
 		description: `Live TLS/SSL certificate check for ${normalized}. See the issuer, validity window, expiry countdown, protocol, cipher, SANs, and chain.`,
 		path: `/lookup/${normalized}/tls`,
+		noIndex: !(await shouldIndexLookup(normalized)),
+		image: `/lookup/${normalized}/opengraph-image`,
 	});
 }
 

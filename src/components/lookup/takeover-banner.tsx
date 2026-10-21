@@ -80,7 +80,7 @@ const TakeoverBanner: FC<TakeoverBannerProps> = ({ domain, takeover }) => (
 					href={`https://${takeover.domain}`}
 					prefetch={false}
 					target="_blank"
-					rel="noreferrer noopener"
+					rel="nofollow ugc noreferrer noopener"
 					className="text-muted-foreground hover:text-foreground mt-4 inline-flex items-center gap-1.5 text-xs transition-colors"
 					data-umami-event="visit-takeover-operator"
 					data-umami-event-domain={domain}
