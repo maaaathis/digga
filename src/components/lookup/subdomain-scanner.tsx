@@ -1,6 +1,6 @@
 'use client';
 
-import { Layers, Loader2, Play, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, Layers, Loader2, Play, ShieldCheck } from 'lucide-react';
 import { type FC, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
@@ -10,6 +10,7 @@ import SubdomainResults from '@/components/lookup/subdomain-results';
 import TurnstileWidget from '@/components/turnstile-widget';
 import { Button } from '@/components/ui/button';
 import { trackEvent } from '@/lib/analytics';
+import type { SubfinderIncompleteReason } from '@/lib/subdomains';
 
 type SubdomainScannerProps = {
 	domain: string;
@@ -43,7 +44,9 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain, tld }) => {
 				setCaptchaToken(null);
 				setCaptchaReset(value => value + 1);
 			}
-			if (next.kind === 'ok') {
+			if (next.kind === 'ok' && next.incomplete && next.subdomains.length > 0) {
+				toast.warning(`Found ${next.subdomains.length} subdomains, results are incomplete`);
+			} else if (next.kind === 'ok') {
 				toast.success(`Found ${next.subdomains.length} subdomains`);
 			} else if (next.kind === 'rate-limited') {
 				toast.error('Slow down a bit. Try again in a minute.');
@@ -82,6 +85,15 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain, tld }) => {
 						Rescan
 					</Button>
 				</div>
+				{result.incomplete ? (
+					<div
+						role="status"
+						className="flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm"
+					>
+						<AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400" />
+						<p className="text-foreground/90">{INCOMPLETE_COPY[result.incomplete]}</p>
+					</div>
+				) : null}
 				<SubdomainResults domain={domain} subdomains={result.subdomains} tookMs={result.tookMs} />
 				{captchaRequired && TURNSTILE_SITE_KEY ? (
 					<div className="hidden">
@@ -134,6 +146,13 @@ const SubdomainScanner: FC<SubdomainScannerProps> = ({ domain, tld }) => {
 			) : null}
 		</StateNotice>
 	);
+};
+
+const INCOMPLETE_COPY: Record<SubfinderIncompleteReason, string> = {
+	interrupted:
+		'Incomplete results. Some sources did not finish in time, so this list may be missing subdomains. Rescan to try again.',
+	limit:
+		'Result limit reached. This domain has more subdomains than a single scan returns, so only the first part is shown.',
 };
 
 function errorTextFor(result: SubdomainScanResult): string | null {

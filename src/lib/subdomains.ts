@@ -17,8 +17,16 @@ const MAX_CONCURRENT = Math.max(1, Number(process.env.SUBFINDER_MAX_CONCURRENT ?
 // MAX_CONCURRENT subfinder processes at once.
 let activeScans = 0;
 
+/**
+ * Why a result list may be missing entries:
+ * - `interrupted`: subfinder hit our deadline or exited with an error before
+ *   every source finished. The list holds what was found up to that point.
+ * - `limit`: MAX_RESULTS was reached and the scan was stopped early.
+ */
+export type SubfinderIncompleteReason = 'interrupted' | 'limit';
+
 export type SubfinderResult =
-	| { kind: 'ok'; subdomains: string[] }
+	| { kind: 'ok'; subdomains: string[]; incomplete: SubfinderIncompleteReason | null }
 	| { kind: 'unavailable'; reason: 'binary-missing' }
 	| { kind: 'busy' }
 	| { kind: 'timeout' }
@@ -36,8 +44,18 @@ function binaryPath(): string {
 	return cachedBinaryPath;
 }
 
+// Log levels subfinder prints in verbose mode. Any other `[tag] value` line
+// on stderr is a live find, tagged with the source that produced it.
+const LOG_TAGS = new Set(['INF', 'DBG', 'WRN', 'ERR', 'FTL', 'VER']);
+const STDERR_FIND = /^\[([^\]]+)\] (\S+)$/;
+const HOST_PATTERN = /^[a-z0-9_.-]+$/;
+
 function buildArgs(domain: string): string[] {
-	const args = ['-d', domain, '-silent', '-nc', '-timeout', '20'];
+	// -v instead of -silent: subfinder buffers its stdout list until the whole
+	// enumeration is done, so a killed process prints nothing there. Verbose mode
+	// streams every find to stderr as it arrives, which lets us keep partial
+	// results on timeout. -duc skips the version check on every start.
+	const args = ['-d', domain, '-nc', '-v', '-duc', '-timeout', '20'];
 	// -all pulls every source (slower, more memory, more open sockets).
 	// Off by default; opt in via env on a beefy host.
 	if (process.env.SUBFINDER_ALL_SOURCES === 'true') args.push('-all');
@@ -88,7 +106,18 @@ function execSubfinder(
 			resolve(result);
 		};
 
-		const timer = setTimeout(() => settle({ kind: 'timeout' }), timeoutMs);
+		const collected = new Set<string>();
+		const suffix = `.${domain}`;
+		let errorBytes = 0;
+		let errorBuffer = '';
+
+		const finish = (incomplete: SubfinderIncompleteReason | null) =>
+			settle({ kind: 'ok', subdomains: Array.from(collected), incomplete });
+
+		const timer = setTimeout(() => {
+			if (collected.size > 0) finish('interrupted');
+			else settle({ kind: 'timeout' });
+		}, timeoutMs);
 		timer.unref?.();
 
 		if (options.signal) {
@@ -103,45 +132,72 @@ function execSubfinder(
 			);
 		}
 
-		const collected = new Set<string>();
-		let stderrBytes = 0;
-		let stderrBuffer = '';
+		const addHost = (value: string) => {
+			if (settled) return;
+			const host = value.trim().toLowerCase().replace(/^\*\./, '').replace(/\.$/, '');
+			if (!HOST_PATTERN.test(host) || !(host === domain || host.endsWith(suffix))) return;
+			collected.add(host);
+			if (collected.size >= MAX_RESULTS) finish('limit');
+		};
+
+		// Chunks can end mid line, so keep the tail until the next chunk.
+		const lineReader = (onLine: (line: string) => void) => {
+			let pending = '';
+			return {
+				push(chunk: string) {
+					pending += chunk;
+					const lines = pending.split(/\r?\n/);
+					pending = lines.pop() ?? '';
+					for (const line of lines) onLine(line);
+				},
+				flush() {
+					if (pending) onLine(pending);
+					pending = '';
+				},
+			};
+		};
+
+		// Final list, printed once enumeration completes.
+		const stdout = lineReader(addHost);
+
+		// Live finds as `[source] host`, plus log lines we keep for errors.
+		const stderr = lineReader(line => {
+			const match = STDERR_FIND.exec(line);
+			if (match && !LOG_TAGS.has(match[1])) {
+				addHost(match[2]);
+				return;
+			}
+			if (!/^\[(ERR|FTL)\]/.test(line) || errorBytes >= MAX_STDERR_BYTES) return;
+			errorBytes += line.length + 1;
+			errorBuffer += `${line}\n`;
+		});
 
 		child.stdout.setEncoding('utf8');
-		child.stdout.on('data', (chunk: string) => {
-			for (const line of chunk.split(/\r?\n/)) {
-				const trimmed = line.trim().toLowerCase();
-				if (!trimmed) continue;
-				collected.add(trimmed);
-				if (collected.size >= MAX_RESULTS) {
-					settle({ kind: 'ok', subdomains: Array.from(collected) });
-					return;
-				}
-			}
-		});
+		child.stdout.on('data', (chunk: string) => stdout.push(chunk));
 
 		child.stderr.setEncoding('utf8');
-		child.stderr.on('data', (chunk: string) => {
-			if (stderrBytes >= MAX_STDERR_BYTES) return;
-			stderrBytes += chunk.length;
-			stderrBuffer += chunk;
-		});
+		child.stderr.on('data', (chunk: string) => stderr.push(chunk));
 
 		child.on('error', (error: NodeJS.ErrnoException) => {
 			if (error.code === 'ENOENT') {
 				settle({ kind: 'unavailable', reason: 'binary-missing' });
 				return;
 			}
-			settle({ kind: 'error', message: error.message });
+			if (collected.size > 0) finish('interrupted');
+			else settle({ kind: 'error', message: error.message });
 		});
 
 		child.on('close', code => {
-			if (code === 0 || collected.size > 0) {
-				settle({ kind: 'ok', subdomains: Array.from(collected) });
+			stdout.flush();
+			stderr.flush();
+			if (code === 0) {
+				finish(null);
+			} else if (collected.size > 0) {
+				finish('interrupted');
 			} else {
 				settle({
 					kind: 'error',
-					message: stderrBuffer.trim() || `subfinder exited with code ${code}`,
+					message: errorBuffer.trim() || `subfinder exited with code ${code}`,
 				});
 			}
 		});

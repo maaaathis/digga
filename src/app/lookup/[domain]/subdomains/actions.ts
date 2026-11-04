@@ -5,11 +5,16 @@ import { headers } from 'next/headers';
 import { inspectUserAgent } from '@/lib/bot';
 import { isValidLookupDomain, normalizeDomain } from '@/lib/domain';
 import { consumeToken, ipFromHeaders, sweepBuckets } from '@/lib/rate-limit';
-import { runSubfinder } from '@/lib/subdomains';
+import { runSubfinder, type SubfinderIncompleteReason } from '@/lib/subdomains';
 import { verifyTurnstile } from '@/lib/turnstile';
 
 export type SubdomainScanResult =
-	| { kind: 'ok'; subdomains: string[]; tookMs: number }
+	| {
+			kind: 'ok';
+			subdomains: string[];
+			tookMs: number;
+			incomplete: SubfinderIncompleteReason | null;
+	  }
 	| { kind: 'forbidden' }
 	| { kind: 'captcha-failed' }
 	| { kind: 'rate-limited'; retryAfterMs: number }
@@ -61,5 +66,6 @@ export async function scanSubdomains(
 		kind: 'ok',
 		subdomains: result.subdomains,
 		tookMs: Date.now() - start,
+		incomplete: result.incomplete,
 	};
 }
