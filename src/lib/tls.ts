@@ -1,6 +1,9 @@
 import 'server-only';
 
+import { isIP } from 'node:net';
 import tls from 'node:tls';
+
+import { type PublicAddress, resolvePublicAddress } from '@/lib/net-guard';
 
 export type TlsChainEntry = {
 	subject: string | null;
@@ -28,7 +31,7 @@ export type TlsCertificate = {
 	chain: TlsChainEntry[];
 };
 
-export type TlsErrorReason = 'timeout' | 'refused' | 'dns' | 'no-tls' | 'unknown';
+export type TlsErrorReason = 'timeout' | 'refused' | 'dns' | 'blocked' | 'no-tls' | 'unknown';
 
 export type TlsResult =
 	| { kind: 'ok'; certificate: TlsCertificate }
@@ -101,8 +104,11 @@ function classifyError(error: NodeJS.ErrnoException): TlsErrorReason {
 		case 'ECONNRESET':
 			return 'refused';
 		case 'ENOTFOUND':
+		case 'ENODATA':
 		case 'EAI_AGAIN':
 			return 'dns';
+		case 'ERR_BLOCKED_ADDRESS':
+			return 'blocked';
 		case 'EPROTO':
 		case 'ERR_SSL_WRONG_VERSION_NUMBER':
 			return 'no-tls';
@@ -112,6 +118,19 @@ function classifyError(error: NodeJS.ErrnoException): TlsErrorReason {
 }
 
 export async function getTlsCertificate(host: string): Promise<TlsResult> {
+	// Resolve and vet the address ourselves, then connect to exactly that IP.
+	// Letting tls.connect resolve the name would allow private targets (SSRF).
+	let target: PublicAddress;
+	try {
+		target = await resolvePublicAddress(host, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+	} catch (error) {
+		if (error instanceof Error && error.name === 'TimeoutError') {
+			return { kind: 'error', reason: 'timeout', message: 'DNS resolution timed out.' };
+		}
+		const errno = error as NodeJS.ErrnoException;
+		return { kind: 'error', reason: classifyError(errno), message: errno.message };
+	}
+
 	return new Promise<TlsResult>(resolve => {
 		let settled = false;
 		const finish = (result: TlsResult) => {
@@ -122,9 +141,10 @@ export async function getTlsCertificate(host: string): Promise<TlsResult> {
 		};
 
 		const socket = tls.connect({
-			host,
+			host: target.address,
 			port: PORT,
-			servername: host,
+			// SNI and certificate hostname checks still use the looked up name.
+			servername: isIP(host) === 0 ? host : undefined,
 			rejectUnauthorized: false,
 			ALPNProtocols: ['h2', 'http/1.1'],
 		});

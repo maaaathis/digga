@@ -1,4 +1,5 @@
 import type { DoHResponse } from '@/lib/dns/types';
+import { fetchPublicText } from '@/lib/net-guard';
 
 const DOH_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
 const TXT_TYPE = 16;
@@ -438,11 +439,15 @@ async function checkMtaSts(domain: string, signal?: AbortSignal): Promise<EmailC
 	let policyMode: string | null = null;
 	let policyMaxAge: string | null = null;
 	try {
-		const response = await fetch(`https://mta-sts.${domain}/.well-known/mta-sts.txt`, {
-			signal: signal ?? AbortSignal.timeout(5000),
+		// The policy host comes from user input, so it must resolve to a public
+		// address. RFC 8461 forbids following redirects for the policy file, and
+		// fetchPublicText never follows them, so a 3xx simply counts as unreadable.
+		const timeout = AbortSignal.timeout(5000);
+		const response = await fetchPublicText(`https://mta-sts.${domain}/.well-known/mta-sts.txt`, {
+			signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
 		});
-		if (response.ok) {
-			const text = await response.text();
+		if (response.status === 200) {
+			const text = response.body;
 			for (const line of text.split(/\r?\n/)) {
 				const [key, value] = line.split(':');
 				if (!value) continue;

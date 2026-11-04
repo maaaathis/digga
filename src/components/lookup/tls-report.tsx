@@ -44,6 +44,11 @@ const ERROR_COPY: Record<TlsErrorReason, { title: string; description: string }>
 		description:
 			'We could not resolve this domain to an address, so there was nothing to connect to.',
 	},
+	'blocked': {
+		title: 'Host points to a private address',
+		description:
+			'This domain only resolves to private, local or reserved addresses, so we do not connect to it.',
+	},
 	'no-tls': {
 		title: 'No TLS on port 443',
 		description: 'The host answered but did not present a TLS certificate.',
