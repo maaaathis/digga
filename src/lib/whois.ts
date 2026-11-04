@@ -15,6 +15,7 @@ type DomainWhois = Record<string, DomainWhoisData>;
 
 import { getBaseDomain, getTLD, isValidLookupDomain } from '@/lib/domain';
 import { lookupRdap } from '@/lib/rdap/client';
+import { isUsableWhoisBlock } from '@/lib/whois-response';
 
 export enum DomainAvailability {
 	UNKNOWN = 'unknown',
@@ -83,12 +84,13 @@ async function lookupWhoisRawImpl(domain: string): Promise<WhoisRawByServer | nu
 		const mapped: WhoisRawByServer = {};
 		for (const key of Object.keys(result)) {
 			const block = result[key];
-			if (block && typeof block === 'object') {
-				const raw = (block as DomainWhoisData & { __raw?: string }).__raw;
+			if (isUsableWhoisBlock(block)) {
+				const raw = (block as DomainWhoisData).__raw;
 				if (typeof raw === 'string') mapped[key] = raw;
 			}
 		}
-		return mapped;
+		// Rate limited, empty or failed replies return null so they are not cached.
+		return Object.keys(mapped).length > 0 ? mapped : null;
 	} catch (error: unknown) {
 		const message = error instanceof Error ? error.message : String(error);
 		if (isUnsupportedTld(message) || isSoftError(message)) return null;
@@ -102,13 +104,21 @@ async function lookupWhoisParsedImpl(domain: string): Promise<DomainWhois | null
 	if (!base || !isValidLookupDomain(base)) return null;
 
 	try {
-		return await whoisDomain(base, { timeout: 5_000 });
+		return keepUsableBlocks(await whoisDomain(base, { timeout: 5_000 }));
 	} catch (error: unknown) {
 		const message = error instanceof Error ? error.message : String(error);
 		if (isUnsupportedTld(message) || isSoftError(message)) return null;
 		console.error('WHOIS parsed lookup error:', error);
 		return null;
 	}
+}
+
+function keepUsableBlocks(result: DomainWhois): DomainWhois | null {
+	const usable: DomainWhois = {};
+	for (const [server, block] of Object.entries(result)) {
+		if (isUsableWhoisBlock(block)) usable[server] = block;
+	}
+	return Object.keys(usable).length > 0 ? usable : null;
 }
 
 function firstResult(obj: DomainWhois | null): DomainWhoisData | null {
@@ -119,33 +129,60 @@ function firstResult(obj: DomainWhois | null): DomainWhoisData | null {
 	return block && typeof block === 'object' ? block : null;
 }
 
-export const getDomainAvailability = unstable_cache(
-	getDomainAvailabilityImpl,
+type AvailabilityResult = { availability: DomainAvailability; cacheable: boolean };
+
+const cachedDomainAvailability = unstable_cache(
+	async (input: string): Promise<DomainAvailability> => {
+		const result = await getDomainAvailabilityImpl(input);
+		// Throwing skips the cache, so a rate limited or timed out WHOIS
+		// answer is retried on the next request instead of sticking for an hour.
+		if (!result.cacheable) throw new Error('availability-skip-cache');
+		return result.availability;
+	},
 	['domain-availability'],
 	{ revalidate: CACHE_TTL_SECONDS },
 );
 
-async function getDomainAvailabilityImpl(input: string): Promise<DomainAvailability> {
+export async function getDomainAvailability(input: string): Promise<DomainAvailability> {
+	try {
+		return await cachedDomainAvailability(input);
+	} catch {
+		return DomainAvailability.UNKNOWN;
+	}
+}
+
+async function getDomainAvailabilityImpl(input: string): Promise<AvailabilityResult> {
+	const settled = (availability: DomainAvailability, cacheable = true): AvailabilityResult => ({
+		availability,
+		cacheable,
+	});
+
 	const base = getBaseDomain(input);
-	if (!base || !isValidLookupDomain(base)) return DomainAvailability.UNKNOWN;
+	if (!base || !isValidLookupDomain(base)) return settled(DomainAvailability.UNKNOWN);
 
 	const tld = getTLD(base);
-	if (!tld) return DomainAvailability.UNKNOWN;
+	if (!tld) return settled(DomainAvailability.UNKNOWN);
 	// .ch/.li don't expose availability reliably; treat as registered so the normal report renders.
-	if (tld === 'ch' || tld === 'li') return DomainAvailability.REGISTERED;
+	if (tld === 'ch' || tld === 'li') return settled(DomainAvailability.REGISTERED);
 
 	const rdap = await lookupRdap(base);
-	if (rdap.kind === 'ok') return DomainAvailability.REGISTERED;
+	if (rdap.kind === 'ok') return settled(DomainAvailability.REGISTERED);
 
 	const whois = await classifyWhois(base);
 
 	if (rdap.kind === 'not-found') {
-		return whois === 'reserved' ? DomainAvailability.RESERVED : DomainAvailability.AVAILABLE;
+		return settled(
+			whois === 'reserved' ? DomainAvailability.RESERVED : DomainAvailability.AVAILABLE,
+		);
 	}
 
-	if (whois === 'reserved') return DomainAvailability.RESERVED;
-	if (whois === 'available') return DomainAvailability.AVAILABLE;
-	return DomainAvailability.REGISTERED;
+	if (whois === 'reserved') return settled(DomainAvailability.RESERVED);
+	if (whois === 'available') return settled(DomainAvailability.AVAILABLE);
+	if (whois === 'registered') return settled(DomainAvailability.REGISTERED);
+	if (whois === 'unsupported') return settled(DomainAvailability.UNKNOWN);
+	// WHOIS gave no usable answer (rate limit, empty reply, timeout). A failed
+	// RDAP lookup is transient as well, so neither is evidence either way.
+	return settled(DomainAvailability.UNKNOWN, false);
 }
 
 const RESERVED_PATTERNS = [
@@ -165,7 +202,7 @@ const AVAILABLE_PATTERNS = [
 	'not been registered',
 ];
 
-type WhoisClassification = 'reserved' | 'available' | 'registered';
+type WhoisClassification = 'reserved' | 'available' | 'registered' | 'unsupported' | 'unknown';
 
 async function classifyWhois(base: string): Promise<WhoisClassification> {
 	let result: DomainWhois | null;
@@ -173,14 +210,13 @@ async function classifyWhois(base: string): Promise<WhoisClassification> {
 		result = await whoisDomain(base, { follow: 1, timeout: 5_000 });
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
-		if (!isUnsupportedTld(message) && !isSoftError(message)) {
-			console.error('Availability check error:', error);
-		}
-		return 'registered';
+		if (isUnsupportedTld(message)) return 'unsupported';
+		if (!isSoftError(message)) console.error('Availability check error:', error);
+		return 'unknown';
 	}
 
 	const first = firstResult(result);
-	if (!first) return 'registered';
+	if (!isUsableWhoisBlock(first)) return 'unknown';
 
 	if (blockSaysReserved(first)) return 'reserved';
 	if (blockSaysAvailable(first)) return 'available';
