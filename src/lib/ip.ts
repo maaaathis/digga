@@ -123,3 +123,25 @@ export async function getIpsOrgMap(ips: string[]): Promise<Record<string, string
 		entries.filter((entry): entry is readonly [string, string] => entry[1] !== null),
 	);
 }
+
+export type IpCountry = { code: string; name: string };
+
+export async function getIpCountry(ip: string): Promise<IpCountry | null> {
+	if (isIP(ip) === 0) return null;
+	try {
+		const details = await detailsLoader.load(ip);
+		if (!details.countryCode) return null;
+		return { code: details.countryCode, name: details.country || details.countryCode };
+	} catch (error) {
+		console.warn('IP country lookup failed:', error);
+		return null;
+	}
+}
+
+export async function getIpsCountryMap(ips: string[]): Promise<Record<string, IpCountry>> {
+	const unique = Array.from(new Set(ips));
+	const entries = await Promise.all(unique.map(async ip => [ip, await getIpCountry(ip)] as const));
+	return Object.fromEntries(
+		entries.filter((entry): entry is readonly [string, IpCountry] => entry[1] !== null),
+	);
+}

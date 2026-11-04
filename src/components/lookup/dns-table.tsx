@@ -16,9 +16,11 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { ResolvedRecords } from '@/lib/dns/types';
 import { RECORD_TYPES } from '@/lib/dns/types';
+import type { IpCountry } from '@/lib/ip';
 
 type DnsTableProps = {
 	records: ResolvedRecords;
+	ipCountries?: Record<string, IpCountry>;
 };
 
 function formatTtl(ttl: number): string {
@@ -28,7 +30,7 @@ function formatTtl(ttl: number): string {
 	return `${Math.round(ttl / 86_400)}d`;
 }
 
-const DnsTable: FC<DnsTableProps> = ({ records }) => {
+const DnsTable: FC<DnsTableProps> = ({ records, ipCountries }) => {
 	const sections = RECORD_TYPES.filter(type => records[type].length > 0);
 
 	if (sections.length === 0) {
@@ -74,7 +76,11 @@ const DnsTable: FC<DnsTableProps> = ({ records }) => {
 										<TableCell className="font-mono text-xs whitespace-normal">
 											<div className="group flex items-center gap-2">
 												{type === 'A' || type === 'AAAA' ? (
-													<IpLink ip={record.data} className="break-all" />
+													<IpLink
+														ip={record.data}
+														country={ipCountries?.[record.data]}
+														className="break-all"
+													/>
 												) : record.raw ? (
 													<Tooltip>
 														<TooltipTrigger asChild>

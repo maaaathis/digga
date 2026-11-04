@@ -1,9 +1,10 @@
 'use client';
 
 import { Loader2, RefreshCw } from 'lucide-react';
-import { type FC, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
+import { fetchIpCountries } from '@/app/actions/ip';
 import DnsActionsMenu from '@/components/lookup/dns-actions-menu';
 import DnsPropagation from '@/components/lookup/dns-propagation';
 import DnsTable from '@/components/lookup/dns-table';
@@ -14,11 +15,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { trackEvent } from '@/lib/analytics';
 import { resolveAllRecords } from '@/lib/dns/doh';
 import { EMPTY_RECORDS, type ResolvedRecords, type ResolverId } from '@/lib/dns/types';
+import type { IpCountry } from '@/lib/ip';
 
 type DnsExplorerProps = {
 	domain: string;
 	initialResolver: ResolverId;
 	initialRecords: ResolvedRecords;
+	initialIpCountries: Record<string, IpCountry>;
 	tld?: string;
 };
 
@@ -26,9 +29,18 @@ type SwrKey = readonly [string, string, ResolverId];
 
 const fetcher = async ([, domain, resolver]: SwrKey) => resolveAllRecords(resolver, domain);
 
+const ipsOf = (records: ResolvedRecords) =>
+	Array.from(new Set([...records.A, ...records.AAAA].map(record => record.data))).sort();
+
 type DnsView = 'records' | 'propagation';
 
-const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRecords, tld }) => {
+const DnsExplorer: FC<DnsExplorerProps> = ({
+	domain,
+	initialResolver,
+	initialRecords,
+	initialIpCountries,
+	tld,
+}) => {
 	const [view, setView] = useState<DnsView>('records');
 	const [resolver, setResolver] = useState<ResolverId>(initialResolver);
 
@@ -54,6 +66,21 @@ const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRec
 	);
 
 	const records = data ?? EMPTY_RECORDS;
+
+	// Flags in front of IPs. The server already resolved them for the initial
+	// records; only a different IP set (resolver switch, refresh) fetches again.
+	const ipKey = ipsOf(records).join(',');
+	const initialIpKey = useMemo(() => ipsOf(initialRecords).join(','), [initialRecords]);
+	const { data: ipCountries } = useSWR(
+		ipKey ? (['ip-countries', ipKey] as const) : null,
+		([, key]) => fetchIpCountries(key.split(',')),
+		{
+			fallbackData: ipKey === initialIpKey ? initialIpCountries : undefined,
+			revalidateOnMount: false,
+			revalidateOnFocus: false,
+			keepPreviousData: true,
+		},
+	);
 	const showSkeleton = isLoading && !data;
 
 	return (
@@ -106,7 +133,7 @@ const DnsExplorer: FC<DnsExplorerProps> = ({ domain, initialResolver, initialRec
 					Resolver failed. Switch resolver or retry.
 				</p>
 			) : (
-				<DnsTable records={records} />
+				<DnsTable records={records} ipCountries={ipCountries} />
 			)}
 		</div>
 	);

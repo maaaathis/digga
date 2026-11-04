@@ -5,6 +5,7 @@ import { type FC, type ReactNode, useEffect, useState } from 'react';
 
 import { fetchIpDetails, type IpDetailsResult } from '@/app/actions/ip';
 import CopyButton from '@/components/copy-button';
+import CountryFlag from '@/components/lookup/country-flag';
 import { Badge } from '@/components/ui/badge';
 import {
 	Dialog,
@@ -118,27 +119,6 @@ const Body: FC<{ result: IpDetailsResult | null }> = ({ result }) => {
 	);
 };
 
-/** SVG country flag (works everywhere, unlike emoji flags on Windows). */
-const Flag: FC<{ code: string }> = ({ code }) => {
-	const [error, setError] = useState(false);
-	if (!/^[a-z]{2}$/i.test(code) || error) return null;
-	return (
-		// Remote SVG flag with an onError fallback; next/image adds no value here.
-		// eslint-disable-next-line @next/next/no-img-element
-		<img
-			src={`https://flagcdn.com/${code.toLowerCase()}.svg`}
-			alt=""
-			width={20}
-			height={15}
-			loading="lazy"
-			decoding="async"
-			onError={() => setError(true)}
-			className="ring-border/60 h-[15px] w-5 shrink-0 rounded-[3px] object-cover ring-1"
-			draggable={false}
-		/>
-	);
-};
-
 /** Hosting provider logo when the network is recognized, otherwise a generic icon. */
 const NetworkLogo: FC<{ provider: HostingProvider | null }> = ({ provider }) => {
 	const [error, setError] = useState(false);
@@ -241,7 +221,7 @@ const DetailsView: FC<{ details: IpDetails }> = ({ details }) => {
 			<Section title="Location">
 				<Row icon={<MapPin className="size-3.5" />} label="Place">
 					<span className="flex items-center justify-end gap-1.5">
-						<Flag code={details.countryCode} />
+						<CountryFlag code={details.countryCode} />
 						<span>{place || 'n/a'}</span>
 					</span>
 				</Row>

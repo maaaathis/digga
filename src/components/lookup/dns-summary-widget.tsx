@@ -7,6 +7,7 @@ import IpLink from '@/components/lookup/ip-link';
 import ProviderBadge from '@/components/lookup/provider-badge';
 import Widget from '@/components/lookup/widget';
 import type { RawRecord } from '@/lib/dns/types';
+import type { IpCountry } from '@/lib/ip';
 
 type DnsSummaryWidgetProps = {
 	title: string;
@@ -16,6 +17,7 @@ type DnsSummaryWidgetProps = {
 	icon?: ReactNode;
 	emptyText?: string;
 	ipOrgMap?: Record<string, string>;
+	ipCountryMap?: Record<string, IpCountry>;
 	provider?: { name: string; domain: string } | null;
 	providerLabel?: string;
 };
@@ -28,6 +30,7 @@ const DnsSummaryWidget: FC<DnsSummaryWidgetProps> = ({
 	icon,
 	emptyText,
 	ipOrgMap,
+	ipCountryMap,
 	provider,
 	providerLabel,
 }) => {
@@ -65,7 +68,13 @@ const DnsSummaryWidget: FC<DnsSummaryWidgetProps> = ({
 								className="bg-muted/40 hover:bg-muted/60 flex items-center justify-between gap-2 rounded-lg px-3 py-2 font-mono text-xs transition-colors"
 							>
 								<span className="min-w-0 truncate">
-									{isIp ? <IpLink ip={record.data}>{record.data}</IpLink> : record.data}
+									{isIp ? (
+										<IpLink ip={record.data} country={ipCountryMap?.[record.data]}>
+											{record.data}
+										</IpLink>
+									) : (
+										record.data
+									)}
 									{org ? (
 										<span className="text-muted-foreground ml-2 font-sans text-[11px]">{org}</span>
 									) : null}

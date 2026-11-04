@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import DnsExplorer from '@/components/lookup/dns-explorer';
 import { resolveAllRecords } from '@/lib/dns/doh';
 import { getTLD, isValidLookupDomain, normalizeDomain } from '@/lib/domain';
+import { getIpsCountryMap } from '@/lib/ip';
 import { shouldIndexLookup } from '@/lib/lookup-indexing';
 import { buildMetadata } from '@/lib/seo';
 
@@ -30,12 +31,16 @@ const DnsPage: FC<PageProps<'/lookup/[domain]/dns'>> = async ({ params }) => {
 	if (!isValidLookupDomain(domain)) notFound();
 
 	const initialRecords = await resolveAllRecords('cloudflare', domain);
+	const initialIpCountries = await getIpsCountryMap(
+		[...initialRecords.A, ...initialRecords.AAAA].map(record => record.data),
+	);
 
 	return (
 		<DnsExplorer
 			domain={domain}
 			initialResolver="cloudflare"
 			initialRecords={initialRecords}
+			initialIpCountries={initialIpCountries}
 			tld={getTLD(domain) ?? undefined}
 		/>
 	);

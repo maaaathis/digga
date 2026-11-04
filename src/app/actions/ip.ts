@@ -3,7 +3,7 @@
 import { headers } from 'next/headers';
 
 import { inspectUserAgent } from '@/lib/bot';
-import { getIpDetails, type IpDetails } from '@/lib/ip';
+import { getIpDetails, getIpsCountryMap, type IpCountry, type IpDetails } from '@/lib/ip';
 import { consumeToken, ipFromHeaders, sweepBuckets } from '@/lib/rate-limit';
 
 const IPV4 = /^(\d{1,3}\.){3}\d{1,3}$/;
@@ -47,4 +47,28 @@ export async function fetchIpDetails(ip: string): Promise<IpDetailsResult> {
 			message: error instanceof Error ? error.message : 'Unknown error',
 		};
 	}
+}
+
+const MAX_COUNTRY_BATCH = 32;
+
+/** Country per IP for inline flags. Uses the same cached lookups as the details modal. */
+export async function fetchIpCountries(ips: string[]): Promise<Record<string, IpCountry>> {
+	const valid = Array.from(new Set(ips.filter(ip => ip && (IPV4.test(ip) || IPV6.test(ip))))).slice(
+		0,
+		MAX_COUNTRY_BATCH,
+	);
+	if (valid.length === 0) return {};
+
+	const headerStore = await headers();
+	const inspection = inspectUserAgent(headerStore.get('user-agent'));
+	if (inspection.isBot && !inspection.isAllowed) return {};
+
+	sweepBuckets();
+	const limit = consumeToken(`ip-countries:${ipFromHeaders(headerStore)}`, {
+		capacity: 10,
+		refillPerSecond: 0.2,
+	});
+	if (!limit.allowed) return {};
+
+	return getIpsCountryMap(valid);
 }

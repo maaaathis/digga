@@ -28,7 +28,7 @@ import {
 import { analyzeEmailEssentials } from '@/lib/email-security';
 import { detectDomainTakeover } from '@/lib/domain-takeover';
 import { detectHostingProvider } from '@/lib/hosting-provider';
-import { getIpsOrgMap } from '@/lib/ip';
+import { getIpsCountryMap, getIpsOrgMap } from '@/lib/ip';
 import { persistIpMetadata } from '@/lib/ip-metadata';
 import { detectMailProvider } from '@/lib/mail-provider';
 import { shouldIndexLookup } from '@/lib/lookup-indexing';
@@ -141,6 +141,12 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 			getIpsOrgMap([...a, ...aaaa].map(record => record.data)),
 		),
 	);
+	// Shares the cached IP lookups with the org map, so this adds no extra requests.
+	const ipCountryMapPromise = started(
+		Promise.all([aPromise, aaaaPromise]).then(([a, aaaa]) =>
+			getIpsCountryMap([...a, ...aaaa].map(record => record.data)),
+		),
+	);
 
 	const availability = await getDomainAvailability(base);
 	if (availability === DomainAvailability.AVAILABLE) {
@@ -163,7 +169,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 		...aRecords.map(record => record.data),
 		...aaaaRecords.map(record => record.data),
 	];
-	const ipOrgMap = await ipOrgMapPromise;
+	const [ipOrgMap, ipCountryMap] = await Promise.all([ipOrgMapPromise, ipCountryMapPromise]);
 
 	void persistObservations({
 		domain,
@@ -235,6 +241,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						records={aRecords}
 						icon={<Globe className="size-3.5" />}
 						ipOrgMap={ipOrgMap}
+						ipCountryMap={ipCountryMap}
 						provider={ipv4Provider}
 						providerLabel="Hosting provider"
 					/>
@@ -245,6 +252,7 @@ const OverviewPage: FC<Props> = async ({ params }) => {
 						records={aaaaRecords}
 						icon={<Globe className="size-3.5" />}
 						ipOrgMap={ipOrgMap}
+						ipCountryMap={ipCountryMap}
 						provider={ipv6Provider}
 						providerLabel="Hosting provider"
 					/>

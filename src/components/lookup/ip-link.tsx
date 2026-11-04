@@ -4,8 +4,10 @@ import { ScanSearch } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { type FC, type ReactNode, useState } from 'react';
 
+import CountryFlag from '@/components/lookup/country-flag';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { trackEvent } from '@/lib/analytics';
+import type { IpCountry } from '@/lib/ip';
 import { cn } from '@/lib/utils';
 
 const IpDetailsModal = dynamic(() => import('@/components/lookup/ip-details-modal'), {
@@ -16,9 +18,11 @@ type IpLinkProps = {
 	ip: string;
 	children?: ReactNode;
 	className?: string;
+	/** Shown as a flag in front of the IP, so the location is visible without opening the modal. */
+	country?: IpCountry | null;
 };
 
-const IpLink: FC<IpLinkProps> = ({ ip, children, className }) => {
+const IpLink: FC<IpLinkProps> = ({ ip, children, className, country }) => {
 	const [open, setOpen] = useState(false);
 	const [mounted, setMounted] = useState(false);
 
@@ -38,6 +42,9 @@ const IpLink: FC<IpLinkProps> = ({ ip, children, className }) => {
 							className,
 						)}
 					>
+						{country ? (
+							<CountryFlag code={country.code} title={country.name} className="mr-0.5" />
+						) : null}
 						{children ?? ip}
 						<ScanSearch className="size-3 shrink-0 opacity-50 transition-opacity group-hover/ip:opacity-100" />
 					</button>
