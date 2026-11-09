@@ -16,14 +16,14 @@
 		"indexnow:submit": "node --env-file=.env --experimental-strip-types scripts/submit-indexnow.ts",
 		"postinstall": "bash scripts/install-subfinder.sh"
 	},
-	"packageManager": "pnpm@12.17.0",
+	"packageManager": "pnpm@12.18.0",
 	"dependencies": {
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"dataloader": "^2.2.3",
 		"dns-packet": "^5.6.1",
 		"isbot": "^5.2.2",
-		"lucide-react": "^1.67.0",
+		"lucide-react": "^1.70.0",
 		"mahtis": "^0.5.1",
 		"motion": "^12.43.0",
 		"natural-compare-lite": "^1.4.1",
@@ -47,7 +47,7 @@
 		"whoiser": "2.0.0-beta.10"
 	},
 	"devDependencies": {
-		"@tailwindcss/postcss": "^4.3.4",
+		"@tailwindcss/postcss": "^4.3.5",
 		"@trivago/prettier-plugin-sort-imports": "^6.0.2",
 		"@types/dns-packet": "^5.6.5",
 		"@types/natural-compare-lite": "^1.4.2",
@@ -61,7 +61,7 @@
 		"eslint-config-next": "^16.4.5",
 		"prettier": "^3.9.10",
 		"prettier-plugin-tailwindcss": "^0.8.1",
-		"tailwindcss": "^4.3.4",
+		"tailwindcss": "^4.3.5",
 		"typescript": "^7.0.2"
 	}
 }
