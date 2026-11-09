@@ -22,6 +22,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'netcup', domain: 'netcup.com', match: ['netcup'] },
 	{ name: 'Contabo', domain: 'contabo.com', match: ['contabo'] },
 	{ name: 'mittwald', domain: 'mittwald.de', match: ['mittwald'] },
+	{ name: 'dogado', domain: 'dogado.de', match: ['dogado'] },
 	{ name: 'Vercel', domain: 'vercel.com', match: ['vercel'] },
 	{ name: 'Akamai', domain: 'akamai.com', match: ['akamai', 'linode'] },
 	{ name: 'Fastly', domain: 'fastly.com', match: ['fastly'] },

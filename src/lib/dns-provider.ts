@@ -95,6 +95,7 @@ const PROVIDERS: ProviderRule[] = [
 	{ name: 'DENIC', domain: 'denic.de', match: ['nsentry.de'] },
 	{ name: 'Bunny', domain: 'bunny.net', match: ['bunny.net'] },
 	{ name: 'mittwald', domain: 'mittwald.de', match: ['agenturserver.de'] },
+	{ name: 'domaindiscount24', domain: 'domaindiscount24.com', match: ['domaindiscount24.net'] },
 	{ name: 'T-Online', domain: 't-online.de', match: ['t-online.de'] },
 	{ name: 'netcup', domain: 'netcup.com', match: ['netcup.net'] },
 	{ name: 'ALL-INKL', domain: 'all-inkl.com', match: ['kasserver.com'] },
