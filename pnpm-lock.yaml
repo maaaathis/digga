@@ -215,8 +215,8 @@ importers:
         specifier: ^19.3.1
         version: 19.3.1(react@19.3.1)
       react-hotkeys-hook:
-        specifier: ^5.3.3
-        version: 5.3.3(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^5.4.0
+        version: 5.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       shadcn:
         specifier: ^4.23.0
         version: 4.23.0(supports-color@7.2.0)
@@ -3636,8 +3636,8 @@ packages:
     peerDependencies:
       react: ^19.3.1
 
-  react-hotkeys-hook@5.3.3:
-    resolution: {integrity: sha512-aswgyWUnE25hmhzHTfKDmKzsaSE5DJ4LKaU/o6rQSXkDd/1Bh9TfAFQbHkf6fLy11HvlYkp+cDDarGdhmCDhoQ==}
+  react-hotkeys-hook@5.4.0:
+    resolution: {integrity: sha512-bxbbIOUTiEGzzH65VYuBor2hv1lYYbE5u1+Tv5oMkgUE0WHSTR71Co6OBOBT1/MSj0bMrAPiibWcUVTucLOKGg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -7513,7 +7513,7 @@ snapshots:
       react: 19.3.1
       scheduler: 0.28.0
 
-  react-hotkeys-hook@5.3.3(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+  react-hotkeys-hook@5.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
     dependencies:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
