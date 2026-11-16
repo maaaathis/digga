@@ -181,6 +181,9 @@ const DetailsView: FC<{ details: IpDetails }> = ({ details }) => {
 		: null;
 	const showIsp = Boolean(details.isp) && details.isp !== details.org;
 	const networkName = details.org || details.isp || 'Unknown network';
+	// ip-api reports `as` as "AS<number> <name>"; link the number to bgp.tools.
+	const asNumber = details.as.match(/^AS(\d+)/i)?.[1];
+	const bgpToolsUrl = asNumber ? `https://bgp.tools/as/${asNumber}` : null;
 	const provider = detectHostingProvider(
 		[details.org, details.isp, details.as].filter(Boolean).join(' '),
 	);
@@ -195,8 +198,16 @@ const DetailsView: FC<{ details: IpDetails }> = ({ details }) => {
 						<Badge
 							variant="secondary"
 							className="mt-1 h-auto max-w-full justify-start rounded-md text-left font-mono text-[11px] font-normal break-words whitespace-normal"
+							asChild={Boolean(bgpToolsUrl)}
 						>
-							{details.as}
+							{bgpToolsUrl ? (
+								<a href={bgpToolsUrl} target="_blank" rel="nofollow noreferrer noopener">
+									{details.as}
+									<ExternalLink data-icon="inline-end" className="shrink-0 opacity-60" />
+								</a>
+							) : (
+								details.as
+							)}
 						</Badge>
 					) : null}
 				</div>
