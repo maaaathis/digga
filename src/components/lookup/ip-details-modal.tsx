@@ -190,16 +190,13 @@ const DetailsView: FC<{ details: IpDetails }> = ({ details }) => {
 			<div className="border-border/60 bg-muted/30 flex items-center gap-3 rounded-xl border p-4">
 				<NetworkLogo provider={provider} />
 				<div className="min-w-0 flex-1">
-					<p className="text-foreground truncate text-sm font-medium" title={networkName}>
-						{networkName}
-					</p>
+					<p className="text-foreground text-sm font-medium break-words">{networkName}</p>
 					{details.as ? (
 						<Badge
 							variant="secondary"
-							className="mt-1 max-w-full justify-start font-mono text-[11px] font-normal"
-							title={details.as}
+							className="mt-1 h-auto max-w-full justify-start rounded-md text-left font-mono text-[11px] font-normal break-words whitespace-normal"
 						>
-							<span className="truncate">{details.as}</span>
+							{details.as}
 						</Badge>
 					) : null}
 				</div>
