@@ -63,7 +63,7 @@ const IpDetailsModal: FC<IpDetailsModalProps> = ({ ip, open, onOpenChange }) => 
 	if (isDesktop) {
 		return (
 			<Dialog open={open} onOpenChange={onOpenChange}>
-				<DialogContent className="sm:max-w-md">
+				<DialogContent className="grid-cols-1 sm:max-w-md">
 					<DialogHeader>
 						<DialogTitle asChild>
 							<div>{title}</div>
@@ -180,6 +180,7 @@ const DetailsView: FC<{ details: IpDetails }> = ({ details }) => {
 		? `https://www.openstreetmap.org/?mlat=${details.lat}&mlon=${details.lon}#map=11/${details.lat}/${details.lon}`
 		: null;
 	const showIsp = Boolean(details.isp) && details.isp !== details.org;
+	const networkName = details.org || details.isp || 'Unknown network';
 	const provider = detectHostingProvider(
 		[details.org, details.isp, details.as].filter(Boolean).join(' '),
 	);
@@ -189,12 +190,16 @@ const DetailsView: FC<{ details: IpDetails }> = ({ details }) => {
 			<div className="border-border/60 bg-muted/30 flex items-center gap-3 rounded-xl border p-4">
 				<NetworkLogo provider={provider} />
 				<div className="min-w-0 flex-1">
-					<p className="text-foreground truncate text-sm font-medium">
-						{details.org || details.isp || 'Unknown network'}
+					<p className="text-foreground truncate text-sm font-medium" title={networkName}>
+						{networkName}
 					</p>
 					{details.as ? (
-						<Badge variant="secondary" className="mt-1 font-mono text-[11px] font-normal">
-							{details.as}
+						<Badge
+							variant="secondary"
+							className="mt-1 max-w-full justify-start font-mono text-[11px] font-normal"
+							title={details.as}
+						>
+							<span className="truncate">{details.as}</span>
 						</Badge>
 					) : null}
 				</div>
