@@ -1,6 +1,11 @@
 import { isValidLookupDomain } from '@/lib/domain-core';
 
-import { type DoHResponse, RECORD_TYPE_BY_DECIMAL, type RecordType } from './types';
+import {
+	type DoHResponse,
+	dohAnswerFailure,
+	RECORD_TYPE_BY_DECIMAL,
+	type RecordType,
+} from './types';
 
 export type PropagationResolver = {
 	id: string;
@@ -49,6 +54,8 @@ export type ResolverOutcome = {
 	label: string;
 	region: string;
 	status: 'ok' | 'error';
+	/** Why the resolver gave no usable answer (HTTP status, SERVFAIL, ...); null when ok. */
+	error: string | null;
 	/** Sorted record values exactly as the resolver returned them (kept for display). */
 	values: string[];
 	/** Normalized, order-independent key used to compare resolvers (see normalizeForCompare). */
@@ -91,19 +98,38 @@ async function queryResolver(
 		const url = `${resolver.endpoint}?name=${encodeURIComponent(domain)}&type=${type}`;
 		const response = await fetch(url, { headers: { Accept: resolver.accept }, signal });
 		if (!response.ok) {
-			return { ...base, status: 'error', values: [], matchKey: '', ttl: null };
+			return {
+				...base,
+				status: 'error',
+				error: `HTTP ${response.status}`,
+				values: [],
+				matchKey: '',
+				ttl: null,
+			};
 		}
 
 		const json = (await response.json()) as DoHResponse;
+		// A SERVFAIL is not an empty RRset: counting it would read as a mismatch.
+		const failure = dohAnswerFailure(json);
+		if (failure) {
+			return { ...base, status: 'error', error: failure, values: [], matchKey: '', ttl: null };
+		}
 		const answers = (json.Answer ?? []).filter(
 			answer => RECORD_TYPE_BY_DECIMAL[answer.type] === type,
 		);
 		const values = answers.map(answer => answer.data).sort();
 		const ttl = answers.length > 0 ? Math.min(...answers.map(answer => answer.TTL)) : null;
-		return { ...base, status: 'ok', values, matchKey: normalizeForCompare(type, values), ttl };
+		return {
+			...base,
+			status: 'ok',
+			error: null,
+			values,
+			matchKey: normalizeForCompare(type, values),
+			ttl,
+		};
 	} catch (error) {
 		if (error instanceof DOMException && error.name === 'AbortError') throw error;
-		return { ...base, status: 'error', values: [], matchKey: '', ttl: null };
+		return { ...base, status: 'error', error: 'No response', values: [], matchKey: '', ttl: null };
 	}
 }
 

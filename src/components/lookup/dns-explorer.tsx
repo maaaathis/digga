@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader2, RefreshCw } from 'lucide-react';
+import { AlertTriangle, Loader2, RefreshCw } from 'lucide-react';
 import { type FC, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
@@ -14,13 +14,20 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { trackEvent } from '@/lib/analytics';
 import { resolveAllRecords } from '@/lib/dns/doh';
-import { EMPTY_RECORDS, type ResolvedRecords, type ResolverId } from '@/lib/dns/types';
+import {
+	type DnsLookup,
+	EMPTY_RECORDS,
+	RECORD_TYPES,
+	type RecordType,
+	type ResolvedRecords,
+	type ResolverId,
+} from '@/lib/dns/types';
 import type { IpCountry } from '@/lib/ip';
 
 type DnsExplorerProps = {
 	domain: string;
 	initialResolver: ResolverId;
-	initialRecords: ResolvedRecords;
+	initialLookup: DnsLookup;
 	initialIpCountries: Record<string, IpCountry>;
 	tld?: string;
 };
@@ -34,10 +41,29 @@ const ipsOf = (records: ResolvedRecords) =>
 
 type DnsView = 'records' | 'propagation';
 
+const FailedTypesNotice: FC<{ types: RecordType[]; failures: DnsLookup['failures'] }> = ({
+	types,
+	failures,
+}) => (
+	<div className="flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
+		<AlertTriangle className="mt-0.5 size-4 shrink-0" />
+		<div className="space-y-1">
+			<p className="font-medium">
+				{types.length === 1 ? 'One record type' : `${types.length} record types`} could not be
+				resolved
+			</p>
+			<p className="text-xs opacity-90">
+				{types.map(type => `${type} (${failures[type]})`).join(', ')}. These are missing below
+				because the lookup failed, not because the domain has none. Try another resolver or retry.
+			</p>
+		</div>
+	</div>
+);
+
 const DnsExplorer: FC<DnsExplorerProps> = ({
 	domain,
 	initialResolver,
-	initialRecords,
+	initialLookup,
 	initialIpCountries,
 	tld,
 }) => {
@@ -54,23 +80,25 @@ const DnsExplorer: FC<DnsExplorerProps> = ({
 		setResolver(next);
 	};
 
-	const { data, error, isLoading, isValidating, mutate } = useSWR<ResolvedRecords, Error, SwrKey>(
+	const { data, error, isLoading, isValidating, mutate } = useSWR<DnsLookup, Error, SwrKey>(
 		['dns', domain, resolver],
 		fetcher,
 		{
-			fallbackData: resolver === initialResolver ? initialRecords : undefined,
+			fallbackData: resolver === initialResolver ? initialLookup : undefined,
 			revalidateOnMount: false,
 			revalidateOnFocus: false,
 			keepPreviousData: true,
 		},
 	);
 
-	const records = data ?? EMPTY_RECORDS;
+	const records = data?.records ?? EMPTY_RECORDS;
+	const failedTypes = RECORD_TYPES.filter(type => data?.failures[type]);
+	const allFailed = failedTypes.length === RECORD_TYPES.length;
 
 	// Flags in front of IPs. The server already resolved them for the initial
 	// records; only a different IP set (resolver switch, refresh) fetches again.
 	const ipKey = ipsOf(records).join(',');
-	const initialIpKey = useMemo(() => ipsOf(initialRecords).join(','), [initialRecords]);
+	const initialIpKey = useMemo(() => ipsOf(initialLookup.records).join(','), [initialLookup]);
 	const { data: ipCountries } = useSWR(
 		ipKey ? (['ip-countries', ipKey] as const) : null,
 		([, key]) => fetchIpCountries(key.split(',')),
@@ -128,12 +156,17 @@ const DnsExplorer: FC<DnsExplorerProps> = ({
 						<Skeleton key={index} className="h-10 w-full rounded-lg" />
 					))}
 				</div>
-			) : error ? (
+			) : error || allFailed ? (
 				<p className="text-destructive py-12 text-center text-sm">
 					Resolver failed. Switch resolver or retry.
 				</p>
 			) : (
-				<DnsTable records={records} ipCountries={ipCountries} />
+				<div className="space-y-4">
+					{failedTypes.length > 0 ? (
+						<FailedTypesNotice types={failedTypes} failures={data?.failures ?? {}} />
+					) : null}
+					<DnsTable records={records} ipCountries={ipCountries} />
+				</div>
 			)}
 		</div>
 	);

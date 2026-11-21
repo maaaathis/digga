@@ -98,9 +98,10 @@ const DnsPropagation: FC<DnsPropagationProps> = ({ domain, tld }) => {
 };
 
 const ConsensusBanner: FC<{ report: PropagationReport }> = ({ report }) => {
-	const { propagated, responders, agree, consensus } = report;
+	const { propagated, responders, agree, consensus, outcomes } = report;
+	const failed = outcomes.length - responders;
 
-	const tone = responders === 0 ? 'error' : propagated ? 'positive' : 'warning';
+	const tone = responders === 0 ? 'error' : propagated && failed === 0 ? 'positive' : 'warning';
 	const styles = {
 		positive: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
 		warning: 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400',
@@ -110,17 +111,21 @@ const ConsensusBanner: FC<{ report: PropagationReport }> = ({ report }) => {
 	const headline =
 		responders === 0
 			? 'No resolver responded'
-			: propagated
-				? consensus && consensus.length > 0
-					? `Propagated · all ${responders} resolvers agree`
-					: `Consistent · all ${responders} resolvers report no records`
-				: `Propagating · ${agree}/${responders} resolvers agree`;
+			: failed > 0
+				? `${failed} of ${outcomes.length} resolvers failed · ${agree}/${responders} of the rest agree`
+				: propagated
+					? consensus && consensus.length > 0
+						? `Propagated · all ${responders} resolvers agree`
+						: `Consistent · all ${responders} resolvers report no records`
+					: `Propagating · ${agree}/${responders} resolvers agree`;
 
-	const Icon = tone === 'positive' ? Check : tone === 'warning' ? Loader2 : X;
+	const Icon = tone === 'positive' ? Check : tone === 'error' || failed > 0 ? X : Loader2;
 
 	return (
 		<div className={cn('flex items-center gap-2.5 rounded-xl border px-4 py-3 text-sm', styles)}>
-			<Icon className={cn('size-4 shrink-0', tone === 'warning' && 'animate-spin')} />
+			<Icon
+				className={cn('size-4 shrink-0', tone === 'warning' && failed === 0 && 'animate-spin')}
+			/>
 			<span className="font-medium">{headline}</span>
 		</div>
 	);
@@ -148,7 +153,9 @@ const ResolverRow: FC<{ outcome: ResolverOutcome; consensusKey: string | null }>
 				{isError ? (
 					<span className="text-muted-foreground inline-flex items-center gap-1 text-xs">
 						<Minus className="size-3" />
-						no response
+						{outcome.error && outcome.error !== 'No response'
+							? `failed (${outcome.error})`
+							: 'no response'}
 					</span>
 				) : outcome.values.length === 0 ? (
 					<span className="text-muted-foreground text-sm italic">no records</span>

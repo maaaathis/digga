@@ -59,6 +59,34 @@ export const EMPTY_RECORDS: ResolvedRecords = RECORD_TYPES.reduce((acc, type) =>
 	return acc;
 }, {} as ResolvedRecords);
 
+/** Why a record type could not be resolved, keyed by type. Missing types resolved fine. */
+export type RecordFailures = Partial<Record<RecordType, string>>;
+
+export type DnsLookup = {
+	records: ResolvedRecords;
+	failures: RecordFailures;
+};
+
+const RCODE_NAMES: Record<number, string> = {
+	1: 'FORMERR',
+	2: 'SERVFAIL',
+	4: 'NOTIMP',
+	5: 'REFUSED',
+};
+
+/**
+ * Returns why a DoH JSON answer cannot be trusted as a real (possibly empty)
+ * RRset, or null when it can. NOERROR and NXDOMAIN are real answers; any other
+ * RCODE, or a truncated reply without answers, means the resolver did not know.
+ */
+export function dohAnswerFailure(json: DoHResponse): string | null {
+	if (json.Status !== 0 && json.Status !== 3) {
+		return RCODE_NAMES[json.Status] ?? `RCODE ${json.Status}`;
+	}
+	if (json.TC && !json.Answer?.length) return 'Truncated response';
+	return null;
+}
+
 export type ResolverId = 'cloudflare' | 'google' | 'alibaba' | 'dnssb';
 
 export const RESOLVERS: { id: ResolverId; label: string; endpoint: string; accept: string }[] = [

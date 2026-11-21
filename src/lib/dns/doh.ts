@@ -2,11 +2,14 @@ import { isValidLookupDomain } from '@/lib/domain-core';
 
 import { formatCaaData } from './caa';
 import {
+	type DnsLookup,
 	type DoHResponse,
+	dohAnswerFailure,
 	EMPTY_RECORDS,
 	type RawRecord,
 	RECORD_TYPE_BY_DECIMAL,
 	RECORD_TYPES,
+	type RecordFailures,
 	type RecordType,
 	type ResolvedRecords,
 	type ResolverId,
@@ -24,20 +27,26 @@ function resolverConfig(resolver: ResolverId) {
 	return found;
 }
 
-export async function resolveRecordType(
+type TypeResult = { records: RawRecord[]; error: string | null };
+
+/**
+ * Resolves one record type and says whether the empty case is a real empty
+ * RRset or a failed lookup (network, HTTP or DNS level). Abort errors rethrow.
+ */
+export async function queryRecordType(
 	resolver: ResolverId,
 	domain: string,
 	type: RecordType,
 	options: FetchOptions = {},
-): Promise<RawRecord[]> {
-	if (!isValidLookupDomain(domain)) return [];
+): Promise<TypeResult> {
+	if (!isValidLookupDomain(domain)) return { records: [], error: null };
 
 	const config = resolverConfig(resolver);
 	const url = `${config.endpoint}?name=${encodeURIComponent(domain)}&type=${type}`;
 
-	let response: Response;
+	let json: DoHResponse;
 	try {
-		response = await fetch(url, {
+		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
 				Accept: config.accept,
@@ -45,21 +54,22 @@ export async function resolveRecordType(
 			signal: options.signal,
 			...options.fetchInit,
 		});
+		if (!response.ok) {
+			console.warn(`DoH ${resolver} returned ${response.status} for ${domain} ${type}`);
+			return { records: [], error: `HTTP ${response.status}` };
+		}
+		json = (await response.json()) as DoHResponse;
 	} catch (error) {
 		if (error instanceof DOMException && error.name === 'AbortError') throw error;
 		console.warn(`DoH ${resolver} fetch failed for ${domain} ${type}:`, error);
-		return [];
+		return { records: [], error: 'No response' };
 	}
 
-	if (!response.ok) {
-		console.warn(`DoH ${resolver} returned ${response.status} for ${domain} ${type}`);
-		return [];
-	}
+	const failure = dohAnswerFailure(json);
+	if (failure) return { records: [], error: failure };
+	if (!json.Answer) return { records: [], error: null };
 
-	const json = (await response.json()) as DoHResponse;
-	if (!json.Answer) return [];
-
-	return json.Answer.filter(
+	const records = json.Answer.filter(
 		answer => answer.type in RECORD_TYPE_BY_DECIMAL && RECORD_TYPE_BY_DECIMAL[answer.type] === type,
 	).map(answer => {
 		const base = { name: answer.name, type, TTL: answer.TTL };
@@ -73,23 +83,40 @@ export async function resolveRecordType(
 
 		return { ...base, data: answer.data };
 	});
+
+	return { records, error: null };
+}
+
+/** Records for one type; a failed lookup reads as empty. Use queryRecordType to tell them apart. */
+export async function resolveRecordType(
+	resolver: ResolverId,
+	domain: string,
+	type: RecordType,
+	options: FetchOptions = {},
+): Promise<RawRecord[]> {
+	return (await queryRecordType(resolver, domain, type, options)).records;
 }
 
 export async function resolveAllRecords(
 	resolver: ResolverId,
 	domain: string,
 	options: FetchOptions = {},
-): Promise<ResolvedRecords> {
-	if (!isValidLookupDomain(domain)) return EMPTY_RECORDS;
+): Promise<DnsLookup> {
+	if (!isValidLookupDomain(domain)) return { records: EMPTY_RECORDS, failures: {} };
 
 	const results = await Promise.all(
-		RECORD_TYPES.map(type => resolveRecordType(resolver, domain, type, options)),
+		RECORD_TYPES.map(type => queryRecordType(resolver, domain, type, options)),
 	);
 
-	return RECORD_TYPES.reduce((acc, type, index) => {
-		acc[type] = results[index];
-		return acc;
-	}, {} as ResolvedRecords);
+	const records = {} as ResolvedRecords;
+	const failures: RecordFailures = {};
+	RECORD_TYPES.forEach((type, index) => {
+		records[type] = results[index].records;
+		const error = results[index].error;
+		if (error) failures[type] = error;
+	});
+
+	return { records, failures };
 }
 
 export function hasAnyRecords(records: ResolvedRecords): boolean {

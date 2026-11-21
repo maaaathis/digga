@@ -30,16 +30,16 @@ const DnsPage: FC<PageProps<'/lookup/[domain]/dns'>> = async ({ params }) => {
 	const domain = normalizeDomain(decodeURIComponent(raw));
 	if (!isValidLookupDomain(domain)) notFound();
 
-	const initialRecords = await resolveAllRecords('cloudflare', domain);
+	const initialLookup = await resolveAllRecords('cloudflare', domain);
 	const initialIpCountries = await getIpsCountryMap(
-		[...initialRecords.A, ...initialRecords.AAAA].map(record => record.data),
+		[...initialLookup.records.A, ...initialLookup.records.AAAA].map(record => record.data),
 	);
 
 	return (
 		<DnsExplorer
 			domain={domain}
 			initialResolver="cloudflare"
-			initialRecords={initialRecords}
+			initialLookup={initialLookup}
 			initialIpCountries={initialIpCountries}
 			tld={getTLD(domain) ?? undefined}
 		/>
