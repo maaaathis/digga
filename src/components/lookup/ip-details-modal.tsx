@@ -114,10 +114,20 @@ const Body: FC<{ result: IpDetailsResult | null }> = ({ result }) => {
 					? 'This endpoint is not available for automated traffic.'
 					: result.kind === 'invalid'
 						? 'Not a valid IP.'
-						: 'Lookup failed. Try again later.'}
+						: result.kind === 'unavailable'
+							? unavailableText(result.reason)
+							: 'Lookup failed. Try again later.'}
 		</p>
 	);
 };
+
+function unavailableText(reason: string): string {
+	if (reason === 'private range')
+		return 'This is a private IP address, so there is no public location or network data.';
+	if (reason === 'reserved range')
+		return 'This IP address is in a reserved range, so there is no public location or network data.';
+	return 'No location or network data is available for this IP address.';
+}
 
 /** Hosting provider logo when the network is recognized, otherwise a generic icon. */
 const NetworkLogo: FC<{ provider: HostingProvider | null }> = ({ provider }) => {

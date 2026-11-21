@@ -34,30 +34,41 @@ export async function getReverseDns(ip: string): Promise<string | null> {
 	}
 }
 
+/** ip-api answered with `status: "fail"` (private, reserved or invalid address). Permanent for that IP. */
+export class IpLookupUnavailableError extends Error {
+	constructor(readonly reason: string) {
+		super(`IP lookup unavailable: ${reason}`);
+		this.name = 'IpLookupUnavailableError';
+	}
+}
+
 function assertValidIp(ip: string): void {
 	if (isIP(ip) === 0) {
 		throw new Error('Invalid IP address');
 	}
 }
 
-export async function getIpDetails(ip: string): Promise<IpDetails> {
+async function fetchIpApi(ip: string): Promise<Omit<IpDetails, 'reverse'>> {
 	assertValidIp(ip);
 	const requestUrl = new URL(`http://ip-api.com/json/${encodeURIComponent(ip)}`);
 
-	const [response, reverse] = await Promise.all([
-		fetch(requestUrl, {
-			next: { revalidate: 86_400 },
-		}),
-		getReverseDns(ip),
-	]);
-
+	// A 200 with status "fail" only happens for private, reserved or invalid addresses, so caching it is fine.
+	// Rate limits arrive as HTTP 429 and are never cached.
+	const response = await fetch(requestUrl, { next: { revalidate: 86_400 } });
 	if (!response.ok) {
-		throw new Error(`IP lookup failed: ${response.statusText}`);
+		throw new Error(`IP lookup failed: ${response.status} ${response.statusText}`);
 	}
 
-	const json = (await response.json()) as Record<string, unknown>;
-	delete json.status;
-	return { ...(json as unknown as IpDetails), reverse };
+	const { status, message, ...rest } = (await response.json()) as Record<string, unknown>;
+	if (status !== 'success') {
+		throw new IpLookupUnavailableError(typeof message === 'string' ? message : 'unknown');
+	}
+	return rest as unknown as Omit<IpDetails, 'reverse'>;
+}
+
+export async function getIpDetails(ip: string): Promise<IpDetails> {
+	const [details, reverse] = await Promise.all([fetchIpApi(ip), getReverseDns(ip)]);
+	return { ...details, reverse };
 }
 
 export function normalizeIpForCache(ip: string): string {
@@ -88,17 +99,21 @@ function boundedCacheMap<K, V>(limit: number) {
 	};
 }
 
-const detailsLoader = new DataLoader<string, IpDetails>(
+// Org and country only, so no reverse DNS (the key is the normalized address anyway).
+const detailsLoader = new DataLoader<string, Omit<IpDetails, 'reverse'>>(
 	async ips =>
 		Promise.all(
-			ips.map(async ip => {
-				const normal = normalizeIpForCache(ip);
-				return getIpDetails(normal);
-			}),
+			ips.map(ip =>
+				fetchIpApi(normalizeIpForCache(ip)).catch((error: unknown) => {
+					// DataLoader caches rejections too; forget transient failures so the next request retries.
+					if (!(error instanceof IpLookupUnavailableError)) detailsLoader.clear(ip);
+					return error instanceof Error ? error : new Error(String(error));
+				}),
+			),
 		),
 	{
 		cacheKeyFn: normalizeIpForCache,
-		cacheMap: boundedCacheMap<string, Promise<IpDetails>>(MAX_CACHED_IPS),
+		cacheMap: boundedCacheMap<string, Promise<Omit<IpDetails, 'reverse'>>>(MAX_CACHED_IPS),
 	},
 );
 

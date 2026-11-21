@@ -3,7 +3,13 @@
 import { headers } from 'next/headers';
 
 import { inspectUserAgent } from '@/lib/bot';
-import { getIpDetails, getIpsCountryMap, type IpCountry, type IpDetails } from '@/lib/ip';
+import {
+	getIpDetails,
+	IpLookupUnavailableError,
+	getIpsCountryMap,
+	type IpCountry,
+	type IpDetails,
+} from '@/lib/ip';
 import { consumeToken, ipFromHeaders, sweepBuckets } from '@/lib/rate-limit';
 
 const IPV4 = /^(\d{1,3}\.){3}\d{1,3}$/;
@@ -14,6 +20,7 @@ export type IpDetailsResult =
 	| { kind: 'forbidden' }
 	| { kind: 'rate-limited' }
 	| { kind: 'invalid' }
+	| { kind: 'unavailable'; reason: string }
 	| { kind: 'error'; message: string };
 
 export async function fetchIpDetails(ip: string): Promise<IpDetailsResult> {
@@ -42,6 +49,9 @@ export async function fetchIpDetails(ip: string): Promise<IpDetailsResult> {
 		const details = await getIpDetails(ip);
 		return { kind: 'ok', details };
 	} catch (error) {
+		if (error instanceof IpLookupUnavailableError) {
+			return { kind: 'unavailable', reason: error.reason };
+		}
 		return {
 			kind: 'error',
 			message: error instanceof Error ? error.message : 'Unknown error',
