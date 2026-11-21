@@ -1,0 +1,23 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "nextjs", "jsx-a11y", "import"],
+	"categories": {
+		"correctness": "error"
+	},
+	"env": {
+		"browser": true,
+		"node": true,
+		"es2024": true
+	},
+	"settings": {
+		"react": { "version": "19.3.1" }
+	},
+	"ignorePatterns": [".next/**", "out/**", "build/**", "v1/**", "next-env.d.ts"],
+	"rules": {
+		"react/react-in-jsx-scope": "off",
+		"jsx-a11y/no-autofocus": "off",
+		"jsx-a11y/prefer-tag-over-role": "off",
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn"
+	}
+}
